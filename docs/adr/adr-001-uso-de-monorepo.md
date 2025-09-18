@@ -4,12 +4,12 @@
 **Decisión**: Decidimos usar un **Monorepositorio** (un solo repositorio para frontend y backend) al ser un equipo de 4 personas sin intenciones de ampliarse para desarrollar un proyecto de principio a fin.
 
 ## Consecuencias
-# Ventajas: 
+### Ventajas: 
 - **Simplicidad inicial**: Es mucho más fácil configurar. Un único lugar para clonar, un único conjunto de issues, un único proyecto board.
 - **Atomicidad en los commits**: Es mucho más fácil hacer un cambio que afecte tanto al backend (una nueva API) como al frontend (el consumo de esa API) en un solo commit y Pull Request. Esto mantiene el historial coherente y el proyecto sincronizado.
 - **Mejor colaboración**: Con un equipo tan pequeño, todos tendrán visibilidad completa del proyecto. Un desarrollador de backend puede revisar fácilmente el código del frontend y viceversa.
 - **Menos overhead administrativo**: Gestionas un solo repositorio, sus permisos, sus secrets de GitHub Actions, etc.
-# Desventajas:
+### Desventajas:
 - **El código crece**: Con el tiempo, el repositorio puede volverse muy grande, lo que puede ralentizar las operaciones de Git (aunque esto suele ser un problema en proyectos mucho más grandes).
 - **Despliegues separados**: Aunque el código esté junto, probablemente quieras desplegar frontend y backend por separado. Esto se puede manejar con una CI/CD bien configurada.
 
@@ -27,5 +27,5 @@ La productividad ganada por la atomicidad de los cambios y la simplicidad de ges
 
 Se recomienda crear branches por funcionalidad, no por capa: No crees una rama `frontend` y otra `backend`. Es un anti-patrón. En su lugar, sigue la estrategia de branches por feature. Se recomienda además usar Labels (`frontend`, `backend`, `full-stack`) y Milestones para organizar las tareas en un único tablero de proyecto. Así puedes filtrar fácilmente.
 
-# ¿Cuándo considerar separarlos en el futuro?
+### ¿Cuándo considerar separarlos en el futuro?
 Si el proyecto escala masivamente, los equipos se vuelven muy grandes e independientes, y los ciclos de release de frontend y backend se desacoplan totalmente, entonces podrían plantearse migrar a un multi-repositorio. Pero no es una optimización que necesite hacerse ahora.
