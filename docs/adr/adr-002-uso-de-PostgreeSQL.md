@@ -4,9 +4,9 @@
 **Decisión**: (...)
 
 ## Consecuencias
-# Ventajas: 
+### Ventajas: 
 (...)
-# Desventajas:
+### Desventajas:
 (...)
 
 ## Alternativas consideradas 
