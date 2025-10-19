@@ -1,43 +1,66 @@
-# InfraGestion - Sistema de Gestión de Bajas Técnicas
+# InfraGestion - Technical Decommissioning Management System
 
-![Estado del Proyecto](https://img.shields.io/badge/Estado-Desarrollo%20Activo-brightgreen)
-![Tecnología](https://img.shields.io/badge/Tecnología-Web%20App-blue)
+![Project Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen)
+![Tech Stack](https://img.shields.io/badge/Stack-.NET%209%20|%20React-61DAFB?logo=react&logoColor=black&labelColor=512BD4&color=512BD4)
 
-## 📋 Descripción del Proyecto
+## Project Overview
 
-InfraGestion es una aplicación web diseñada para automatizar y optimizar la gestión de bajas técnicas, inventario y mantenimiento de equipos en InfraCom Conectividad, S.A. Este sistema reemplaza el proceso manual actual basado en hojas de cálculo y formularios en papel, reduciendo el riesgo de pérdida de información y mejorando la eficiencia operativa.
+InfraGestion is a web application designed to automate and optimize the management of **technical decommissionings, inventory, and equipment maintenance** for InfraCom Conectividad, S.A.
 
+This system replaces the current manual process based on spreadsheets and paper forms, significantly reducing the risk of information loss and greatly improving operational efficiency. It provides a centralized, reliable platform for asset lifecycle management.
 
-## 🛠️ Tecnologías Utilizadas
+## Technology Stack
 
-- **Frontend**: pendiente...
-- **Backend**: pendiente...
-- **Base de Datos**: pendiente...
-- **Autenticación**: pendiente...
-- **Reportes**: pendiente...
-- **Gráficos**: pendiente...
+This project is built using a modern, scalable, and maintainable technology stack:
 
-## 🚀 Instalación y Configuración
+| Component | Technology | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Frontend Framework** | React | 18+ | Building the user interface (UI) |
+| **Backend Framework** | .NET | 9 (LTS) | Core backend development and business logic |
+| **ORM** | Entity Framework Core | 9 | Object-Relational Mapping for database interaction |
+| **API** | ASP.NET Core Web API | 9 | Building robust and scalable RESTful APIs |
+| **Mediator Pattern** | MediatR | 12+ | Implementing the Command Query Responsibility Segregation (CQRS) pattern |
+| **Frontend Language** | TypeScript | 4.x | Static typing for improved frontend reliability |
+| **Backend Language** | C\# | 11 | Primary backend programming language |
+| **Version Control** | Git + GitHub | N/A | Source code management and collaboration |
+| **Database** | PostgreSQL | 15+ | Reliable and powerful relational data storage |
+
+## Getting Started
+
+Instructions on how to set up the project locally are pending and will be added here. This section will cover:
 
 ```bash
-# pendiente
-
+# Clone the repository
+# Navigate to the backend directory and run:
+# dotnet restore
+# dotnet run
+#
+# Navigate to the frontend directory and run:
+# npm install
+# npm start
+# ...
 ```
 
-## 📋 Arquitectural Decision Record (ADR)
-Las decisiones de arquitectura y de gestión estratégica deben documentarse, para que sirvan de contexto al equipo de por qué el código está estructurado de esa manera. La documentación estructural debe responder a la pregunta "¿Por qué estamos usando esto?" sin que sea necesario adivinar o preguntarle al resto del equipo. Además evita la revisión continua de la decisión evitando que esta sea cuestionada constantemente ("¿No sería mejor usar esto?"). Un documento bien argumentado cierra el debate y evita perder tiempo abriendo discusiones ya analizadas.
+## Architectural Decision Records (ADR)
 
-### ¿Dónde documentar esta decisión?
-Los documentos de este tipo se denominan *Arquitectural Decision Record (ADR)* o Registro de Decisión Arquitectónica.
-- El lugar para registrarlas está en la carpeta raíz del repositorio, llamada `docs/adr`.
-- Cada ADR es un documento en formato Markdown con un nombre con el formato `adr-001-descripcion-de-la-desicion.md`  que captura una decisión importante.
-- También se puede incluir un resumen en el `README.md` principal del proyecto, con un enlace a la documentación más detallada.
+Architectural and strategic management decisions are critical to a project's long-term health. Documenting these decisions provides essential context to the development team, explaining *why* the code is structured in a particular way and preventing perpetual reassessment of established choices ("Wouldn't it be better to use X instead of Y?"). A well-documented decision (ADR) closes the debate and ensures time is not wasted revisiting already-analyzed topics.
 
-### Plantilla de la ADR
-- **Título**
-- **Estado**: Propuesto/Aceptado/Obsoleto
-- **Contexto**: ¿Qué problema estamos tratando de resolver?
-- **Decisión**: Declaración de la decisión
-- **Consecuencias (Trade-offs)** : Ventajas y Desventajas de la decisión
-- **Alternativas consideradas** (y razones por las que fueron descartadas)
-- **Información adicional**
+### Documentation Location
+
+The documentation for these types of decisions is maintained using **Architectural Decision Records (ADR)**.
+
+  - **Location**: The records are stored in the repository's root folder under `docs/adr`.
+  - **Format**: Each ADR is a Markdown file named following the convention `adr-001-description-of-the-decision.md`, capturing a single significant decision.
+  - **Visibility**: A summary or link to the detailed ADR can be included in the main `README.md` for quick reference.
+
+### ADR Template
+
+The standard template for documenting an ADR is as follows:
+
+  - **Title**
+  - **Status**: Proposed / Accepted / Superseded
+  - **Context**: What problem are we trying to solve?
+  - **Decision**: A clear statement of the final decision.
+  - **Consequences (Trade-offs)**: The pros and cons of the decision.
+  - **Considered Alternatives** (and the reasons for their rejection).
+  - **Additional Information**
