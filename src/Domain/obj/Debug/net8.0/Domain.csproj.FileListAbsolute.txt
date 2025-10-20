@@ -1,12 +1,27 @@
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\bin\Debug\net8.0\Domain.deps.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\bin\Debug\net8.0\Domain.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\bin\Debug\net8.0\Domain.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.sourcelink.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\refint\Domain.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\Domain.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Domain\obj\Debug\net8.0\ref\Domain.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.deps.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.AssemblyInfoInputs.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.AssemblyInfo.cs
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.csproj.CoreCompileInputs.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.sourcelink.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/refint/Domain.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Domain/obj/Debug/net8.0/ref/Domain.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.deps.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.runtimeconfig.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/bin/Debug/net8.0/Domain.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.csproj.AssemblyReference.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.GeneratedMSBuildEditorConfig.editorconfig
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.AssemblyInfoInputs.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.AssemblyInfo.cs
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.csproj.CoreCompileInputs.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.sourcelink.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/refint/Domain.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/Domain.genruntimeconfig.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/Debug/net8.0/ref/Domain.dll

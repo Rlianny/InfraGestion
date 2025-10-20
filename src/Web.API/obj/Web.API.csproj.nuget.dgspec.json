@@ -4,80 +4,6 @@
     "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/Web.API.csproj": {}
   },
   "projects": {
-    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj",
-        "projectName": "Aplication",
-        "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj",
-        "packagesPath": "/home/lianny/.nuget/packages/",
-        "outputPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/obj/",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "/home/lianny/.nuget/NuGet/NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "/usr/lib/dotnet/library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
-                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
-            }
-          ],
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -118,6 +44,18 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -171,9 +109,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
-                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj"
-              },
               "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
                 "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj"
               }
@@ -195,6 +130,22 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SQLite": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -248,9 +199,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
-                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj"
-              },
               "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj": {
                 "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj"
               }
@@ -276,6 +224,20 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SQLite": {
+              "target": "Package",
+              "version": "[9.0.10, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

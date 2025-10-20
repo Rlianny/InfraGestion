@@ -1,40 +1,207 @@
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\appsettings.Development.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\appsettings.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Web.API.exe
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Web.API.deps.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Web.API.runtimeconfig.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Web.API.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Web.API.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Microsoft.OpenApi.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Aplication.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Domain.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Infrastructure.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Aplication.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Infrastructure.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\bin\Debug\net8.0\Domain.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.csproj.AssemblyReference.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.AssemblyInfoInputs.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.AssemblyInfo.cs
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.csproj.CoreCompileInputs.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.sourcelink.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets\msbuild.Web.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets\msbuild.build.Web.API.props
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Web.API.props
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Web.API.props
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\scopedcss\bundle\Web.API.styles.css
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.csproj.Up2Date
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\refint\Web.API.dll
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.pdb
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\Web.API.genruntimeconfig.cache
-C:\Users\JL\Desktop\3er Año\IS\Proyecto\Prject Mirror\InfraGestion\src\Web.API\obj\Debug\net8.0\ref\Web.API.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/appsettings.Development.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/appsettings.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.exe
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.deps.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.runtimeconfig.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.OpenApi.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Aplication.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Domain.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Infrastructure.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Aplication.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Infrastructure.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/bin/Debug/net8.0/Domain.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.AssemblyReference.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.AssemblyInfoInputs.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.AssemblyInfo.cs
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.CoreCompileInputs.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.MvcApplicationPartsAssemblyInfo.cs
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.MvcApplicationPartsAssemblyInfo.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.sourcelink.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.build.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.development.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.Web.API.Microsoft.AspNetCore.StaticWebAssets.props
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.build.Web.API.props
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web.API.props
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web.API.props
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.pack.json
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/scopedcss/bundle/Web.API.styles.css
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.Up2Date
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/refint/Web.API.dll
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.pdb
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.genruntimeconfig.cache
+C:/Users/JL/Desktop/3er Año/IS/Proyecto/Prject Mirror/InfraGestion/src/Web.API/obj/Debug/net8.0/ref/Web.API.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/appsettings.Development.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/appsettings.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.staticwebassets.endpoints.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.deps.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.runtimeconfig.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Web.API.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Humanizer.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Build.Locator.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.Workspaces.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Data.Sqlite.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Design.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Sqlite.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Abstractions.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyModel.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Mono.TextTemplating.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/SQLitePCLRaw.batteries_v2.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/SQLitePCLRaw.core.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.CodeDom.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Composition.AttributedModel.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Composition.Convention.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Composition.Hosting.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Composition.Runtime.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Composition.TypedParts.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.IO.Pipelines.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Text.Encodings.Web.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/System.Text.Json.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/browser-wasm/nativeassets/net8.0/e_sqlite3.a
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-arm/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-arm64/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-armel/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-mips64/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-musl-arm/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-musl-arm64/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-musl-s390x/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-musl-x64/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-ppc64le/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-s390x/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-x64/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/linux-x86/native/libe_sqlite3.so
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/maccatalyst-x64/native/libe_sqlite3.dylib
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/osx-arm64/native/libe_sqlite3.dylib
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/osx-x64/native/libe_sqlite3.dylib
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/win-arm/native/e_sqlite3.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/win-arm64/native/e_sqlite3.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Domain.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Infrastructure.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Infrastructure.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/bin/Debug/net8.0/Domain.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.AssemblyReference.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.GeneratedMSBuildEditorConfig.editorconfig
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.AssemblyInfoInputs.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.AssemblyInfo.cs
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.CoreCompileInputs.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.MvcApplicationPartsAssemblyInfo.cs
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.MvcApplicationPartsAssemblyInfo.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.sourcelink.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/scopedcss/bundle/Web.API.styles.css
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.build.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.development.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.Web.API.Microsoft.AspNetCore.StaticWebAssets.props
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.Web.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.build.Web.API.props
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web.API.props
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web.API.props
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/staticwebassets.pack.json
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.csproj.Up2Date
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/refint/Web.API.dll
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.pdb
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/Web.API.genruntimeconfig.cache
+/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/Debug/net8.0/ref/Web.API.dll
