@@ -1,0 +1,58 @@
+# Ignorar directorios de compilación comunes
+
+src/Application/bin/
+src/Application/obj/
+src/Application/out/
+src/Application/target/
+src/Application/build/
+src/Application/dist/
+
+src/Domain/bin/
+src/Domain/obj/
+src/Domain/out/
+src/Domain/target/
+src/Domain/build/
+src/Domain/dist/
+
+src/Infrastructure/bin/
+src/Infrastructure/obj/
+src/Infrastructure/out/
+src/Infrastructure/target/
+src/Infrastructure/build/
+src/Infrastructure/dist/
+
+src/Web.API/bin/
+src/Web.API/obj/
+src/Web.API/out/
+src/Web.API/target/
+src/Web.API/build/
+src/Web.API/dist/
+
+# Ignorar archivos objeto de C
+*.o
+
+# Ignorar archivos ejecutables (sin extensión o con extensiones comunes en Linux)
+/program
+*.exe
+*.out
+*.app
+
+# Ignorar archivos de dependencias
+src/Application/node_modules/
+src/Application/packages/
+
+src/Domain/node_modules/
+src/Domain/packages/
+
+src/Infrastructure/node_modules/
+src/Infrastructure/packages/
+
+src/Web.API/node_modules/
+src/Web.API/packages/
+
+# Ignorar archivos de registro y temporales del sistema
+*.log
+*.tmp
+.DS_Store
+
+.fake
