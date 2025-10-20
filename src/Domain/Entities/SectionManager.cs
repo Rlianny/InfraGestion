@@ -13,6 +13,8 @@ namespace Domain.Entities
             SectionID = sectionID;
         }
 
-        public Guid SectionID { get; set; } 
+        public Guid SectionID { get; set; }
+
+        public virtual Section? Section { get; set; }
     }
 }

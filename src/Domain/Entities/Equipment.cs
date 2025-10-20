@@ -23,5 +23,6 @@ namespace Domain.Entities
         
         public DateTime AcquisitionDate { get; set; }
 
+        public virtual Department? Department { get; set; }
     }
 }

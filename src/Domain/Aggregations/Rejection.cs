@@ -22,5 +22,10 @@ namespace Domain.Aggregations
         public Guid EquipmentID { get; set; }
         public DateTime DecommissioningRequestDate { get; set; }
         public DateTime RejectionDate { get; set; }
+
+        // Navigation properties
+        public virtual Entities.EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual Entities.Technician? Technician { get; set; }
+        public virtual Entities.Equipment? Equipment { get; set; }
     }
 }

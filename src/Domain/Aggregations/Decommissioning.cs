@@ -29,5 +29,9 @@ namespace Domain.Aggregations
         public string Reason { get; set; }
         public string FinalDestination { get; set; }
 
+        // Navigation properties
+        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual Equipment? Equipment { get; set; }
+        public virtual Department? Department { get; set; }
     }
 }

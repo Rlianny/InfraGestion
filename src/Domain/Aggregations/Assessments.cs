@@ -20,5 +20,9 @@ namespace Domain.Aggregations
         public Guid TechnicianID { get; set; }
         public DateTime Date { get; set; }
         public double Score { get; set; }
+
+        // Navigation properties
+        public virtual Entities.User? User { get; set; }
+        public virtual Entities.Technician? Technician { get; set; }
     }
 }

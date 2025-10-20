@@ -22,6 +22,12 @@ namespace Domain.Aggregations
         public Guid SourceSectionID { get; set; }    
         public Guid DestinySectionID { get; set; }
         public Guid TransferID { get; set; } 
-        public Guid EquipmentReceiverID { get; set; }   
+        public Guid EquipmentReceiverID { get; set; }
+
+        // Navigation properties
+        public virtual Equipment? Equipment { get; set; }
+        public virtual Section? SourceSection { get; set; }
+        public virtual Section? DestinySection { get; set; }
+        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
     }
 }

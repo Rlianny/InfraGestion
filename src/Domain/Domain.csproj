@@ -6,17 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-<<<<<<< HEAD
   <ItemGroup>
     <Folder Include="Object Values\" />
-=======
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
->>>>>>> c4afc97b6bfe45b04daea0b2473f9734fc901c03
   </ItemGroup>
 
 </Project>

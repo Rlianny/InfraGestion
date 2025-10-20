@@ -20,5 +20,10 @@ namespace Domain.Aggregations
         public Guid EquipmentID { get; set; }
         public DateTime Date { get; set; }
         public Guid EquipmentReceiverID { get; set; }
+
+        // Navigation properties
+        public virtual Technician? Technician { get; set; }
+        public virtual Equipment? Equipment { get; set; }
+        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace Domain.Entities
         public string FullName { get; set; }
         public string PasswordHash {  get; set; }   
         public Guid DepartmentID {get;set;}
+
+        public virtual Department? Department { get; set; }
     }
 }

@@ -1,0 +1,34 @@
+using Domain.Aggregations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Infrastructure.Data.Configurations
+{
+    public class DecommissioningRequestConfiguration : IEntityTypeConfiguration<DecommissioningRequest>
+    {
+        public void Configure(EntityTypeBuilder<DecommissioningRequest> builder)
+        {
+            builder.ToTable("DecommissioningRequests");
+
+            builder.HasKey(dr => new { dr.TechnicianID, dr.EquipmentID, dr.Date });
+
+            builder.Property(dr => dr.Date)
+                .IsRequired();
+
+            builder.HasOne<Domain.Entities.Technician>()
+                .WithMany()
+                .HasForeignKey(dr => dr.TechnicianID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Domain.Entities.Equipment>()
+                .WithMany()
+                .HasForeignKey(dr => dr.EquipmentID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Domain.Entities.EquipmentReceiver>()
+                .WithMany()
+                .HasForeignKey(dr => dr.EquipmentReceiverID)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+}
