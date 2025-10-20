@@ -1,33 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Web.API\\Web.API.csproj": {}
+    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/Web.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj": {
+    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj",
+        "projectUniqueName": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj",
         "projectName": "Aplication",
-        "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj",
-        "packagesPath": "C:\\Users\\JL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\obj\\",
+        "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj",
+        "packagesPath": "/home/lianny/.nuget/packages/",
+        "outputPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/lianny/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj"
+              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
+                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj"
               }
             }
           }
@@ -41,7 +42,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -57,31 +59,42 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj": {
+    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\JL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\obj\\",
+        "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj",
+        "packagesPath": "/home/lianny/.nuget/packages/",
+        "outputPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/lianny/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -99,7 +112,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -115,42 +129,53 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\Infrastructure.csproj": {
+    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\JL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\obj\\",
+        "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj",
+        "packagesPath": "/home/lianny/.nuget/packages/",
+        "outputPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/lianny/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj": {
-                "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj"
+              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
+                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj"
               },
-              "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Domain\\Domain.csproj"
+              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj": {
+                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Domain/Domain.csproj"
               }
             }
           }
@@ -164,7 +189,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -180,42 +206,53 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Web.API\\Web.API.csproj": {
+    "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/Web.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Web.API\\Web.API.csproj",
+        "projectUniqueName": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/Web.API.csproj",
         "projectName": "Web.API",
-        "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Web.API\\Web.API.csproj",
-        "packagesPath": "C:\\Users\\JL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Web.API\\obj\\",
+        "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/Web.API.csproj",
+        "packagesPath": "/home/lianny/.nuget/packages/",
+        "outputPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Web.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/lianny/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj": {
-                "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Aplication\\Aplication.csproj"
+              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj": {
+                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Aplication/Aplication.csproj"
               },
-              "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\JL\\Desktop\\3er Año\\IS\\Proyecto\\Prject Mirror\\InfraGestion\\src\\Infrastructure\\Infrastructure.csproj"
+              "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/media/lianny/1AB44624B44602AD/projects/InfraGestion/InfraGestion/src/Infrastructure/Infrastructure.csproj"
               }
             }
           }
@@ -229,7 +266,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -255,6 +293,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[8.0.20, 8.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.20, 8.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -263,7 +315,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
