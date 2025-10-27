@@ -9,9 +9,12 @@ namespace Domain.Aggregations
 {
     public class ReceivingInspectionRequest
     {
-        public ReceivingInspectionRequest(DateTime emissionDate)
+        public ReceivingInspectionRequest(DateTime emissionDate, Device device, Administrator administrator, Technician technician)
         {
             EmissionDate = emissionDate;
+            Device = device;
+            Administrator = administrator;
+            Technician = technician;
         }
         private ReceivingInspectionRequest()
         {

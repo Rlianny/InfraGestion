@@ -9,10 +9,14 @@ namespace Domain.Aggregations
 {
     public class Rejection
     {
-        public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate)
+        public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate, DeviceReceiver deviceReceiver, Device device, Technician technician)
         {
             DecommissioningRequestDate = decommissioningRequestDate;
             RejectionDate = rejectionDate;
+            DeviceReceiver = deviceReceiver;
+            Technician = technician;
+            Device = device;
+
         }
         private Rejection()
         {
@@ -28,5 +32,5 @@ namespace Domain.Aggregations
         public virtual Entities.DeviceReceiver? DeviceReceiver { get; private set; }
         public virtual Entities.Technician? Technician { get; private set; }
         public virtual Entities.Device? Device { get; private set; }
-   }
+    }
 }
