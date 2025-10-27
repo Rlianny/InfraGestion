@@ -1,11 +1,12 @@
 using Domain.Aggregations;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IUnitOfWork
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
