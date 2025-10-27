@@ -14,7 +14,7 @@
         {
             Name = name;
             Section = section;
-            SectionID = SectionID;
+            SectionID = section.SectionID;
         }
     }
 }

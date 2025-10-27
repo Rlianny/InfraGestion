@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class Section
     {
-        public Section(int sectionID, string name)
+        public Section(string name)
         {
             Name = name;
         }
