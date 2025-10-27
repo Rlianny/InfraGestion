@@ -21,7 +21,7 @@ namespace Infrastructure.Data
         public DbSet<EquipmentReceiver> EquipmentReceivers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
-        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Device> Devices { get; set; }
 
         // Aggregations
         public DbSet<Transfer> Transfers { get; set; }
@@ -62,8 +62,8 @@ namespace Infrastructure.Data
             modelBuilder.Entity<User>()
                 .HasKey(u => u.UserID);
 
-            modelBuilder.Entity<Equipment>()
-                .HasKey(e => e.EquipmentID);
+            modelBuilder.Entity<Device>()
+                .HasKey(e => e.DeviceID);
 
             modelBuilder.Entity<Department>()
                 .HasKey(d => d.DepartmentID);
@@ -210,38 +210,38 @@ namespace Infrastructure.Data
                 }
             );
 
-            // Seed Equipment
-            modelBuilder.Entity<Equipment>().HasData(
-                new Equipment
+            // Seed Devices
+            modelBuilder.Entity<Device>().HasData(
+                new Device
                 {
-                    EquipmentID = equip1ID,
+                    DeviceID = equip1ID,
                     Name = "Servidor Principal",
                     Type = DeviceType.Informatical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddYears(-2)
                 },
-                new Equipment
+                new Device
                 {
-                    EquipmentID = equip2ID,
+                    DeviceID = equip2ID,
                     Name = "Computadora Desarrollo",
                     Type = DeviceType.Informatical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddMonths(-8)
                 },
-                new Equipment
+                new Device
                 {
-                    EquipmentID = equip3ID,
+                    DeviceID = equip3ID,
                     Name = "Máquina Ensamblaje",
                     Type = DeviceType.Electrical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptProduccion,
                     AcquisitionDate = today.AddYears(-1)
                 },
-                new Equipment
+                new Device
                 {
-                    EquipmentID = equip4ID,
+                    DeviceID = equip4ID,
                     Name = "Sistema de Comunicación",
                     Type = DeviceType.Comunicational,
                     OperationalState = default(OperationalState),

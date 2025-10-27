@@ -56,3 +56,5 @@ src/Web.API/packages/
 .DS_Store
 
 .fake
+
+**/AssemblyInfo.*
