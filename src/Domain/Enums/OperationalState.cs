@@ -2,6 +2,9 @@
 {
     public enum OperationalState
     {
-
+        Operational,
+        UnderMaintenance,
+        Decommissioned,
+        BeingTransferred
     }
 }

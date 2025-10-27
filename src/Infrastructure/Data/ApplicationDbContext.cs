@@ -216,7 +216,7 @@ namespace Infrastructure.Data
                 {
                     EquipmentID = equip1ID,
                     Name = "Servidor Principal",
-                    Type = EquipmentType.Informatical,
+                    Type = DeviceType.Informatical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddYears(-2)
@@ -225,7 +225,7 @@ namespace Infrastructure.Data
                 {
                     EquipmentID = equip2ID,
                     Name = "Computadora Desarrollo",
-                    Type = EquipmentType.Informatical,
+                    Type = DeviceType.Informatical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddMonths(-8)
@@ -234,7 +234,7 @@ namespace Infrastructure.Data
                 {
                     EquipmentID = equip3ID,
                     Name = "Máquina Ensamblaje",
-                    Type = EquipmentType.Electrical,
+                    Type = DeviceType.Electrical,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptProduccion,
                     AcquisitionDate = today.AddYears(-1)
@@ -243,7 +243,7 @@ namespace Infrastructure.Data
                 {
                     EquipmentID = equip4ID,
                     Name = "Sistema de Comunicación",
-                    Type = EquipmentType.Comunicational,
+                    Type = DeviceType.Comunicational,
                     OperationalState = default(OperationalState),
                     DepartmentID = deptLogistica,
                     AcquisitionDate = today.AddMonths(-5)

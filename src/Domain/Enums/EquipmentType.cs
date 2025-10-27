@@ -1,7 +1,11 @@
 ﻿namespace Domain.Enums
 {
-    public enum EquipmentType
+    public enum DeviceType
     {
-        Electrical,Informatical,Comunicational
+        ConnectivityAndNetwork,
+        ComputingAndIT,
+        ElectricalInfrastructureAndSupport,
+        CommunicationsAndTransmission,
+        DiagnosticAndMeasurement
     }
 }

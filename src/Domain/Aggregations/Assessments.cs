@@ -8,21 +8,26 @@ namespace Domain.Aggregations
 {
     public class Assessments
     {
-        public Assessments(Guid userID, Guid technicianID, DateTime date, double score)
+        public int UserID { get; private set; }
+        public int TechnicianID { get; private set; }
+        public DateTime Date
         {
-            UserID = userID;
-            TechnicianID = technicianID;
-            Date = date;
-            Score = score;
+            get { return date; }
+            private set { }
         }
-
-        public Guid UserID { get; set; }
-        public Guid TechnicianID { get; set; }
-        public DateTime Date { get; set; }
-        public double Score { get; set; }
-
-        // Navigation properties
+        private DateTime date;
+        public double Score
+        {
+            get { return score; }
+            private set { }
+        }
+        private double score;
         public virtual Entities.User? User { get; set; }
         public virtual Entities.Technician? Technician { get; set; }
+        public Assessments(DateTime date, double score)
+        {
+            this.date = date;
+            this.score = score;
+        }
     }
 }
