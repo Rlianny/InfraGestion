@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
         public async Task<User?> GetUserWithDepartmentAsync(int userId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(u => u.Department)
+                .Include(u => u.DepartmentID)
                 .FirstOrDefaultAsync(u => u.UserID == userId, cancellationToken);
         }
 

@@ -14,10 +14,10 @@ namespace Infrastructure.Repositories
         public async Task<Transfer?> GetTransferWithDetailsAsync(int transferId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(t => t.Device)
-                .Include(t => t.SourceSection)
-                .Include(t => t.DestinationSection)
-                .Include(t => t.DeviceReceiver)
+                .Include(t => t.DeviceID)
+                .Include(t => t.SourceSectionID)
+                .Include(t => t.DestinationSectionId)
+                .Include(t => t.DeviceReceiverID)
                 .FirstOrDefaultAsync(t => t.TransferID == transferId, cancellationToken);
         }
 
@@ -25,8 +25,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.DeviceID == deviceId)
-                .Include(t => t.SourceSection)
-                .Include(t => t.DestinationSection)
+                .Include(t => t.SourceSectionID)
+                .Include(t => t.DestinationSectionId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -34,17 +34,17 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.SourceSectionID == sourceSectionId)
-                .Include(t => t.Device)
-                .Include(t => t.DestinationSection)
+                .Include(t => t.DeviceID)
+                .Include(t => t.DestinationSectionId)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Transfer>> GetTransfersByDestinySectionAsync(int destinySectionId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Transfer>> GetTransfersByDestinySectionAsync(int destinationSectionId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.DestinationSectionID == destinySectionId)
-                .Include(t => t.Device)
-                .Include(t => t.SourceSection)
+                .Where(t => t.DestinationSectionId == destinationSectionId)
+                .Include(t => t.DeviceID)
+                .Include(t => t.SourceSectionID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories
         public async Task<int> CountTransfersBetweenSectionsAsync(int sourceSectionId, int destinySectionId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .CountAsync(t => t.SourceSectionID == sourceSectionId && t.DestinationSectionID == destinySectionId, cancellationToken);
+                .CountAsync(t => t.SourceSectionID == sourceSectionId && t.DestinationSectionId == destinySectionId, cancellationToken);
         }
     }
 }
