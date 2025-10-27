@@ -7,16 +7,16 @@ namespace Infrastructure.Data
     /// Factory for creating DbContext instances at design-time (for migrations).
     /// This is required for EF Core tools to create migrations.
     /// </summary>
+    /// 
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            
-            // Use a connection string for design-time operations
-            // This can be updated with your actual connection string
-            optionsBuilder.UseSqlServer(
-                "Server=(localdb)\\mssqllocaldb;Database=InfraGestionDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+
+            // Use SQLite instead of SQL Server
+            optionsBuilder.UseSqlite(
+                "Data Source=InfraGestionDb.sqlite");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
