@@ -16,7 +16,7 @@ namespace Domain.Aggregations
 
         // Navigation properties
         public virtual Technician? Technician { get; set; }
-        public virtual Equipment? Equipment { get; set; }
+        public virtual Device? Equipment { get; set; }
         public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
         public DecommissioningRequest(DateTime date)
         {

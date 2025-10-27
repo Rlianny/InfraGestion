@@ -45,7 +45,7 @@ namespace Domain.Aggregations
         public int ReceiverDepartment { get; set; }
 
         public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
-        public virtual Equipment? Equipment { get; set; }
+        public virtual Device? Equipment { get; set; }
         public virtual Department? Department { get; set; }
         public Decommissioning(DateTime decommissioningDate, DateTime requestDate, DecommissioningReason reason, string finalDestination)
         {
