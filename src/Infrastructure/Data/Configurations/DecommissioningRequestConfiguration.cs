@@ -20,14 +20,14 @@ namespace Infrastructure.Data.Configurations
                 .HasForeignKey(dr => dr.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
                 .HasForeignKey(dr => dr.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
-                .HasForeignKey(dr => dr.EquipmentReceiverID)
+                .HasForeignKey(dr => dr.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

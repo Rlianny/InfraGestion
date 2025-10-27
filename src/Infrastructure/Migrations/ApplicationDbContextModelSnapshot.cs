@@ -59,10 +59,10 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("DepartmentID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentReceiverID")
+                    b.Property<Guid>("DeviceReceiverID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FinalDestination")
@@ -80,9 +80,9 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("DeviceID");
 
-                    b.HasIndex("EquipmentReceiverID");
+                    b.HasIndex("DeviceReceiverID");
 
                     b.ToTable("Decommissionings");
 
@@ -92,8 +92,8 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestID = new Guid("abcdef01-abcd-abcd-abcd-abcdef012345"),
                             DecommissioningDate = new DateTime(2025, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentID = new Guid("b4c493f9-6b62-48f4-b293-28e30b3d77a8"),
-                            EquipmentID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            EquipmentReceiverID = new Guid("77777777-7777-7777-7777-777777777777"),
+                            DeviceID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            DeviceReceiverID = new Guid("77777777-7777-7777-7777-777777777777"),
                             FinalDestination = "Donación a institución educativa",
                             Reason = "Equipo obsoleto",
                             RequestDate = new DateTime(2025, 10, 7, 0, 0, 0, 0, DateTimeKind.Local)
@@ -105,20 +105,20 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("TechnicianID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentReceiverID")
+                    b.Property<Guid>("DeviceReceiverID")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("TechnicianID", "EquipmentID", "Date");
+                    b.HasKey("TechnicianID", "DeviceID", "Date");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("DeviceID");
 
-                    b.HasIndex("EquipmentReceiverID");
+                    b.HasIndex("DeviceReceiverID");
 
                     b.ToTable("DecommissioningRequests");
 
@@ -126,9 +126,9 @@ namespace Infrastructure.Migrations
                         new
                         {
                             TechnicianID = new Guid("66666666-6666-6666-6666-666666666666"),
-                            EquipmentID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            DeviceID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
                             Date = new DateTime(2025, 10, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            EquipmentReceiverID = new Guid("77777777-7777-7777-7777-777777777777")
+                            DeviceReceiverID = new Guid("77777777-7777-7777-7777-777777777777")
                         });
                 });
 
@@ -137,7 +137,7 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("TechnicianID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("Date")
@@ -150,9 +150,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("TechnicianID", "EquipmentID", "Date");
+                    b.HasKey("TechnicianID", "DeviceID", "Date");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("DeviceID");
 
                     b.ToTable("Mainteinances");
 
@@ -160,7 +160,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             TechnicianID = new Guid("55555555-5555-5555-5555-555555555555"),
-                            EquipmentID = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                            DeviceID = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
                             Date = new DateOnly(2025, 11, 6),
                             Cost = 500.0,
                             Type = "Preventivo"
@@ -168,7 +168,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             TechnicianID = new Guid("66666666-6666-6666-6666-666666666666"),
-                            EquipmentID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            DeviceID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
                             Date = new DateOnly(2025, 10, 25),
                             Cost = 1200.0,
                             Type = "Correctivo"
@@ -177,7 +177,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregations.ReceivingInspectionRequest", b =>
                 {
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("AdministratorID")
@@ -195,7 +195,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("RejectionDate")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("EquipmentID", "AdministratorID", "TechnicianID");
+                    b.HasKey("DeviceID", "AdministratorID", "TechnicianID");
 
                     b.HasIndex("AdministratorID");
 
@@ -206,7 +206,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            EquipmentID = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
+                            DeviceID = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
                             AdministratorID = new Guid("11111111-1111-1111-1111-111111111111"),
                             TechnicianID = new Guid("55555555-5555-5555-5555-555555555555"),
                             AcceptedDate = new DateTime(2025, 10, 4, 0, 0, 0, 0, DateTimeKind.Local),
@@ -216,13 +216,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregations.Rejection", b =>
                 {
-                    b.Property<Guid>("EquipmentReceiverID")
+                    b.Property<Guid>("DeviceReceiverID")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("TechnicianID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DecommissioningRequestDate")
@@ -231,9 +231,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("RejectionDate")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("EquipmentReceiverID", "TechnicianID", "EquipmentID");
+                    b.HasKey("DeviceReceiverID", "TechnicianID", "DeviceID");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("DeviceID");
 
                     b.HasIndex("TechnicianID");
 
@@ -242,9 +242,9 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            EquipmentReceiverID = new Guid("77777777-7777-7777-7777-777777777777"),
+                            DeviceReceiverID = new Guid("77777777-7777-7777-7777-777777777777"),
                             TechnicianID = new Guid("55555555-5555-5555-5555-555555555555"),
-                            EquipmentID = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            DeviceID = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
                             DecommissioningRequestDate = new DateTime(2025, 10, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             RejectionDate = new DateTime(2025, 10, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         });
@@ -262,10 +262,10 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("DestinySectionID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EquipmentReceiverID")
+                    b.Property<Guid>("DeviceReceiverID")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("SourceSectionID")
@@ -275,9 +275,9 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DestinySectionID");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("DeviceID");
 
-                    b.HasIndex("EquipmentReceiverID");
+                    b.HasIndex("DeviceReceiverID");
 
                     b.HasIndex("SourceSectionID");
 
@@ -322,9 +322,9 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Equipment", b =>
+            modelBuilder.Entity("Domain.Entities.Device", b =>
                 {
-                    b.Property<Guid>("EquipmentID")
+                    b.Property<Guid>("DeviceID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -344,16 +344,16 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("EquipmentID");
+                    b.HasKey("DeviceID");
 
                     b.HasIndex("DepartmentID");
 
-                    b.ToTable("Equipments");
+                    b.ToTable("Devices");
 
                     b.HasData(
                         new
                         {
-                            EquipmentID = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                            DeviceID = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
                             AcquisitionDate = new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentID = new Guid("8e9b1cc0-35d3-4bf2-9f2c-5e00a21d92a8"),
                             Name = "Servidor Principal",
@@ -362,7 +362,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            EquipmentID = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
+                            DeviceID = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
                             AcquisitionDate = new DateTime(2025, 2, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentID = new Guid("8e9b1cc0-35d3-4bf2-9f2c-5e00a21d92a8"),
                             Name = "Computadora Desarrollo",
@@ -371,7 +371,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            EquipmentID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            DeviceID = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
                             AcquisitionDate = new DateTime(2024, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentID = new Guid("b4c493f9-6b62-48f4-b293-28e30b3d77a8"),
                             Name = "Máquina Ensamblaje",
@@ -380,7 +380,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            EquipmentID = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
+                            DeviceID = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
                             AcquisitionDate = new DateTime(2025, 5, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentID = new Guid("5abcde20-13fa-416f-85b9-ad1a00ca5959"),
                             Name = "Sistema de Comunicación",
@@ -501,11 +501,11 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.EquipmentReceiver", b =>
+            modelBuilder.Entity("Domain.Entities.DeviceReceiver", b =>
                 {
                     b.HasBaseType("Domain.Entities.User");
 
-                    b.HasDiscriminator().HasValue("EquipmentReceiver");
+                    b.HasDiscriminator().HasValue("DeviceReceiver");
 
                     b.HasData(
                         new
@@ -608,36 +608,36 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.EquipmentReceiver", "EquipmentReceiver")
+                    b.HasOne("Domain.Entities.DeviceReceiver", "DeviceReceiver")
                         .WithMany()
-                        .HasForeignKey("EquipmentReceiverID")
+                        .HasForeignKey("DeviceReceiverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Department");
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
-                    b.Navigation("EquipmentReceiver");
+                    b.Navigation("DeviceReceiver");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
                 {
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.EquipmentReceiver", "EquipmentReceiver")
+                    b.HasOne("Domain.Entities.DeviceReceiver", "DeviceReceiver")
                         .WithMany()
-                        .HasForeignKey("EquipmentReceiverID")
+                        .HasForeignKey("DeviceReceiverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -647,18 +647,18 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
-                    b.Navigation("EquipmentReceiver");
+                    b.Navigation("DeviceReceiver");
 
                     b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Mainteinance", b =>
                 {
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -668,7 +668,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
                     b.Navigation("Technician");
                 });
@@ -681,9 +681,9 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -695,22 +695,22 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Administrator");
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
                     b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Rejection", b =>
                 {
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.EquipmentReceiver", "EquipmentReceiver")
+                    b.HasOne("Domain.Entities.DeviceReceiver", "DeviceReceiver")
                         .WithMany()
-                        .HasForeignKey("EquipmentReceiverID")
+                        .HasForeignKey("DeviceReceiverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -720,9 +720,9 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
-                    b.Navigation("EquipmentReceiver");
+                    b.Navigation("DeviceReceiver");
 
                     b.Navigation("Technician");
                 });
@@ -735,15 +735,15 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Equipment", "Equipment")
+                    b.HasOne("Domain.Entities.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.EquipmentReceiver", "EquipmentReceiver")
+                    b.HasOne("Domain.Entities.DeviceReceiver", "DeviceReceiver")
                         .WithMany()
-                        .HasForeignKey("EquipmentReceiverID")
+                        .HasForeignKey("DeviceReceiverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -755,9 +755,9 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("DestinySection");
 
-                    b.Navigation("Equipment");
+                    b.Navigation("Device");
 
-                    b.Navigation("EquipmentReceiver");
+                    b.Navigation("DeviceReceiver");
 
                     b.Navigation("SourceSection");
                 });
@@ -773,7 +773,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("Section");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Equipment", b =>
+            modelBuilder.Entity("Domain.Entities.Device", b =>
                 {
                     b.HasOne("Domain.Entities.Department", "Department")
                         .WithMany()

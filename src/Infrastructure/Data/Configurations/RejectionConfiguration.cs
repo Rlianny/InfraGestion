@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Rejections");
 
-            builder.HasKey(r => new { r.EquipmentReceiverID, r.TechnicianID, r.EquipmentID, r.DecommissioningRequestDate });
+            builder.HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID, r.DecommissioningRequestDate });
 
             builder.Property(r => r.DecommissioningRequestDate)
                 .IsRequired();
@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
-                .HasForeignKey(r => r.EquipmentReceiverID)
+                .HasForeignKey(r => r.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Technician>()
@@ -28,9 +28,9 @@ namespace Infrastructure.Data.Configurations
                 .HasForeignKey(r => r.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(r => r.EquipmentID)
+                .HasForeignKey(r => r.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

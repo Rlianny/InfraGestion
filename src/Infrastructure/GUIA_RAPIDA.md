@@ -31,10 +31,10 @@ O ejecutar el script:
   - Director
   - Technician
   - SectionManager
-  - EquipmentReceiver
+  - DeviceReceiver
 - **Departments**
 - **Sections**
-- **Equipments**
+- **Devices**
 
 ### Tablas de Agregación
 - **Transfers**
@@ -67,32 +67,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 ### Consultas Básicas
 ```csharp
 // Obtener todos los equipos con su departamento
-var equipments = await _context.Equipments
+var Devices = await _context.Devices
     .Include(e => e.Department)
         .ThenInclude(d => d.Section)
     .ToListAsync();
 
 // Crear un nuevo equipo
-var equipment = new Equipment
+var Device = new Device
 {
-    EquipmentID = Guid.NewGuid(),
+    DeviceID = Guid.NewGuid(),
     Name = "Laptop Dell",
-    Type = EquipmentType.Informatical,
+    Type = DeviceType.Informatical,
     OperationalState = OperationalState.Operational,
     DepartmentID = departmentId,
     AcquisitionDate = DateTime.Now
 };
-await _context.Equipments.AddAsync(equipment);
+await _context.Devices.AddAsync(Device);
 await _context.SaveChangesAsync();
 
 // Actualizar un equipo
-var equipment = await _context.Equipments.FindAsync(id);
-equipment.Name = "New Name";
+var Device = await _context.Devices.FindAsync(id);
+Device.Name = "New Name";
 await _context.SaveChangesAsync();
 
 // Eliminar un equipo
-var equipment = await _context.Equipments.FindAsync(id);
-_context.Equipments.Remove(equipment);
+var Device = await _context.Devices.FindAsync(id);
+_context.Devices.Remove(Device);
 await _context.SaveChangesAsync();
 ```
 
@@ -101,7 +101,7 @@ await _context.SaveChangesAsync();
 // Mantenimientos con técnico y equipo
 var maintenances = await _context.Mainteinances
     .Include(m => m.Technician)
-    .Include(m => m.Equipment)
+    .Include(m => m.Device)
     .Where(m => m.Date >= startDate)
     .OrderByDescending(m => m.Date)
     .ToListAsync();
@@ -138,7 +138,7 @@ dotnet tool update --global dotnet-ef
 
 1. **Restricciones de eliminación**: Todas las FK usan `DeleteBehavior.Restrict`
 2. **Herencia TPH**: User y sus derivadas en una sola tabla
-3. **Enums como String**: EquipmentType y OperationalState se guardan como texto
+3. **Enums como String**: DeviceType y OperationalState se guardan como texto
 4. **Navigation Properties**: Todas marcadas como `virtual` y nullable
 5. **Claves compuestas**: En Mainteinance, DecommissioningRequest, ReceivingInspectionRequest, Rejection, Assessments
 

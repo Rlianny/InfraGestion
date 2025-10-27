@@ -15,9 +15,9 @@ namespace Infrastructure.Data.Configurations
             builder.Property(t => t.DateTime)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(t => t.EquipmentID)
+                .HasForeignKey(t => t.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Section>()
@@ -32,7 +32,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
-                .HasForeignKey(t => t.EquipmentReceiverID)
+                .HasForeignKey(t => t.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

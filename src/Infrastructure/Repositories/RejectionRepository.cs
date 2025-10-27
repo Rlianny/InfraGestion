@@ -15,25 +15,25 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.TechnicianID == technicianId)
-                .Include(r => r.Equipment)
-                .Include(r => r.EquipmentReceiver)
+                .Include(r => r.Device)
+                .Include(r => r.DeviceReceiver)
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Rejection>> GetRejectionsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(r => r.EquipmentID == deviceId)
+                .Where(r => r.DeviceID == deviceId)
                 .Include(r => r.Technician)
-                .Include(r => r.EquipmentReceiver)
+                .Include(r => r.DeviceReceiver)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Rejection>> GetRejectionsByEquipmentReceiverAsync(int equipmentReceiverId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Rejection>> GetRejectionsByDeviceReceiverAsync(int DeviceReceiverId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(r => r.EquipmentReceiverID == equipmentReceiverId)
-                .Include(r => r.Equipment)
+                .Where(r => r.DeviceReceiverID == DeviceReceiverId)
+                .Include(r => r.Device)
                 .Include(r => r.Technician)
                 .ToListAsync(cancellationToken);
         }

@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<ReceivingInspectionRequest>> GetReceivingInspectionRequestsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(r => r.EquipmentID == deviceId)
+                .Where(r => r.DeviceID == deviceId)
                 .Include(r => r.Administrator)
                 .Include(r => r.Technician)
                 .ToListAsync(cancellationToken);
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AdministratorID == administratorId)
-                .Include(r => r.Equipment)
+                .Include(r => r.Device)
                 .Include(r => r.Technician)
                 .ToListAsync(cancellationToken);
         }
@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.TechnicianID == technicianId)
-                .Include(r => r.Equipment)
+                .Include(r => r.Device)
                 .Include(r => r.Administrator)
                 .ToListAsync(cancellationToken);
         }
@@ -42,7 +42,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate == null && r.RejectionDate == null)
-                .Include(r => r.Equipment)
+                .Include(r => r.Device)
                 .Include(r => r.Administrator)
                 .Include(r => r.Technician)
                 .ToListAsync(cancellationToken);
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate != null)
-                .Include(r => r.Equipment)
+                .Include(r => r.Device)
                 .ToListAsync(cancellationToken);
         }
 
@@ -60,7 +60,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.RejectionDate != null)
-                .Include(r => r.Equipment)
+                .Include(r => r.Device)
                 .ToListAsync(cancellationToken);
         }
     }

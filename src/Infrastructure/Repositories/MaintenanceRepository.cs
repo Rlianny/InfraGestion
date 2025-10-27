@@ -14,9 +14,9 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Mainteinance>> GetMaintenancesByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(m => m.EquipmentID == deviceId)
+                .Where(m => m.DeviceID == deviceId)
                 .Include(m => m.Technician)
-                .Include(m => m.Equipment)
+                .Include(m => m.Device)
                 .ToListAsync(cancellationToken);
         }
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(m => m.TechnicianID == technicianId)
-                .Include(m => m.Equipment)
+                .Include(m => m.Device)
                 .ToListAsync(cancellationToken);
         }
 
@@ -48,7 +48,7 @@ namespace Infrastructure.Repositories
         public async Task<double> GetTotalMaintenanceCostByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(m => m.EquipmentID == deviceId)
+                .Where(m => m.DeviceID == deviceId)
                 .SumAsync(m => m.Cost, cancellationToken);
         }
 

@@ -18,7 +18,7 @@ namespace Infrastructure.Data
         public DbSet<Director> Directors { get; set; }
         public DbSet<Technician> Technicians { get; set; }
         public DbSet<SectionManager> SectionManagers { get; set; }
-        public DbSet<DeviceReceiver> EquipmentReceivers { get; set; }
+        public DbSet<DeviceReceiver> DeviceReceivers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Device> Devices { get; set; }
@@ -47,10 +47,10 @@ namespace Infrastructure.Data
                 .HasKey(dr => new { dr.TechnicianID, dr.DeviceID, dr.Date });
 
             modelBuilder.Entity<ReceivingInspectionRequest>()
-                .HasKey(r => new { r.EquipmentID, r.AdministratorID, r.TechnicianID });
+                .HasKey(r => new { r.DeviceID, r.AdministratorID, r.TechnicianID });
 
             modelBuilder.Entity<Rejection>()
-                .HasKey(r => new { r.EquipmentReceiverID, r.TechnicianID, r.EquipmentID });
+                .HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID });
 
             modelBuilder.Entity<Transfer>()
                 .HasKey(t => t.TransferID);
@@ -199,9 +199,9 @@ namespace Infrastructure.Data
                 }
             );
 
-            // EquipmentReceiver
+            // DeviceReceiver
             modelBuilder.Entity<DeviceReceiver>().HasData(
-                new EquipmentReceiver("Receptor Equipos", "RecHash123", deptLogistica)
+                new DeviceReceiver("Receptor Equipos", "RecHash123", deptLogistica)
                 {
                     UserID = receiverID,
                     FullName = "Receptor Equipos",
@@ -277,7 +277,7 @@ namespace Infrastructure.Data
                     TechnicianID = technician2ID,
                     DeviceID = equip3ID,
                     Date = dateInFifteenDaysBefore,
-                    EquipmentReceiverID = receiverID
+                    DeviceReceiverID = receiverID
                 }
             );
 
@@ -294,7 +294,7 @@ namespace Infrastructure.Data
                 {
                     DecommissioningRequestID = decommissioningReqID,
                     DeviceReceiverID = receiverID,
-                    EquipmentID = equip3ID,
+                    DeviceID = equip3ID,
                     DecommissioningDate = dateInFiveDaysBefore,
                     RequestDate = dateInFifteenDaysBefore,
                     DepartmentID = deptProduccion,
@@ -307,7 +307,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
                 new ReceivingInspectionRequest(equip2ID, adminID, technician1ID, dateInTwentyDaysBefore)
                 {
-                    EquipmentID = equip2ID,
+                    DeviceID = equip2ID,
                     AdministratorID = adminID,
                     TechnicianID = technician1ID,
                     EmissionDate = dateInTwentyDaysBefore,
@@ -320,9 +320,9 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Rejection>().HasData(
                 new Rejection(receiverID, technician1ID, equip4ID, dateInTwentyDaysBefore, dateInFifteenDaysBefore)
                 {
-                    EquipmentReceiverID = receiverID,
+                    DeviceReceiverID = receiverID,
                     TechnicianID = technician1ID,
-                    EquipmentID = equip4ID,
+                    DeviceID = equip4ID,
                     DecommissioningRequestDate = dateInTwentyDaysBefore,
                     RejectionDate = dateInFifteenDaysBefore
                 }

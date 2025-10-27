@@ -14,17 +14,17 @@ namespace Infrastructure.Repositories
         public async Task<Transfer?> GetTransferWithDetailsAsync(int transferId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(t => t.Equipment)
+                .Include(t => t.Device)
                 .Include(t => t.SourceSection)
                 .Include(t => t.DestinySection)
-                .Include(t => t.EquipmentReceiver)
+                .Include(t => t.DeviceReceiver)
                 .FirstOrDefaultAsync(t => t.TransferID == transferId, cancellationToken);
         }
 
         public async Task<IEnumerable<Transfer>> GetTransfersByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.EquipmentID == deviceId)
+                .Where(t => t.DeviceID == deviceId)
                 .Include(t => t.SourceSection)
                 .Include(t => t.DestinySection)
                 .ToListAsync(cancellationToken);
@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.SourceSectionID == sourceSectionId)
-                .Include(t => t.Equipment)
+                .Include(t => t.Device)
                 .Include(t => t.DestinySection)
                 .ToListAsync(cancellationToken);
         }
@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.DestinySectionID == destinySectionId)
-                .Include(t => t.Equipment)
+                .Include(t => t.Device)
                 .Include(t => t.SourceSection)
                 .ToListAsync(cancellationToken);
         }

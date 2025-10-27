@@ -2,8 +2,8 @@ using Domain.Entities;
 
 namespace Domain.Interfaces
 {
-    public interface IEquipmentReceiverRepository : IRepository<EquipmentReceiver>
+    public interface IDeviceReceiverRepository : IRepository<DeviceReceiver>
     {
-        Task<IEnumerable<EquipmentReceiver>> GetEquipmentReceiversByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<DeviceReceiver>> GetDeviceReceiversByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default);
     }
 }

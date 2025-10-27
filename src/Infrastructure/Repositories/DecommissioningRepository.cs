@@ -15,8 +15,8 @@ namespace Infrastructure.Repositories
         public async Task<Decommissioning?> GetDecommissioningWithDetailsAsync(int decommissioningId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(d => d.Equipment)
-                .Include(d => d.EquipmentReceiver)
+                .Include(d => d.Device)
+                .Include(d => d.DeviceReceiver)
                 .Include(d => d.Department)
                 .FirstOrDefaultAsync(d => d.DecommissioningRequestID == decommissioningId, cancellationToken);
         }
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Decommissioning>> GetDecommissioningsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(d => d.EquipmentID == deviceId)
+                .Where(d => d.DeviceID == deviceId)
                 .ToListAsync(cancellationToken);
         }
 
