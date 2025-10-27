@@ -9,12 +9,12 @@ namespace Domain.Aggregations
 {
     public class Transfer
     {
-        public Transfer(DateOnly dateTime, int deviceID, int sourceSectionID, int destinySectionID, int deviceReceiverID)
+        public Transfer(DateOnly dateTime, int deviceID, int sourceSectionID, int destinationSectionID, int deviceReceiverID)
         {
             Date = dateTime;
             DeviceID = deviceID;
             SourceSectionID = sourceSectionID;
-            DestinationSectionId = destinySectionID;
+            DestinationSectionId = destinationSectionID;
             DeviceReceiverID = deviceReceiverID;
         }
         private Transfer()
