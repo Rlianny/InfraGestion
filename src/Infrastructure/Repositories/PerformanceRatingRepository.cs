@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class AssessmentRepository : Repository<Assessments>, IAssessmentRepository
+    public class PerformanceRatingRepository : Repository<PerformanceRating>, IPerformanceRatingRepository
     {
-        public AssessmentRepository(ApplicationDbContext context) : base(context)
+        public PerformanceRatingRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Assessments>> GetAssessmentsByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<PerformanceRating>> GetAssessmentsByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(a => a.TechnicianID == technicianId)
@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Assessments>> GetAssessmentsByUserAsync(int userId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<PerformanceRating>> GetAssessmentsByUserAsync(int userId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(a => a.UserID == userId)
@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Assessments>> GetAssessmentsByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<PerformanceRating>> GetAssessmentsByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(a => a.Date >= startDate && a.Date <= endDate)
@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
             return assessments.Average(a => a.Score);
         }
 
-        public async Task<IEnumerable<Assessments>> GetTopAssessmentsAsync(int count, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<PerformanceRating>> GetTopAssessmentsAsync(int count, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .OrderByDescending(a => a.Score)
@@ -57,7 +57,7 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Assessments>> GetLowAssessmentsAsync(double thresholdScore, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<PerformanceRating>> GetLowAssessmentsAsync(double thresholdScore, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(a => a.Score < thresholdScore)

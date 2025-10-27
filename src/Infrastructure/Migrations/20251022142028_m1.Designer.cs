@@ -14,7 +14,7 @@ namespace Infrastructure.Migrations
     [Migration("20251022142028_m1")]
     partial class m1
     {
-         <inheritdoc />
+         
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

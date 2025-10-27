@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Decommissioning>> GetDecommissioningsByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(d => d.ReceiverDepartment == departmentId)
+                .Where(d => d.ReceiverDepartmentID == departmentId)
                 .ToListAsync(cancellationToken);
         }
 

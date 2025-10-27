@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Infrastructure.Data
 {
-     <summary>
-     Factory for creating DbContext instances at design-time (for migrations).
-     This is required for EF Core tools to create migrations.
-     </summary>
      
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {

@@ -27,7 +27,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Section>()
                 .WithMany()
-                .HasForeignKey(t => t.DestinySectionID)
+                .HasForeignKey(t => t.DestinationSectionID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.DeviceReceiver>()

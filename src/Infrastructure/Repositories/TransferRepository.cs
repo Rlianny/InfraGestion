@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
             return await _dbSet
                 .Include(t => t.Device)
                 .Include(t => t.SourceSection)
-                .Include(t => t.DestinySection)
+                .Include(t => t.DestinationSection)
                 .Include(t => t.DeviceReceiver)
                 .FirstOrDefaultAsync(t => t.TransferID == transferId, cancellationToken);
         }
@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
             return await _dbSet
                 .Where(t => t.DeviceID == deviceId)
                 .Include(t => t.SourceSection)
-                .Include(t => t.DestinySection)
+                .Include(t => t.DestinationSection)
                 .ToListAsync(cancellationToken);
         }
 
@@ -35,14 +35,14 @@ namespace Infrastructure.Repositories
             return await _dbSet
                 .Where(t => t.SourceSectionID == sourceSectionId)
                 .Include(t => t.Device)
-                .Include(t => t.DestinySection)
+                .Include(t => t.DestinationSection)
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Transfer>> GetTransfersByDestinySectionAsync(int destinySectionId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.DestinySectionID == destinySectionId)
+                .Where(t => t.DestinationSectionID == destinySectionId)
                 .Include(t => t.Device)
                 .Include(t => t.SourceSection)
                 .ToListAsync(cancellationToken);
@@ -54,14 +54,14 @@ namespace Infrastructure.Repositories
             var endDateOnly = DateOnly.FromDateTime(endDate);
 
             return await _dbSet
-                .Where(t => t.DateTime >= startDateOnly && t.DateTime <= endDateOnly)
+                .Where(t => t.Date >= startDateOnly && t.Date <= endDateOnly)
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<int> CountTransfersBetweenSectionsAsync(int sourceSectionId, int destinySectionId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .CountAsync(t => t.SourceSectionID == sourceSectionId && t.DestinySectionID == destinySectionId, cancellationToken);
+                .CountAsync(t => t.SourceSectionID == sourceSectionId && t.DestinationSectionID == destinySectionId, cancellationToken);
         }
     }
 }

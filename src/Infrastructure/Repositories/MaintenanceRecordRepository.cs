@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class MaintenanceRepository : Repository<Mainteinance>, IMaintenanceRepository
+    public class MaintenanceRepository : Repository<MaintenanceRecord>, IMaintenanceRecordRepository
     {
         public MaintenanceRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Mainteinance>> GetMaintenancesByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(m => m.DeviceID == deviceId)
@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Mainteinance>> GetMaintenancesByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(m => m.TechnicianID == technicianId)
@@ -28,14 +28,14 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Mainteinance>> GetMaintenancesByTypeAsync(string type, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByTypeAsync(string type, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(m => m.Type == type)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Mainteinance>> GetMaintenancesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
         {
             var startDateOnly = DateOnly.FromDateTime(startDate);
             var endDateOnly = DateOnly.FromDateTime(endDate);
