@@ -8,15 +8,15 @@ namespace Domain.Entities
 {
     public class Technician:User
     {
-        public Technician(string fullName, string passwordHash, int departmentID, int yearsOfExperience, string specialty)
-            : base(fullName, passwordHash, departmentID)
+        public Technician(string fullName, string passwordHash, int yearsOfExperience, string specialty)
+            : base(fullName, passwordHash)
         {
             YearsOfExperience = yearsOfExperience;
             Specialty = specialty;
         }
 
-        public int YearsOfExperience { get; set; }  
-        public string Specialty { get; set; }
+        public int YearsOfExperience { get;private set; }  
+        public string Specialty { get;private set; }
 
     }
 }

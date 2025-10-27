@@ -9,25 +9,23 @@ namespace Domain.Aggregations
 {
     public class Transfer
     {
-        public Transfer(Guid equipmentID, DateOnly dateTime, Guid sourceSectionID, Guid destinySectionID)
+        public Transfer(Guid equipmentID, DateOnly dateTime)
         {
             EquipmentID = equipmentID;
             DateTime = dateTime;
-            SourceSectionID = sourceSectionID;
-            DestinySectionID = destinySectionID;
         }
 
-        public Guid EquipmentID {  get; set; } 
-        public DateOnly DateTime { get; set; }
-        public Guid SourceSectionID { get; set; }    
-        public Guid DestinySectionID { get; set; }
-        public Guid TransferID { get; set; } 
-        public Guid EquipmentReceiverID { get; set; }
+        public Guid EquipmentID { get; private set; }
+        public DateOnly DateTime { get; private set; }
+        public int SourceSectionID { get; private set; }
+        public int DestinySectionID { get; private set; }
+        public int TransferID { get; private set; }
+        public int DeviceReceiverID { get; private set; }
 
         // Navigation properties
-        public virtual Equipment? Equipment { get; set; }
-        public virtual Section? SourceSection { get; set; }
-        public virtual Section? DestinySection { get; set; }
-        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual Device? Device { get; private set; }
+        public virtual Section? SourceSection { get; private set; }
+        public virtual Section? DestinySection { get; private set; }
+        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
     }
 }
