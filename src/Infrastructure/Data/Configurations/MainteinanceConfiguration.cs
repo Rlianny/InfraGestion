@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class MainteinanceConfiguration : IEntityTypeConfiguration<Mainteinance>
+    public class MainteinanceConfiguration : IEntityTypeConfiguration<MaintenanceRecord>
     {
-        public void Configure(EntityTypeBuilder<Mainteinance> builder)
+        public void Configure(EntityTypeBuilder<MaintenanceRecord> builder)
         {
             builder.ToTable("Mainteinances");
 

@@ -11,30 +11,20 @@ namespace Domain.Aggregations
     {
         public int UserID { get; private set; }
         public int TechnicianID { get; private set; }
-        public DateTime Date
-        {
-            get { return date; }
-            private set { }
-        }
-        private DateTime date;
-        public double Score
-        {
-            get { return score; }
-            private set { }
-        }
-        private double score;
+        public DateTime Date { get; private set; }
+        public double Score { get; private set; }
         public virtual Entities.User? User { get; private set; }
         public virtual Entities.Technician? Technician { get; private set; }
 
         private PerformanceRating() { }
-        public PerformanceRating(User superior, User technician, DateTime date, double score)
+        public PerformanceRating(User superior, Technician technician, DateTime date, double score)
         {
             User = superior;
-            Technician = technician as Technician;
+            Technician = technician;
             UserID = superior.UserID;
             TechnicianID = technician.UserID;
-            this.date = date;
-            this.score = score;
+            Date = date;
+            Score = score;
         }
     }
 }
