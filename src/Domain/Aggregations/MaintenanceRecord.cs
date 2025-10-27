@@ -17,7 +17,7 @@ namespace Domain.Aggregations
         public int MaintenanceRecordID { get; private set; }
 
         private MaintenanceRecord() { }
-        public MaintenanceRecord(DateOnly date, double cost, string type, int technicianID, int deviceID)
+        public MaintenanceRecord(int technicianID, int deviceID,DateOnly date, double cost, string type)
         {
             TechnicianID = technicianID;
             DeviceID = deviceID;

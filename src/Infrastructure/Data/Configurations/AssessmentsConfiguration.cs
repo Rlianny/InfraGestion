@@ -8,7 +8,7 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PerformanceRating> builder)
         {
-            builder.ToTable("Assessments");
+            builder.ToTable("PerformanceRatings");
 
             builder.HasKey(a => new { a.UserID, a.TechnicianID, a.Date });
 

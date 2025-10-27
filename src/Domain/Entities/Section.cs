@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class Section
     {
-        public Section( string name)
+        public Section(string name)
         {
             Name = name;
         }
@@ -17,6 +17,7 @@ namespace Domain.Entities
         {
         }
         public string Name { get; private set; }
+        public int SectionID { get; private set; }
 
     }
 }

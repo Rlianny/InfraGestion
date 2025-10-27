@@ -16,7 +16,7 @@ namespace Domain.Aggregations
         public int DeviceReceiverID { get; private set; }
 
         private DecommissioningRequest() { }
-        public DecommissioningRequest(DateTime date, int technicianID, int deviceID, int deviceReceiverID)
+        public DecommissioningRequest(int technicianID, int deviceID, int deviceReceiverID, DateTime date)
         {
             Date = date;
             TechnicianID = technicianID;

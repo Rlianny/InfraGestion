@@ -8,7 +8,7 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Decommissioning> builder)
         {
-            builder.ToTable("Decommissionings");
+            builder.ToTable("Decommissioning");
 
             builder.HasKey(d => d.DecommissioningRequestID);
 

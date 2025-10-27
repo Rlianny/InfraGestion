@@ -22,7 +22,7 @@ namespace Domain.Aggregations
         public int ReceiverDepartmentID { get; private set; }
 
         private Decommissioning() { }
-        public Decommissioning(DateTime decommissioningDate, DecommissioningReason reason, string finalDestination, int deviceReceiverID, int deviceID, int decommissioningRequestID, int receiverDepartmentID)
+        public Decommissioning(int deviceID, int decommissioningRequestID, int deviceReceiverID, int receiverDepartmentID,DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
         {
             DecommissioningDate = decommissioningDate;
             Reason = reason;

@@ -12,7 +12,6 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(e => e.DeviceID);
 
-            // Configurar generación automática de ID
             builder.Property(e => e.DeviceID)
                 .ValueGeneratedOnAdd();
 

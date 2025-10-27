@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class MainteinanceConfiguration : IEntityTypeConfiguration<MaintenanceRecord>
+    public class MaintenanceConfiguration : IEntityTypeConfiguration<MaintenanceRecord>
     {
         public void Configure(EntityTypeBuilder<MaintenanceRecord> builder)
         {
-            builder.ToTable("Mainteinances");
+            builder.ToTable("Maintenances");
 
             builder.HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 

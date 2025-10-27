@@ -11,10 +11,10 @@ namespace Domain.Aggregations
     {
         public Transfer(DateOnly dateTime, int deviceID, int sourceSectionID, int destinySectionID, int deviceReceiverID)
         {
-            DateTime = dateTime;
+            Date = dateTime;
             DeviceID = deviceID;
             SourceSectionID = sourceSectionID;
-            DestinySectionID = destinySectionID;
+            DestinationSectionId = destinySectionID;
             DeviceReceiverID = deviceReceiverID;
         }
         private Transfer()
@@ -22,9 +22,9 @@ namespace Domain.Aggregations
         }
 
         public int DeviceID { get; private set; }
-        public DateOnly DateTime { get; private set; }
+        public DateOnly Date { get; private set; }
         public int SourceSectionID { get; private set; }
-        public int DestinySectionID { get; private set; }
+        public int DestinationSectionId { get; private set; }
         public int TransferID { get; private set; }
         public int DeviceReceiverID { get; private set; }
 

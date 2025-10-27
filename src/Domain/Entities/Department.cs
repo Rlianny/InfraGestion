@@ -4,10 +4,15 @@
     {
         public int DepartmentID { get; private set; }
         public int SectionID { get; private set; }
-        public Department(int sectionID)
+        public string Name { get; private set; }
+        public Department(string name,int sectionID)
         {
+            Name = name;
             SectionID = sectionID;
         }
-        private Department() { }
+        private Department()
+        {
+            Name = String.Empty;
+        }
     }
 }

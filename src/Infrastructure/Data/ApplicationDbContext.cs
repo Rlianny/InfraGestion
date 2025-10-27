@@ -36,7 +36,6 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configurar claves primarias para todas las entidades
             modelBuilder.Entity<PerformanceRating>()
                 .HasKey(a => new { a.UserID, a.TechnicianID, a.Date });
 
@@ -58,7 +57,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<MaintenanceRecord>()
                 .HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 
-            // Configuraciones para User y sus herederos
+
             modelBuilder.Entity<User>()
                 .HasKey(u => u.UserID);
 
@@ -71,38 +70,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Section>()
                 .HasKey(s => s.SectionID);
 
-            // Definir IDs constantes para las referencias (usando int en lugar de Guid)
-            var deptTI = 1;
-            var deptProduccion = 2;
-            var deptMantenimiento = 3;
-            var deptLogistica = 4;
-
-            var sectDesarrollo = 1;
-            var sectInfraestructura = 2;
-            var sectEnsamblaje = 3;
-            var sectControlCalidad = 4;
-            var sectMantElectrico = 5;
-            var sectMantMecanico = 6;
-
-            // IDs para los usuarios
-            var adminID = 1;
-            var directorID = 2;
-            var sectionManager1ID = 3;
-            var sectionManager2ID = 4;
-            var technician1ID = 5;
-            var technician2ID = 6;
-            var receiverID = 7;
-
-            // IDs para equipos (devices)
-            var device1ID = 1;
-            var device2ID = 2;
-            var device3ID = 3;
-            var device4ID = 4;
-
-            // IDs para agregaciones
-            var decommissioningReqID = 1;
-
-            // Fechas base para evitar errores
+            // Dates
             var today = DateTime.Today;
             var dateInFifteenDays = today.AddDays(15);
             var dateInThreeDays = today.AddDays(3);
@@ -112,223 +80,189 @@ namespace Infrastructure.Data
             var dateInTwentyDaysBefore = today.AddDays(-20);
             var dateInEighteenDaysBefore = today.AddDays(-18);
 
-            // Seed Sections primero (ya que Department depende de Section)
+
+            // Creating seed data
+
+            Section section01 = new Section("Operaciones de Red Corporativa");
+            Section section02 = new Section("Infraestructura de Centro de Datos (Data Center)");
+            Section section03 = new Section("Soporte Técnico en Campo");
+            Section section04 = new Section("Planificación y Despliegue de Red");
+            Section section05 = new Section("División de Servicios en la Nube (Cloud)");
+            Section section06 = new Section("Taller Central y Logística");
+            Section section07 = new Section("Infraestructura Interna (TI Interno)");
+            Section section08 = new Section("Seguridad Informática (Ciberseguridad)");
+            Section section09 = new Section("Dirección General");
+
+            // Seed Sections
             modelBuilder.Entity<Section>().HasData(
-                new { SectionID = sectDesarrollo, Name = "Desarrollo de Software" },
-                new { SectionID = sectInfraestructura, Name = "Infraestructura" },
-                new { SectionID = sectEnsamblaje, Name = "Línea de Ensamblaje" },
-                new { SectionID = sectControlCalidad, Name = "Control de Calidad" },
-                new { SectionID = sectMantElectrico, Name = "Mantenimiento Eléctrico" },
-                new { SectionID = sectMantMecanico, Name = "Mantenimiento Mecánico" }
+                section01,
+                section02,
+                section03,
+                section04,
+                section05,
+                section06,
+                section07,
+                section08
             );
+
+            Department department011 = new Department("Conmutación y Enrutamiento Avanzado", section01.SectionID);
+            Department department012 = new Department("Seguridad Perimetral y Firewalls", section01.SectionID);
+            Department department013 = new Department("Reparaciones de Red", section01.SectionID);
+
+            Department department021 = new Department("Servidores y Virtualización", section02.SectionID);
+            Department department022 = new Department("Almacenamiento y Backup", section02.SectionID);
+            Department department023 = new Department("Infraestructura Física y Climatización", section02.SectionID);
+
+            Department department031 = new Department("Instalaciones y Activaciones", section03.SectionID);
+            Department department032 = new Department("Mantenimiento Correctivo y Urgencias", section03.SectionID);
+            Department department033 = new Department("Soporte a Nodos Remotos", section03.SectionID);
+
+            Department department041 = new Department("Diseño y Ingeniería de Red", section04.SectionID);
+            Department department042 = new Department("Despliegue de Fibra Óptica y Acceso", section04.SectionID);
+            Department department043 = new Department("Mediciones y Certificación de Red", section04.SectionID);
+
+            Department department051 = new Department("Infraestructura como Servicio", section05.SectionID);
+            Department department052 = new Department("Plataforma como Servicio", section05.SectionID);
+            Department department053 = new Department("Operaciones Cloud y Escalabilidad", section05.SectionID);
+
+            Department department061 = new Department("Recepción y Diagnóstico Técnico", section06.SectionID);
+            Department department062 = new Department("Reparación y Refabricación", section06.SectionID);
+            Department department063 = new Department("Gestión de Inventario y Distribución", section06.SectionID);
+
+            Department department071 = new Department("Soporte al Usuario y Helpdesk", section07.SectionID);
+            Department department072 = new Department("Comunicaciones Unificadas y Telefonía IP", section07.SectionID);
+            Department department073 = new Department("Gestión de Activos y Red Local", section07.SectionID);
+
+            Department department081 = new Department("Arquitectura y Gestión de Firewalls", section08.SectionID);
+            Department department082 = new Department("Monitorización de Amenazas y SOC", section08.SectionID);
+            Department department083 = new Department("Análisis Forense y Respuesta a Incidentes", section08.SectionID);
+
+            Department department091 = new Department("Planificación Estratégica", section09.SectionID);
+            Department department092 = new Department("Gestión de Riesgos", section09.SectionID);
+            Department department093 = new Department("Relaciones Institucionales", section09.SectionID);
 
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
-                new { DepartmentID = deptTI, Name = "Tecnologías de Información", SectionID = sectDesarrollo },
-                new { DepartmentID = deptProduccion, Name = "Producción", SectionID = sectEnsamblaje },
-                new { DepartmentID = deptMantenimiento, Name = "Mantenimiento", SectionID = sectMantElectrico },
-                new { DepartmentID = deptLogistica, Name = "Logística", SectionID = sectControlCalidad }
+
+                department011, department012, department013,
+                department021, department022, department023,
+                department031, department032, department033,
+                department041, department042, department043,
+                department051, department052, department053,
+                department061, department062, department063,
+                department071, department072, department073,
+                department081, department082, department083
             );
 
             // Seed Users
+
+            Administrator administrator01 = new Administrator("David González", "admin01", department073.DepartmentID);
+            Administrator administrator02 = new Administrator("Laura Martínez", "admin02", department063.DepartmentID);
+            Administrator administrator03 = new Administrator("Javier Rodríguez", "admin03", department063.DepartmentID);
+            Administrator administrator04 = new Administrator("Carmen Sánchez", "admin04", department022.DepartmentID);
+            Administrator administrator05 = new Administrator("Roberto López", "admin05", department013.DepartmentID);
+
             // Administrator
             modelBuilder.Entity<Administrator>().HasData(
-                new 
-                {
-                    UserID = adminID,
-                    FullName = "Administrador Principal",
-                    PasswordHash = "AdminHash123",
-                    DepartmentID = deptTI
-                }
+                administrator01, administrator02, administrator03, administrator04, administrator05
             );
+
+            Director director = new Director("Elena Morales", "dir123", department093.DepartmentID);
 
             // Director
             modelBuilder.Entity<Director>().HasData(
-                new 
-                {
-                    UserID = directorID,
-                    FullName = "Director General",
-                    PasswordHash = "DirHash123",
-                    DepartmentID = deptTI
-                }
+                director
             );
+
+            SectionManager sectionManager01 = new SectionManager("Sofía Ramírez", "manager01", department011.DepartmentID);
+            SectionManager sectionManager02 = new SectionManager("Alejandro Torres", "manager02", department023.DepartmentID);
+            SectionManager sectionManager03 = new SectionManager("Patricia Herrera", "manager03", department031.DepartmentID);
+            SectionManager sectionManager04 = new SectionManager("Ricardo Díaz", "manager04", department041.DepartmentID);
+            SectionManager sectionManager05 = new SectionManager("Isabel Castro", "manager05", department051.DepartmentID);
 
             // SectionManagers
             modelBuilder.Entity<SectionManager>().HasData(
-                new 
-                {
-                    UserID = sectionManager1ID,
-                    FullName = "Gerente Desarrollo",
-                    PasswordHash = "GerHash123",
-                    DepartmentID = deptTI,
-                    SectionID = sectDesarrollo
-                },
-                new 
-                {
-                    UserID = sectionManager2ID,
-                    FullName = "Gerente Producción",
-                    PasswordHash = "GerHash456",
-                    DepartmentID = deptProduccion,
-                    SectionID = sectEnsamblaje
-                }
+                sectionManager01,
+                sectionManager02,
+                sectionManager03,
+                sectionManager04,
+                sectionManager05
             );
+
+            Technician technician01 = new Technician("Carlos Méndez", "tech01", department013, 5, "Redes y Comunicaciones");
+            Technician technician02 = new Technician("Eduardo Vargas", "tech02", department023, 3, "Servidores y Virtualización");
+            Technician technician03 = new Technician("Jorge Silva", "tech03", department033, 7, "Electricidad y Energía");
+            Technician technician04 = new Technician("María Ortega", "tech04", department081, 4, "Ciberseguridad");
+            Technician technician05 = new Technician("Ana López", "tech05", department042, 6, "Fibra Óptica");
 
             // Technicians
             modelBuilder.Entity<Technician>().HasData(
-                new 
-                {
-                    UserID = technician1ID,
-                    FullName = "Técnico Informática",
-                    PasswordHash = "TecHash123",
-                    DepartmentID = deptTI,
-                    YearsOfExperience = 5,
-                    Specialty = "Redes"
-                },
-                new 
-                {
-                    UserID = technician2ID,
-                    FullName = "Técnico Eléctrico",
-                    PasswordHash = "TecHash456",
-                    DepartmentID = deptMantenimiento,
-                    YearsOfExperience = 8,
-                    Specialty = "Electricidad Industrial"
-                }
+                technician01, technician02, technician03, technician04, technician05
             );
 
-            // DeviceReceiver
+            DeviceReceiver receiver01 = new DeviceReceiver("Miguel Ángel Santos", "rec01", department033.DepartmentID);
+            DeviceReceiver receiver02 = new DeviceReceiver("Ana García", "rec02", department012.DepartmentID);
+            DeviceReceiver receiver03 = new DeviceReceiver("Luis Fernández", "rec03", department023.DepartmentID);
+            DeviceReceiver receiver04 = new DeviceReceiver("Marta Jiménez", "rec04", department093.DepartmentID);
+            DeviceReceiver receiver05 = new DeviceReceiver("Carlos Ruiz", "rec05", department062.DepartmentID);
+
+            // EquipmentReceiver
             modelBuilder.Entity<DeviceReceiver>().HasData(
-                new 
-                {
-                    UserID = receiverID,
-                    FullName = "Receptor Equipos",
-                    PasswordHash = "RecHash123",
-                    DepartmentID = deptLogistica
-                }
+                receiver01, receiver02, receiver03, receiver04, receiver05
             );
+
+            Device device01 = new Device("Router de Agregación ASR 9000", DeviceType.ConnectivityAndNetwork, OperationalState.Operational, department032.DepartmentID, dateInEighteenDaysBefore);
+            Device device02 = new Device("Servidor de Virtualización HP DL380", DeviceType.ComputingAndIT, OperationalState.UnderMaintenance, department061.DepartmentID, today);
+            Device device03 = new Device("Firewall de Próxima Generación PA-5200", DeviceType.ConnectivityAndNetwork, OperationalState.Operational, department083.DepartmentID, dateInEighteenDaysBefore);
+            Device device04 = new Device("Sistema UPS Eaton 20kVA", DeviceType.ElectricalInfrastructureAndSupport, OperationalState.Decommissioned, department091.DepartmentID, dateInEighteenDaysBefore);
+            Device device05 = new Device("Antena de Radioenlace AirFiber 5XHD", DeviceType.CommunicationsAndTransmission, OperationalState.Operational, department043.DepartmentID, today);
+            Device device06 = new Device("Analizador de Espectro Viavi", DeviceType.DiagnosticAndMeasurement, OperationalState.Operational, department052.DepartmentID, dateInEighteenDaysBefore);
+
 
             // Seed Devices
             modelBuilder.Entity<Device>().HasData(
-                new 
-                {
-                    DeviceID = device1ID,
-                    Name = "Servidor Principal",
-                    Type = DeviceType.ComputingAndIT,
-                    OperationalState = OperationalState.Operational,
-                    DepartmentID = deptTI,
-                    AcquisitionDate = today.AddYears(-2)
-                },
-                new 
-                {
-                    DeviceID = device2ID,
-                    Name = "Computadora Desarrollo",
-                    Type = DeviceType.ComputingAndIT,
-                    OperationalState = OperationalState.Operational,
-                    DepartmentID = deptTI,
-                    AcquisitionDate = today.AddMonths(-8)
-                },
-                new 
-                {
-                    DeviceID = device3ID,
-                    Name = "Máquina Ensamblaje",
-                    Type = DeviceType.ElectricalInfrastructureAndSupport,
-                    OperationalState = OperationalState.UnderMaintenance,
-                    DepartmentID = deptProduccion,
-                    AcquisitionDate = today.AddYears(-1)
-                },
-                new 
-                {
-                    DeviceID = device4ID,
-                    Name = "Sistema de Comunicación",
-                    Type = DeviceType.CommunicationsAndTransmission,
-                    OperationalState = OperationalState.Operational,
-                    DepartmentID = deptLogistica,
-                    AcquisitionDate = today.AddMonths(-5)
-                }
+                device01, device02, device03, device04, device05, device06
             );
 
-            // Seed MaintenanceRecord
+            MaintenanceRecord maintenance01 = new MaintenanceRecord(technician01.UserID, device01.DeviceID, new DateOnly(2020, 12, 30), 0, "Preventivo");
+            MaintenanceRecord maintenance02 = new MaintenanceRecord(technician02.UserID, device02.DeviceID, new DateOnly(2022, 5, 13), 100, "Correctivo");
+            MaintenanceRecord maintenance03 = new MaintenanceRecord(technician03.UserID, device03.DeviceID, new DateOnly(2022, 10, 10), 20, "Correctivo");
+            MaintenanceRecord maintenance04 = new MaintenanceRecord(technician04.UserID, device04.DeviceID, new DateOnly(2021, 5, 11), 10.5, "Preventivo");
+            MaintenanceRecord maintenance05 = new MaintenanceRecord(technician05.UserID, device05.DeviceID, new DateOnly(2020, 8, 24), 0, "Correctivo");
+            MaintenanceRecord maintenance06 = new MaintenanceRecord(technician03.UserID, device05.DeviceID, new DateOnly(2022, 7, 18), 0, "Correctivo");
+
+            // Seed Mainteinance - Usa DateOnly creados correctamente
             modelBuilder.Entity<MaintenanceRecord>().HasData(
-                new 
-                {
-                    TechnicianID = technician1ID,
-                    DeviceID = device1ID,
-                    Date = DateOnly.FromDateTime(dateInFifteenDays),
-                    Cost = 500.00,
-                    Type = "Preventivo"
-                },
-                new 
-                {
-                    TechnicianID = technician2ID,
-                    DeviceID = device3ID,
-                    Date = DateOnly.FromDateTime(dateInThreeDays),
-                    Cost = 1200.00,
-                    Type = "Correctivo"
-                }
+                maintenance01, maintenance02, maintenance03, maintenance04, maintenance05, maintenance06
             );
+
+            DecommissioningRequest request01 = new DecommissioningRequest(technician03.UserID, device03.DeviceID, receiver03.UserID, dateInFiveDaysBefore);
+            DecommissioningRequest request02 = new DecommissioningRequest(technician04.UserID, device04.DeviceID, receiver04.UserID, dateInFiveDaysBefore);
 
             // Seed DecommissioningRequest
             modelBuilder.Entity<DecommissioningRequest>().HasData(
-                new 
-                {
-                    DecommissioningRequestID = decommissioningReqID,
-                    TechnicianID = technician2ID,
-                    DeviceID = device3ID,
-                    Date = dateInFifteenDaysBefore,
-                    DeviceReceiverID = receiverID
-                }
+                request01,
+                request02
             );
+
+            Decommissioning decommissioning = new Decommissioning(device04.DeviceID, request02.DecommissioningRequestID, receiver04.UserID, department082.DepartmentID, dateInFiveDaysBefore, DecommissioningReason.SeverePhysicalDamage, "Reciclaje");
 
             // Seed Decommissioning
             modelBuilder.Entity<Decommissioning>().HasData(
-                new 
-                {
-                    DecommissioningID = 1,
-                    DecommissioningRequestID = decommissioningReqID,
-                    DeviceReceiverID = receiverID,
-                    DeviceID = device3ID,
-                    DecommissioningDate = dateInFiveDaysBefore,
-                    Reason = DecommissioningReason.TechnologicalObsolescence,
-                    FinalDestination = "Donación a institución educativa",
-                    ReceiverDepartmentID = deptProduccion
-                }
+                decommissioning
             );
+
 
             // Seed ReceivingInspectionRequest
             modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
-                new 
-                {
-                    ReceivingInspectionRequestID = 1,
-                    DeviceID = device2ID,
-                    AdministratorID = adminID,
-                    TechnicianID = technician1ID,
-                    EmissionDate = dateInTwentyDaysBefore,
-                    AcceptedDate = (DateTime?)dateInEighteenDaysBefore,
-                    RejectionDate = (DateTime?)null
-                }
             );
 
             // Seed Rejection
             modelBuilder.Entity<Rejection>().HasData(
-                new 
-                {
-                    RejectionID = 1,
-                    DeviceReceiverID = receiverID,
-                    TechnicianID = technician1ID,
-                    DeviceID = device4ID,
-                    DecommissioningRequestDate = dateInTwentyDaysBefore,
-                    RejectionDate = dateInFifteenDaysBefore
-                }
             );
 
             // Seed PerformanceRating
             modelBuilder.Entity<PerformanceRating>().HasData(
-                new 
-                {
-                    UserID = directorID,
-                    TechnicianID = technician1ID,
-                    Date = dateInTwentyDaysBefore,
-                    Score = 4.5
-                }
             );
         }
     }
