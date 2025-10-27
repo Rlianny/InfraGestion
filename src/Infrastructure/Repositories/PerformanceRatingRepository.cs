@@ -15,8 +15,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(a => a.TechnicianID == technicianId)
-                .Include(a => a.User)
-                .Include(a => a.Technician)
+                .Include(a => a.UserID)
+                .Include(a => a.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(a => a.UserID == userId)
-                .Include(a => a.Technician)
+                .Include(a => a.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -52,8 +52,8 @@ namespace Infrastructure.Repositories
             return await _dbSet
                 .OrderByDescending(a => a.Score)
                 .Take(count)
-                .Include(a => a.Technician)
-                .Include(a => a.User)
+                .Include(a => a.TechnicianID)
+                .Include(a => a.UserID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -61,8 +61,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(a => a.Score < thresholdScore)
-                .Include(a => a.Technician)
-                .Include(a => a.User)
+                .Include(a => a.TechnicianID)
+                .Include(a => a.UserID)
                 .ToListAsync(cancellationToken);
         }
     }

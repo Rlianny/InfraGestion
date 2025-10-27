@@ -189,12 +189,11 @@ namespace Infrastructure.Data
                 sectionManager05
             );
 
-            Technician technician01 = new Technician("Carlos Méndez", "tech01", department013, 5, "Redes y Comunicaciones");
-            Technician technician02 = new Technician("Eduardo Vargas", "tech02", department023, 3, "Servidores y Virtualización");
-            Technician technician03 = new Technician("Jorge Silva", "tech03", department033, 7, "Electricidad y Energía");
-            Technician technician04 = new Technician("María Ortega", "tech04", department081, 4, "Ciberseguridad");
-            Technician technician05 = new Technician("Ana López", "tech05", department042, 6, "Fibra Óptica");
-
+            Technician technician01 = new Technician("Carlos Méndez", "tech01", department013.DepartmentID, 5, "Redes y Comunicaciones");
+            Technician technician02 = new Technician("Eduardo Vargas", "tech02", department023.DepartmentID, 3, "Servidores y Virtualización");
+            Technician technician03 = new Technician("Jorge Silva", "tech03", department033.DepartmentID, 7, "Electricidad y Energía");
+            Technician technician04 = new Technician("María Ortega", "tech04", department081.DepartmentID, 4, "Ciberseguridad");
+            Technician technician05 = new Technician("Ana López", "tech05", department042.DepartmentID, 6, "Fibra Óptica");
             // Technicians
             modelBuilder.Entity<Technician>().HasData(
                 technician01, technician02, technician03, technician04, technician05
