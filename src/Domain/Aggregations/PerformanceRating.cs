@@ -13,16 +13,12 @@ namespace Domain.Aggregations
         public int TechnicianID { get; private set; }
         public DateTime Date { get; private set; }
         public double Score { get; private set; }
-        public virtual Entities.User? User { get; private set; }
-        public virtual Entities.Technician? Technician { get; private set; }
-
+        public int PerformanceRatingID { get; private set; }
         private PerformanceRating() { }
-        public PerformanceRating(User superior, Technician technician, DateTime date, double score)
+        public PerformanceRating(DateTime date, double score, int superiorID, int technicianID)
         {
-            User = superior;
-            Technician = technician;
-            UserID = superior.UserID;
-            TechnicianID = technician.UserID;
+            UserID = superiorID;
+            TechnicianID = technicianID;
             Date = date;
             Score = score;
         }

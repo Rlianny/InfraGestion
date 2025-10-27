@@ -8,12 +8,11 @@ namespace Domain.Entities
 {
         public class DeviceReceiver : User
         {
-
                 public DeviceReceiver(string fullName, string passwordHash) : base(fullName, passwordHash)
                 {
                 }
-        private DeviceReceiver() : base()
-        {
+                private DeviceReceiver() : base()
+                {
+                }
         }
-    }
 }

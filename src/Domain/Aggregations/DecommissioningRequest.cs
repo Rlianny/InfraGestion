@@ -15,19 +15,13 @@ namespace Domain.Aggregations
         public DateTime Date { get; private set; }
         public int DeviceReceiverID { get; private set; }
 
-        public virtual Technician? Technician { get; private set; }
-        public virtual Device? Device { get; private set; }
-        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
-        private DecommissioningRequest() {}
-        public DecommissioningRequest(Technician technician, Device device, DeviceReceiver deviceReceiver, DateTime date)
+        private DecommissioningRequest() { }
+        public DecommissioningRequest(DateTime date, int technicianID, int deviceID, int deviceReceiverID)
         {
-            Technician = technician;
-            Device = device;
-            DeviceReceiver = deviceReceiver;
             Date = date;
-            TechnicianID = technician.UserID;
-            DeviceID = device.DeviceID;
-            DeviceReceiverID = deviceReceiver.UserID;
+            TechnicianID = technicianID;
+            DeviceID = deviceID;
+            DeviceReceiverID = deviceReceiverID;
         }
     }
 }

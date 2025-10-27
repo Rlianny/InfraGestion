@@ -21,25 +21,16 @@ namespace Domain.Aggregations
         public string? FinalDestination { get; private set; }
         public int ReceiverDepartmentID { get; private set; }
 
-        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
-        public virtual Device? Device { get; private set; }
-        public virtual DecommissioningRequest? DecommissioningRequest { get; private set; }
-        public virtual Department? Department { get; private set; }
-
         private Decommissioning() { }
-        public Decommissioning(Device device, DecommissioningRequest decommissioningRequest, DeviceReceiver deviceReceiver, Department receiverDepartment, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
+        public Decommissioning(DateTime decommissioningDate, DecommissioningReason reason, string finalDestination, int deviceReceiverID, int deviceID, int decommissioningRequestID, int receiverDepartmentID)
         {
-            Device = device;
-            DeviceReceiver = deviceReceiver;
-            DecommissioningRequest = decommissioningRequest;
             DecommissioningDate = decommissioningDate;
             Reason = reason;
             FinalDestination = finalDestination;
-            DeviceReceiverID = deviceReceiver.UserID;
-            DeviceID = device.DeviceID;
-            DecommissioningRequestID = decommissioningRequest.DecommissioningRequestID;
-            Department = receiverDepartment;
-            ReceiverDepartmentID = receiverDepartment.DepartmentID;
+            DeviceReceiverID = deviceReceiverID;
+            DeviceID = deviceID;
+            DecommissioningRequestID = decommissioningRequestID;
+            ReceiverDepartmentID = receiverDepartmentID;
         }
     }
 }

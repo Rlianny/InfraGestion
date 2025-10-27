@@ -9,16 +9,13 @@ namespace Domain.Entities
 {
     public class Section
     {
-        public Section(int sectionID, string name)
+        public Section( string name)
         {
-            SectionID = sectionID;
             Name = name;
         }
         private Section()
         {
         }
-
-        public int SectionID { get; private set; }
         public string Name { get; private set; }
 
     }

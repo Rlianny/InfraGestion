@@ -9,13 +9,13 @@ namespace Domain.Aggregations
 {
     public class Transfer
     {
-        public Transfer(DateOnly dateTime, Device device, Section sourceSection, Section destinationSection, DeviceReceiver deviceReceiver)
+        public Transfer(DateOnly dateTime, int deviceID, int sourceSectionID, int destinySectionID, int deviceReceiverID)
         {
             DateTime = dateTime;
-            Device = device;
-            SourceSection = sourceSection;
-            DestinationSection = destinationSection;
-            DeviceReceiver = deviceReceiver;
+            DeviceID = deviceID;
+            SourceSectionID = sourceSectionID;
+            DestinySectionID = destinySectionID;
+            DeviceReceiverID = deviceReceiverID;
         }
         private Transfer()
         {
@@ -27,12 +27,6 @@ namespace Domain.Aggregations
         public int DestinySectionID { get; private set; }
         public int TransferID { get; private set; }
         public int DeviceReceiverID { get; private set; }
-
-        // Navigation properties
-        public virtual Device? Device { get; private set; }
-        public virtual Section? SourceSection { get; private set; }
-        public virtual Section? DestinationSection { get; private set; }
-        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
 
     }
 }
