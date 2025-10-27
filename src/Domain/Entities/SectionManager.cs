@@ -8,8 +8,10 @@ namespace Domain.Entities
 {
     public class SectionManager : User
     {
-        public SectionManager(string fullName, string passwordHash) : base(fullName, passwordHash)
+        public SectionManager(string fullName, string passwordHash, Department department, Section section) : base(fullName, passwordHash, department)
         {
+            Section = section;
+            SectionID = section.SectionID;
         }
         private SectionManager() : base()
         {

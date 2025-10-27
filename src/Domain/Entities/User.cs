@@ -8,10 +8,12 @@ namespace Domain.Entities
 {
     public class User
     {
-        public User(string fullName, string passwordHash)
+        public User(string fullName, string passwordHash, Department department)
         {
             FullName = fullName;
             PasswordHash = passwordHash;
+            Department = department;
+            DepartmentID = department.DepartmentID;
         }
         protected User()
         {
