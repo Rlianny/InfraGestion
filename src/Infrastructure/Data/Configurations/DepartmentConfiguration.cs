@@ -12,6 +12,10 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(d => d.DepartmentID);
 
+            // Configurar generación automática de ID
+            builder.Property(d => d.DepartmentID)
+                .ValueGeneratedOnAdd();
+
             builder.HasOne<Section>()
                 .WithMany()
                 .HasForeignKey(d => d.SectionID)

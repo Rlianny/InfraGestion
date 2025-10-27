@@ -12,6 +12,10 @@ namespace Infrastructure.Data.Configurations
             
             builder.HasKey(u => u.UserID);
 
+            // Configurar generación automática de ID
+            builder.Property(u => u.UserID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(u => u.FullName)
                 .IsRequired()
                 .HasMaxLength(200);

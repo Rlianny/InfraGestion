@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class Technician:User
     {
-        public Technician(string fullName, string passwordHash, Guid departmentID, int yearsOfExperience, string specialty)
+        public Technician(string fullName, string passwordHash, int departmentID, int yearsOfExperience, string specialty)
             : base(fullName, passwordHash, departmentID)
         {
             YearsOfExperience = yearsOfExperience;

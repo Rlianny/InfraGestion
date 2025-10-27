@@ -2,8 +2,8 @@
 {
     public class Department
     {
-        public Guid DepartmentID { get; set; }
-        public Guid SectionID { get; set; }
+        public int DepartmentID { get; set; }
+        public int SectionID { get; set; }
         public virtual Section? Section { get; set; }
     }
 }

@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
+    public class EquipmentConfiguration : IEntityTypeConfiguration<Device>
     {
-        public void Configure(EntityTypeBuilder<Equipment> builder)
+        public void Configure(EntityTypeBuilder<Device> builder)
         {
             builder.ToTable("Equipments");
 
-            builder.HasKey(e => e.EquipmentID);
+            builder.HasKey(e => e.DeviceID);
+
+            // Configurar generación automática de ID
+            builder.Property(e => e.DeviceID)
+                .ValueGeneratedOnAdd();
 
             builder.Property(e => e.Name)
                 .IsRequired()

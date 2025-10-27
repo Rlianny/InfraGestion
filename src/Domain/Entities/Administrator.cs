@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class Administrator : User
     {
-        public Administrator(string fullName, string passwordHash, Guid departmentID) : base(fullName, passwordHash, departmentID)
+        public Administrator(string fullName, string passwordHash, int departmentID) : base(fullName, passwordHash, departmentID)
         {
         }
     }

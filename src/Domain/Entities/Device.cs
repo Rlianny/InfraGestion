@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Equipment
+    public class Device
     {
-        public Guid EquipmentID { get; set; }
+        public int DeviceID { get; set; }
 
         public string Name { get; set; } 
 
-        public EquipmentType Type { get; set; }
+        public DeviceType Type { get; set; }
 
         public OperationalState OperationalState { get; set; }
 
-        public Guid DepartmentID { get; set; }
+        public int DepartmentID { get; set; }
         
         public DateTime AcquisitionDate { get; set; }
 

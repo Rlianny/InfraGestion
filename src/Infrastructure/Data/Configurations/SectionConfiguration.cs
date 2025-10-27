@@ -12,6 +12,10 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(s => s.SectionID);
 
+            // Configurar generación automática de ID
+            builder.Property(s => s.SectionID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(200);

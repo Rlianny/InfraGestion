@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class EquipmentReceiver : User
     {
-        public EquipmentReceiver(string fullName, string passwordHash, Guid departmentID) : base(fullName, passwordHash, departmentID)
+        public EquipmentReceiver(string fullName, string passwordHash, int departmentID) : base(fullName, passwordHash, departmentID)
         {
         }
     }
