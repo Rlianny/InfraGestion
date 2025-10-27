@@ -9,21 +9,25 @@ namespace Domain.Aggregations
 {
     public class DecommissioningRequest
     {
-        public DecommissioningRequest(Guid technicianID, Guid equipmentID, DateTime date)
-        {
-            TechnicianID = technicianID;
-            EquipmentID = equipmentID;
-            Date = date;
-        }
-
-        public Guid TechnicianID { get; set; }
-        public Guid EquipmentID { get; set; }
+        public int TechnicianID { get; set; }
+        public int DeviceID { get; set; }
         public DateTime Date { get; set; }
-        public Guid EquipmentReceiverID { get; set; }
+        public int EquipmentReceiverID { get; set; }
 
         // Navigation properties
         public virtual Technician? Technician { get; set; }
-        public virtual Equipment? Equipment { get; set; }
-        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual Device? Device { get; set; }
+        public virtual DeviceReceiver? DeviceReceiver { get; set; }
+        private DecommissioningRequest() {}
+        public DecommissioningRequest(Technician technician, Device device, DeviceReceiver deviceReceiver, DateTime date)
+        {
+            Technician = technician;
+            Device = device;
+            DeviceReceiver = deviceReceiver;
+            Date = date;
+            TechnicianID = technician.UserID;
+            DeviceID = device.DeviceID;
+            EquipmentReceiverID = deviceReceiver.UserID;
+        }
     }
 }

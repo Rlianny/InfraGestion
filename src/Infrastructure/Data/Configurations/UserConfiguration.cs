@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Configurations
                 .HasValue<Director>("Director")
                 .HasValue<Technician>("Technician")
                 .HasValue<SectionManager>("SectionManager")
-                .HasValue<EquipmentReceiver>("EquipmentReceiver");
+                .HasValue<DeviceReceiver>("EquipmentReceiver");
         }
     }
 }

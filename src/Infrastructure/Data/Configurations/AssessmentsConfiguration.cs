@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class AssessmentsConfiguration : IEntityTypeConfiguration<Assessments>
+    public class AssessmentsConfiguration : IEntityTypeConfiguration<PerformanceRating>
     {
-        public void Configure(EntityTypeBuilder<Assessments> builder)
+        public void Configure(EntityTypeBuilder<PerformanceRating> builder)
         {
             builder.ToTable("Assessments");
 

@@ -27,5 +27,6 @@ namespace Domain.Aggregations
         public virtual Section? SourceSection { get; private set; }
         public virtual Section? DestinySection { get; private set; }
         public virtual DeviceReceiver? DeviceReceiver { get; private set; }
+
     }
 }

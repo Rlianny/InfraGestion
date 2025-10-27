@@ -18,7 +18,7 @@ namespace Infrastructure.Data.Configurations
             builder.Property(r => r.RejectionDate)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.EquipmentReceiver>()
+            builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
                 .HasForeignKey(r => r.EquipmentReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);

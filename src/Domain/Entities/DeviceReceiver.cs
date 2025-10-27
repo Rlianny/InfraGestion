@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class EquipmentReceiver : User
+    public class DeviceReceiver : User
     {
-        public EquipmentReceiver(string fullName, string passwordHash) : base(fullName, passwordHash)
+
+        public DeviceReceiver(string fullName, string passwordHash) : base(fullName, passwordHash)
         {
         }
     }

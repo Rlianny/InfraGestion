@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +10,44 @@ namespace Domain.Aggregations
 {
     public class Decommissioning
     {
-        public Decommissioning(Guid decommissioningRequestID, Guid equipmentReceiverID, Guid equipmentID, DateTime decommissioningDate, DateTime requestDate, string reason, string finalDestination)
+        public int DeviceReceiverID { get; set; }
+        public int DecommissioningRequestID { get; set; }  
+        public int EquipmentID { get; set; }
+        
+        public DateTime DecommissioningDate
         {
-            DecommissioningRequestID = decommissioningRequestID;
-            EquipmentReceiverID = equipmentReceiverID;
-            EquipmentID = equipmentID;
-            DecommissioningDate = decommissioningDate;
-            RequestDate = requestDate;
-            Reason = reason;
-            FinalDestination = finalDestination;
+            get { return decommissioningDate; }
+            private set { }
         }
+        private DateTime decommissioningDate;
 
-        public Guid DecommissioningRequestID { get; set; }  
-        public Guid EquipmentReceiverID { get; set; }
-        public Guid EquipmentID { get; set; }
-        public DateTime DecommissioningDate { get; set; }
-        public DateTime RequestDate { get; set; }
-        public Guid DepartmentID { get; set; }
-        public string Reason { get; set; }
-        public string FinalDestination { get; set; }
+        public DecommissioningReason Reason
+        {
+            get { return reason; }
+            private set { }
+        }
+        private DecommissioningReason reason;
 
-        // Navigation properties
-        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
-        public virtual Equipment? Equipment { get; set; }
+        public string FinalDestination
+        {
+            get { return finalDestination; }
+            private set { }
+        }
+        private string finalDestination;
+        public int ReceiverDepartment { get; set; }
+        
+        public virtual DeviceReceiver? DeviceReceiver { get; set; }
+        public virtual Device? Equipment { get; set; }
+        public virtual DecommissioningRequest? DecommissioningRequest { get; set; }
         public virtual Department? Department { get; set; }
+        public Decommissioning(Device device, DecommissioningRequest decommissioningRequest,DeviceReceiver deviceReceiver, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
+        {
+            Equipment = device;
+            DeviceReceiver = deviceReceiver;
+            DecommissioningRequest = decommissioningRequest;
+            this.decommissioningDate = decommissioningDate;
+            this.reason = reason;
+            this.finalDestination = finalDestination;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Mainteinances");
 
-            builder.HasKey(m => new { m.TechnicianID, m.EquipmentID, m.Date });
+            builder.HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 
             builder.Property(m => m.Cost)
                 .IsRequired()
@@ -27,7 +27,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Equipment>()
                 .WithMany()
-                .HasForeignKey(m => m.EquipmentID)
+                .HasForeignKey(m => m.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

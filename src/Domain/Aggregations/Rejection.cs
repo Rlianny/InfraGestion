@@ -25,5 +25,5 @@ namespace Domain.Aggregations
         public virtual Entities.DeviceReceiver? DeviceReceiver { get; private set; }
         public virtual Entities.Technician? Technician { get; private set; }
         public virtual Entities.Device? Device { get; private set; }
-    }
+   }
 }
