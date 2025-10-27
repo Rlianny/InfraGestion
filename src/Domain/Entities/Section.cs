@@ -11,12 +11,15 @@ namespace Domain.Entities
     {
         public Section(int sectionID, string name)
         {
-            SectionID = sectionID;
             Name = name;
         }
+        private Section()
+        {
+            Name = String.Empty;
+        }
 
-        public int SectionID { get; set; }
-        public string Name { get; set; }
-        
+        public int SectionID { get; private set; }
+        public string Name { get; private set; }
+
     }
 }

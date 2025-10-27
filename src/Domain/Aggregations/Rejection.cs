@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Domain.Aggregations
 {
     public class Rejection
     {
-        public Rejection(Guid equipmentReceiverID, Guid technicianID, Guid equipmentID, DateTime decommissioningRequestDate, DateTime rejectionDate)
+        public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate, DeviceReceiver deviceReceiver, Device device, Technician technician)
         {
-            EquipmentReceiverID = equipmentReceiverID;
-            TechnicianID = technicianID;
-            EquipmentID = equipmentID;
             DecommissioningRequestDate = decommissioningRequestDate;
             RejectionDate = rejectionDate;
+            DeviceReceiver = deviceReceiver;
+            Technician = technician;
+            Device = device;
+
+        }
+        private Rejection()
+        {
         }
 
-        public Guid EquipmentReceiverID { get; set; }
-        public Guid TechnicianID { get; set; }
-        public Guid EquipmentID { get; set; }
-        public DateTime DecommissioningRequestDate { get; set; }
-        public DateTime RejectionDate { get; set; }
+        public int DeviceReceiverID { get; private set; }
+        public int TechnicianID { get; private set; }
+        public int DeviceID { get; private set; }
+        public DateTime DecommissioningRequestDate { get; private set; }
+        public DateTime RejectionDate { get; private set; }
 
         // Navigation properties
-        public virtual Entities.EquipmentReceiver? EquipmentReceiver { get; set; }
-        public virtual Entities.Technician? Technician { get; set; }
-        public virtual Entities.Equipment? Equipment { get; set; }
+        public virtual Entities.DeviceReceiver? DeviceReceiver { get; private set; }
+        public virtual Entities.Technician? Technician { get; private set; }
+        public virtual Entities.Device? Device { get; private set; }
     }
 }

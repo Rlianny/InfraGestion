@@ -11,18 +11,30 @@ namespace Domain.Entities
 {
     public class Device
     {
-        public int DeviceID { get; set; }
+        public int DeviceID { get; private set; }
 
-        public string Name { get; set; } 
+        public string Name { get; private set; }
 
-        public DeviceType Type { get; set; }
+        public DeviceType Type { get; private set; }
 
-        public OperationalState OperationalState { get; set; }
+        public OperationalState OperationalState { get; private set; }
+        public int DepartmentID { get; private set; }
 
-        public int DepartmentID { get; set; }
-        
-        public DateTime AcquisitionDate { get; set; }
+        public DateTime AcquisitionDate { get; private set; }
 
-        public virtual Department? Department { get; set; }
+        public virtual Department? Department { get; private set; }
+        private Device()
+        {
+            Name = String.Empty;
+        }
+        public Device(string name, DeviceType type, OperationalState operationalState, Department department, DateTime acquisitionDate)
+        {
+            Name = name;
+            Type = type;
+            OperationalState = operationalState;
+            AcquisitionDate = acquisitionDate;
+            Department = department;
+            DepartmentID = department.DepartmentID;
+        }
     }
 }

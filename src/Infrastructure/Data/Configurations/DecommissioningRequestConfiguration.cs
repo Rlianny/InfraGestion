@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("DecommissioningRequests");
 
-            builder.HasKey(dr => new { dr.TechnicianID, dr.EquipmentID, dr.Date });
+            builder.HasKey(dr => new { dr.TechnicianID, dr.DeviceID, dr.Date });
 
             builder.Property(dr => dr.Date)
                 .IsRequired();
@@ -22,10 +22,10 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Equipment>()
                 .WithMany()
-                .HasForeignKey(dr => dr.EquipmentID)
+                .HasForeignKey(dr => dr.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.EquipmentReceiver>()
+            builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
                 .HasForeignKey(dr => dr.EquipmentReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);

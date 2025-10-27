@@ -18,33 +18,33 @@ namespace Infrastructure.Data
         public DbSet<Director> Directors { get; set; }
         public DbSet<Technician> Technicians { get; set; }
         public DbSet<SectionManager> SectionManagers { get; set; }
-        public DbSet<EquipmentReceiver> EquipmentReceivers { get; set; }
+        public DbSet<DeviceReceiver> EquipmentReceivers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Device> Devices { get; set; }
 
         // Aggregations
         public DbSet<Transfer> Transfers { get; set; }
-        public DbSet<Mainteinance> Mainteinances { get; set; }
+        public DbSet<MaintenanceRecord> Mainteinances { get; set; }
         public DbSet<Decommissioning> Decommissionings { get; set; }
         public DbSet<DecommissioningRequest> DecommissioningRequests { get; set; }
         public DbSet<ReceivingInspectionRequest> ReceivingInspectionRequests { get; set; }
         public DbSet<Rejection> Rejections { get; set; }
-        public DbSet<Assessments> Assessments { get; set; }
+        public DbSet<PerformanceRating> Assessments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Configurar claves primarias para todas las entidades
-            modelBuilder.Entity<Assessments>()
+            modelBuilder.Entity<PerformanceRating>()
                 .HasKey(a => new { a.UserID, a.TechnicianID, a.Date });
 
             modelBuilder.Entity<Decommissioning>()
                 .HasKey(d => d.DecommissioningRequestID);
 
             modelBuilder.Entity<DecommissioningRequest>()
-                .HasKey(dr => new { dr.TechnicianID, dr.EquipmentID, dr.Date });
+                .HasKey(dr => new { dr.TechnicianID, dr.DeviceID, dr.Date });
 
             modelBuilder.Entity<ReceivingInspectionRequest>()
                 .HasKey(r => new { r.EquipmentID, r.AdministratorID, r.TechnicianID });
@@ -55,8 +55,8 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Transfer>()
                 .HasKey(t => t.TransferID);
 
-            modelBuilder.Entity<Mainteinance>()
-                .HasKey(m => new { m.TechnicianID, m.EquipmentID, m.Date });
+            modelBuilder.Entity<MaintenanceRecord>()
+                .HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 
             // Configuraciones para User y sus herederos
             modelBuilder.Entity<User>()
@@ -200,7 +200,7 @@ namespace Infrastructure.Data
             );
 
             // EquipmentReceiver
-            modelBuilder.Entity<EquipmentReceiver>().HasData(
+            modelBuilder.Entity<DeviceReceiver>().HasData(
                 new EquipmentReceiver("Receptor Equipos", "RecHash123", deptLogistica)
                 {
                     UserID = receiverID,
@@ -251,11 +251,11 @@ namespace Infrastructure.Data
             );
 
             // Seed Mainteinance - Usa DateOnly creados correctamente
-            modelBuilder.Entity<Mainteinance>().HasData(
+            modelBuilder.Entity<MaintenanceRecord>().HasData(
                 new Mainteinance(technician1ID, equip1ID, DateOnly.FromDateTime(dateInFifteenDays), 500.00, "Preventivo")
                 {
                     TechnicianID = technician1ID,
-                    EquipmentID = equip1ID,
+                    DeviceID = equip1ID,
                     Date = DateOnly.FromDateTime(dateInFifteenDays),
                     Cost = 500.00,
                     Type = "Preventivo"
@@ -263,7 +263,7 @@ namespace Infrastructure.Data
                 new Mainteinance(technician2ID, equip3ID, DateOnly.FromDateTime(dateInThreeDays), 1200.00, "Correctivo")
                 {
                     TechnicianID = technician2ID,
-                    EquipmentID = equip3ID,
+                    DeviceID = equip3ID,
                     Date = DateOnly.FromDateTime(dateInThreeDays),
                     Cost = 1200.00,
                     Type = "Correctivo"
@@ -275,7 +275,7 @@ namespace Infrastructure.Data
                 new DecommissioningRequest(technician2ID, equip3ID, dateInFifteenDaysBefore)
                 {
                     TechnicianID = technician2ID,
-                    EquipmentID = equip3ID,
+                    DeviceID = equip3ID,
                     Date = dateInFifteenDaysBefore,
                     EquipmentReceiverID = receiverID
                 }
@@ -293,7 +293,7 @@ namespace Infrastructure.Data
                     "Donación a institución educativa")
                 {
                     DecommissioningRequestID = decommissioningReqID,
-                    EquipmentReceiverID = receiverID,
+                    DeviceReceiverID = receiverID,
                     EquipmentID = equip3ID,
                     DecommissioningDate = dateInFiveDaysBefore,
                     RequestDate = dateInFifteenDaysBefore,
@@ -329,7 +329,7 @@ namespace Infrastructure.Data
             );
 
             // Seed Assessments
-            modelBuilder.Entity<Assessments>().HasData(
+            modelBuilder.Entity<PerformanceRating>().HasData(
                 new Assessments(directorID, technician1ID, dateInTwentyDaysBefore, 4.5)
                 {
                     UserID = directorID,

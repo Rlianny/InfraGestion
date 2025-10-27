@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class SectionManager:User
+    public class SectionManager : User
     {
-        public SectionManager(string fullName, string passwordHash, int departmentID, int sectionID) : base(fullName, passwordHash, departmentID)
+        public SectionManager(string fullName, string passwordHash, Department department, Section section) : base(fullName, passwordHash, department)
         {
-            SectionID = sectionID;
+            Section = section;
+            SectionID = section.SectionID;
+        }
+        private SectionManager() : base()
+        {
         }
 
-        public int SectionID { get; set; }
 
-        public virtual Section? Section { get; set; }
+        public int SectionID { get; private set; }
+
+        public virtual Section? Section { get; private set; }
     }
 }

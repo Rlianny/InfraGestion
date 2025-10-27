@@ -7,27 +7,27 @@ using System.Threading.Tasks;
 
 namespace Domain.Aggregations
 {
-    public class DecommissioningRequest
+    public class MaintenanceRecord
     {
-        public int DecommissioningRequestID { get; private set; }
         public int TechnicianID { get; private set; }
         public int DeviceID { get; private set; }
-        public DateTime Date { get; private set; }
-        public int DeviceReceiverID { get; private set; }
+        public DateOnly Date { get; private set; }
+        public double Cost { get; private set; }    
+        public string? Type { get; private set; }
 
         public virtual Technician? Technician { get; private set; }
         public virtual Device? Device { get; private set; }
-        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
-        private DecommissioningRequest() {}
-        public DecommissioningRequest(Technician technician, Device device, DeviceReceiver deviceReceiver, DateTime date)
+
+        private MaintenanceRecord() { }
+        public MaintenanceRecord(Technician technician, Device device, DateOnly date, double cost, string type)
         {
             Technician = technician;
             Device = device;
-            DeviceReceiver = deviceReceiver;
-            Date = date;
             TechnicianID = technician.UserID;
             DeviceID = device.DeviceID;
-            DeviceReceiverID = deviceReceiver.UserID;
+            Date = date;
+            Cost = cost;
+            Type = type;
         }
     }
 }

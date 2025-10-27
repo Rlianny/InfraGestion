@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class MainteinanceConfiguration : IEntityTypeConfiguration<Mainteinance>
+    public class MainteinanceConfiguration : IEntityTypeConfiguration<MaintenanceRecord>
     {
-        public void Configure(EntityTypeBuilder<Mainteinance> builder)
+        public void Configure(EntityTypeBuilder<MaintenanceRecord> builder)
         {
             builder.ToTable("Mainteinances");
 
-            builder.HasKey(m => new { m.TechnicianID, m.EquipmentID, m.Date });
+            builder.HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 
             builder.Property(m => m.Cost)
                 .IsRequired()
@@ -27,7 +27,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Equipment>()
                 .WithMany()
-                .HasForeignKey(m => m.EquipmentID)
+                .HasForeignKey(m => m.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

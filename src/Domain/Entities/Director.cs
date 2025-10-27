@@ -8,8 +8,7 @@ namespace Domain.Entities
 {
     public class Director : User
     {
-        public Director(string fullName, string passwordHash, Guid departmentID) : base(fullName, passwordHash, departmentID)
-        {
-        }
+        public Director(string fullName, string passwordHash, Department department) : base(fullName, passwordHash, department) { }
+        private Director() : base() { }
     }
 }
