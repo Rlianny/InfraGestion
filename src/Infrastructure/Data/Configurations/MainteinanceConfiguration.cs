@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Configurations
                 .HasForeignKey(m => m.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
                 .HasForeignKey(m => m.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);

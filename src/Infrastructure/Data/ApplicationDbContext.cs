@@ -18,10 +18,10 @@ namespace Infrastructure.Data
         public DbSet<Director> Directors { get; set; }
         public DbSet<Technician> Technicians { get; set; }
         public DbSet<SectionManager> SectionManagers { get; set; }
-        public DbSet<DeviceReceiver> EquipmentReceivers { get; set; }
+        public DbSet<DeviceReceiver> DeviceReceivers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
-        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Device> Devices { get; set; }
 
         // Aggregations
         public DbSet<Transfer> Transfers { get; set; }
@@ -47,10 +47,10 @@ namespace Infrastructure.Data
                 .HasKey(dr => new { dr.TechnicianID, dr.DeviceID, dr.Date });
 
             modelBuilder.Entity<ReceivingInspectionRequest>()
-                .HasKey(r => new { r.EquipmentID, r.AdministratorID, r.TechnicianID });
+                .HasKey(r => new { r.DeviceID, r.AdministratorID, r.TechnicianID });
 
             modelBuilder.Entity<Rejection>()
-                .HasKey(r => new { r.EquipmentReceiverID, r.TechnicianID, r.EquipmentID });
+                .HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID });
 
             modelBuilder.Entity<Transfer>()
                 .HasKey(t => t.TransferID);
@@ -62,8 +62,8 @@ namespace Infrastructure.Data
             modelBuilder.Entity<User>()
                 .HasKey(u => u.UserID);
 
-            modelBuilder.Entity<Equipment>()
-                .HasKey(e => e.EquipmentID);
+            modelBuilder.Entity<Device>()
+                .HasKey(e => e.DeviceID);
 
             modelBuilder.Entity<Department>()
                 .HasKey(d => d.DepartmentID);
@@ -71,40 +71,36 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Section>()
                 .HasKey(s => s.SectionID);
 
-            // Definir GUIDs constantes para las referencias
-            var deptTI = Guid.Parse("8e9b1cc0-35d3-4bf2-9f2c-5e00a21d92a8");
-            var deptProduccion = Guid.Parse("b4c493f9-6b62-48f4-b293-28e30b3d77a8");
-            var deptMantenimiento = Guid.Parse("1c0c1962-b336-42bf-a9e0-7b1098da51c4");
-            var deptLogistica = Guid.Parse("5abcde20-13fa-416f-85b9-ad1a00ca5959");
+            // Definir IDs constantes para las referencias (usando int en lugar de Guid)
+            var deptTI = 1;
+            var deptProduccion = 2;
+            var deptMantenimiento = 3;
+            var deptLogistica = 4;
 
-            var sectDesarrollo = Guid.Parse("2a48f950-9a2d-42e4-b324-d510c101247a");
-            var sectInfraestructura = Guid.Parse("3f9edad3-41fd-47df-b0af-0f7cc9c28de7");
-            var sectEnsamblaje = Guid.Parse("53a63a6f-eecc-4a53-83e1-66d8a972cb52");
-            var sectControlCalidad = Guid.Parse("64e12757-0e8d-4b2f-98be-234c37d44553");
-            var sectMantElectrico = Guid.Parse("75f23a48-a4b2-4cc9-8c09-f05778d559fd");
-            var sectMantMecanico = Guid.Parse("86a34c3a-5bb1-4dad-9c0f-77d1469820de");
+            var sectDesarrollo = 1;
+            var sectInfraestructura = 2;
+            var sectEnsamblaje = 3;
+            var sectControlCalidad = 4;
+            var sectMantElectrico = 5;
+            var sectMantMecanico = 6;
 
-            // GUIDs para los usuarios
-            var adminID = Guid.Parse("11111111-1111-1111-1111-111111111111");
-            var directorID = Guid.Parse("22222222-2222-2222-2222-222222222222");
-            var sectionManager1ID = Guid.Parse("33333333-3333-3333-3333-333333333333");
-            var sectionManager2ID = Guid.Parse("44444444-4444-4444-4444-444444444444");
-            var technician1ID = Guid.Parse("55555555-5555-5555-5555-555555555555");
-            var technician2ID = Guid.Parse("66666666-6666-6666-6666-666666666666");
-            var receiverID = Guid.Parse("77777777-7777-7777-7777-777777777777");
+            // IDs para los usuarios
+            var adminID = 1;
+            var directorID = 2;
+            var sectionManager1ID = 3;
+            var sectionManager2ID = 4;
+            var technician1ID = 5;
+            var technician2ID = 6;
+            var receiverID = 7;
 
-            // GUIDs para equipos
-            var equip1ID = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-            var equip2ID = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
-            var equip3ID = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
-            var equip4ID = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
+            // IDs para equipos (devices)
+            var device1ID = 1;
+            var device2ID = 2;
+            var device3ID = 3;
+            var device4ID = 4;
 
-            // GUIDs para agregaciones
-            var transfer1ID = Guid.Parse("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1");
-            var maintainance1ID = Guid.Parse("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1");
-            var maintainance2ID = Guid.Parse("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2");
-            var decommissioningReqID = Guid.Parse("abcdef01-abcd-abcd-abcd-abcdef012345");
-            var decommissioningID = Guid.Parse("fedcba98-fedc-fedc-fedc-fedcba987654");
+            // IDs para agregaciones
+            var decommissioningReqID = 1;
 
             // Fechas base para evitar errores
             var today = DateTime.Today;
@@ -118,26 +114,26 @@ namespace Infrastructure.Data
 
             // Seed Sections primero (ya que Department depende de Section)
             modelBuilder.Entity<Section>().HasData(
-                new Section(sectDesarrollo, "Desarrollo de Software") { SectionID = sectDesarrollo, Name = "Desarrollo de Software" },
-                new Section(sectInfraestructura, "Infraestructura") { SectionID = sectInfraestructura, Name = "Infraestructura" },
-                new Section(sectEnsamblaje, "Línea de Ensamblaje") { SectionID = sectEnsamblaje, Name = "Línea de Ensamblaje" },
-                new Section(sectControlCalidad, "Control de Calidad") { SectionID = sectControlCalidad, Name = "Control de Calidad" },
-                new Section(sectMantElectrico, "Mantenimiento Eléctrico") { SectionID = sectMantElectrico, Name = "Mantenimiento Eléctrico" },
-                new Section(sectMantMecanico, "Mantenimiento Mecánico") { SectionID = sectMantMecanico, Name = "Mantenimiento Mecánico" }
+                new { SectionID = sectDesarrollo, Name = "Desarrollo de Software" },
+                new { SectionID = sectInfraestructura, Name = "Infraestructura" },
+                new { SectionID = sectEnsamblaje, Name = "Línea de Ensamblaje" },
+                new { SectionID = sectControlCalidad, Name = "Control de Calidad" },
+                new { SectionID = sectMantElectrico, Name = "Mantenimiento Eléctrico" },
+                new { SectionID = sectMantMecanico, Name = "Mantenimiento Mecánico" }
             );
 
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
-                new Department { DepartmentID = deptTI, SectionID = sectDesarrollo },
-                new Department { DepartmentID = deptProduccion, SectionID = sectEnsamblaje },
-                new Department { DepartmentID = deptMantenimiento, SectionID = sectMantElectrico },
-                new Department { DepartmentID = deptLogistica, SectionID = sectControlCalidad }
+                new { DepartmentID = deptTI, Name = "Tecnologías de Información", SectionID = sectDesarrollo },
+                new { DepartmentID = deptProduccion, Name = "Producción", SectionID = sectEnsamblaje },
+                new { DepartmentID = deptMantenimiento, Name = "Mantenimiento", SectionID = sectMantElectrico },
+                new { DepartmentID = deptLogistica, Name = "Logística", SectionID = sectControlCalidad }
             );
 
             // Seed Users
             // Administrator
             modelBuilder.Entity<Administrator>().HasData(
-                new Administrator("Administrador Principal", "AdminHash123", deptTI)
+                new 
                 {
                     UserID = adminID,
                     FullName = "Administrador Principal",
@@ -148,7 +144,7 @@ namespace Infrastructure.Data
 
             // Director
             modelBuilder.Entity<Director>().HasData(
-                new Director("Director General", "DirHash123", deptTI)
+                new 
                 {
                     UserID = directorID,
                     FullName = "Director General",
@@ -159,7 +155,7 @@ namespace Infrastructure.Data
 
             // SectionManagers
             modelBuilder.Entity<SectionManager>().HasData(
-                new SectionManager("Gerente Desarrollo", "GerHash123", deptTI, sectDesarrollo)
+                new 
                 {
                     UserID = sectionManager1ID,
                     FullName = "Gerente Desarrollo",
@@ -167,7 +163,7 @@ namespace Infrastructure.Data
                     DepartmentID = deptTI,
                     SectionID = sectDesarrollo
                 },
-                new SectionManager("Gerente Producción", "GerHash456", deptProduccion, sectEnsamblaje)
+                new 
                 {
                     UserID = sectionManager2ID,
                     FullName = "Gerente Producción",
@@ -179,7 +175,7 @@ namespace Infrastructure.Data
 
             // Technicians
             modelBuilder.Entity<Technician>().HasData(
-                new Technician("Técnico Informática", "TecHash123", deptTI, 5, "Redes")
+                new 
                 {
                     UserID = technician1ID,
                     FullName = "Técnico Informática",
@@ -188,7 +184,7 @@ namespace Infrastructure.Data
                     YearsOfExperience = 5,
                     Specialty = "Redes"
                 },
-                new Technician("Técnico Eléctrico", "TecHash456", deptMantenimiento, 8, "Electricidad Industrial")
+                new 
                 {
                     UserID = technician2ID,
                     FullName = "Técnico Eléctrico",
@@ -199,9 +195,9 @@ namespace Infrastructure.Data
                 }
             );
 
-            // EquipmentReceiver
+            // DeviceReceiver
             modelBuilder.Entity<DeviceReceiver>().HasData(
-                new EquipmentReceiver("Receptor Equipos", "RecHash123", deptLogistica)
+                new 
                 {
                     UserID = receiverID,
                     FullName = "Receptor Equipos",
@@ -210,60 +206,60 @@ namespace Infrastructure.Data
                 }
             );
 
-            // Seed Equipment
-            modelBuilder.Entity<Equipment>().HasData(
-                new Equipment
+            // Seed Devices
+            modelBuilder.Entity<Device>().HasData(
+                new 
                 {
-                    EquipmentID = equip1ID,
+                    DeviceID = device1ID,
                     Name = "Servidor Principal",
-                    Type = DeviceType.Informatical,
-                    OperationalState = default(OperationalState),
+                    Type = DeviceType.ComputingAndIT,
+                    OperationalState = OperationalState.Operational,
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddYears(-2)
                 },
-                new Equipment
+                new 
                 {
-                    EquipmentID = equip2ID,
+                    DeviceID = device2ID,
                     Name = "Computadora Desarrollo",
-                    Type = DeviceType.Informatical,
-                    OperationalState = default(OperationalState),
+                    Type = DeviceType.ComputingAndIT,
+                    OperationalState = OperationalState.Operational,
                     DepartmentID = deptTI,
                     AcquisitionDate = today.AddMonths(-8)
                 },
-                new Equipment
+                new 
                 {
-                    EquipmentID = equip3ID,
+                    DeviceID = device3ID,
                     Name = "Máquina Ensamblaje",
-                    Type = DeviceType.Electrical,
-                    OperationalState = default(OperationalState),
+                    Type = DeviceType.ElectricalInfrastructureAndSupport,
+                    OperationalState = OperationalState.UnderMaintenance,
                     DepartmentID = deptProduccion,
                     AcquisitionDate = today.AddYears(-1)
                 },
-                new Equipment
+                new 
                 {
-                    EquipmentID = equip4ID,
+                    DeviceID = device4ID,
                     Name = "Sistema de Comunicación",
-                    Type = DeviceType.Comunicational,
-                    OperationalState = default(OperationalState),
+                    Type = DeviceType.CommunicationsAndTransmission,
+                    OperationalState = OperationalState.Operational,
                     DepartmentID = deptLogistica,
                     AcquisitionDate = today.AddMonths(-5)
                 }
             );
 
-            // Seed Mainteinance - Usa DateOnly creados correctamente
+            // Seed MaintenanceRecord
             modelBuilder.Entity<MaintenanceRecord>().HasData(
-                new Mainteinance(technician1ID, equip1ID, DateOnly.FromDateTime(dateInFifteenDays), 500.00, "Preventivo")
+                new 
                 {
                     TechnicianID = technician1ID,
-                    DeviceID = equip1ID,
+                    DeviceID = device1ID,
                     Date = DateOnly.FromDateTime(dateInFifteenDays),
                     Cost = 500.00,
                     Type = "Preventivo"
                 },
-                new Mainteinance(technician2ID, equip3ID, DateOnly.FromDateTime(dateInThreeDays), 1200.00, "Correctivo")
+                new 
                 {
                     TechnicianID = technician2ID,
-                    DeviceID = equip3ID,
+                    DeviceID = device3ID,
                     Date = DateOnly.FromDateTime(dateInThreeDays),
                     Cost = 1200.00,
                     Type = "Correctivo"
@@ -272,65 +268,61 @@ namespace Infrastructure.Data
 
             // Seed DecommissioningRequest
             modelBuilder.Entity<DecommissioningRequest>().HasData(
-                new DecommissioningRequest(technician2ID, equip3ID, dateInFifteenDaysBefore)
+                new 
                 {
+                    DecommissioningRequestID = decommissioningReqID,
                     TechnicianID = technician2ID,
-                    DeviceID = equip3ID,
+                    DeviceID = device3ID,
                     Date = dateInFifteenDaysBefore,
-                    EquipmentReceiverID = receiverID
+                    DeviceReceiverID = receiverID
                 }
             );
 
             // Seed Decommissioning
             modelBuilder.Entity<Decommissioning>().HasData(
-                new Decommissioning(
-                    decommissioningReqID,
-                    receiverID,
-                    equip3ID,
-                    dateInFiveDaysBefore,
-                    dateInFifteenDaysBefore,
-                    "Equipo obsoleto",
-                    "Donación a institución educativa")
+                new 
                 {
+                    DecommissioningID = 1,
                     DecommissioningRequestID = decommissioningReqID,
                     DeviceReceiverID = receiverID,
-                    EquipmentID = equip3ID,
+                    DeviceID = device3ID,
                     DecommissioningDate = dateInFiveDaysBefore,
-                    RequestDate = dateInFifteenDaysBefore,
-                    DepartmentID = deptProduccion,
-                    Reason = "Equipo obsoleto",
-                    FinalDestination = "Donación a institución educativa"
+                    Reason = DecommissioningReason.TechnologicalObsolescence,
+                    FinalDestination = "Donación a institución educativa",
+                    ReceiverDepartmentID = deptProduccion
                 }
             );
 
             // Seed ReceivingInspectionRequest
             modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
-                new ReceivingInspectionRequest(equip2ID, adminID, technician1ID, dateInTwentyDaysBefore)
+                new 
                 {
-                    EquipmentID = equip2ID,
+                    ReceivingInspectionRequestID = 1,
+                    DeviceID = device2ID,
                     AdministratorID = adminID,
                     TechnicianID = technician1ID,
                     EmissionDate = dateInTwentyDaysBefore,
-                    AcceptedDate = dateInEighteenDaysBefore,
-                    RejectionDate = null
+                    AcceptedDate = (DateTime?)dateInEighteenDaysBefore,
+                    RejectionDate = (DateTime?)null
                 }
             );
 
             // Seed Rejection
             modelBuilder.Entity<Rejection>().HasData(
-                new Rejection(receiverID, technician1ID, equip4ID, dateInTwentyDaysBefore, dateInFifteenDaysBefore)
+                new 
                 {
-                    EquipmentReceiverID = receiverID,
+                    RejectionID = 1,
+                    DeviceReceiverID = receiverID,
                     TechnicianID = technician1ID,
-                    EquipmentID = equip4ID,
+                    DeviceID = device4ID,
                     DecommissioningRequestDate = dateInTwentyDaysBefore,
                     RejectionDate = dateInFifteenDaysBefore
                 }
             );
 
-            // Seed Assessments
+            // Seed PerformanceRating
             modelBuilder.Entity<PerformanceRating>().HasData(
-                new Assessments(directorID, technician1ID, dateInTwentyDaysBefore, 4.5)
+                new 
                 {
                     UserID = directorID,
                     TechnicianID = technician1ID,

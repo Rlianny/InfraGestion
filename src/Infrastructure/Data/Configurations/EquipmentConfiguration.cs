@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class EquipmentConfiguration : IEntityTypeConfiguration<Device>
+    public class DeviceConfiguration : IEntityTypeConfiguration<Device>
     {
         public void Configure(EntityTypeBuilder<Device> builder)
         {
-            builder.ToTable("Equipments");
+            builder.ToTable("Devices");
 
             builder.HasKey(e => e.DeviceID);
 

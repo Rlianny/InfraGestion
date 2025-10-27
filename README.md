@@ -5,7 +5,7 @@
 
 ## Project Overview
 
-InfraGestion is a web application designed to automate and optimize the management of **technical decommissionings, inventory, and equipment maintenance** for InfraCom Conectividad, S.A.
+InfraGestion is a web application designed to automate and optimize the management of **technical decommissionings, inventory, and Device maintenance** for InfraCom Conectividad, S.A.
 
 This system replaces the current manual process based on spreadsheets and paper forms, significantly reducing the risk of information loss and greatly improving operational efficiency. It provides a centralized, reliable platform for asset lifecycle management.
 

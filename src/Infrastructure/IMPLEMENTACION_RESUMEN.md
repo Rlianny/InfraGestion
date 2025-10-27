@@ -17,7 +17,7 @@ Configuraciones de entidades (IEntityTypeConfiguration):
 3. **SectionManagerConfiguration.cs** - Gerente de sección
 4. **DepartmentConfiguration.cs** - Departamento
 5. **SectionConfiguration.cs** - Sección
-6. **EquipmentConfiguration.cs** - Equipo
+6. **DeviceConfiguration.cs** - Equipo
 7. **TransferConfiguration.cs** - Transferencia
 8. **MainteinanceConfiguration.cs** - Mantenimiento
 9. **DecommissioningConfiguration.cs** - Baja de equipo
@@ -35,46 +35,46 @@ Se agregaron propiedades de navegación virtual a todas las entidades y agregaci
 - `User.cs` - Added Department navigation
 - `SectionManager.cs` - Added Section navigation
 - `Department.cs` - Added Section navigation
-- `Equipment.cs` - Added Department navigation
-- `Transfer.cs` - Added Equipment, SourceSection, DestinySection, EquipmentReceiver navigations
-- `Mainteinance.cs` - Added Technician, Equipment navigations
-- `Decommissioning.cs` - Added EquipmentReceiver, Equipment, Department navigations
-- `DecommissioningRequest.cs` - Added Technician, Equipment, EquipmentReceiver navigations
-- `ReceivingInspectionRequest.cs` - Added Equipment, Administrator, Technician navigations
-- `Rejection.cs` - Added EquipmentReceiver, Technician, Equipment navigations
+- `Device.cs` - Added Department navigation
+- `Transfer.cs` - Added Device, SourceSection, DestinySection, DeviceReceiver navigations
+- `Mainteinance.cs` - Added Technician, Device navigations
+- `Decommissioning.cs` - Added DeviceReceiver, Device, Department navigations
+- `DecommissioningRequest.cs` - Added Technician, Device, DeviceReceiver navigations
+- `ReceivingInspectionRequest.cs` - Added Device, Administrator, Technician navigations
+- `Rejection.cs` - Added DeviceReceiver, Technician, Device navigations
 - `Assessments.cs` - Added User, Technician navigations
 
 ## 🎯 Características Implementadas
 
 ### 1. Herencia TPH (Table Per Hierarchy)
 - La jerarquía de `User` usa una sola tabla con discriminador
-- Tipos: User, Administrator, Director, Technician, SectionManager, EquipmentReceiver
+- Tipos: User, Administrator, Director, Technician, SectionManager, DeviceReceiver
 
 ### 2. Relaciones Foreign Key
 Todas configuradas con `DeleteBehavior.Restrict`:
 - User → Department
 - SectionManager → Section
 - Department → Section
-- Equipment → Department
-- Transfer → Equipment, Sections, EquipmentReceiver
-- Mainteinance → Technician, Equipment
-- Decommissioning → EquipmentReceiver, Equipment, Department
-- DecommissioningRequest → Technician, Equipment, EquipmentReceiver
-- ReceivingInspectionRequest → Equipment, Administrator, Technician
-- Rejection → EquipmentReceiver, Technician, Equipment
+- Device → Department
+- Transfer → Device, Sections, DeviceReceiver
+- Mainteinance → Technician, Device
+- Decommissioning → DeviceReceiver, Device, Department
+- DecommissioningRequest → Technician, Device, DeviceReceiver
+- ReceivingInspectionRequest → Device, Administrator, Technician
+- Rejection → DeviceReceiver, Technician, Device
 - Assessments → User, Technician
 
 ### 3. Claves Primarias
-- **Simples**: User, Section, Department, Equipment, Transfer, Decommissioning
+- **Simples**: User, Section, Department, Device, Transfer, Decommissioning
 - **Compuestas**: 
-  - Mainteinance (TechnicianID, EquipmentID, Date)
-  - DecommissioningRequest (TechnicianID, EquipmentID, Date)
-  - ReceivingInspectionRequest (EquipmentID, AdministratorID, TechnicianID, EmissionDate)
-  - Rejection (EquipmentReceiverID, TechnicianID, EquipmentID, DecommissioningRequestDate)
+  - Mainteinance (TechnicianID, DeviceID, Date)
+  - DecommissioningRequest (TechnicianID, DeviceID, Date)
+  - ReceivingInspectionRequest (DeviceID, AdministratorID, TechnicianID, EmissionDate)
+  - Rejection (DeviceReceiverID, TechnicianID, DeviceID, DecommissioningRequestDate)
   - Assessments (UserID, TechnicianID, Date)
 
 ### 4. Conversiones de Tipos
-- **Enums → String**: EquipmentType, OperationalState
+- **Enums → String**: DeviceType, OperationalState
 - **Decimal precision**: Cost (18,2), Score (5,2)
 
 ### 5. Validaciones

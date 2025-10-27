@@ -12,12 +12,12 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(t => t.TransferID);
 
-            builder.Property(t => t.DateTime)
+            builder.Property(t => t.Date)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(t => t.EquipmentID)
+                .HasForeignKey(t => t.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Section>()
@@ -27,12 +27,12 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Section>()
                 .WithMany()
-                .HasForeignKey(t => t.DestinySectionID)
+                .HasForeignKey(t => t.DestinationSectionID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
-                .HasForeignKey(t => t.EquipmentReceiverID)
+                .HasForeignKey(t => t.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

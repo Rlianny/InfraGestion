@@ -23,22 +23,19 @@ namespace Infrastructure.Data.Configurations
             builder.Property(d => d.DecommissioningDate)
                 .IsRequired();
 
-            builder.Property(d => d.RequestDate)
-                .IsRequired();
-
             builder.HasOne<Domain.Entities.DeviceReceiver>()
                 .WithMany()
                 .HasForeignKey(d => d.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(d => d.EquipmentID)
+                .HasForeignKey(d => d.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Department>()
                 .WithMany()
-                .HasForeignKey(d => d.DepartmentID)
+                .HasForeignKey(d => d.ReceiverDepartmentID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

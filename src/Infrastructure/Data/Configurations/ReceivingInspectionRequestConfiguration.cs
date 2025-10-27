@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("ReceivingInspectionRequests");
 
-            builder.HasKey(rir => new { rir.EquipmentID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate });
+            builder.HasKey(rir => new { rir.DeviceID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate });
 
             builder.Property(rir => rir.EmissionDate)
                 .IsRequired();
@@ -21,9 +21,9 @@ namespace Infrastructure.Data.Configurations
             builder.Property(rir => rir.RejectionDate)
                 .IsRequired(false);
 
-            builder.HasOne<Domain.Entities.Equipment>()
+            builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(rir => rir.EquipmentID)
+                .HasForeignKey(rir => rir.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Administrator>()
