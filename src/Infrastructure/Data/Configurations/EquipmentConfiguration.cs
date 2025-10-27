@@ -15,6 +15,9 @@ namespace Infrastructure.Data.Configurations
             builder.Property(e => e.DeviceID)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.DeviceID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(200);

@@ -14,7 +14,7 @@ namespace Domain.Aggregations
             Date = dateTime;
             DeviceID = deviceID;
             SourceSectionID = sourceSectionID;
-            DestinationSectionId = destinationSectionID;
+            DestinationSectionID = destinationSectionID;
             DeviceReceiverID = deviceReceiverID;
         }
         private Transfer()
@@ -24,7 +24,7 @@ namespace Domain.Aggregations
         public int DeviceID { get; private set; }
         public DateOnly Date { get; private set; }
         public int SourceSectionID { get; private set; }
-        public int DestinationSectionId { get; private set; }
+        public int DestinationSectionID { get; private set; }
         public int TransferID { get; private set; }
         public int DeviceReceiverID { get; private set; }
 

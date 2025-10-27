@@ -11,6 +11,8 @@ namespace Infrastructure.Data.Configurations
             builder.ToTable("Maintenances");
 
             builder.HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
+            builder.Property(m => m.MaintenanceRecordID)
+                .ValueGeneratedOnAdd();
 
             builder.Property(m => m.Cost)
                 .IsRequired()

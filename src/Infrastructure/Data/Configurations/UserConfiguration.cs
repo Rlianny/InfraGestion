@@ -9,8 +9,11 @@ namespace Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            
+
             builder.HasKey(u => u.UserID);
+            
+            builder.Property(d => d.UserID)
+                .ValueGeneratedOnAdd();
 
             builder.Property(u => u.UserID)
                 .ValueGeneratedOnAdd();

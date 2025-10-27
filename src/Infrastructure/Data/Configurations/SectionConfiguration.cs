@@ -12,6 +12,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(s => s.SectionID);
 
+            builder.Property(d => d.SectionID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(s => s.SectionID)
                 .ValueGeneratedOnAdd();
 

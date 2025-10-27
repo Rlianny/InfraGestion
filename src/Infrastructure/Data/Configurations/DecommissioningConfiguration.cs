@@ -10,7 +10,10 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Decommissioning");
 
-            builder.HasKey(d => d.DecommissioningRequestID);
+            builder.HasKey(d => d.DecommissioningID);
+
+            builder.Property(d => d.DecommissioningID)
+                .ValueGeneratedOnAdd();
 
             builder.Property(d => d.Reason)
                 .IsRequired()

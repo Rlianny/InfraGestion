@@ -12,6 +12,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(rir => new { rir.DeviceID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate });
 
+            builder.Property(d => d.ReceivingInspectionRequestID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(rir => rir.EmissionDate)
                 .IsRequired();
 

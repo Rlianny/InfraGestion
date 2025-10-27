@@ -12,6 +12,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(t => t.TransferID);
 
+            builder.Property(d => d.TransferID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(t => t.Date)
                 .IsRequired();
 

@@ -80,176 +80,128 @@ namespace Infrastructure.Data
             var dateInFiveDaysBefore = today.AddDays(-5);
             var dateInTwentyDaysBefore = today.AddDays(-20);
             var dateInEighteenDaysBefore = today.AddDays(-18);
+            var dateInSevenDaysBefore = today.AddDays(-7);
 
 
             // Creating seed data
 
-            Section section01 = new Section("Operaciones de Red Corporativa");
-            Section section02 = new Section("Infraestructura de Centro de Datos (Data Center)");
-            Section section03 = new Section("Soporte Técnico en Campo");
-            Section section04 = new Section("Planificación y Despliegue de Red");
-            Section section05 = new Section("División de Servicios en la Nube (Cloud)");
-            Section section06 = new Section("Taller Central y Logística");
-            Section section07 = new Section("Infraestructura Interna (TI Interno)");
-            Section section08 = new Section("Seguridad Informática (Ciberseguridad)");
-            Section section09 = new Section("Dirección General");
-
             // Seed Sections
             modelBuilder.Entity<Section>().HasData(
-                section01,
-                section02,
-                section03,
-                section04,
-                section05,
-                section06,
-                section07,
-                section08
+                new { SectionID = -1, Name = "Operaciones de Red Corporativa" },
+                new { SectionID = -2, Name = "Infraestructura de Centro de Datos (Data Center)" },
+                new { SectionID = -3, Name = "Soporte Técnico en Campo" },
+                new { SectionID = -4, Name = "Planificación y Despliegue de Red" },
+                new { SectionID = -5, Name = "División de Servicios en la Nube (Cloud)" },
+                new { SectionID = -6, Name = "Taller Central y Logística" },
+                new { SectionID = -7, Name = "Infraestructura Interna (TI Interno)" },
+                new { SectionID = -8, Name = "Seguridad Informática (Ciberseguridad)" }
             );
-
-            Department department011 = new Department("Conmutación y Enrutamiento Avanzado", section01.SectionID);
-            Department department012 = new Department("Seguridad Perimetral y Firewalls", section01.SectionID);
-            Department department013 = new Department("Reparaciones de Red", section01.SectionID);
-
-            Department department021 = new Department("Servidores y Virtualización", section02.SectionID);
-            Department department022 = new Department("Almacenamiento y Backup", section02.SectionID);
-            Department department023 = new Department("Infraestructura Física y Climatización", section02.SectionID);
-
-            Department department031 = new Department("Instalaciones y Activaciones", section03.SectionID);
-            Department department032 = new Department("Mantenimiento Correctivo y Urgencias", section03.SectionID);
-            Department department033 = new Department("Soporte a Nodos Remotos", section03.SectionID);
-
-            Department department041 = new Department("Diseño y Ingeniería de Red", section04.SectionID);
-            Department department042 = new Department("Despliegue de Fibra Óptica y Acceso", section04.SectionID);
-            Department department043 = new Department("Mediciones y Certificación de Red", section04.SectionID);
-
-            Department department051 = new Department("Infraestructura como Servicio", section05.SectionID);
-            Department department052 = new Department("Plataforma como Servicio", section05.SectionID);
-            Department department053 = new Department("Operaciones Cloud y Escalabilidad", section05.SectionID);
-
-            Department department061 = new Department("Recepción y Diagnóstico Técnico", section06.SectionID);
-            Department department062 = new Department("Reparación y Refabricación", section06.SectionID);
-            Department department063 = new Department("Gestión de Inventario y Distribución", section06.SectionID);
-
-            Department department071 = new Department("Soporte al Usuario y Helpdesk", section07.SectionID);
-            Department department072 = new Department("Comunicaciones Unificadas y Telefonía IP", section07.SectionID);
-            Department department073 = new Department("Gestión de Activos y Red Local", section07.SectionID);
-
-            Department department081 = new Department("Arquitectura y Gestión de Firewalls", section08.SectionID);
-            Department department082 = new Department("Monitorización de Amenazas y SOC", section08.SectionID);
-            Department department083 = new Department("Análisis Forense y Respuesta a Incidentes", section08.SectionID);
-
-            Department department091 = new Department("Planificación Estratégica", section09.SectionID);
-            Department department092 = new Department("Gestión de Riesgos", section09.SectionID);
-            Department department093 = new Department("Relaciones Institucionales", section09.SectionID);
 
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
+                new { DepartmentID = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionID = -1 },
+                new { DepartmentID = -2, Name = "Seguridad Perimetral y Firewalls", SectionID = -1 },
+                new { DepartmentID = -3, Name = "Reparaciones de Red", SectionID = -1 },
 
-                department011, department012, department013,
-                department021, department022, department023,
-                department031, department032, department033,
-                department041, department042, department043,
-                department051, department052, department053,
-                department061, department062, department063,
-                department071, department072, department073,
-                department081, department082, department083
+                new { DepartmentID = -4, Name = "Servidores y Virtualización", SectionID = -2 },
+                new { DepartmentID = -5, Name = "Almacenamiento y Backup", SectionID = -2 },
+                new { DepartmentID = -6, Name = "Infraestructura Física y Climatización", SectionID = -2 },
+
+                new { DepartmentID = -7, Name = "Instalaciones y Activaciones", SectionID = -3 },
+                new { DepartmentID = -8, Name = "Mantenimiento Correctivo y Urgencias", SectionID = -3 },
+                new { DepartmentID = -9, Name = "Soporte a Nodos Remotos", SectionID = -3 },
+
+                new { DepartmentID = -10, Name = "Diseño y Ingeniería de Red", SectionID = -4 },
+                new { DepartmentID = -11, Name = "Despliegue de Fibra Óptica y Acceso", SectionID = -4 },
+                new { DepartmentID = -12, Name = "Mediciones y Certificación de Red", SectionID = -4 },
+
+                new { DepartmentID = -13, Name = "Infraestructura como Servicio", SectionID = -5 },
+                new { DepartmentID = -14, Name = "Plataforma como Servicio", SectionID = -5 },
+                new { DepartmentID = -15, Name = "Operaciones Cloud y Escalabilidad", SectionID = -5 },
+
+                new { DepartmentID = -16, Name = "Recepción y Diagnóstico Técnico", SectionID = -6 },
+                new { DepartmentID = -17, Name = "Reparación y Refabricación", SectionID = -6 },
+                new { DepartmentID = -18, Name = "Gestión de Inventario y Distribución", SectionID = -6 },
+
+                new { DepartmentID = -19, Name = "Soporte al Usuario y Helpdesk", SectionID = -7 },
+                new { DepartmentID = -20, Name = "Comunicaciones Unificadas y Telefonía IP", SectionID = -7 },
+                new { DepartmentID = -21, Name = "Gestión de Activos y Red Local", SectionID = -7 },
+
+                new { DepartmentID = -22, Name = "Arquitectura y Gestión de Firewalls", SectionID = -8 },
+                new { DepartmentID = -23, Name = "Monitorización de Amenazas y SOC", SectionID = -8 },
+                new { DepartmentID = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionID = -8 }
             );
 
-            // Seed Users
-
-            Administrator administrator01 = new Administrator("David González", "admin01", department073.DepartmentID);
-            Administrator administrator02 = new Administrator("Laura Martínez", "admin02", department063.DepartmentID);
-            Administrator administrator03 = new Administrator("Javier Rodríguez", "admin03", department063.DepartmentID);
-            Administrator administrator04 = new Administrator("Carmen Sánchez", "admin04", department022.DepartmentID);
-            Administrator administrator05 = new Administrator("Roberto López", "admin05", department013.DepartmentID);
-
-            // Administrator
+            // Seed Users - Administrator
             modelBuilder.Entity<Administrator>().HasData(
-                administrator01, administrator02, administrator03, administrator04, administrator05
+                new { UserID = -1, FullName = "David González", PasswordHash = "admin01", DepartmentID = -21 },
+                new { UserID = -2, FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18 },
+                new { UserID = -3, FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18 },
+                new { UserID = -4, FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5 },
+                new { UserID = -5, FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3 }
             );
-
-            Director director = new Director("Elena Morales", "dir123", department093.DepartmentID);
 
             // Director
             modelBuilder.Entity<Director>().HasData(
-                director
+                new { UserID = -6, FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24 }
             );
-
-            SectionManager sectionManager01 = new SectionManager("Sofía Ramírez", "manager01", department011.DepartmentID);
-            SectionManager sectionManager02 = new SectionManager("Alejandro Torres", "manager02", department023.DepartmentID);
-            SectionManager sectionManager03 = new SectionManager("Patricia Herrera", "manager03", department031.DepartmentID);
-            SectionManager sectionManager04 = new SectionManager("Ricardo Díaz", "manager04", department041.DepartmentID);
-            SectionManager sectionManager05 = new SectionManager("Isabel Castro", "manager05", department051.DepartmentID);
 
             // SectionManagers
             modelBuilder.Entity<SectionManager>().HasData(
-                sectionManager01,
-                sectionManager02,
-                sectionManager03,
-                sectionManager04,
-                sectionManager05
+                new { UserID = -7, FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, SectionID = -1 },
+                new { UserID = -8, FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, SectionID = -2 },
+                new { UserID = -9, FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, SectionID = -3 },
+                new { UserID = -10, FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, SectionID = -4 },
+                new { UserID = -11, FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, SectionID = -5 }
             );
 
-            Technician technician01 = new Technician("Carlos Méndez", "tech01", department013.DepartmentID, 5, "Redes y Comunicaciones");
-            Technician technician02 = new Technician("Eduardo Vargas", "tech02", department023.DepartmentID, 3, "Servidores y Virtualización");
-            Technician technician03 = new Technician("Jorge Silva", "tech03", department033.DepartmentID, 7, "Electricidad y Energía");
-            Technician technician04 = new Technician("María Ortega", "tech04", department081.DepartmentID, 4, "Ciberseguridad");
-            Technician technician05 = new Technician("Ana López", "tech05", department042.DepartmentID, 6, "Fibra Óptica");
             // Technicians
             modelBuilder.Entity<Technician>().HasData(
-                technician01, technician02, technician03, technician04, technician05
+                new { UserID = -12, FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones" },
+                new { UserID = -13, FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización" },
+                new { UserID = -14, FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía" },
+                new { UserID = -15, FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad" },
+                new { UserID = -16, FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica" }
             );
-
-            DeviceReceiver receiver01 = new DeviceReceiver("Miguel Ángel Santos", "rec01", department033.DepartmentID);
-            DeviceReceiver receiver02 = new DeviceReceiver("Ana García", "rec02", department012.DepartmentID);
-            DeviceReceiver receiver03 = new DeviceReceiver("Luis Fernández", "rec03", department023.DepartmentID);
-            DeviceReceiver receiver04 = new DeviceReceiver("Marta Jiménez", "rec04", department093.DepartmentID);
-            DeviceReceiver receiver05 = new DeviceReceiver("Carlos Ruiz", "rec05", department062.DepartmentID);
 
             // EquipmentReceiver
             modelBuilder.Entity<DeviceReceiver>().HasData(
-                receiver01, receiver02, receiver03, receiver04, receiver05
+                new { UserID = -17, FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9 },
+                new { UserID = -18, FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2 },
+                new { UserID = -19, FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6 },
+                new { UserID = -20, FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24 },
+                new { UserID = -21, FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17 }
             );
-
-            Device device01 = new Device("Router de Agregación ASR 9000", DeviceType.ConnectivityAndNetwork, OperationalState.Operational, department032.DepartmentID, dateInEighteenDaysBefore);
-            Device device02 = new Device("Servidor de Virtualización HP DL380", DeviceType.ComputingAndIT, OperationalState.UnderMaintenance, department061.DepartmentID, today);
-            Device device03 = new Device("Firewall de Próxima Generación PA-5200", DeviceType.ConnectivityAndNetwork, OperationalState.Operational, department083.DepartmentID, dateInEighteenDaysBefore);
-            Device device04 = new Device("Sistema UPS Eaton 20kVA", DeviceType.ElectricalInfrastructureAndSupport, OperationalState.Decommissioned, department091.DepartmentID, dateInEighteenDaysBefore);
-            Device device05 = new Device("Antena de Radioenlace AirFiber 5XHD", DeviceType.CommunicationsAndTransmission, OperationalState.Operational, department043.DepartmentID, today);
-            Device device06 = new Device("Analizador de Espectro Viavi", DeviceType.DiagnosticAndMeasurement, OperationalState.Operational, department052.DepartmentID, dateInEighteenDaysBefore);
-
 
             // Seed Devices
             modelBuilder.Entity<Device>().HasData(
-                device01, device02, device03, device04, device05, device06
+                new { DeviceID = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentID = -8, AcquisitionDate = dateInEighteenDaysBefore },
+                new { DeviceID = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentID = -16, AcquisitionDate = today },
+                new { DeviceID = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentID = -24, AcquisitionDate = dateInEighteenDaysBefore },
+                new { DeviceID = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentID = -24, AcquisitionDate = dateInEighteenDaysBefore },
+                new { DeviceID = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentID = -12, AcquisitionDate = today },
+                new { DeviceID = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentID = -14, AcquisitionDate = dateInEighteenDaysBefore }
             );
-
-            MaintenanceRecord maintenance01 = new MaintenanceRecord(technician01.UserID, device01.DeviceID, new DateOnly(2020, 12, 30), 0, "Preventivo");
-            MaintenanceRecord maintenance02 = new MaintenanceRecord(technician02.UserID, device02.DeviceID, new DateOnly(2022, 5, 13), 100, "Correctivo");
-            MaintenanceRecord maintenance03 = new MaintenanceRecord(technician03.UserID, device03.DeviceID, new DateOnly(2022, 10, 10), 20, "Correctivo");
-            MaintenanceRecord maintenance04 = new MaintenanceRecord(technician04.UserID, device04.DeviceID, new DateOnly(2021, 5, 11), 10.5, "Preventivo");
-            MaintenanceRecord maintenance05 = new MaintenanceRecord(technician05.UserID, device05.DeviceID, new DateOnly(2020, 8, 24), 0, "Correctivo");
-            MaintenanceRecord maintenance06 = new MaintenanceRecord(technician03.UserID, device05.DeviceID, new DateOnly(2022, 7, 18), 0, "Correctivo");
 
             // Seed Mainteinance - Usa DateOnly creados correctamente
             modelBuilder.Entity<MaintenanceRecord>().HasData(
-                maintenance01, maintenance02, maintenance03, maintenance04, maintenance05, maintenance06
+                new { TechnicianID = -12, DeviceID = -1, Date = new DateOnly(2020, 12, 30), Cost = 0.0, Type = "Preventivo", MaintenanceRecordID = -1 },
+                new { TechnicianID = -13, DeviceID = -2, Date = new DateOnly(2022, 5, 13), Cost = 100.0, Type = "Correctivo", MaintenanceRecordID = -2 },
+                new { TechnicianID = -14, DeviceID = -3, Date = new DateOnly(2022, 10, 10), Cost = 20.0, Type = "Correctivo", MaintenanceRecordID = -3 },
+                new { TechnicianID = -15, DeviceID = -4, Date = new DateOnly(2021, 5, 11), Cost = 10.5, Type = "Preventivo", MaintenanceRecordID = -4 },
+                new { TechnicianID = -16, DeviceID = -5, Date = new DateOnly(2020, 8, 24), Cost = 0.0, Type = "Correctivo", MaintenanceRecordID = -5 },
+                new { TechnicianID = -14, DeviceID = -5, Date = new DateOnly(2022, 7, 18), Cost = 0.0, Type = "Correctivo", MaintenanceRecordID = -6 }
             );
-
-            DecommissioningRequest request01 = new DecommissioningRequest(technician03.UserID, device03.DeviceID, receiver03.UserID, dateInFiveDaysBefore);
-            DecommissioningRequest request02 = new DecommissioningRequest(technician04.UserID, device04.DeviceID, receiver04.UserID, dateInFiveDaysBefore);
 
             // Seed DecommissioningRequest
             modelBuilder.Entity<DecommissioningRequest>().HasData(
-                request01,
-                request02
+                new { DecommissioningRequestID = -1, TechnicianID = -14, DeviceID = -3, DeviceReceiverID = -19, Date = dateInSevenDaysBefore },
+                new { DecommissioningRequestID = -2, TechnicianID = -15, DeviceID = -4, DeviceReceiverID = -20, Date = dateInFiveDaysBefore }
             );
-
-            Decommissioning decommissioning = new Decommissioning(device04.DeviceID, request02.DecommissioningRequestID, receiver04.UserID, department082.DepartmentID, dateInFiveDaysBefore, DecommissioningReason.SeverePhysicalDamage, "Reciclaje");
 
             // Seed Decommissioning
             modelBuilder.Entity<Decommissioning>().HasData(
-                decommissioning
+                new { DecommissioningID = -1, DeviceID = -4, DecommissioningRequestID = -2, DeviceReceiverID = -20, ReceiverDepartmentID = -23, DecommissioningDate = dateInFiveDaysBefore, Reason = DecommissioningReason.SeverePhysicalDamage, FinalDestination = "Reciclaje" }
             );
 
 

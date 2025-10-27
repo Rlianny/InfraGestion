@@ -15,6 +15,9 @@ namespace Infrastructure.Data.Configurations
             builder.Property(d => d.DepartmentID)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(d => d.DepartmentID)
+                .ValueGeneratedOnAdd();
+
             builder.HasOne<Section>()
                 .WithMany()
                 .HasForeignKey(d => d.SectionID)

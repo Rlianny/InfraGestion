@@ -12,6 +12,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID, r.DecommissioningRequestDate });
 
+            builder.Property(d => d.RejectionID)
+                .ValueGeneratedOnAdd();
+
             builder.Property(r => r.DecommissioningRequestDate)
                 .IsRequired();
 

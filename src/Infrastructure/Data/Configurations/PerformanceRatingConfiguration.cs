@@ -4,13 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class AssessmentsConfiguration : IEntityTypeConfiguration<PerformanceRating>
+    public class PerformanceRatingConfiguration : IEntityTypeConfiguration<PerformanceRating>
     {
         public void Configure(EntityTypeBuilder<PerformanceRating> builder)
         {
             builder.ToTable("PerformanceRatings");
 
             builder.HasKey(a => new { a.UserID, a.TechnicianID, a.Date });
+
+            builder.Property(a => a.PerformanceRatingID)
+                .ValueGeneratedOnAdd();
 
             builder.Property(a => a.Score)
                 .IsRequired()
