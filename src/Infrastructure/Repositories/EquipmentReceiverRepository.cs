@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
         public async Task<DeviceReceiver?> GetDeviceReceiverWithDetailsAsync(int DeviceReceiverId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(er => er.Department)
+                .Include(er => er.DepartmentID)
                 .FirstOrDefaultAsync(er => er.UserID == DeviceReceiverId, cancellationToken);
         }
 

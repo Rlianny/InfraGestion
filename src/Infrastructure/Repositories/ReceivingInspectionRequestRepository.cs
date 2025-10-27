@@ -15,8 +15,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.DeviceID == deviceId)
-                .Include(r => r.Administrator)
-                .Include(r => r.Technician)
+                .Include(r => r.AdministratorID)
+                .Include(r => r.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -24,8 +24,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AdministratorID == administratorId)
-                .Include(r => r.Device)
-                .Include(r => r.Technician)
+                .Include(r => r.DeviceID)
+                .Include(r => r.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -33,8 +33,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.TechnicianID == technicianId)
-                .Include(r => r.Device)
-                .Include(r => r.Administrator)
+                .Include(r => r.DeviceID)
+                .Include(r => r.AdministratorID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -42,9 +42,9 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate == null && r.RejectionDate == null)
-                .Include(r => r.Device)
-                .Include(r => r.Administrator)
-                .Include(r => r.Technician)
+                .Include(r => r.DeviceID)
+                .Include(r => r.AdministratorID)
+                .Include(r => r.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate != null)
-                .Include(r => r.Device)
+                .Include(r => r.DeviceID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -60,7 +60,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.RejectionDate != null)
-                .Include(r => r.Device)
+                .Include(r => r.DeviceID)
                 .ToListAsync(cancellationToken);
         }
     }

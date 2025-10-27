@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
         public async Task<Technician?> GetTechnicianWithDetailsAsync(int technicianId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(t => t.Department)
+                .Include(t => t.DepartmentID)
                 .FirstOrDefaultAsync(t => t.UserID == technicianId, cancellationToken);
         }
 

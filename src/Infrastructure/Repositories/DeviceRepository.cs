@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         public async Task<Device?> GetDeviceWithDepartmentAsync(int deviceId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(d => d.Department)
+                .Include(d => d.DepartmentID)
                 .FirstOrDefaultAsync(d => d.DeviceID == deviceId, cancellationToken);
         }
 

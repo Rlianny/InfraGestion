@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(dr => dr.TechnicianID == technicianId)
-                .Include(dr => dr.Device)
+                .Include(dr => dr.DeviceID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(dr => dr.DeviceID == deviceId)
-                .Include(dr => dr.Technician)
+                .Include(dr => dr.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -32,8 +32,8 @@ namespace Infrastructure.Repositories
             // Pending requests are those that don't have a corresponding Decommissioning record yet
             // This would require a more complex query joining with Decommissioning table
             return await _dbSet
-                .Include(dr => dr.Device)
-                .Include(dr => dr.Technician)
+                .Include(dr => dr.DeviceID)
+                .Include(dr => dr.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 

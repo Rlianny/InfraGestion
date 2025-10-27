@@ -15,9 +15,9 @@ namespace Infrastructure.Repositories
         public async Task<Decommissioning?> GetDecommissioningWithDetailsAsync(int decommissioningId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(d => d.Device)
-                .Include(d => d.DeviceReceiver)
-                .Include(d => d.Department)
+                .Include(d => d.DeviceID)
+                .Include(d => d.DeviceReceiverID)
+                .Include(d => d.ReceiverDepartmentID)
                 .FirstOrDefaultAsync(d => d.DecommissioningRequestID == decommissioningId, cancellationToken);
         }
 

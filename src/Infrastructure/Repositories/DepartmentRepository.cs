@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
         public async Task<Department?> GetDepartmentWithSectionAsync(int departmentId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(d => d.Section)
+                .Include(d => d.SectionID)
                 .FirstOrDefaultAsync(d => d.DepartmentID == departmentId, cancellationToken);
         }
 

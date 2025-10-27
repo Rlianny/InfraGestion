@@ -15,8 +15,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.TechnicianID == technicianId)
-                .Include(r => r.Device)
-                .Include(r => r.DeviceReceiver)
+                .Include(r => r.DeviceID)
+                .Include(r => r.DeviceReceiverID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -24,8 +24,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.DeviceID == deviceId)
-                .Include(r => r.Technician)
-                .Include(r => r.DeviceReceiver)
+                .Include(r => r.TechnicianID)
+                .Include(r => r.DeviceReceiverID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -33,8 +33,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(r => r.DeviceReceiverID == DeviceReceiverId)
-                .Include(r => r.Device)
-                .Include(r => r.Technician)
+                .Include(r => r.DeviceID)
+                .Include(r => r.TechnicianID)
                 .ToListAsync(cancellationToken);
         }
 

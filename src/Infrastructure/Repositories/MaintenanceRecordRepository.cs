@@ -15,8 +15,8 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(m => m.DeviceID == deviceId)
-                .Include(m => m.Technician)
-                .Include(m => m.Device)
+                .Include(m => m.TechnicianID)
+                .Include(m => m.DeviceID)
                 .ToListAsync(cancellationToken);
         }
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(m => m.TechnicianID == technicianId)
-                .Include(m => m.Device)
+                .Include(m => m.DeviceID)
                 .ToListAsync(cancellationToken);
         }
 
