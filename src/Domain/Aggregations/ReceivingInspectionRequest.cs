@@ -9,17 +9,7 @@ namespace Domain.Aggregations
 {
     public class ReceivingInspectionRequest
     {
-        public ReceivingInspectionRequest(DateTime emissionDate, Device device, Administrator administrator, Technician technician)
-        {
-            EmissionDate = emissionDate;
-            Device = device;
-            Administrator = administrator;
-            Technician = technician;
-        }
-        private ReceivingInspectionRequest()
-        {
-        }
-
+        public int ReceivingInspectionRequestID { get; private set; }
         public int DeviceID { get; private set; }
         public int AdministratorID { get; private set; }
         public int TechnicianID { get; private set; }
@@ -27,9 +17,27 @@ namespace Domain.Aggregations
         public DateTime? AcceptedDate { get; private set; }
         public DateTime? RejectionDate { get; private set; }
 
-        // Navigation properties
         public virtual Device? Device { get; private set; }
         public virtual Administrator? Administrator { get; private set; }
         public virtual Technician? Technician { get; private set; }
+
+        private ReceivingInspectionRequest() { }
+
+        public ReceivingInspectionRequest(
+            Device device,
+            Administrator administrator,
+            Technician technician,
+            DateTime emissionDate)
+        {
+            Device = device;
+            Administrator = administrator;
+            Technician = technician;
+            EmissionDate = emissionDate;
+
+            DeviceID = device.DeviceID;
+            AdministratorID = administrator.UserID;
+            TechnicianID = technician.UserID;
+        }
+
     }
 }
