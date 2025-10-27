@@ -11,5 +11,8 @@ namespace Domain.Entities
         public Administrator(string fullName, string passwordHash) : base(fullName, passwordHash)
         {
         }
+        private Administrator() : base()
+        {
+        }
     }
 }

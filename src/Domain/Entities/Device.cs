@@ -11,9 +11,9 @@ namespace Domain.Entities
 {
     public class Device
     {
-        public int DeviceID { get;private set; }
+        public int DeviceID { get; private set; }
 
-        public string Name { get;private set; } 
+        public string Name { get; private set; }
 
         public DeviceType Type { get; private set; }
 
@@ -23,5 +23,8 @@ namespace Domain.Entities
         public DateTime AcquisitionDate { get; private set; }
 
         public virtual Department? Department { get; private set; }
+        private Device()
+        {
+        }
     }
 }

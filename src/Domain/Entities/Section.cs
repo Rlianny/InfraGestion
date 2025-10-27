@@ -14,9 +14,12 @@ namespace Domain.Entities
             SectionID = sectionID;
             Name = name;
         }
+        private Section()
+        {
+        }
 
-        public int SectionID { get; set; }
-        public string Name { get; set; }
-        
+        public int SectionID { get; private set; }
+        public string Name { get; private set; }
+
     }
 }

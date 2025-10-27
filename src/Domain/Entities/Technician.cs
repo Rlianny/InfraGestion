@@ -14,8 +14,11 @@ namespace Domain.Entities
             YearsOfExperience = yearsOfExperience;
             Specialty = specialty;
         }
+        private Technician() : base()
+        {
+        }
 
-        public int YearsOfExperience { get;private set; }  
+        public int YearsOfExperience { get; private set; }  
         public string Specialty { get;private set; }
 
     }

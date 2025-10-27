@@ -13,6 +13,11 @@ namespace Domain.Entities
             FullName = fullName;
             PasswordHash = passwordHash;
         }
+        protected User()
+        {
+            FullName = string.Empty;
+            PasswordHash = string.Empty;
+        }
 
         public int UserID { get; private set; }
         public string FullName { get; private set; }

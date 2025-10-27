@@ -11,5 +11,8 @@ namespace Domain.Entities
         public Director(string fullName, string passwordHash) : base(fullName, passwordHash)
         {
         }
+        private Director() : base()
+        {
+        }
     }
 }
