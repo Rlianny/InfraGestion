@@ -25,7 +25,7 @@ namespace Infrastructure.Data
 
         // Aggregations
         public DbSet<Transfer> Transfers { get; set; }
-        public DbSet<Mainteinance> Mainteinances { get; set; }
+        public DbSet<MaintenanceRecord> Mainteinances { get; set; }
         public DbSet<Decommissioning> Decommissionings { get; set; }
         public DbSet<DecommissioningRequest> DecommissioningRequests { get; set; }
         public DbSet<ReceivingInspectionRequest> ReceivingInspectionRequests { get; set; }
@@ -55,7 +55,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Transfer>()
                 .HasKey(t => t.TransferID);
 
-            modelBuilder.Entity<Mainteinance>()
+            modelBuilder.Entity<MaintenanceRecord>()
                 .HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
 
             // Configuraciones para User y sus herederos
@@ -251,7 +251,7 @@ namespace Infrastructure.Data
             );
 
             // Seed Mainteinance - Usa DateOnly creados correctamente
-            modelBuilder.Entity<Mainteinance>().HasData(
+            modelBuilder.Entity<MaintenanceRecord>().HasData(
                 new Mainteinance(technician1ID, equip1ID, DateOnly.FromDateTime(dateInFifteenDays), 500.00, "Preventivo")
                 {
                     TechnicianID = technician1ID,

@@ -10,44 +10,36 @@ namespace Domain.Aggregations
 {
     public class Decommissioning
     {
-        public int DeviceReceiverID { get; set; }
-        public int DecommissioningRequestID { get; set; }  
-        public int EquipmentID { get; set; }
-        
-        public DateTime DecommissioningDate
-        {
-            get { return decommissioningDate; }
-            private set { }
-        }
-        private DateTime decommissioningDate;
+        public int DecommissioningID { get; private set; }
+        public int DeviceReceiverID { get; private set; }
+        public int DecommissioningRequestID { get; private set; }
+        public int DeviceID { get; private set; }
 
-        public DecommissioningReason Reason
-        {
-            get { return reason; }
-            private set { }
-        }
-        private DecommissioningReason reason;
+        public DateTime DecommissioningDate { get; private set; }
+        public DecommissioningReason Reason { get; private set; }
 
-        public string FinalDestination
+        public string? FinalDestination { get; private set; }
+        public int ReceiverDepartmentID { get; private set; }
+
+        public virtual DeviceReceiver? DeviceReceiver { get; private set; }
+        public virtual Device? Device { get; private set; }
+        public virtual DecommissioningRequest? DecommissioningRequest { get; private set; }
+        public virtual Department? Department { get; private set; }
+
+        private Decommissioning() { }
+        public Decommissioning(Device device, DecommissioningRequest decommissioningRequest, DeviceReceiver deviceReceiver, Department receiverDepartment, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
         {
-            get { return finalDestination; }
-            private set { }
-        }
-        private string finalDestination;
-        public int ReceiverDepartment { get; set; }
-        
-        public virtual DeviceReceiver? DeviceReceiver { get; set; }
-        public virtual Device? Equipment { get; set; }
-        public virtual DecommissioningRequest? DecommissioningRequest { get; set; }
-        public virtual Department? Department { get; set; }
-        public Decommissioning(Device device, DecommissioningRequest decommissioningRequest,DeviceReceiver deviceReceiver, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
-        {
-            Equipment = device;
+            Device = device;
             DeviceReceiver = deviceReceiver;
             DecommissioningRequest = decommissioningRequest;
-            this.decommissioningDate = decommissioningDate;
-            this.reason = reason;
-            this.finalDestination = finalDestination;
+            DecommissioningDate = decommissioningDate;
+            Reason = reason;
+            FinalDestination = finalDestination;
+            DeviceReceiverID = deviceReceiver.UserID;
+            DeviceID = device.DeviceID;
+            DecommissioningRequestID = decommissioningRequest.DecommissioningRequestID;
+            Department = receiverDepartment;
+            ReceiverDepartmentID = receiverDepartment.DepartmentID;
         }
     }
 }
