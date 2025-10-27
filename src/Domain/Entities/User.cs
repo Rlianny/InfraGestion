@@ -12,7 +12,6 @@ namespace Domain.Entities
         {
             FullName = fullName;
             PasswordHash = passwordHash;
-            
             DepartmentID = departmentID;
         }
         protected User()

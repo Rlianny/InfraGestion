@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Technician:User
+    public class Technician : User
     {
-        public Technician(string fullName, string passwordHash, Department department, int yearsOfExperience, string specialty)
-            : base(fullName, passwordHash, department)
+        public Technician(string fullName, string passwordHash, int departmentId, int yearsOfExperience, string specialty)
+            : base(fullName, passwordHash, departmentId)
         {
             YearsOfExperience = yearsOfExperience;
             Specialty = specialty;
@@ -19,8 +19,8 @@ namespace Domain.Entities
             Specialty = string.Empty;
         }
 
-        public int YearsOfExperience { get; private set; }  
-        public string Specialty { get;private set; }
+        public int YearsOfExperience { get; private set; }
+        public string Specialty { get; private set; }
 
     }
 }
