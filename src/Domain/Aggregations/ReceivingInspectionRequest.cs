@@ -25,7 +25,7 @@ namespace Domain.Aggregations
         public DateTime? RejectionDate { get; set; }
 
         // Navigation properties
-        public virtual Equipment? Equipment { get; set; }
+        public virtual Device? Equipment { get; set; }
         public virtual Administrator? Administrator { get; set; }
         public virtual Technician? Technician { get; set; }
     }

@@ -25,9 +25,9 @@ namespace Domain.Aggregations
         public Guid EquipmentReceiverID { get; set; }
 
         // Navigation properties
-        public virtual Equipment? Equipment { get; set; }
+        public virtual Device? Equipment { get; set; }
         public virtual Section? SourceSection { get; set; }
         public virtual Section? DestinySection { get; set; }
-        public virtual EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual DeviceReceiver? EquipmentReceiver { get; set; }
     }
 }

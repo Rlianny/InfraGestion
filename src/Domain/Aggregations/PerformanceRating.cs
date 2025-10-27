@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Domain.Aggregations
 {
-    public class Assessments
+    public class PerformanceRating
     {
         public int UserID { get; private set; }
         public int TechnicianID { get; private set; }
@@ -22,10 +23,16 @@ namespace Domain.Aggregations
             private set { }
         }
         private double score;
-        public virtual Entities.User? User { get; set; }
-        public virtual Entities.Technician? Technician { get; set; }
-        public Assessments(DateTime date, double score)
+        public virtual Entities.User? User { get; private set; }
+        public virtual Entities.Technician? Technician { get; private set; }
+
+        private PerformanceRating() { }
+        public PerformanceRating(User superior, User technician, DateTime date, double score)
         {
+            User = superior;
+            Technician = technician as Technician;
+            UserID = superior.UserID;
+            TechnicianID = technician.UserID;
             this.date = date;
             this.score = score;
         }

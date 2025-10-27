@@ -9,23 +9,24 @@ namespace Domain.Aggregations
 {
     public class Mainteinance
     {
-        public Mainteinance(Guid technicianID, Guid equipmentID, DateOnly date, double cost, string type)
-        {
-            TechnicianID = technicianID;
-            EquipmentID = equipmentID;
-            Date = date;
-            Cost = cost;
-            Type = type;
-        }
-
-        public Guid TechnicianID { get; set; }
-        public Guid EquipmentID { get; set; }
+        public int TechnicianID { get; set; }
+        public int DeviceID { get; set; }
         public DateOnly Date { get; set; }
         public double Cost { get; set; }    
         public string Type { get; set; }
 
-        // Navigation properties
         public virtual Technician? Technician { get; set; }
-        public virtual Equipment? Equipment { get; set; }
+        public virtual Device? Device { get; set; }
+
+        public Mainteinance(Technician technician, Device device, DateOnly date, double cost, string type)
+        {
+            Technician = technician;
+            Device = device;
+            TechnicianID = technician.UserID;
+            DeviceID = device.DeviceID;
+            Date = date;
+            Cost = cost;
+            Type = type;
+        }
     }
 }

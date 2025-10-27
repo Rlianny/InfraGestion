@@ -24,8 +24,8 @@ namespace Domain.Aggregations
         public DateTime RejectionDate { get; set; }
 
         // Navigation properties
-        public virtual Entities.EquipmentReceiver? EquipmentReceiver { get; set; }
+        public virtual Entities.DeviceReceiver? EquipmentReceiver { get; set; }
         public virtual Entities.Technician? Technician { get; set; }
-        public virtual Entities.Equipment? Equipment { get; set; }
+        public virtual Entities.Device? Equipment { get; set; }
     }
 }
