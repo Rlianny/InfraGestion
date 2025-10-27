@@ -13,6 +13,9 @@ namespace Domain.Aggregations
         {
             EmissionDate = emissionDate;
         }
+        private ReceivingInspectionRequest()
+        {
+        }
 
         public int DeviceID { get; private set; }
         public int AdministratorID { get; private set; }

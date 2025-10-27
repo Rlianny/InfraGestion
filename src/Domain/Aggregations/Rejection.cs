@@ -14,6 +14,9 @@ namespace Domain.Aggregations
             DecommissioningRequestDate = decommissioningRequestDate;
             RejectionDate = rejectionDate;
         }
+        private Rejection()
+        {
+        }
 
         public int DeviceReceiverID { get; private set; }
         public int TechnicianID { get; private set; }

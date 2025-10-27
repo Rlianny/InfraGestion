@@ -14,6 +14,9 @@ namespace Domain.Aggregations
             EquipmentID = equipmentID;
             DateTime = dateTime;
         }
+        private Transfer()
+        {
+        }
 
         public Guid EquipmentID { get; private set; }
         public DateOnly DateTime { get; private set; }
