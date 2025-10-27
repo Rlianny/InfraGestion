@@ -30,14 +30,5 @@ namespace Domain.Entities
         {
             Name = String.Empty;
         }
-        public Device(string name, DeviceType type, OperationalState operationalState, Department department, DateTime acquisitionDate)
-        {
-            Name = name;
-            Type = type;
-            OperationalState = operationalState;
-            AcquisitionDate = acquisitionDate;
-            Department = department;
-            DepartmentID = department.DepartmentID;
-        }
     }
 }
