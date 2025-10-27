@@ -9,16 +9,15 @@ namespace Domain.Aggregations
 {
     public class Transfer
     {
-        public Transfer(Guid equipmentID, DateOnly dateTime)
+        public Transfer(DateOnly dateTime)
         {
-            EquipmentID = equipmentID;
             DateTime = dateTime;
         }
         private Transfer()
         {
         }
 
-        public Guid EquipmentID { get; private set; }
+        public int DeviceID { get; private set; }
         public DateOnly DateTime { get; private set; }
         public int SourceSectionID { get; private set; }
         public int DestinySectionID { get; private set; }
