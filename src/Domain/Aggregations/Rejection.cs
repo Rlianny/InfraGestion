@@ -11,6 +11,8 @@ namespace Domain.Aggregations
     {
         public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate, int deviceReceiverID, int technicianID, int deviceID)
         {
+            ValidateRequestDate(decommissioningRequestDate);
+            ValidateRejectionDate(rejectionDate, decommissioningRequestDate);
             DecommissioningRequestDate = decommissioningRequestDate;
             RejectionDate = rejectionDate;
             DeviceReceiverID = deviceReceiverID;
@@ -26,12 +28,19 @@ namespace Domain.Aggregations
         public int DeviceID { get; private set; }
         public DateTime DecommissioningRequestDate { get; private set; }
         public DateTime RejectionDate { get; private set; }
-        private void ValidateDate(DateTime date)
+        private void ValidateRequestDate(DateTime date)
         {
             if (date > DateTime.Now)
-            {
-                throw new ArgumentException();
-            }
+                throw new ArgumentException("Request date cannot be in the future", nameof(date));
+        }
+
+        private void ValidateRejectionDate(DateTime rejectionDate, DateTime requestDate)
+        {
+            if (rejectionDate > DateTime.Now)
+                throw new ArgumentException("Rejection date cannot be in the future", nameof(rejectionDate));
+
+            if (rejectionDate < requestDate)
+                throw new ArgumentException("Rejection date cannot be before request date", nameof(rejectionDate));
         }
     }
 
