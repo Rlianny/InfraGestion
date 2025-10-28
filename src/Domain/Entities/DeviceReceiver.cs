@@ -11,8 +11,11 @@ namespace Domain.Entities
                 public DeviceReceiver(string fullName, string passwordHash, int departmentID) : base(fullName, passwordHash, departmentID)
                 {
                 }
-                private DeviceReceiver() : base()
+                private DeviceReceiver() : base() { }
+
+                public bool CanReceiveDevices()
                 {
+                        return IsActive;
                 }
         }
 }

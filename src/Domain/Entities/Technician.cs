@@ -56,5 +56,10 @@ namespace Domain.Entities
             Salary = newSalary;
         }
 
+        public bool CanPerformMaintenance()
+        {
+            return IsActive;
+        }
+
     }
 }

@@ -10,5 +10,10 @@ namespace Domain.Entities
     {
         public Administrator(string fullName, string passwordHash, int departmentId) : base(fullName, passwordHash, departmentId) { }
         private Administrator() : base() { }
+
+        public bool CanModifyAllRecords()
+        {
+            return IsActive;
+        }
     }
 }
