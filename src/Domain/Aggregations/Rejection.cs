@@ -26,6 +26,13 @@ namespace Domain.Aggregations
         public int DeviceID { get; private set; }
         public DateTime DecommissioningRequestDate { get; private set; }
         public DateTime RejectionDate { get; private set; }
+        private void ValidateDate(DateTime date)
+        {
+            if (date > DateTime.Now)
+            {
+                throw new ArgumentException();
+            }
+        }
     }
 
 }

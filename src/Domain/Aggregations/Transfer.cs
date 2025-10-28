@@ -28,5 +28,13 @@ namespace Domain.Aggregations
         public int TransferID { get; private set; }
         public int DeviceReceiverID { get; private set; }
 
+        private void ValidateDate(DateTime date)
+        {
+            if (date > DateTime.Now)
+            {
+                throw new ArgumentException();
+            }
+        }
+
     }
 }

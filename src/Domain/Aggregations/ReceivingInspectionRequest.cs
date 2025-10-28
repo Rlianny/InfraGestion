@@ -26,6 +26,13 @@ namespace Domain.Aggregations
         public DateTime EmissionDate { get; private set; }
         public DateTime? AcceptedDate { get; private set; }
         public DateTime? RejectionDate { get; private set; }
+        private void ValidateDate(DateTime date)
+        {
+            if (date > DateTime.Now)
+            {
+                throw new ArgumentException();
+            }
+        }
 
     }
 }
