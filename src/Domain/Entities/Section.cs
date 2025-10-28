@@ -11,6 +11,7 @@ namespace Domain.Entities
     {
         public Section(string name)
         {
+            ValidateName(name);
             Name = name;
         }
         private Section()
@@ -18,6 +19,13 @@ namespace Domain.Entities
         }
         public string Name { get; private set; }
         public int SectionID { get; private set; }
+        private void ValidateName(string name)
+        {
+            if (name == string.Empty || name.Length < 3)
+            {
+                throw new Exception("Name to short");
+            }
+        }
 
     }
 }

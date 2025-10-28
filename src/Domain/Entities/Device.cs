@@ -20,12 +20,31 @@ namespace Domain.Entities
 
         public Device(string name, DeviceType type, OperationalState operationalState, int departmentID, DateTime acquisitionDate)
         {
+            ValidateName(name);
+            ValidateDepartment(departmentID);
             Name = name;
             Type = type;
             OperationalState = operationalState;
             DepartmentID = departmentID;
             AcquisitionDate = acquisitionDate;
         }
+
+        private void ValidateDepartment(int departmentID)
+        {
+            if (departmentID < 0)
+            {
+                throw new Exception("Department ID cannot be negative");
+            }
+        }
+
+        private void ValidateName(string name)
+        {
+            if (name == string.Empty || name.Length < 3)
+            {
+                throw new Exception("Name to short");
+            }
+        }
+
         private Device()
         {
             Name = String.Empty;
