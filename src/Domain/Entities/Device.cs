@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace Domain.Entities
 {
@@ -18,10 +19,12 @@ namespace Domain.Entities
         public int DepartmentID { get; private set; }
         public DateTime AcquisitionDate { get; private set; }
 
+
         public Device(string name, DeviceType type, OperationalState operationalState, int departmentID, DateTime acquisitionDate)
         {
             ValidateName(name);
             ValidateDepartment(departmentID);
+            ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
             OperationalState = operationalState;
@@ -29,11 +32,19 @@ namespace Domain.Entities
             AcquisitionDate = acquisitionDate;
         }
 
+        private void ValidateDate(DateTime acquisitionDate)
+        {
+            if (acquisitionDate > DateTime.Now)
+            {
+                throw new ArgumentException();
+            }
+        }
+
         private void ValidateDepartment(int departmentID)
         {
             if (departmentID < 0)
             {
-                throw new Exception("Department ID cannot be negative");
+                throw new ArgumentException("Department ID cannot be negative");
             }
         }
 
@@ -41,8 +52,26 @@ namespace Domain.Entities
         {
             if (name == string.Empty || name.Length < 3)
             {
-                throw new Exception("Name to short");
+                throw new ArgumentException("Name to short");
             }
+        }
+        public void UpdateOperationalState(OperationalState newState)
+        {
+            if (OperationalState == OperationalState.Decommissioned)
+            {
+                throw new InvalidOperationException("Cannot change state of decommissioned device");
+            }
+            OperationalState = newState;
+        }
+        public void ChangeDepartment(int newDepartmentID)
+        {
+            ValidateDepartment(newDepartmentID);
+            DepartmentID = newDepartmentID;
+        }
+        public bool CanBeDecommissioned()
+        {
+            return OperationalState != OperationalState.Decommissioned &&
+             OperationalState != OperationalState.BeingTransferred;
         }
 
         private Device()

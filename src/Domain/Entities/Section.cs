@@ -23,7 +23,7 @@ namespace Domain.Entities
         {
             if (name == string.Empty || name.Length < 3)
             {
-                throw new Exception("Name to short");
+                throw new ArgumentException("Name to short");
             }
         }
 
