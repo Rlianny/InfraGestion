@@ -17,9 +17,9 @@ namespace Domain.Entities
         }
         private SectionManager() : base() { }
 
-        public bool CanManageSection(int sectionID)
+        public bool CanManageSections()
         {
-            return ManagedSectionsIds.Contains(sectionID);
+            return IsActive;
         }
     }
 }

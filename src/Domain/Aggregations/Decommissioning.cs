@@ -22,8 +22,9 @@ namespace Domain.Aggregations
         public int ReceiverDepartmentID { get; private set; }
 
         private Decommissioning() { }
-        public Decommissioning(int deviceID, int decommissioningRequestID, int deviceReceiverID, int receiverDepartmentID,DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
+        public Decommissioning(int deviceID, int decommissioningRequestID, int deviceReceiverID, int receiverDepartmentID, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
         {
+            ValidateDecommissioningDate(decommissioningDate);
             DecommissioningDate = decommissioningDate;
             Reason = reason;
             FinalDestination = finalDestination;
@@ -31,6 +32,19 @@ namespace Domain.Aggregations
             DeviceID = deviceID;
             DecommissioningRequestID = decommissioningRequestID;
             ReceiverDepartmentID = receiverDepartmentID;
+        }
+
+        private void ValidateDecommissioningDate(DateTime date)
+        {
+            if (date > DateTime.Now)
+            {
+                throw new ArgumentException("Decommissioning date cannot be in the future");
+            }
+        }
+        
+        public bool IsIrreparable()
+        {
+            return Reason == DecommissioningReason.IrreparableTechnicalFailure;
         }
     }
 }
