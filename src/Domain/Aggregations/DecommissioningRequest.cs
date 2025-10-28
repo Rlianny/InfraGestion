@@ -19,6 +19,7 @@ namespace Domain.Aggregations
         public DecommissioningRequest(int technicianID, int deviceID, int deviceReceiverID, DateTime date)
         {
             ValidateDate(date);
+            Status = Enums.RequestStatus.Pending;
             Date = date;
             TechnicianID = technicianID;
             DeviceID = deviceID;

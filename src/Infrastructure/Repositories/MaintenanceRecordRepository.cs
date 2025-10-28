@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByTypeAsync(string type, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<MaintenanceRecord>> GetMaintenancesByTypeAsync(MaintenanceType type, CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(m => m.Type == type)
