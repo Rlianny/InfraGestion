@@ -1,15 +1,12 @@
-namespace Application.DTOs.Auth
+namespace Application.DTOs.Auth;
+
+public record LoginResponseDto
 {
-    public class LoginResponseDto
-    {
-        public int UserId { get; set; }
-        public string FullName { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; } = string.Empty;
-        public int? SectionId { get; set; }
-        public string? SectionName { get; set; }
-        public string Token { get; set; } = string.Empty; // JWT
-        public DateTime ExpiresAt { get; set; }
-    }
+    public required int UserId { get; init; }
+    public required string FullName { get; init; }
+    public required string Role { get; init; }
+    public required int DepartmentId { get; init; }
+    public required string DepartmentName { get; init; }
+    public required string Token { get; init; }
+    public required DateTime ExpiresAt { get; init; }
 }
