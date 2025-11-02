@@ -1,8 +1,7 @@
-namespace Application.DTOs.Auth
+namespace Application.DTOs.Auth;
+
+public record LoginRequestDto
 {
-    public class LoginRequestDto
-    {
-        public string Identifier { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
+    public required string Username { get; init; }
+    public required string Password { get; init; }
 }

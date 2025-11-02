@@ -1,95 +1,228 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using System.Text.RegularExpressions;
+using Domain.Aggregations;
+using Domain.Enums;
+using Domain.Exceptions;
 
 namespace Domain.Entities
 {
     public class User
     {
-        public User(string fullName, string password, int departmentID)
-        {
-            ValidateName(fullName);
-            ValidatePassword(password);
-            ValidateDepartment(departmentID);
-            FullName = fullName;
-            PasswordHash = GetHash(password);
-            DepartmentID = departmentID;
-
-        }
-        protected User()
-        {
-            FullName = string.Empty;
-            PasswordHash = string.Empty;
-        }
-
         public int UserID { get; private set; }
-        public string FullName { get; private set; }
-        public string PasswordHash { get; private set; }
-        public int DepartmentID { get; private set; }
+        public string FullName { get; private set; } = string.Empty;
+        public string PasswordHash { get; private set; } = string.Empty;
+
+        public int RoleId { get; private set; }
+        public virtual Role Role { get; private set; } = null!;
+
+        public int DepartmentId { get; private set; }
+        public virtual Department Department { get; private set; } = null!;
+
+        // Technician only fields
+        public int? YearsOfExperience { get; private set; }
+        public string? Specialty { get; private set; }
+
+        // Audit and security fields
+        public DateTime CreatedAt { get; private set; }
         public bool IsActive { get; private set; }
+        public string? RefreshToken { get; private set; }
+        public DateTime? RefreshTokenExpiryTime { get; private set; }
+
+        public virtual ICollection<MaintenanceRecord> MaintenancesPerformed { get; private set; } =
+            new List<MaintenanceRecord>();
+        public virtual ICollection<DecommissioningRequest> DecommissioningsProposed
+        {
+            get;
+            private set;
+        } = new List<DecommissioningRequest>();
+        public virtual ICollection<PerformanceRating> PerformanceRecords { get; private set; } =
+            new List<PerformanceRating>();
+
+        private User() { }
+
+        public User(string fullName, string passwordHash, int roleId, int departmentId)
+        {
+            ValidateAndSetFullName(fullName);
+            ValidateAndSetPasswordHash(passwordHash);
+            ValidateAndSetRole(roleId);
+
+            DepartmentId = departmentId;
+            CreatedAt = DateTime.UtcNow;
+            IsActive = true;
+        }
+
+        public static User CreateTechnician(
+            string fullName,
+            string passwordHash,
+            int departmentId,
+            int yearsOfExperience,
+            string specialty
+        )
+        {
+            var user = new User(fullName, passwordHash, (int)RoleEnum.Technician, departmentId);
+
+            user.SetTechnicalExperience(yearsOfExperience, specialty);
+            return user;
+        }
+
+        private void ValidateAndSetFullName(string fullName)
+        {
+            if (string.IsNullOrWhiteSpace(fullName))
+                throw new UserValidationException("El nombre completo no puede estar vacío");
+
+            if (fullName.Length < 3)
+                throw new UserValidationException(
+                    "El nombre completo debe tener al menos 3 caracteres"
+                );
+
+            if (fullName.Length > 100)
+                throw new UserValidationException(
+                    "El nombre completo no puede exceder 100 caracteres"
+                );
+
+            FullName = fullName.Trim();
+        }
+
+        private void ValidateAndSetPasswordHash(string passwordHash)
+        {
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new UserValidationException("El hash de contraseña no puede estar vacío");
+            if (passwordHash.Length < 20)
+                throw new UserValidationException("Hash de contraseña inválido");
+
+            PasswordHash = passwordHash;
+        }
+
+        private void ValidateAndSetRole(int roleId)
+        {
+            if (!Enum.IsDefined(typeof(RoleEnum), roleId))
+                throw new UserValidationException($"Rol inválido: {roleId}");
+
+            RoleId = roleId;
+        }
+
+        public void SetTechnicalExperience(int years, string specialty)
+        {
+            if (years < 0 || years > 50)
+                throw new UserValidationException(
+                    "Los años de experiencia deben estar entre 0 y 50"
+                );
+
+            if (string.IsNullOrWhiteSpace(specialty))
+                throw new UserValidationException("La especialidad no puede estar vacía");
+
+            if (specialty.Length > 100)
+                throw new UserValidationException(
+                    "La especialidad no puede exceder 100 caracteres"
+                );
+
+            YearsOfExperience = years;
+            Specialty = specialty.Trim();
+        }
+
+        public void UpdateProfile(string fullName, string? specialty = null)
+        {
+            ValidateAndSetFullName(fullName);
+
+            if (specialty != null && IsTechnician)
+            {
+                if (specialty.Length > 100)
+                    throw new UserValidationException(
+                        "La especialidad no puede exceder 100 caracteres"
+                    );
+                Specialty = specialty.Trim();
+            }
+        }
+
+        public void ChangePassword(string newPasswordHash)
+        {
+            ValidateAndSetPasswordHash(newPasswordHash);
+        }
+
+        public void ChangeRole(int newRoleId)
+        {
+            ValidateAndSetRole(newRoleId);
+            if (!IsTechnician)
+            {
+                YearsOfExperience = null;
+                Specialty = null;
+            }
+        }
 
         public void ChangeDepartment(int newDepartmentId)
         {
-            if (newDepartmentId >= 0)
-            {
-                DepartmentID = newDepartmentId;
-                return;
-            }
-            throw new InvalidOperationException();
-        }
-        private void ValidateDepartment(int depId)
-        {
-            if (depId < 0)
-            {
-                throw new Exception("Department ID cannot be lower than 0");
-            }
-        }
-        private void ValidateName(string name)
-        {
-            if (name == string.Empty || name.Length < 3)
-            {
-                throw new InvalidOperationException("Cannot set this name because is to small");
-            }
-        }
-        private void ValidatePassword(string password)
-        {
-            if (password == string.Empty || password.Length < 3)
-            {
-                throw new InvalidOperationException("Cannot set this password because is to small");
-            }
-        }
-        private string GetHash(string input)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = Encoding.UTF8.GetBytes(input);
-                byte[] hashBytes = sha256.ComputeHash(bytes);
+            if (newDepartmentId <= 0)
+                throw new UserValidationException("ID de departamento inválido");
 
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    builder.Append(hashBytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
+            DepartmentId = newDepartmentId;
         }
-        public void ChangePassword(string password)
-        {
-            ValidatePassword(password);
-            PasswordHash = GetHash(password);
-        }
+
         public void Deactivate()
         {
             IsActive = false;
         }
+
         public void Activate()
         {
             IsActive = true;
         }
+
+        public void SetRefreshToken(string token, DateTime expiryTime)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new UserValidationException("Token de actualización inválido");
+
+            if (expiryTime <= DateTime.UtcNow)
+                throw new UserValidationException("La fecha de expiración debe ser futura");
+
+            RefreshToken = token;
+            RefreshTokenExpiryTime = expiryTime;
+        }
+
+        public void ClearRefreshToken()
+        {
+            RefreshToken = null;
+            RefreshTokenExpiryTime = null;
+        }
+
+        public bool CanRegisterMaintenance()
+        {
+            return IsActive && IsTechnician;
+        }
+
+        public bool CanProposeDecommissioning()
+        {
+            return IsActive && IsTechnician;
+        }
+
+        public bool CanRequestTransfer()
+        {
+            return IsActive && IsSectionManager;
+        }
+
+        public bool CanManageInventory()
+        {
+            return IsActive && (IsAdministrator || IsDirector);
+        }
+
+        public bool CanGenerateReports()
+        {
+            return IsActive && IsDirector;
+        }
+
+        public bool HasValidRefreshToken()
+        {
+            return !string.IsNullOrWhiteSpace(RefreshToken)
+                && RefreshTokenExpiryTime.HasValue
+                && RefreshTokenExpiryTime.Value > DateTime.UtcNow;
+        }
+
+        public bool IsTechnician => RoleId == (int)RoleEnum.Technician;
+        public bool IsAdministrator => RoleId == (int)RoleEnum.Administrator;
+        public bool IsDirector => RoleId == (int)RoleEnum.Director;
+        public bool IsSectionManager => RoleId == (int)RoleEnum.SectionManager;
+        public bool IsEquipmentReceiver => RoleId == (int)RoleEnum.EquipmentReceiver;
     }
 }

@@ -1,21 +1,14 @@
-namespace Application.DTOs.Auth
-{
-    public class UserDto
-    {
-        public int UserId { get; set; }
-        public string FullName { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; } = string.Empty;
-        public int? SectionId { get; set; }
-        public string? SectionName { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
+namespace Application.DTOs.Auth;
 
-        // Fields specific to Technician (nullables)
-        public int? YearsOfExperience { get; set; }
-        public string? Specialty { get; set; }
-        public decimal? Salary { get; set; }
-        public decimal? CurrentPerformanceRating { get; set; }
-    }
+public record UserDto
+{
+    public required int UserId { get; init; }
+    public required string FullName { get; init; }
+    public required string Role { get; init; }
+    public required int DepartmentId { get; init; }
+    public required string DepartmentName { get; init; }
+    public required bool IsActive { get; init; }
+    public required DateTime CreatedAt { get; init; }
+    public int? YearsOfExperience { get; init; }
+    public string? Specialty { get; init; }
 }

@@ -1,17 +1,12 @@
-namespace Application.DTOs.Auth
-{
-    public class CreateUserRequestDto
-    {
-        public string FullName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty; // Administrator, Director, etc.
-        public int DepartmentId { get; set; }
-        public int? SectionId { get; set; } // for SectionManager
+namespace Application.DTOs.Auth;
 
-        // Fields specific to Technician
-        public int? YearsOfExperience { get; set; }
-        public string? Specialty { get; set; }
-        public decimal? Salary { get; set; }
-    }
+public record CreateUserRequestDto
+{
+    public required string FullName { get; init; }
+    public required string Password { get; init; }
+    public required string Role { get; init; }
+    public required int DepartmentId { get; init; }
+    public int? SectionId { get; init; }
+    public int? YearsOfExperience { get; init; }
+    public string? Specialty { get; init; }
 }

@@ -276,11 +276,12 @@ La arquitectura propuesta implementa varios patrones de diseño reconocidos que 
 | **Framework** | .NET | 8 (LTS) | Framework principal del backend |
 | **ORM** | Entity Framework Core | 8 | Mapeo objeto-relacional |
 | **API** | ASP.NET Core Web API | 8 | Construcción de API RESTful |
-| **Mediator** | MediatR | 9+ | Implementación de CQRS |
 | **Lenguaje** | TypeScript | 4.x | Tipado estático |
 | **Lenguaje** | C# | 11 | Lenguaje principal del backend |
 | **Control de Versiones** | Git + GitHub | N/A | Gestión de código fuente |
 | **Base de Datos** | PostgreSQL | 15+ | Almacenamiento de datos |
+| **Validación** | FluentValidation | 11.x | Validación de DTOs y reglas de negocio |
+| **Mapeo** | AutoMapper | 12.x | Transformación Entity ↔ DTO |
 
 ---
 
