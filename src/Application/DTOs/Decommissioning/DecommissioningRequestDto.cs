@@ -1,3 +1,4 @@
+using Domain.Enums;
 namespace Application.DTOs.Decommissioning
 {
     public class DecommissioningRequestDto

@@ -3,9 +3,6 @@ using FluentValidation;
 
 namespace Application.Validators.Auth
 {
-    
-    
-    
     public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequestDto>
     {
         private static readonly string[] ValidRoles = 

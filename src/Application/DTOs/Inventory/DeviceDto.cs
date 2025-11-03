@@ -1,3 +1,4 @@
+using Domain.Enums;
 namespace Application.DTOs.Inventory
 {
     public class DeviceDto
@@ -5,7 +6,7 @@ namespace Application.DTOs.Inventory
         public int DeviceId { get; set; }
         public string Name { get; set; } = string.Empty;
         public DeviceType DeviceType { get; set; }
-        public string OperationalState { get; set; } = string.Empty;
+        public OperationalState OperationalState { get; set; }
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; } = string.Empty;
         public int? SectionId { get; set; }

@@ -1,9 +1,11 @@
+using Application.DTOs.Transfer;
+
 public interface ITransferService
 {
-    Task<TransferRequestDto> InitiateTransferAsync(InitiateTransferRequest request);
-    Task<TransferRequestDto> ConfirmReceptionAsync(string transferId, ConfirmReceptionRequest request);
-    Task<List<TransferRequestDto>> GetPendingTransfersAsync();
-    Task<TransferRequestDto> GetTransferByIdAsync(string transferId);
-    Task<List<TransferRequestDto>> GetTransfersByEquipmentAsync(string equipmentId);
-    Task UpdateEquipmentLocationAsync(string equipmentId, string newLocation);
+    Task InitiateTransferAsync(CreateTransferRequestDto request);
+    Task ConfirmReceptionAsync(int transferId);
+    Task<IEnumerable<TransferDto>> GetPendingTransfersAsync();
+    Task<TransferDto> GetTransferByIdAsync(int transferId);
+    Task<List<TransferDto>> GetTransfersByDeviceAsync(int deviceId);
+    Task UpdateEquipmentLocationAsync(int equipmentId, int newDepartmentId);
 }
