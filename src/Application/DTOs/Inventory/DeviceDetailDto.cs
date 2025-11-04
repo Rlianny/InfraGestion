@@ -1,12 +1,20 @@
 using Application.DTOs.Maintenance;
 using Application.DTOs.Transfer;
 using Application.DTOs.Decommissioning;
+using Domain.Enums;
 namespace Application.DTOs.Inventory
 {
     public class DeviceDetailDto : DeviceDto
     {
-        public List<MaintenanceRecordSummaryDto> MaintenanceHistory { get; set; } = new();
-        public List<TransferSummaryDto> TransferHistory { get; set; } = new();
+        public DeviceDetailDto(int deviceId, string name, DeviceType deviceType, OperationalState operationalState, string departmentName, IEnumerable<MaintenanceRecordDto> maintenanceHistory, IEnumerable<TransferDto> transferHistory, DecommissioningDto? decommissioningInfo) : base(deviceId, name, deviceType, operationalState, departmentName)
+        {
+            MaintenanceHistory = maintenanceHistory;
+            TransferHistory = transferHistory;
+            DecommissioningInfo = decommissioningInfo;
+        }
+
+        public IEnumerable<MaintenanceRecordDto> MaintenanceHistory { get; set; }
+        public IEnumerable<TransferDto> TransferHistory { get; set; } 
         public DecommissioningDto? DecommissioningInfo { get; set; }
     }
 }

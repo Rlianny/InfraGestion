@@ -1,31 +1,41 @@
 using Application.DTOs.Inventory;
-using Domain.Entities;
-using Domain.Interfaces;
+using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Aggregations;
+using Domain.Entities;
+using Domain.Enums;
+using Domain.Interfaces;
+using static System.Collections.Specialized.BitVector32;
 
 public class InventoryService : IInventoryService
 {
-    private readonly IRepository<Device> deviceRepo;
-    private readonly IRepository<Section> sectionRepo;
-    private readonly IRepository<User> userRepo;
+    private readonly IDeviceRepository deviceRepo;
+    private readonly ISectionRepository sectionRepo;
+    private readonly IUserRepository userRepo;
     private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepo;
     private readonly IUnitOfWork unitOfWork;
-    private readonly IMapper mapper;
+    private readonly IDepartmentRepository departmentRepository;
+    private readonly IMaintenanceService maintenanceService;
+    private readonly ITransferService transferService;
+    private readonly IDecommissioningRepository decommissioningRepository;
 
     public InventoryService(
-        IRepository<Device> deviceRepo,
-        IRepository<User> userRepo,
-        IRepository<Section> sectionRepo,
+        IDeviceRepository deviceRepo,
+        IUserRepository userRepo,
+        ISectionRepository sectionRepo,
         IReceivingInspectionRequestRepository receivingInspectionRequestRepo,
         IUnitOfWork unitOfWork,
-        IMapper mapper)
+        IDepartmentRepository departmentRepository,
+        IMaintenanceRecordRepository maintenanceRecordRepository,
+        IDecommissioningRepository decommissioningRepository
+        )
     {
         this.deviceRepo = deviceRepo;
         this.sectionRepo = sectionRepo;
         this.userRepo = userRepo;
         this.unitOfWork = unitOfWork;
-        this.mapper = mapper;
+        this.departmentRepository = departmentRepository;
+        this.decommissioningRepository = decommissioningRepository;
         this.receivingInspectionRequestRepo = receivingInspectionRequestRepo;
     }
 
@@ -49,27 +59,106 @@ public class InventoryService : IInventoryService
     public async Task<IEnumerable<DeviceDto>> GetCompanyInventoryAsync()
     {
         var devices = await deviceRepo.GetAllAsync();
-        return devices.Select(x => new DeviceDto());
+        return await Task.WhenAll(
+            devices.Select(async device =>
+            {
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+                return new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name);
+            })
+        );
     }
 
-    public Task<DeviceDetailDto> GetDeviceDetailAsync(int DeviceID)
+    public async Task<DeviceDetailDto> GetDeviceDetailAsync(int DeviceID)
     {
-        throw new NotImplementedException();
+        var device = await deviceRepo.GetByIdAsync(DeviceID);
+        var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+        var maintenanceHistory = await maintenanceService.GetDeviceMaintenanceHistoryAsync(device.DeviceID);
+        var transferHistory = await transferService.GetTransfersByDeviceAsync(device.DeviceID);
+        var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceID);
+        if (decommisionings.FirstOrDefault()==null)
+        {
+            return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+           department.Name, maintenanceHistory, transferHistory, null);
+        }
+        var finalDecommisioning = decommisionings.First(x => x.FinalDestination != null);
+        return  new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+           department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID,finalDecommisioning.DeviceReceiverID,finalDecommisioning.DecommissioningRequestID,finalDecommisioning.DeviceID,finalDecommisioning.DecommissioningDate,finalDecommisioning.Reason,finalDecommisioning.FinalDestination,finalDecommisioning.ReceiverDepartmentID));
+
+
+
     }
 
-    public Task<IEnumerable<DeviceDto>> GetInventoryAsync(DeviceFilterDto filter, int UserId)
+    public async Task<IEnumerable<DeviceDto>> GetInventoryAsync(DeviceFilterDto filter, int UserId)
     {
-        throw new NotImplementedException();
+        var devicesDTOs = new List<DeviceDto>();
+        var devices = await deviceRepo.GetAllAsync();
+        foreach (var device in devices)
+        {
+            if ((device.Type == filter.DeviceType || filter.DeviceType is null) &&
+                (device.OperationalState == filter.OperationalState || filter.OperationalState is null) &&
+                (device.DepartmentID == filter.DepartmentId || filter.DepartmentId is null)
+                )
+            {
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+
+                devicesDTOs.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+            }
+        }
+        if (filter.OrderBy != null)
+        {
+            int start = filter.PageNumber * filter.PageSize;
+            int end = start + filter.PageSize;
+            switch (filter.OrderBy)
+            {
+                case "Name":
+                    var x = devicesDTOs.OrderBy(x => x.Name).Skip(start).Take(end);
+                    return x;
+
+                case "DeviceId":
+                    x = devicesDTOs.OrderBy(x => x.DeviceId).Skip(start).Take(end);
+                    return x;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        return devicesDTOs;
     }
 
-    public Task<IEnumerable<DeviceDto>> GetSectionInventoryAsync(int userID, int sectionId)
+    public async Task<IEnumerable<DeviceDto>> GetSectionInventoryAsync(int userID, int sectionId)
     {
-        throw new NotImplementedException();
+        var user = await userRepo.GetByIdAsync(userID);
+        var devices = await deviceRepo.GetAllAsync();
+        if (user.Department.Section.SectionID!=sectionId)
+        {
+            throw new Exception();    
+        }
+        var deviceDtos = new List<DeviceDto>();
+        foreach (var device in devices)
+        {
+            var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+            if (department.Section.SectionID==sectionId)
+            {
+                deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+            }
+        }
+        return deviceDtos;
     }
 
-    public Task<IEnumerable<DeviceDto>> GetUsersOwnSectionInventory(int userID)
+    public async Task<IEnumerable<DeviceDto>> GetUsersOwnSectionInventory(int userID)
     {
-        throw new NotImplementedException();
+        var user = await userRepo.GetByIdAsync(userID) ?? throw new Exception("User does not exist");
+        var userDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("The given user does not exist");
+        var devices = await deviceRepo.GetAllAsync();
+        var deviceDtos = new List<DeviceDto>();
+        foreach (var device in devices)
+        {
+            var deviceDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("User is not on that departament exist");
+            if (userDepartment.SectionID==deviceDepartment.SectionID)
+            {
+                deviceDtos.Add(new DeviceDto(device.DeviceID,device.Name,device.Type,device.OperationalState,deviceDepartment.Name));
+            }
+        }
+        return deviceDtos;
     }
 
     public async Task RegisterDeviceAsync(InsertDeviceRequestDto request)

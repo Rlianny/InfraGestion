@@ -1,16 +1,30 @@
+using Domain.Enums;
+
 namespace Application.DTOs.Decommissioning
 {
     public class DecommissioningDto
     {
-        public int DecommissioningId { get; set; }
-        public int DeviceId { get; set; }
-        public string DeviceName { get; set; } = string.Empty;
-        public DateTime DecommissioningDate { get; set; }
-        public string Reason { get; set; } = string.Empty;
-        public string FinalDestination { get; set; } = string.Empty;
-        public int ReceiverDepartmentId { get; set; }
-        public string ReceiverDepartmentName { get; set; } = string.Empty;
-        public int DeviceReceiverId { get; set; }
-        public string DeviceReceiverName { get; set; } = string.Empty;
+        public DecommissioningDto(int decommissioningID, int deviceReceiverID, int decommissioningRequestID, int deviceID, DateTime decommissioningDate, DecommissioningReason reason, string? finalDestination, int receiverDepartmentID)
+        {
+            DecommissioningID = decommissioningID;
+            DeviceReceiverID = deviceReceiverID;
+            DecommissioningRequestID = decommissioningRequestID;
+            DeviceID = deviceID;
+            DecommissioningDate = decommissioningDate;
+            Reason = reason;
+            FinalDestination = finalDestination;
+            ReceiverDepartmentID = receiverDepartmentID;
+        }
+
+        public int DecommissioningID { get; private set; }
+        public int DeviceReceiverID { get; private set; }
+        public int DecommissioningRequestID { get; private set; }
+        public int DeviceID { get; private set; }
+
+        public DateTime DecommissioningDate { get; private set; }
+        public DecommissioningReason Reason { get; private set; }
+
+        public string? FinalDestination { get; private set; }
+        public int ReceiverDepartmentID { get; private set; }
     }
 }
