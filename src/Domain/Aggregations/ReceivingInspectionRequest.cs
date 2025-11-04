@@ -28,6 +28,7 @@ namespace Domain.Aggregations
         public DateTime? AcceptedDate { get; private set; }
         public DateTime? RejectionDate { get; private set; }
         public Enums.InspectionRequestStatus Status { get; private set; }
+        public string RejectReason { get; private set; }
         private void ValidateDate(DateTime date)
         {
             if (date > DateTime.Now)
@@ -48,7 +49,7 @@ namespace Domain.Aggregations
             Status = Enums.InspectionRequestStatus.Accepted;
         }
 
-        public void Reject()
+        public void Reject(string reason)
         {
             if (Status != Enums.InspectionRequestStatus.Pending)
                 throw new InvalidOperationException("Only pending inspections can be rejected");
@@ -58,6 +59,7 @@ namespace Domain.Aggregations
 
             RejectionDate = DateTime.Now;
             Status = Enums.InspectionRequestStatus.Rejected;
+            RejectReason = reason;
         }
 
         public bool IsPending() => Status == Enums.InspectionRequestStatus.Pending;

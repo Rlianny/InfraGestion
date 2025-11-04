@@ -9,8 +9,8 @@ public interface IInventoryService
     Task UpdateEquipmentAsync(UpdateDeviceRequestDto request);
     Task<IEnumerable<DeviceDto>> GetUsersOwnSectionInventory(int userID);
     Task<IEnumerable<DeviceDto>> GetSectionInventoryAsync(int userID, int sectionId);
-    Task<IEnumerable<DeviceDto>> GetCompanyInventoryAsync(int userID);
-    Task AssignDeviceForReviewAsync(int deviceID, int technicianID);
+    Task<IEnumerable<DeviceDto>> GetCompanyInventoryAsync();
+    Task AssignDeviceForReviewAsync(AssignDeviceForInspectionRequestDto inspectionRequestDto);
     Task RejectDevice(int deviceID, int technicianID, string reason);
     Task ApproveDevice(int deviceID, int technicianID);
 }

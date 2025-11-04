@@ -11,13 +11,13 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetReceivingInspectionRequestsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
+        public async Task<ReceivingInspectionRequest> GetReceivingInspectionRequestsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
         {
-            return await _dbSet
+            return (await _dbSet
                 .Where(r => r.DeviceID == deviceId)
                 .Include(r => r.AdministratorID)
                 .Include(r => r.TechnicianID)
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken))[0];
         }
 
         public async Task<IEnumerable<ReceivingInspectionRequest>> GetReceivingInspectionRequestsByAdministratorAsync(int administratorId, CancellationToken cancellationToken = default)

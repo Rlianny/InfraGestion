@@ -4,5 +4,6 @@ namespace Application.DTOs.Inventory
     {
         public int DeviceId { get; set; }
         public int TechnicianId { get; set; }
+        public int AdministratorID { get; set; }
     }
 }

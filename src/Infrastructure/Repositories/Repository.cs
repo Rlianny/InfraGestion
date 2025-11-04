@@ -99,7 +99,7 @@ namespace Infrastructure.Repositories
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-
+                
             _dbSet.Update(entity);
             return Task.CompletedTask;
         }

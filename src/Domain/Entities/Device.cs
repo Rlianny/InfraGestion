@@ -31,6 +31,18 @@ namespace Domain.Entities
             DepartmentID = departmentID;
             AcquisitionDate = acquisitionDate;
         }
+        public Device(string name, DeviceType type, OperationalState operationalState, int departmentID, DateTime acquisitionDate, int deviceID)
+        {
+            ValidateName(name);
+            ValidateDepartment(departmentID);
+            ValidateDate(acquisitionDate);
+            Name = name;
+            Type = type;
+            OperationalState = operationalState;
+            DepartmentID = departmentID;
+            AcquisitionDate = acquisitionDate;
+            DeviceID = deviceID;
+        }
 
         private void ValidateDate(DateTime acquisitionDate)
         {
