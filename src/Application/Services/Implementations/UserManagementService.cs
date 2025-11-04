@@ -9,10 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Implementations
 {
-    
-    
-    
-    
     public class UserManagementService : IUserManagementService
     {
         private readonly IUserRepository _userRepository;
