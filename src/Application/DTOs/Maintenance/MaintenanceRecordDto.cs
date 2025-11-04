@@ -9,7 +9,7 @@ namespace Application.DTOs.Maintenance
         public string TechnicianName { get; set; } = string.Empty;
         public DateTime MaintenanceDate { get; set; }
         public MaintenanceType MaintenanceType { get; set; }
-        public decimal Cost { get; set; }
+        public double Cost { get; set; }
         public string Description { get; set; } = string.Empty;
     }
 }
