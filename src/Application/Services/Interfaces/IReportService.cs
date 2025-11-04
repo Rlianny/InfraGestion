@@ -1,10 +1,15 @@
-public interface IReportService
+using Application.DTOs.Report;
+
+namespace Application.Services.Interfaces
 {
-    Task<InventoryReportDto> GenerateInventoryReportAsync(InventoryReportCriteria criteria);
-    Task<DischargeReportDto> GenerateDischargeReportAsync(DischargeReportCriteria criteria);
-    Task<PersonnelEffectivenessReportDto> GeneratePersonnelEffectivenessReportAsync(PersonnelReportCriteria criteria);
-    Task<EquipmentReplacementReportDto> GenerateEquipmentReplacementReportAsync();
-    Task<DepartmentTransferReportDto> GenerateDepartmentTransferReportAsync(string departmentId);
-    Task<CorrelationAnalysisReportDto> GenerateCorrelationAnalysisReportAsync();
-    Task<BonusDeterminationReportDto> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria);
+    public interface IReportService
+    {
+        Task<IEnumerable<DeviceReportDto>> GenerateInventoryReportAsync(DeviceReportFilterDto filter);
+        Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync(DecommissioningReportFilterDto filter);
+        Task<IEnumerable<PersonnelEffectivenessReportDto>> GeneratePersonnelEffectivenessReportAsync(PersonnelReportFilterDto criteria);
+        Task<IEnumerable<DeviceReplacementReportDto>> GenerateEquipmentReplacementReportAsync();
+        Task<IEnumerable<DepartmentTransferReportDto>> GenerateDepartmentTransferReportAsync(string departmentId);
+        Task<IEnumerable<CorrelationAnalysisReportDto>> GenerateCorrelationAnalysisReportAsync();
+        Task<IEnumerable<BonusDeterminationReportDto>> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria);
+    }
 }
