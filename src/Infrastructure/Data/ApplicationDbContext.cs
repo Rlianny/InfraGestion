@@ -15,7 +15,7 @@ namespace Infrastructure.Data
 
         // Entities
         public DbSet<User> Users { get; set; }
-        public DbSet<DeviceReceiver> DeviceReceivers { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Device> Devices { get; set; }
@@ -33,39 +33,17 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<PerformanceRating>()
-                .HasKey(a => new { a.UserID, a.TechnicianID, a.Date });
+            // Aplicar todas las configuraciones del assembly
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-            modelBuilder.Entity<Decommissioning>()
-                .HasKey(d => d.DecommissioningRequestID);
-
-            modelBuilder.Entity<DecommissioningRequest>()
-                .HasKey(dr => new { dr.TechnicianID, dr.DeviceID, dr.Date });
-
-            modelBuilder.Entity<ReceivingInspectionRequest>()
-                .HasKey(r => new { r.DeviceID, r.AdministratorID, r.TechnicianID });
-
-            modelBuilder.Entity<Rejection>()
-                .HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID });
-
-            modelBuilder.Entity<Transfer>()
-                .HasKey(t => t.TransferID);
-
-            modelBuilder.Entity<MaintenanceRecord>()
-                .HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
-
-
-            modelBuilder.Entity<User>()
-                .HasKey(u => u.UserID);
-
-            modelBuilder.Entity<Device>()
-                .HasKey(e => e.DeviceID);
-
-            modelBuilder.Entity<Department>()
-                .HasKey(d => d.DepartmentID);
-
-            modelBuilder.Entity<Section>()
-                .HasKey(s => s.SectionID);
+            // Seed Roles
+            modelBuilder.Entity<Domain.Entities.Role>().HasData(
+                new { RoleId = (int)RoleEnum.Technician, Name = "Technician" },
+                new { RoleId = (int)RoleEnum.EquipmentReceiver, Name = "EquipmentReceiver" },
+                new { RoleId = (int)RoleEnum.SectionManager, Name = "SectionManager" },
+                new { RoleId = (int)RoleEnum.Administrator, Name = "Administrator" },
+                new { RoleId = (int)RoleEnum.Director, Name = "Director" }
+            );
 
             // Dates
             var today = DateTime.Today;
@@ -130,43 +108,43 @@ namespace Infrastructure.Data
 
             // Seed Users - Administrator
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -1, FullName = "David González", PasswordHash = "admin01", DepartmentID = -21, RoleId = RoleEnum.Administrator },
-                new { UserID = -2, FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18, RoleId = RoleEnum.Administrator },
-                new { UserID = -3, FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18, RoleId = RoleEnum.Administrator },
-                new { UserID = -4, FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5, RoleId = RoleEnum.Administrator },
-                new { UserID = -5, FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3, RoleId = RoleEnum.Administrator }
+                new { UserID = -1, Username = "dgonzalez", FullName = "David González", PasswordHash = "admin01", DepartmentID = -21, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+                new { UserID = -2, Username = "lmartinez", FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+                new { UserID = -3, Username = "jrodriguez", FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+                new { UserID = -4, Username = "csanchez", FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+                new { UserID = -5, Username = "rlopez", FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true }
             );
 
             // Director
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -6, FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24, RoleId = RoleEnum.Director }
+                new { UserID = -6, Username = "emorales", FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24, RoleId = (int)RoleEnum.Director, CreatedAt = today, IsActive = true }
             );
 
             // SectionManagers
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -7, FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, SectionID = -1, RoleId = RoleEnum.SectionManager },
-                new { UserID = -8, FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, SectionID = -2, RoleId = RoleEnum.SectionManager },
-                new { UserID = -9, FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, SectionID = -3, RoleId = RoleEnum.SectionManager },
-                new { UserID = -10, FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, SectionID = -4, RoleId = RoleEnum.SectionManager },
-                new { UserID = -11, FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, SectionID = -5, RoleId = RoleEnum.SectionManager }
+                new { UserID = -7, Username = "sramirez", FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+                new { UserID = -8, Username = "atorres", FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+                new { UserID = -9, Username = "pherrera", FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+                new { UserID = -10, Username = "rdiaz", FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+                new { UserID = -11, Username = "icastro", FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true }
             );
 
             // Technicians
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -12, FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = RoleEnum.Technician },
-                new { UserID = -13, FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = RoleEnum.Technician },
-                new { UserID = -14, FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = RoleEnum.Technician },
-                new { UserID = -15, FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = RoleEnum.Technician },
-                new { UserID = -16, FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = RoleEnum.Technician }
+                new { UserID = -12, Username = "cmendez", FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+                new { UserID = -13, Username = "evargas", FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+                new { UserID = -14, Username = "jsilva", FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+                new { UserID = -15, Username = "mortega", FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+                new { UserID = -16, Username = "alopez", FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true }
             );
 
             // EquipmentReceiver
-            modelBuilder.Entity<DeviceReceiver>().HasData(
-                new { UserID = -17, FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9, RoleId = RoleEnum.EquipmentReceiver },
-                new { UserID = -18, FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2, RoleId = RoleEnum.EquipmentReceiver },
-                new { UserID = -19, FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6, RoleId = RoleEnum.EquipmentReceiver },
-                new { UserID = -20, FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24, RoleId = RoleEnum.EquipmentReceiver },
-                new { UserID = -21, FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17, RoleId = RoleEnum.EquipmentReceiver }
+            modelBuilder.Entity<User>().HasData(
+                new { UserID = -17, Username = "msantos", FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+                new { UserID = -18, Username = "agarcia", FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+                new { UserID = -19, Username = "lfernandez", FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+                new { UserID = -20, Username = "mjimenez", FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+                new { UserID = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true }
             );
 
             // Seed Devices

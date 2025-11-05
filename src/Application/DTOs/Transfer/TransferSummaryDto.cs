@@ -1,3 +1,5 @@
+using Domain.Enums;
+
 namespace Application.DTOs.Transfer
 {
     public class TransferSummaryDto

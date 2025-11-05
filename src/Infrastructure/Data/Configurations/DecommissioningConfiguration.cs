@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Configurations
             builder.Property(d => d.DecommissioningDate)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.DeviceReceiver>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(d => d.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);

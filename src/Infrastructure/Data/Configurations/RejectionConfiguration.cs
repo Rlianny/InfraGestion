@@ -10,10 +10,13 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Rejections");
 
-            builder.HasKey(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID, r.DecommissioningRequestDate });
+            builder.HasKey(r => r.RejectionID);
 
-            builder.Property(d => d.RejectionID)
+            builder.Property(r => r.RejectionID)
                 .ValueGeneratedOnAdd();
+
+            builder.HasIndex(r => new { r.DeviceReceiverID, r.TechnicianID, r.DeviceID, r.DecommissioningRequestDate })
+                .IsUnique();
 
             builder.Property(r => r.DecommissioningRequestDate)
                 .IsRequired();
@@ -21,12 +24,12 @@ namespace Infrastructure.Data.Configurations
             builder.Property(r => r.RejectionDate)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.DeviceReceiver>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(r => r.DeviceReceiverID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Technician>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(r => r.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);

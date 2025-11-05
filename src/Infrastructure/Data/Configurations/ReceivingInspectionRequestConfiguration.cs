@@ -10,10 +10,13 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("ReceivingInspectionRequests");
 
-            builder.HasKey(rir => new { rir.DeviceID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate });
+            builder.HasKey(rir => rir.ReceivingInspectionRequestID);
 
-            builder.Property(d => d.ReceivingInspectionRequestID)
+            builder.Property(rir => rir.ReceivingInspectionRequestID)
                 .ValueGeneratedOnAdd();
+
+            builder.HasIndex(rir => new { rir.DeviceID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate })
+                .IsUnique();
 
             builder.Property(rir => rir.EmissionDate)
                 .IsRequired();
@@ -29,12 +32,12 @@ namespace Infrastructure.Data.Configurations
                 .HasForeignKey(rir => rir.DeviceID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Administrator>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(rir => rir.AdministratorID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.Technician>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(rir => rir.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);

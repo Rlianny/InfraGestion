@@ -10,9 +10,12 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Maintenances");
 
-            builder.HasKey(m => new { m.TechnicianID, m.DeviceID, m.Date });
+            builder.HasKey(m => m.MaintenanceRecordID);
             builder.Property(m => m.MaintenanceRecordID)
                 .ValueGeneratedOnAdd();
+
+            builder.HasIndex(m => new { m.TechnicianID, m.DeviceID, m.Date })
+                .IsUnique();
 
             builder.Property(m => m.Cost)
                 .IsRequired()
@@ -22,7 +25,7 @@ namespace Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasOne<Domain.Entities.Technician>()
+            builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(m => m.TechnicianID)
                 .OnDelete(DeleteBehavior.Restrict);
