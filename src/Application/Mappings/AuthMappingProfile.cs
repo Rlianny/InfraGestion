@@ -16,18 +16,8 @@ namespace Application.Mappings
                 .ForMember(
                     dest => dest.DepartmentName,
                     opt => opt.MapFrom(src => src.Department.Name)
-                )
-                .ForMember(
-                    dest => dest.SectionId,
-                    opt => opt.MapFrom(src => src.Department.SectionId)
-                )
-                .ForMember(
-                    dest => dest.SectionName,
-                    opt =>
-                        opt.MapFrom(src =>
-                            src.Department.Section != null ? src.Department.Section.Name : null
-                        )
                 );
+                
 
             // User -> LoginResponseDto
             CreateMap<User, LoginResponseDto>()
@@ -36,18 +26,7 @@ namespace Application.Mappings
                 .ForMember(
                     dest => dest.DepartmentName,
                     opt => opt.MapFrom(src => src.Department.Name)
-                )
-                .ForMember(
-                    dest => dest.SectionId,
-                    opt => opt.MapFrom(src => src.Department.SectionId)
-                )
-                .ForMember(
-                    dest => dest.SectionName,
-                    opt =>
-                        opt.MapFrom(src =>
-                            src.Department.Section != null ? src.Department.Section.Name : null
-                        )
-                )
+                )                
                 .ForMember(dest => dest.Token, opt => opt.Ignore())
                 .ForMember(dest => dest.ExpiresAt, opt => opt.Ignore());
 

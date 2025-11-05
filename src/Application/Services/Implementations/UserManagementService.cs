@@ -37,16 +37,15 @@ namespace Application.Services.Implementations
         
         public async Task<UserDto> CreateUserAsync(CreateUserRequestDto request, int administratorId, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("Administrator {AdministratorId} attempting to create user: {Email}", administratorId, request.Email);
+            _logger.LogInformation($"Administrator {administratorId} attempting to create user: {request.FullName}");
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
 
-            // Check if email already exists
-            if (await _userRepository.UserExistsAsync(request.Email, cancellationToken))
+            if (await _userRepository.UserExistsAsync(request.FullName, cancellationToken))
             {
-                _logger.LogWarning("User creation failed: Email already exists: {Email}", request.Email);
-                throw new DuplicateEntityException($"Ya existe un usuario con el correo electrónico '{request.Email}'");
+                _logger.LogWarning("User creation failed: FullName already exists: {FullName}", request.FullName);
+                throw new DuplicateEntityException($"Ya existe un usuario con el nombre completo '{request.FullName}'");
             }
 
             // Verify department exists

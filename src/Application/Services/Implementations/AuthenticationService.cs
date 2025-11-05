@@ -39,8 +39,7 @@ namespace Application.Services.Implementations
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<LoginResponseDto> LoginAsync(
-            LoginRequestDto request,
+        public async Task<LoginResponseDto> LoginAsync(LoginRequestDto request,
             CancellationToken cancellationToken = default
         )
         {
@@ -307,18 +306,5 @@ namespace Application.Services.Implementations
 
             return response;
         }
-    }
-
-    // Infrastructure interfaces that need to be implemented in Infrastructure layer
-    public interface IPasswordHasher
-    {
-        string HashPassword(string password);
-        bool VerifyPassword(string password, string passwordHash);
-    }
-
-    public interface IJwtTokenGenerator
-    {
-        string GenerateToken(User user);
-        string GenerateRefreshToken();
-    }
+    }    
 }
