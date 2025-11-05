@@ -15,10 +15,6 @@ namespace Infrastructure.Data
 
         // Entities
         public DbSet<User> Users { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<Director> Directors { get; set; }
-        public DbSet<Technician> Technicians { get; set; }
-        public DbSet<SectionManager> SectionManagers { get; set; }
         public DbSet<DeviceReceiver> DeviceReceivers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Section> Sections { get; set; }
@@ -133,7 +129,7 @@ namespace Infrastructure.Data
             );
 
             // Seed Users - Administrator
-            modelBuilder.Entity<Administrator>().HasData(
+            modelBuilder.Entity<User>().HasData(
                 new { UserID = -1, FullName = "David González", PasswordHash = "admin01", DepartmentID = -21 },
                 new { UserID = -2, FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18 },
                 new { UserID = -3, FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18 },
@@ -142,12 +138,12 @@ namespace Infrastructure.Data
             );
 
             // Director
-            modelBuilder.Entity<Director>().HasData(
+            modelBuilder.Entity<User>().HasData(
                 new { UserID = -6, FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24 }
             );
 
             // SectionManagers
-            modelBuilder.Entity<SectionManager>().HasData(
+            modelBuilder.Entity<User>().HasData(
                 new { UserID = -7, FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, SectionID = -1 },
                 new { UserID = -8, FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, SectionID = -2 },
                 new { UserID = -9, FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, SectionID = -3 },
@@ -156,7 +152,7 @@ namespace Infrastructure.Data
             );
 
             // Technicians
-            modelBuilder.Entity<Technician>().HasData(
+            modelBuilder.Entity<User>().HasData(
                 new { UserID = -12, FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones" },
                 new { UserID = -13, FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización" },
                 new { UserID = -14, FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía" },
