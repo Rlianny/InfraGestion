@@ -1,4 +1,4 @@
-using Domain.Aggregations;
+using Domain.Entities;
 
 namespace Domain.Interfaces
 {
