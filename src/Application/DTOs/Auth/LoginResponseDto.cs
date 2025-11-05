@@ -7,6 +7,7 @@ public record LoginResponseDto
     public required string Role { get; init; }
     public required int DepartmentId { get; init; }
     public required string DepartmentName { get; init; }
-    public required string Token { get; init; }
+    public required string AccessToken { get; init; }
+    public required string RefreshToken { get; init; }
     public required DateTime ExpiresAt { get; init; }
 }

@@ -79,7 +79,7 @@ namespace Application.Services.Implementations
             }
 
             // Generate JWT token
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var accessToken = _jwtTokenGenerator.GenerateToken(user);
             var refreshToken = _jwtTokenGenerator.GenerateRefreshToken();
             var expiresAt = DateTime.UtcNow.AddMinutes(30); // Token valid for 30 minutes
             var refreshTokenExpiry = DateTime.UtcNow.AddDays(7); // Refresh token valid for 7 days
@@ -90,6 +90,12 @@ namespace Application.Services.Implementations
 
             // Map to response DTO
             var response = _mapper.Map<LoginResponseDto>(user);
+            response = response with
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpiresAt = expiresAt
+            };
 
             _logger.LogInformation(
                 "Login successful for user: {UserId}, Role: {Role}",
@@ -290,7 +296,7 @@ namespace Application.Services.Implementations
             }
 
             // Generate new tokens
-            var newToken = _jwtTokenGenerator.GenerateToken(user);
+            var newAccessToken = _jwtTokenGenerator.GenerateToken(user);
             var newRefreshToken = _jwtTokenGenerator.GenerateRefreshToken();
             var expiresAt = DateTime.UtcNow.AddMinutes(30);
             var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
@@ -301,6 +307,12 @@ namespace Application.Services.Implementations
 
             // Map to response DTO
             var response = _mapper.Map<LoginResponseDto>(user);
+            response = response with
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+                ExpiresAt = expiresAt
+            };
 
             _logger.LogInformation("Token refreshed successfully for user: {UserId}", userId);
 

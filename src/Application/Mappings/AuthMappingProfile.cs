@@ -27,7 +27,8 @@ namespace Application.Mappings
                     dest => dest.DepartmentName,
                     opt => opt.MapFrom(src => src.Department.Name)
                 )                
-                .ForMember(dest => dest.Token, opt => opt.Ignore())
+                .ForMember(dest => dest.AccessToken, opt => opt.Ignore())
+                .ForMember(dest => dest.RefreshToken, opt => opt.Ignore())
                 .ForMember(dest => dest.ExpiresAt, opt => opt.Ignore());
 
             // CreateUserRequestDto -> User (for creation)
