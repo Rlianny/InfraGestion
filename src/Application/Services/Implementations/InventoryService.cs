@@ -75,14 +75,14 @@ public class InventoryService : IInventoryService
         var maintenanceHistory = await maintenanceService.GetDeviceMaintenanceHistoryAsync(device.DeviceID);
         var transferHistory = await transferService.GetTransfersByDeviceAsync(device.DeviceID);
         var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceID);
-        if (decommisionings.FirstOrDefault()==null)
+        if (decommisionings.FirstOrDefault() == null)
         {
             return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
            department.Name, maintenanceHistory, transferHistory, null);
         }
         var finalDecommisioning = decommisionings.First(x => x.FinalDestination != null);
-        return  new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
-           department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID,finalDecommisioning.DeviceReceiverID,finalDecommisioning.DecommissioningRequestID,finalDecommisioning.DeviceID,finalDecommisioning.DecommissioningDate,finalDecommisioning.Reason,finalDecommisioning.FinalDestination,finalDecommisioning.ReceiverDepartmentID));
+        return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+           department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID, finalDecommisioning.DeviceReceiverID, finalDecommisioning.DecommissioningRequestID, finalDecommisioning.DeviceID, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentID));
 
 
 
@@ -128,15 +128,15 @@ public class InventoryService : IInventoryService
     {
         var user = await userRepo.GetByIdAsync(userID);
         var devices = await deviceRepo.GetAllAsync();
-        if (user.Department.Section.SectionID!=sectionId)
+        if (user.Department.Section.SectionID != sectionId)
         {
-            throw new Exception();    
+            throw new Exception();
         }
         var deviceDtos = new List<DeviceDto>();
         foreach (var device in devices)
         {
             var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-            if (department.Section.SectionID==sectionId)
+            if (department.Section.SectionID == sectionId)
             {
                 deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
             }
@@ -153,9 +153,9 @@ public class InventoryService : IInventoryService
         foreach (var device in devices)
         {
             var deviceDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("User is not on that departament exist");
-            if (userDepartment.SectionID==deviceDepartment.SectionID)
+            if (userDepartment.SectionID == deviceDepartment.SectionID)
             {
-                deviceDtos.Add(new DeviceDto(device.DeviceID,device.Name,device.Type,device.OperationalState,deviceDepartment.Name));
+                deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
             }
         }
         return deviceDtos;
@@ -169,11 +169,12 @@ public class InventoryService : IInventoryService
     public async Task RejectDevice(int deviceID, int technicianID, string reason)
     {
         ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-        if (technicianID != inspectionRequest.TechnicianID)
+        User? tech = await userRepo.GetByIdAsync(technicianID);
+        Device? device = await deviceRepo.GetByIdAsync(deviceID);
+        if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianID)
         {
             throw new Exception();
         }
-
         inspectionRequest.Reject(reason);
         await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
     }

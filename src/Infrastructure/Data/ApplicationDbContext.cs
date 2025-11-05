@@ -130,43 +130,43 @@ namespace Infrastructure.Data
 
             // Seed Users - Administrator
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -1, FullName = "David González", PasswordHash = "admin01", DepartmentID = -21 },
-                new { UserID = -2, FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18 },
-                new { UserID = -3, FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18 },
-                new { UserID = -4, FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5 },
-                new { UserID = -5, FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3 }
+                new { UserID = -1, FullName = "David González", PasswordHash = "admin01", DepartmentID = -21, RoleId = RoleEnum.Administrator },
+                new { UserID = -2, FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18, RoleId = RoleEnum.Administrator },
+                new { UserID = -3, FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18, RoleId = RoleEnum.Administrator },
+                new { UserID = -4, FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5, RoleId = RoleEnum.Administrator },
+                new { UserID = -5, FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3, RoleId = RoleEnum.Administrator }
             );
 
             // Director
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -6, FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24 }
+                new { UserID = -6, FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24, RoleId = RoleEnum.Director }
             );
 
             // SectionManagers
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -7, FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, SectionID = -1 },
-                new { UserID = -8, FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, SectionID = -2 },
-                new { UserID = -9, FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, SectionID = -3 },
-                new { UserID = -10, FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, SectionID = -4 },
-                new { UserID = -11, FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, SectionID = -5 }
+                new { UserID = -7, FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, SectionID = -1, RoleId = RoleEnum.SectionManager },
+                new { UserID = -8, FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, SectionID = -2, RoleId = RoleEnum.SectionManager },
+                new { UserID = -9, FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, SectionID = -3, RoleId = RoleEnum.SectionManager },
+                new { UserID = -10, FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, SectionID = -4, RoleId = RoleEnum.SectionManager },
+                new { UserID = -11, FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, SectionID = -5, RoleId = RoleEnum.SectionManager }
             );
 
             // Technicians
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -12, FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones" },
-                new { UserID = -13, FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización" },
-                new { UserID = -14, FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía" },
-                new { UserID = -15, FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad" },
-                new { UserID = -16, FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica" }
+                new { UserID = -12, FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = RoleEnum.Technician },
+                new { UserID = -13, FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = RoleEnum.Technician },
+                new { UserID = -14, FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = RoleEnum.Technician },
+                new { UserID = -15, FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = RoleEnum.Technician },
+                new { UserID = -16, FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = RoleEnum.Technician }
             );
 
             // EquipmentReceiver
             modelBuilder.Entity<DeviceReceiver>().HasData(
-                new { UserID = -17, FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9 },
-                new { UserID = -18, FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2 },
-                new { UserID = -19, FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6 },
-                new { UserID = -20, FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24 },
-                new { UserID = -21, FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17 }
+                new { UserID = -17, FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9, RoleId = RoleEnum.EquipmentReceiver },
+                new { UserID = -18, FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2, RoleId = RoleEnum.EquipmentReceiver },
+                new { UserID = -19, FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6, RoleId = RoleEnum.EquipmentReceiver },
+                new { UserID = -20, FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24, RoleId = RoleEnum.EquipmentReceiver },
+                new { UserID = -21, FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17, RoleId = RoleEnum.EquipmentReceiver }
             );
 
             // Seed Devices
