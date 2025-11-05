@@ -17,7 +17,8 @@ namespace Web.API.Controllers
         public AuthController(
             IAuthenticationService authService,
             IUserManagementService userService,
-            ILogger<AuthController> logger)
+            ILogger<AuthController> logger
+        )
         {
             _authService = authService;
             _userService = userService;
@@ -34,13 +35,19 @@ namespace Web.API.Controllers
             try
             {
                 var response = await _authService.LoginAsync(request);
-                _logger.LogInformation("Usuario {Username} inició sesión exitosamente", request.Username);
+                _logger.LogInformation(
+                    "Usuario {Username} inició sesión exitosamente",
+                    request.Username
+                );
                 return Ok(response);
             }
             catch (UnauthorizedAccessException ex)
             {
-                _logger.LogWarning("Intento de login fallido para {Username}: {Message}",
-                    request.Username, ex.Message);
+                _logger.LogWarning(
+                    "Intento de login fallido para {Username}: {Message}",
+                    request.Username,
+                    ex.Message
+                );
                 return Unauthorized(new { message = ex.Message });
             }
             catch (Exception ex)
@@ -54,11 +61,16 @@ namespace Web.API.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<LoginResponseDto>> RefreshToken([FromBody] RefreshTokenRequestDto request)
+        public async Task<ActionResult<LoginResponseDto>> RefreshToken(
+            [FromBody] RefreshTokenRequestDto request
+        )
         {
             try
             {
-                var response = await _authService.RefreshTokenAsync(request.UserId, request.RefreshToken);
+                var response = await _authService.RefreshTokenAsync(
+                    request.UserId,
+                    request.RefreshToken
+                );
                 return Ok(response);
             }
             catch (UnauthorizedAccessException ex)
@@ -76,8 +88,11 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userIdClaim = User.FindFirst("sub")?.Value
-                    ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+                var userIdClaim =
+                    User.FindFirst("sub")?.Value
+                    ?? User.FindFirst(
+                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                    )?.Value;
 
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
                 {
@@ -102,8 +117,11 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userIdClaim = User.FindFirst("sub")?.Value
-                    ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+                var userIdClaim =
+                    User.FindFirst("sub")?.Value
+                    ?? User.FindFirst(
+                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                    )?.Value;
 
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
                 {
@@ -130,8 +148,11 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userIdClaim = User.FindFirst("sub")?.Value
-                    ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+                var userIdClaim =
+                    User.FindFirst("sub")?.Value
+                    ?? User.FindFirst(
+                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                    )?.Value;
 
                 if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
                 {

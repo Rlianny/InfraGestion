@@ -16,6 +16,16 @@ namespace Application.Validators.Auth
 
         public CreateUserRequestValidator()
         {
+            RuleFor(x => x.Username)
+                .NotEmpty()
+                .WithMessage("El nombre de usuario es obligatorio")
+                .MinimumLength(3)
+                .WithMessage("El nombre de usuario debe tener al menos 3 caracteres")
+                .MaximumLength(50)
+                .WithMessage("El nombre de usuario no puede exceder 50 caracteres")
+                .Matches(@"^[a-zA-Z0-9_-]+$")
+                .WithMessage("El nombre de usuario solo puede contener letras, números, guiones y guiones bajos");
+
             RuleFor(x => x.FullName)
                 .NotEmpty()
                 .WithMessage("El nombre completo es obligatorio")
@@ -65,18 +75,7 @@ namespace Application.Validators.Auth
                 }
             );
 
-            // Section Manager validation
-            When(
-                x => x.Role == "SectionManager",
-                () =>
-                {
-                    RuleFor(x => x.SectionId)
-                        .NotNull()
-                        .WithMessage("La sección es obligatoria para responsables de sección")
-                        .GreaterThan(0)
-                        .WithMessage("La sección debe ser válida");
-                }
-            );
+
         }
     }
 }

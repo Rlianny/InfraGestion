@@ -5,22 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class ReceivingInspectionRequestRepository : Repository<ReceivingInspectionRequest>, IReceivingInspectionRequestRepository
+    public class ReceivingInspectionRequestRepository
+        : Repository<ReceivingInspectionRequest>,
+            IReceivingInspectionRequestRepository
     {
-        public ReceivingInspectionRequestRepository(ApplicationDbContext context) : base(context)
+        public ReceivingInspectionRequestRepository(ApplicationDbContext context)
+            : base(context) { }
+
+        public async Task<ReceivingInspectionRequest> GetReceivingInspectionRequestsByDeviceAsync(
+            int deviceId,
+            CancellationToken cancellationToken = default
+        )
         {
+            return (
+                await _dbSet
+                    .Where(r => r.DeviceID == deviceId)
+                    .Include(r => r.AdministratorID)
+                    .Include(r => r.TechnicianID)
+                    .ToListAsync(cancellationToken)
+            )[0];
         }
 
-        public async Task<ReceivingInspectionRequest> GetReceivingInspectionRequestsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
-        {
-            return (await _dbSet
-                .Where(r => r.DeviceID == deviceId)
-                .Include(r => r.AdministratorID)
-                .Include(r => r.TechnicianID)
-                .ToListAsync(cancellationToken))[0];
-        }
-
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetReceivingInspectionRequestsByAdministratorAsync(int administratorId, CancellationToken cancellationToken = default)
+        public async Task<
+            IEnumerable<ReceivingInspectionRequest>
+        > GetReceivingInspectionRequestsByAdministratorAsync(
+            int administratorId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Where(r => r.AdministratorID == administratorId)
@@ -29,7 +40,12 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetReceivingInspectionRequestsByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default)
+        public async Task<
+            IEnumerable<ReceivingInspectionRequest>
+        > GetReceivingInspectionRequestsByTechnicianAsync(
+            int technicianId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Where(r => r.TechnicianID == technicianId)
@@ -38,7 +54,9 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetPendingInspectionRequestsAsync(CancellationToken cancellationToken = default)
+        public async Task<
+            IEnumerable<ReceivingInspectionRequest>
+        > GetPendingInspectionRequestsAsync(CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate == null && r.RejectionDate == null)
@@ -48,7 +66,9 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetAcceptedInspectionRequestsAsync(CancellationToken cancellationToken = default)
+        public async Task<
+            IEnumerable<ReceivingInspectionRequest>
+        > GetAcceptedInspectionRequestsAsync(CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(r => r.AcceptedDate != null)
@@ -56,7 +76,9 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<ReceivingInspectionRequest>> GetRejectedInspectionRequestsAsync(CancellationToken cancellationToken = default)
+        public async Task<
+            IEnumerable<ReceivingInspectionRequest>
+        > GetRejectedInspectionRequestsAsync(CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Where(r => r.RejectionDate != null)

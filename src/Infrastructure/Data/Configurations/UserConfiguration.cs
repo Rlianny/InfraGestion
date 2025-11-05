@@ -12,11 +12,17 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(u => u.UserID);
             
-            builder.Property(d => d.UserID)
-                .ValueGeneratedOnAdd();
-
             builder.Property(u => u.UserID)
                 .ValueGeneratedOnAdd();
+
+            builder.Property(u => u.Username)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            // Índice único para Username
+            builder.HasIndex(u => u.Username)
+                .IsUnique()
+                .HasDatabaseName("IX_Users_Username");
 
             builder.Property(u => u.FullName)
                 .IsRequired()
@@ -26,19 +32,15 @@ namespace Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(500);
 
-            builder.HasOne<Department>()
+            builder.HasOne(u => u.Department)
                 .WithMany()
-                .HasForeignKey(u => u.DepartmentID)
+                .HasForeignKey(u => u.DepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure TPH (Table Per Hierarchy) inheritance
-            builder.HasDiscriminator<string>("UserType")
-                .HasValue<User>("User")
-                .HasValue<Administrator>("Administrator")
-                .HasValue<Director>("Director")
-                .HasValue<Technician>("Technician")
-                .HasValue<SectionManager>("SectionManager")
-                .HasValue<DeviceReceiver>("DeviceReceiver");
+            builder.HasOne(u => u.Role)
+                .WithMany()
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

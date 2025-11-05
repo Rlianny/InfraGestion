@@ -3,6 +3,7 @@ namespace Application.DTOs.Auth;
 public record UserDto
 {
     public required int UserId { get; init; }
+    public required string Username { get; init; }
     public required string FullName { get; init; }
     public required string Role { get; init; }
     public required int DepartmentId { get; init; }

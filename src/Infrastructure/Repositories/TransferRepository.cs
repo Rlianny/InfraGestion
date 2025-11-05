@@ -7,11 +7,13 @@ namespace Infrastructure.Repositories
 {
     public class TransferRepository : Repository<Transfer>, ITransferRepository
     {
-        public TransferRepository(ApplicationDbContext context) : base(context)
-        {
-        }
+        public TransferRepository(ApplicationDbContext context)
+            : base(context) { }
 
-        public async Task<Transfer?> GetTransferWithDetailsAsync(int transferId, CancellationToken cancellationToken = default)
+        public async Task<Transfer?> GetTransferWithDetailsAsync(
+            int transferId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Include(t => t.DeviceID)
@@ -21,7 +23,10 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(t => t.TransferID == transferId, cancellationToken);
         }
 
-        public async Task<IEnumerable<Transfer>> GetTransfersByDeviceAsync(int deviceId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Transfer>> GetTransfersByDeviceAsync(
+            int deviceId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Where(t => t.DeviceID == deviceId)
@@ -30,7 +35,10 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Transfer>> GetTransfersBySourceSectionAsync(int sourceSectionId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Transfer>> GetTransfersBySourceSectionAsync(
+            int sourceSectionId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Where(t => t.SourceSectionID == sourceSectionId)
@@ -39,7 +47,10 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Transfer>> GetTransfersByDestinySectionAsync(int destinationSectionId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Transfer>> GetTransfersByDestinySectionAsync(
+            int destinationSectionId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
                 .Where(t => t.DestinationSectionID == destinationSectionId)
@@ -48,7 +59,11 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Transfer>> GetTransfersByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Transfer>> GetTransfersByDateRangeAsync(
+            DateTime startDate,
+            DateTime endDate,
+            CancellationToken cancellationToken = default
+        )
         {
             var startDateOnly = DateOnly.FromDateTime(startDate);
             var endDateOnly = DateOnly.FromDateTime(endDate);
@@ -58,10 +73,18 @@ namespace Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<int> CountTransfersBetweenSectionsAsync(int sourceSectionId, int destinySectionId, CancellationToken cancellationToken = default)
+        public async Task<int> CountTransfersBetweenSectionsAsync(
+            int sourceSectionId,
+            int destinySectionId,
+            CancellationToken cancellationToken = default
+        )
         {
-            return await _dbSet
-                .CountAsync(t => t.SourceSectionID == sourceSectionId && t.DestinationSectionID == destinySectionId, cancellationToken);
+            return await _dbSet.CountAsync(
+                t =>
+                    t.SourceSectionID == sourceSectionId
+                    && t.DestinationSectionID == destinySectionId,
+                cancellationToken
+            );
         }
     }
 }

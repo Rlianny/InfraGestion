@@ -11,6 +11,7 @@ namespace Domain.Entities
     public class User
     {
         public int UserID { get; private set; }
+        public string Username { get; private set; } = string.Empty;
         public string FullName { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
 
@@ -42,8 +43,9 @@ namespace Domain.Entities
 
         private User() { }
 
-        public User(string fullName, string passwordHash, int roleId, int departmentId)
+        public User(string username, string fullName, string passwordHash, int roleId, int departmentId)
         {
+            ValidateAndSetUsername(username);
             ValidateAndSetFullName(fullName);
             ValidateAndSetPasswordHash(passwordHash);
             ValidateAndSetRole(roleId);
@@ -54,6 +56,7 @@ namespace Domain.Entities
         }
 
         public static User CreateTechnician(
+            string username,
             string fullName,
             string passwordHash,
             int departmentId,
@@ -61,10 +64,34 @@ namespace Domain.Entities
             string specialty
         )
         {
-            var user = new User(fullName, passwordHash, (int)RoleEnum.Technician, departmentId);
+            var user = new User(username, fullName, passwordHash, (int)RoleEnum.Technician, departmentId);
 
             user.SetTechnicalExperience(yearsOfExperience, specialty);
             return user;
+        }
+
+        private void ValidateAndSetUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new UserValidationException("El nombre de usuario no puede estar vacío");
+
+            if (username.Length < 3)
+                throw new UserValidationException(
+                    "El nombre de usuario debe tener al menos 3 caracteres"
+                );
+
+            if (username.Length > 50)
+                throw new UserValidationException(
+                    "El nombre de usuario no puede exceder 50 caracteres"
+                );
+
+            // Validar que solo contenga caracteres alfanuméricos, guiones y guiones bajos
+            if (!Regex.IsMatch(username, @"^[a-zA-Z0-9_-]+$"))
+                throw new UserValidationException(
+                    "El nombre de usuario solo puede contener letras, números, guiones y guiones bajos"
+                );
+
+            Username = username.Trim().ToLower();
         }
 
         private void ValidateAndSetFullName(string fullName)

@@ -7,34 +7,75 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(ApplicationDbContext context) : base(context)
-        {
-        }
+        public UserRepository(ApplicationDbContext context)
+            : base(context) { }
 
-        public async Task<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default)
+        public async Task<User?> GetByUsernameAsync(
+            string username,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
-                .FirstOrDefaultAsync(u => u.FullName == userName, cancellationToken);
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
         }
 
-        public async Task<User?> GetUserWithDepartmentAsync(int userId, CancellationToken cancellationToken = default)
+        public async Task<User?> GetUserWithDetailsAsync(
+            int userId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
-                .Include(u => u.DepartmentID)
+                .Include(u => u.Department)
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.UserID == userId, cancellationToken);
         }
 
-        public async Task<IEnumerable<User>> GetUsersByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetUsersByDepartmentAsync(
+            int departmentId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
-                .Where(u => u.DepartmentID == departmentId)
+                .Where(u => u.DepartmentId == departmentId)
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .OrderBy(u => u.FullName)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> UserExistsAsync(string userName, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(
+            int roleId,
+            CancellationToken cancellationToken = default
+        )
         {
             return await _dbSet
-                .AnyAsync(u => u.FullName == userName, cancellationToken);
+                .Where(u => u.RoleId == roleId)
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .OrderBy(u => u.FullName)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<User>> GetActiveUsersAsync(
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await _dbSet
+                .Where(u => u.IsActive)
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .OrderBy(u => u.FullName)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> UsernameExistsAsync(
+            string username,
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await _dbSet.AnyAsync(u => u.Username == username, cancellationToken);
         }
     }
 }

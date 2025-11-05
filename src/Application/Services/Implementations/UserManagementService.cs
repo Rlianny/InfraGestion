@@ -24,35 +24,56 @@ namespace Application.Services.Implementations
             IUnitOfWork unitOfWork,
             IPasswordHasher passwordHasher,
             IMapper mapper,
-            ILogger<UserManagementService> logger)
+            ILogger<UserManagementService> logger
+        )
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
+            _userRepository =
+                userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _departmentRepository =
+                departmentRepository
+                ?? throw new ArgumentNullException(nameof(departmentRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+            _passwordHasher =
+                passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        
-        public async Task<UserDto> CreateUserAsync(CreateUserRequestDto request, int administratorId, CancellationToken cancellationToken = default)
+        public async Task<UserDto> CreateUserAsync(
+            CreateUserRequestDto request,
+            int administratorId,
+            CancellationToken cancellationToken = default
+        )
         {
-            _logger.LogInformation($"Administrator {administratorId} attempting to create user: {request.FullName}");
+            _logger.LogInformation(
+                $"Administrator {administratorId} attempting to create user: {request.FullName}"
+            );
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
 
-            if (await _userRepository.UserExistsAsync(request.FullName, cancellationToken))
+            if (await _userRepository.UsernameExistsAsync(request.Username, cancellationToken))
             {
-                _logger.LogWarning("User creation failed: FullName already exists: {FullName}", request.FullName);
-                throw new DuplicateEntityException($"Ya existe un usuario con el nombre completo '{request.FullName}'");
+                _logger.LogWarning(
+                    "User creation failed: Username already exists: {Username}",
+                    request.Username
+                );
+                throw new DuplicateEntityException(
+                    $"Ya existe un usuario con el nombre de usuario '{request.Username}'"
+                );
             }
 
             // Verify department exists
-            var department = await _departmentRepository.GetByIdAsync(request.DepartmentId, cancellationToken);
+            var department = await _departmentRepository.GetByIdAsync(
+                request.DepartmentId,
+                cancellationToken
+            );
             if (department == null)
             {
-                _logger.LogWarning("User creation failed: Department not found: {DepartmentId}", request.DepartmentId);
+                _logger.LogWarning(
+                    "User creation failed: Department not found: {DepartmentId}",
+                    request.DepartmentId
+                );
                 throw new EntityNotFoundException("Departamento", request.DepartmentId);
             }
 
@@ -67,12 +88,18 @@ namespace Application.Services.Implementations
             if (request.Role == "Technician")
             {
                 // Create technician with additional fields
-                if (!request.YearsOfExperience.HasValue || string.IsNullOrWhiteSpace(request.Specialty))
+                if (
+                    !request.YearsOfExperience.HasValue
+                    || string.IsNullOrWhiteSpace(request.Specialty)
+                )
                 {
-                    throw new UserValidationException("Los años de experiencia y especialidad son obligatorios para técnicos");
+                    throw new UserValidationException(
+                        "Los años de experiencia y especialidad son obligatorios para técnicos"
+                    );
                 }
 
                 user = User.CreateTechnician(
+                    request.Username,
                     request.FullName,
                     passwordHash,
                     request.DepartmentId,
@@ -83,25 +110,47 @@ namespace Application.Services.Implementations
             else
             {
                 // Create regular user
-                user = new User(request.FullName, passwordHash, roleId, request.DepartmentId);
+                user = new User(
+                    request.Username,
+                    request.FullName,
+                    passwordHash,
+                    roleId,
+                    request.DepartmentId
+                );
             }
 
             // Save user
             await _userRepository.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("User created successfully: {UserId}, Role: {Role}", user.UserID, request.Role);
+            _logger.LogInformation(
+                "User created successfully: {UserId}, Role: {Role}",
+                user.UserID,
+                request.Role
+            );
 
             // Reload user with navigation properties
-            user = await _userRepository.GetByIdAsync(user.UserID, cancellationToken);
+            var reloadedUser = await _userRepository.GetByIdAsync(user.UserID, cancellationToken);
 
-            return _mapper.Map<UserDto>(user!);
+            if (reloadedUser == null)
+            {
+                throw new EntityNotFoundException("Usuario", user.UserID);
+            }
+
+            return _mapper.Map<UserDto>(reloadedUser);
         }
 
-        
-        public async Task<UserDto> UpdateUserAsync(UpdateUserRequestDto request, int administratorId, CancellationToken cancellationToken = default)
+        public async Task<UserDto> UpdateUserAsync(
+            UpdateUserRequestDto request,
+            int administratorId,
+            CancellationToken cancellationToken = default
+        )
         {
-            _logger.LogInformation("Administrator {AdministratorId} attempting to update user: {UserId}", administratorId, request.UserId);
+            _logger.LogInformation(
+                "Administrator {AdministratorId} attempting to update user: {UserId}",
+                administratorId,
+                request.UserId
+            );
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
@@ -127,12 +176,20 @@ namespace Application.Services.Implementations
                 user.ChangeRole(newRoleId);
 
                 // Update technician data if role is Technician
-                if (request.Role == "Technician" && request.YearsOfExperience.HasValue && !string.IsNullOrEmpty(request.Specialty))
+                if (
+                    request.Role == "Technician"
+                    && request.YearsOfExperience.HasValue
+                    && !string.IsNullOrEmpty(request.Specialty)
+                )
                 {
                     user.SetTechnicalExperience(request.YearsOfExperience.Value, request.Specialty);
                 }
             }
-            else if (request.YearsOfExperience.HasValue && !string.IsNullOrEmpty(request.Specialty) && user.IsTechnician)
+            else if (
+                request.YearsOfExperience.HasValue
+                && !string.IsNullOrEmpty(request.Specialty)
+                && user.IsTechnician
+            )
             {
                 // Update technician data without changing role
                 user.SetTechnicalExperience(request.YearsOfExperience.Value, request.Specialty);
@@ -141,10 +198,16 @@ namespace Application.Services.Implementations
             // Update department if provided
             if (request.DepartmentId.HasValue)
             {
-                var department = await _departmentRepository.GetByIdAsync(request.DepartmentId.Value, cancellationToken);
+                var department = await _departmentRepository.GetByIdAsync(
+                    request.DepartmentId.Value,
+                    cancellationToken
+                );
                 if (department == null)
                 {
-                    _logger.LogWarning("User update failed: Department not found: {DepartmentId}", request.DepartmentId.Value);
+                    _logger.LogWarning(
+                        "User update failed: Department not found: {DepartmentId}",
+                        request.DepartmentId.Value
+                    );
                     throw new EntityNotFoundException("Departamento", request.DepartmentId.Value);
                 }
                 user.ChangeDepartment(request.DepartmentId.Value);
@@ -173,11 +236,18 @@ namespace Application.Services.Implementations
             return _mapper.Map<UserDto>(user!);
         }
 
-        
-        public async Task DeactivateUserAsync(DeactivateUserRequestDto request, int administratorId, CancellationToken cancellationToken = default)
+        public async Task DeactivateUserAsync(
+            DeactivateUserRequestDto request,
+            int administratorId,
+            CancellationToken cancellationToken = default
+        )
         {
-            _logger.LogInformation("Administrator {AdministratorId} attempting to deactivate user: {UserId}, Reason: {Reason}", 
-                administratorId, request.UserId, request.Reason);
+            _logger.LogInformation(
+                "Administrator {AdministratorId} attempting to deactivate user: {UserId}, Reason: {Reason}",
+                administratorId,
+                request.UserId,
+                request.Reason
+            );
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
@@ -185,20 +255,31 @@ namespace Application.Services.Implementations
             var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user == null)
             {
-                _logger.LogWarning("User deactivation failed: User not found: {UserId}", request.UserId);
+                _logger.LogWarning(
+                    "User deactivation failed: User not found: {UserId}",
+                    request.UserId
+                );
                 throw new EntityNotFoundException("Usuario", request.UserId);
             }
 
             // Prevent deactivating the last administrator
             if (user.IsAdministrator)
             {
-                var activeAdmins = (await _userRepository.GetUsersByDepartmentAsync(user.DepartmentId, cancellationToken))
-                    .Where(u => u.IsAdministrator && u.IsActive);
-                
+                var activeAdmins = (
+                    await _userRepository.GetUsersByDepartmentAsync(
+                        user.DepartmentId,
+                        cancellationToken
+                    )
+                ).Where(u => u.IsAdministrator && u.IsActive);
+
                 if (activeAdmins.Count() <= 1)
                 {
-                    _logger.LogWarning("User deactivation failed: Cannot deactivate last administrator");
-                    throw new BusinessRuleViolationException("No se puede desactivar al último administrador del sistema");
+                    _logger.LogWarning(
+                        "User deactivation failed: Cannot deactivate last administrator"
+                    );
+                    throw new BusinessRuleViolationException(
+                        "No se puede desactivar al último administrador del sistema"
+                    );
                 }
             }
 
@@ -208,10 +289,17 @@ namespace Application.Services.Implementations
             _logger.LogInformation("User deactivated successfully: {UserId}", request.UserId);
         }
 
-        
-        public async Task ActivateUserAsync(int userId, int administratorId, CancellationToken cancellationToken = default)
+        public async Task ActivateUserAsync(
+            int userId,
+            int administratorId,
+            CancellationToken cancellationToken = default
+        )
         {
-            _logger.LogInformation("Administrator {AdministratorId} attempting to activate user: {UserId}", administratorId, userId);
+            _logger.LogInformation(
+                "Administrator {AdministratorId} attempting to activate user: {UserId}",
+                administratorId,
+                userId
+            );
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
@@ -229,8 +317,10 @@ namespace Application.Services.Implementations
             _logger.LogInformation("User activated successfully: {UserId}", userId);
         }
 
-        
-        public async Task<UserDto> GetUserByIdAsync(int userId, CancellationToken cancellationToken = default)
+        public async Task<UserDto> GetUserByIdAsync(
+            int userId,
+            CancellationToken cancellationToken = default
+        )
         {
             _logger.LogDebug("Retrieving user: {UserId}", userId);
 
@@ -244,8 +334,9 @@ namespace Application.Services.Implementations
             return _mapper.Map<UserDto>(user);
         }
 
-        
-        public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync(
+            CancellationToken cancellationToken = default
+        )
         {
             _logger.LogDebug("Retrieving all active users");
 
@@ -255,8 +346,10 @@ namespace Application.Services.Implementations
             return _mapper.Map<IEnumerable<UserDto>>(activeUsers);
         }
 
-        
-        public async Task<IEnumerable<UserDto>> GetUsersByRoleAsync(string roleName, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<UserDto>> GetUsersByRoleAsync(
+            string roleName,
+            CancellationToken cancellationToken = default
+        )
         {
             _logger.LogDebug("Retrieving users by role: {RoleName}", roleName);
 
@@ -267,34 +360,52 @@ namespace Application.Services.Implementations
             return _mapper.Map<IEnumerable<UserDto>>(filteredUsers);
         }
 
-        
-        public async Task<IEnumerable<UserDto>> GetUsersByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<UserDto>> GetUsersByDepartmentAsync(
+            int departmentId,
+            CancellationToken cancellationToken = default
+        )
         {
             _logger.LogDebug("Retrieving users by department: {DepartmentId}", departmentId);
 
-            var users = await _userRepository.GetUsersByDepartmentAsync(departmentId, cancellationToken);
+            var users = await _userRepository.GetUsersByDepartmentAsync(
+                departmentId,
+                cancellationToken
+            );
 
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
-        private async Task ValidateAdministratorRoleAsync(int administratorId, CancellationToken cancellationToken)
+        private async Task ValidateAdministratorRoleAsync(
+            int administratorId,
+            CancellationToken cancellationToken
+        )
         {
-            var administrator = await _userRepository.GetByIdAsync(administratorId, cancellationToken);
-            
+            var administrator = await _userRepository.GetByIdAsync(
+                administratorId,
+                cancellationToken
+            );
+
             if (administrator == null || !administrator.IsActive)
             {
-                _logger.LogWarning("Access denied: Administrator not found or inactive: {AdministratorId}", administratorId);
+                _logger.LogWarning(
+                    "Access denied: Administrator not found or inactive: {AdministratorId}",
+                    administratorId
+                );
                 throw new AccessDeniedException("Administrador no encontrado o inactivo");
             }
 
             if (!administrator.IsAdministrator)
             {
-                _logger.LogWarning("Access denied: User is not an administrator: {UserId}, Role: {Role}", 
-                    administratorId, administrator.Role.Name);
+                _logger.LogWarning(
+                    "Access denied: User is not an administrator: {UserId}, Role: {Role}",
+                    administratorId,
+                    administrator.Role.Name
+                );
                 throw new AccessDeniedException(
                     "Solo los administradores pueden realizar esta operación",
                     "Administrator",
-                    administrator.Role.Name);
+                    administrator.Role.Name
+                );
             }
         }
 
@@ -307,7 +418,7 @@ namespace Application.Services.Implementations
                 "SectionManager" => (int)RoleEnum.SectionManager,
                 "Administrator" => (int)RoleEnum.Administrator,
                 "Director" => (int)RoleEnum.Director,
-                _ => throw new RoleValidationException($"Rol inválido: {roleName}")
+                _ => throw new RoleValidationException($"Rol inválido: {roleName}"),
             };
         }
     }

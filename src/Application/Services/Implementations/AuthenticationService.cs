@@ -48,7 +48,7 @@ namespace Application.Services.Implementations
                 request.Username
             );
 
-            var user = await _userRepository.GetByUserNameAsync(
+            var user = await _userRepository.GetByUsernameAsync(
                 request.Username,
                 cancellationToken
             );
