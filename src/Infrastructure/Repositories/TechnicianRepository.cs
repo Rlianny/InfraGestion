@@ -5,45 +5,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class TechnicianRepository : Repository<Technician>, ITechnicianRepository
+    public class TechnicianRepository : Repository<User>, ITechnicianRepository
     {
         public TechnicianRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<Technician?> GetTechnicianWithDetailsAsync(int technicianId, CancellationToken cancellationToken = default)
+        public async Task<User?> GetTechnicianWithDetailsAsync(int technicianId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Include(t => t.DepartmentID)
+                 .Where(t => t.IsTechnician)
+                .Include(t => t.DepartmentId)
                 .FirstOrDefaultAsync(t => t.UserID == technicianId, cancellationToken);
         }
 
-        public async Task<IEnumerable<Technician>> GetTechniciansBySpecialtyAsync(string specialty, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetTechniciansBySpecialtyAsync(string specialty, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.Specialty == specialty)
+                .Where(t => t.Specialty == specialty && t.IsTechnician)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Technician>> GetTechniciansByExperienceAsync(int minYears, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetTechniciansByExperienceAsync(int minYears, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.YearsOfExperience >= minYears)
+                .Where(t => t.IsTechnician && t.YearsOfExperience >= minYears)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Technician>> GetTechniciansByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetTechniciansByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(t => t.DepartmentID == departmentId)
+                .Where(t => t.IsTechnician && t.DepartmentId == departmentId)
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Technician>> GetTopPerformingTechniciansAsync(int count, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetTopPerformingTechniciansAsync(int count, CancellationToken cancellationToken = default)
         {
             // This would typically join with Assessments table and calculate average scores
             // For now, returning technicians ordered by experience
-            return await _dbSet
+            return await _dbSet.
+                 Where(t => t.IsTechnician)
                 .OrderByDescending(t => t.YearsOfExperience)
                 .Take(count)
                 .ToListAsync(cancellationToken);

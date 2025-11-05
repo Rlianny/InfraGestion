@@ -64,6 +64,10 @@ public class MaintenanceService : IMaintenanceService
     public async Task<MaintenanceRecordDto> GetMaintenanceRecordAsync(int maintenanceID)
     {
         var maintenance = await maintenanceRecordRepository.GetByIdAsync(maintenanceID);
+        if (maintenance==null)
+        {
+            throw new Exception("Maintenance record not found");
+        }
         return new MaintenanceRecordDto
         {
             Cost = maintenance.Cost,
