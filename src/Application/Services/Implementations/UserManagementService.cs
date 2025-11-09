@@ -12,7 +12,7 @@ namespace Application.Services.Implementations
     public class UserManagementService : IUserManagementService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IdepartmentRepository _departmentRepository;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace Application.Services.Implementations
 
         public UserManagementService(
             IUserRepository userRepository,
-            IdepartmentRepository departmentRepository,
+            IDepartmentRepository departmentRepository,
             IUnitOfWork unitOfWork,
             IPasswordHasher passwordHasher,
             IMapper mapper,

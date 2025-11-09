@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class DecommissioningRepository : Repository<Decommissioning>, IdecommissioningRepository
+    public class DecommissioningRepository : Repository<Decommissioning>, IDecommissioningRepository
     {
         public DecommissioningRepository(ApplicationDbContext context)
             : base(context) { }

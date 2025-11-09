@@ -13,25 +13,25 @@ namespace Application.Services.Implementations
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IdeviceRepository deviceRepo;
+        private readonly IDeviceRepository deviceRepo;
         private readonly ISectionRepository sectionRepo;
         private readonly IUserRepository userRepo;
         private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepo;
         private readonly IUnitOfWork unitOfWork;
-        private readonly IdepartmentRepository departmentRepository;
+        private readonly IDepartmentRepository departmentRepository;
         private readonly IMaintenanceRecordRepository maintenanceRepository;
         private readonly ITransferRepository transferRepository;
-        private readonly IdecommissioningRequestRepository decommissioningRepository;
+        private readonly IDecommissioningRequestRepository decommissioningRepository;
 
         public InventoryService(
-            IdeviceRepository deviceRepo,
+            IDeviceRepository deviceRepo,
             IUserRepository userRepo,
             ISectionRepository sectionRepo,
             IReceivingInspectionRequestRepository receivingInspectionRequestRepo,
             IUnitOfWork unitOfWork,
-            IdepartmentRepository departmentRepository,
+            IDepartmentRepository departmentRepository,
             IMaintenanceRecordRepository maintenanceRecordRepository,
-            IdecommissioningRequestRepository decommissioningRepository
+            IDecommissioningRequestRepository decommissioningRepository
             )
         {
             this.deviceRepo = deviceRepo;

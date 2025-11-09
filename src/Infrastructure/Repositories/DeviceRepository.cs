@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class DeviceRepository : Repository<Device>, IdeviceRepository
+    public class DeviceRepository : Repository<Device>, IDeviceRepository
     {
         public DeviceRepository(ApplicationDbContext context)
             : base(context) { }

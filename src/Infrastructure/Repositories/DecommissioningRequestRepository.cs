@@ -7,7 +7,7 @@ namespace Infrastructure.Repositories
 {
     public class DecommissioningRequestRepository
         : Repository<DecommissioningRequest>,
-            IdecommissioningRequestRepository
+            IDecommissioningRequestRepository
     {
         public DecommissioningRequestRepository(ApplicationDbContext context)
             : base(context) { }

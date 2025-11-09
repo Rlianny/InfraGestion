@@ -3,7 +3,7 @@ using Domain.Enums;
 
 namespace Domain.Interfaces
 {
-       public interface IdecommissioningRepository : IRepository<Decommissioning>
+       public interface IDecommissioningRepository : IRepository<Decommissioning>
     {
         Task<IEnumerable<Decommissioning>> GetDecommissioningsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Decommissioning>> GetDecommissioningsByReasonAsync(DecommissioningReason reason, CancellationToken cancellationToken = default);

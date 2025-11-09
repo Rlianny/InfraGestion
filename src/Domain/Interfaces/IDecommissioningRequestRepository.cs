@@ -2,7 +2,7 @@ using Domain.Aggregations;
 
 namespace Domain.Interfaces
 {
-     public interface IdecommissioningRequestRepository : IRepository<DecommissioningRequest>
+     public interface IDecommissioningRequestRepository : IRepository<DecommissioningRequest>
     {
         Task<IEnumerable<DecommissioningRequest>> GetDecommissioningRequestsByTechnicianAsync(int technicianId, CancellationToken cancellationToken = default);
         Task<IEnumerable<DecommissioningRequest>> GetDecommissioningRequestsByDeviceAsync(int deviceId, CancellationToken cancellationToken = default);

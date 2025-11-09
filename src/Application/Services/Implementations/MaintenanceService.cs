@@ -6,12 +6,12 @@ using Domain.Interfaces;
 public class MaintenanceService : IMaintenanceService
 {
     private readonly IMaintenanceRecordRepository maintenanceRecordRepository;
-    private readonly IdeviceRepository deviceRepository;
+    private readonly IDeviceRepository deviceRepository;
     private readonly IUserRepository userRepository;
 
     public MaintenanceService(
         IMaintenanceRecordRepository maintenanceRecordRepository,
-        IdeviceRepository deviceRepository,
+        IDeviceRepository deviceRepository,
         IUserRepository userRepository
     )
     {

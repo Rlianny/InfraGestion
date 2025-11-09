@@ -129,18 +129,24 @@ internal class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
-        
+
         // Unit of Work
         builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
-        
+
         // Repositories
-        builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
         builder.Services.AddScoped<ISectionRepository, SectionRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IMaintenanceRecordRepository, MaintenanceRepository>();
-        builder.Services.AddScoped<IReceivingInspectionRequestRepository, ReceivingInspectionRequestRepository>();
-        builder.Services.AddScoped<IDecommissioningRequestRepository, DecommissioningRequestRepository>();
+        builder.Services.AddScoped<
+            IReceivingInspectionRequestRepository,
+            ReceivingInspectionRequestRepository
+        >();
+        builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+        builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        builder.Services.AddScoped<
+            IDecommissioningRequestRepository,
+            DecommissioningRequestRepository
+        >();
         builder.Services.AddScoped<ITransferRepository, TransferRepository>();
         builder.Services.AddScoped<IRejectionRepository, RejectionRepository>();
         builder.Services.AddScoped<IPerformanceRatingRepository, PerformanceRatingRepository>();
