@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
             return await _dbSet
                  .Where(t => t.IsTechnician)
                 .Include(t => t.DepartmentId)
-                .FirstOrDefaultAsync(t => t.UserID == technicianId, cancellationToken);
+                .FirstOrDefaultAsync(t => t.UserId == technicianId, cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetTechniciansBySpecialtyAsync(string specialty, CancellationToken cancellationToken = default)

@@ -70,7 +70,7 @@ namespace Infrastructure.Data
 
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
-               new { DepartmentId = 0, Name = "Mocking Deparment", SectionId = -1 },
+               new { DepartmentId = 1, Name = "Mocking Deparment", SectionId = -1 },
                new { DepartmentId = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionId = -1 },
                new { DepartmentId = -2, Name = "Seguridad Perimetral y Firewalls", SectionId = -1 },
                new { DepartmentId = -3, Name = "Reparaciones de Red", SectionId = -1 },
