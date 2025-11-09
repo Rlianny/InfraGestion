@@ -13,25 +13,25 @@ namespace Application.Services.Implementations
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IDeviceRepository deviceRepo;
+        private readonly IdeviceRepository deviceRepo;
         private readonly ISectionRepository sectionRepo;
         private readonly IUserRepository userRepo;
         private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepo;
         private readonly IUnitOfWork unitOfWork;
-        private readonly IDepartmentRepository departmentRepository;
+        private readonly IdepartmentRepository departmentRepository;
         private readonly IMaintenanceRecordRepository maintenanceRepository;
         private readonly ITransferRepository transferRepository;
-        private readonly IDecommissioningRequestRepository decommissioningRepository;
+        private readonly IdecommissioningRequestRepository decommissioningRepository;
 
         public InventoryService(
-            IDeviceRepository deviceRepo,
+            IdeviceRepository deviceRepo,
             IUserRepository userRepo,
             ISectionRepository sectionRepo,
             IReceivingInspectionRequestRepository receivingInspectionRequestRepo,
             IUnitOfWork unitOfWork,
-            IDepartmentRepository departmentRepository,
+            IdepartmentRepository departmentRepository,
             IMaintenanceRecordRepository maintenanceRecordRepository,
-            IDecommissioningRequestRepository decommissioningRepository
+            IdecommissioningRequestRepository decommissioningRepository
             )
         {
             this.deviceRepo = deviceRepo;
@@ -43,12 +43,12 @@ namespace Application.Services.Implementations
             this.receivingInspectionRequestRepo = receivingInspectionRequestRepo;
         }
 
-        public async Task ApproveDevice(int deviceID, int technicianID)
+        public async Task ApproveDevice(int deviceId, int technicianId)
         {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            if (technicianID != inspectionRequest.TechnicianID)
+            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceId);
+            if (technicianId != inspectionRequest.TechnicianId)
             {
-                throw new ArgumentException($"The techinichian with id {technicianID} its not allowed to approve the device", "technicianID");
+                throw new ArgumentException($"The techinichian with id {technicianId} its not allowed to approve the device", "technicianId");
             }
 
             inspectionRequest.Accept();
@@ -58,7 +58,7 @@ namespace Application.Services.Implementations
 
         public async Task AssignDeviceForReviewAsync(AssignDeviceForInspectionRequestDto inspectionRequestDto)
         {
-            await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorID, inspectionRequestDto.TechnicianId));
+            await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorId, inspectionRequestDto.TechnicianId));
         }
 
         public async Task<IEnumerable<DeviceDto>> GetCompanyInventoryAsync()
@@ -67,28 +67,28 @@ namespace Application.Services.Implementations
             return await Task.WhenAll(
                 devices.Select(async device =>
                 {
-                    var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-                    return new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name);
+                    var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+                    return new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name);
                 })
             );
         }
 
-        public async Task<DeviceDetailDto> GetDeviceDetailAsync(int DeviceID)
+        public async Task<DeviceDetailDto> GetDeviceDetailAsync(int DeviceId)
         {
             ////TODO Refactor the code in a more declarative way
-            //var device = await deviceRepo.GetByIdAsync(DeviceID);
-            //var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-            //var maintenanceHistory = await maintenanceRepository.GetDeviceMaintenanceHistoryAsync(device.DeviceID);
-            //var transferHistory = await transferRepository.GetTransfersByDeviceAsync(device.DeviceID);
-            //var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceID);
+            //var device = await deviceRepo.GetByIdAsync(DeviceId);
+            //var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+            //var maintenanceHistory = await maintenanceRepository.GetDeviceMaintenanceHistoryAsync(device.DeviceId);
+            //var transferHistory = await transferRepository.GetTransfersByDeviceAsync(device.DeviceId);
+            //var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceId);
             //if (decommisionings.FirstOrDefault() == null)
             //{
-            //    return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+            //    return new DeviceDetailDto(device.DeviceId, device.Name, device.Type, device.OperationalState,
             //   department.Name, maintenanceHistory, transferHistory, null);
             //}
             //var finalDecommisioning = decommisionings.First(x => x.FinalDestination != null);
-            //return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
-            //   department.Name, maintenanceHistory, transferHistory, new DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID, finalDecommisioning.DeviceReceiverID, finalDecommisioning.DecommissioningRequestID, finalDecommisioning.DeviceID, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentID));
+            //return new DeviceDetailDto(device.DeviceId, device.Name, device.Type, device.OperationalState,
+            //   department.Name, maintenanceHistory, transferHistory, new DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningId, finalDecommisioning.DeviceReceiverId, finalDecommisioning.DecommissioningRequestId, finalDecommisioning.DeviceId, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentId));
             return await Task.FromResult(new DeviceDetailDto(1, "", DeviceType.ConnectivityAndNetwork, OperationalState.Operational, "deparment",Enumerable.Empty<MaintenanceRecordDto>(), Enumerable.Empty<TransferDto>(),null));
 
 
@@ -103,12 +103,12 @@ namespace Application.Services.Implementations
             {
                 if ((device.Type == filter.DeviceType || filter.DeviceType is null) &&
                     (device.OperationalState == filter.OperationalState || filter.OperationalState is null) &&
-                    (device.DepartmentID == filter.DepartmentId || filter.DepartmentId is null)
+                    (device.DepartmentId == filter.DepartmentId || filter.DepartmentId is null)
                     )
                 {
-                    var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+                    var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
 
-                    devicesDTOs.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+                    devicesDTOs.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name));
                 }
             }
             if (filter.OrderBy != null)
@@ -131,40 +131,40 @@ namespace Application.Services.Implementations
             return devicesDTOs;
         }
 
-        public async Task<IEnumerable<DeviceDto>> GetSectionInventoryAsync(int userID, int sectionId)
+        public async Task<IEnumerable<DeviceDto>> GetSectionInventoryAsync(int userId, int sectionId)
         {
             //TODO Refactor the code in a more declarative way and maybe search for a design pattern
-            var user = await userRepo.GetByIdAsync(userID);
+            var user = await userRepo.GetByIdAsync(userId);
             var devices = await deviceRepo.GetAllAsync();
-            if (user.Department.Section.SectionID != sectionId)
+            if (user.Department.Section.SectionId != sectionId)
             {
                 throw new Exception();
             }
             var deviceDtos = new List<DeviceDto>();
             foreach (var device in devices)
             {
-                var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-                if (department.Section.SectionID == sectionId)
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+                if (department.Section.SectionId == sectionId)
                 {
-                    deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+                    deviceDtos.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name));
                 }
             }
             return deviceDtos;
         }
 
-        public async Task<IEnumerable<DeviceDto>> GetUsersOwnSectionInventory(int userID)
+        public async Task<IEnumerable<DeviceDto>> GetUsersOwnSectionInventory(int userId)
         {
             //TODO Refactor the code in a more declarative way and maybe search for a design pattern
-            var user = await userRepo.GetByIdAsync(userID) ?? throw new Exception("User does not exist");
+            var user = await userRepo.GetByIdAsync(userId) ?? throw new Exception("User does not exist");
             var userDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("The given user does not exist");
             var devices = await deviceRepo.GetAllAsync();
             var deviceDtos = new List<DeviceDto>();
             foreach (var device in devices)
             {
                 var deviceDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("User is not on that departament exist");
-                if (userDepartment.SectionID == deviceDepartment.SectionID)
+                if (userDepartment.SectionId == deviceDepartment.SectionId)
                 {
-                    deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
+                    deviceDtos.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
                 }
             }
             return deviceDtos;
@@ -172,16 +172,16 @@ namespace Application.Services.Implementations
 
         public async Task RegisterDeviceAsync(InsertDeviceRequestDto request)
         {
-            await deviceRepo.AddAsync(new Device(request.Name, request.DeviceType, OperationalState.Operational, request.DepartmentID, DateTime.Now));
+            await deviceRepo.AddAsync(new Device(request.Name, request.DeviceType, OperationalState.Operational, request.DepartmentId, DateTime.Now));
             await unitOfWork.SaveChangesAsync();
         }
 
-        public async Task RejectDevice(int deviceID, int technicianID, string reason)
+        public async Task RejectDevice(int deviceId, int technicianId, string reason)
         {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            User? tech = await userRepo.GetByIdAsync(technicianID);
-            Device? device = await deviceRepo.GetByIdAsync(deviceID);
-            if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianID)
+            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceId);
+            User? tech = await userRepo.GetByIdAsync(technicianId);
+            Device? device = await deviceRepo.GetByIdAsync(deviceId);
+            if (tech == null || device == null || !tech.IsTechnician || technicianId != inspectionRequest.TechnicianId)
             {
                 throw new Exception();
             }

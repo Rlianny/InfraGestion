@@ -11,7 +11,7 @@ namespace Application.Mappings
         {
             // User -> UserDto
             CreateMap<User, UserDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserID))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name))
                 .ForMember(
                     dest => dest.DepartmentName,
@@ -21,7 +21,7 @@ namespace Application.Mappings
 
             // User -> LoginResponseDto
             CreateMap<User, LoginResponseDto>()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserID))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name))
                 .ForMember(
                     dest => dest.DepartmentName,
@@ -33,7 +33,7 @@ namespace Application.Mappings
 
             // CreateUserRequestDto -> User (for creation)
             CreateMap<CreateUserRequestDto, User>()
-                .ForMember(dest => dest.UserID, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.RoleId, opt => opt.Ignore())
                 .ForMember(dest => dest.Role, opt => opt.Ignore())

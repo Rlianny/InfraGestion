@@ -10,19 +10,19 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Departments");
 
-            builder.HasKey(d => d.DepartmentID);
+            builder.HasKey(d => d.DepartmentId);
 
-            builder.Property(d => d.DepartmentID)
+            builder.Property(d => d.DepartmentId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(d => d.DepartmentID)
+            builder.Property(d => d.DepartmentId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(d => d.SectionID);
-            builder.HasIndex(d => d.SectionID);
+            builder.Property(d => d.SectionId);
+            builder.HasIndex(d => d.SectionId);
             //builder.HasOne<Section>()
             //    .WithMany()
-            //    .HasForeignKey(d => d.SectionID)
+            //    .HasForeignKey(d => d.SectionId)
             //    .OnDelete(DeleteBehavior.Restrict);
         }
     }

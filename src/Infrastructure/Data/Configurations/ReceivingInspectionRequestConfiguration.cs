@@ -10,12 +10,12 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("ReceivingInspectionRequests");
 
-            builder.HasKey(rir => rir.ReceivingInspectionRequestID);
+            builder.HasKey(rir => rir.ReceivingInspectionRequestId);
 
-            builder.Property(rir => rir.ReceivingInspectionRequestID)
+            builder.Property(rir => rir.ReceivingInspectionRequestId)
                 .ValueGeneratedOnAdd();
 
-            builder.HasIndex(rir => new { rir.DeviceID, rir.AdministratorID, rir.TechnicianID, rir.EmissionDate })
+            builder.HasIndex(rir => new { rir.DeviceId, rir.AdministratorId, rir.TechnicianId, rir.EmissionDate })
                 .IsUnique();
 
             builder.Property(rir => rir.EmissionDate)
@@ -29,17 +29,17 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(rir => rir.DeviceID)
+                .HasForeignKey(rir => rir.DeviceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
-                .HasForeignKey(rir => rir.AdministratorID)
+                .HasForeignKey(rir => rir.AdministratorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
-                .HasForeignKey(rir => rir.TechnicianID)
+                .HasForeignKey(rir => rir.TechnicianId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

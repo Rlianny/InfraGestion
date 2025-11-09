@@ -122,7 +122,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                await inventoryService.RejectDevice(rejectDeviceRequest.DeviceID, rejectDeviceRequest.TechnicianID, rejectDeviceRequest.Reason);
+                await inventoryService.RejectDevice(rejectDeviceRequest.DeviceId, rejectDeviceRequest.TechnicianId, rejectDeviceRequest.Reason);
                 return Ok();
             }
             catch (Exception ex)

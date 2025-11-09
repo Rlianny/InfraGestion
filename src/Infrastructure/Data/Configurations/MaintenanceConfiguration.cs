@@ -10,11 +10,11 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Maintenances");
 
-            builder.HasKey(m => m.MaintenanceRecordID);
-            builder.Property(m => m.MaintenanceRecordID)
+            builder.HasKey(m => m.MaintenanceRecordId);
+            builder.Property(m => m.MaintenanceRecordId)
                 .ValueGeneratedOnAdd();
 
-            builder.HasIndex(m => new { m.TechnicianID, m.DeviceID, m.Date })
+            builder.HasIndex(m => new { m.TechnicianId, m.DeviceId, m.Date })
                 .IsUnique();
 
             builder.Property(m => m.Cost)
@@ -27,12 +27,12 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
-                .HasForeignKey(m => m.TechnicianID)
+                .HasForeignKey(m => m.TechnicianId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(m => m.DeviceID)
+                .HasForeignKey(m => m.DeviceId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -9,21 +9,21 @@ namespace Domain.Aggregations
 {
     public class ReceivingInspectionRequest
     {
-        public ReceivingInspectionRequest(DateTime emissionDate, int deviceID, int administratorID, int technicianID)
+        public ReceivingInspectionRequest(DateTime emissionDate, int deviceId, int administratorId, int technicianId)
         {
             ValidateDate(emissionDate);
             Status = Enums.InspectionRequestStatus.Pending;
             EmissionDate = emissionDate;
-            DeviceID = deviceID;
-            AdministratorID = administratorID;
-            TechnicianID = technicianID;
+            DeviceId = deviceId;
+            AdministratorId = administratorId;
+            TechnicianId = technicianId;
         }
         private ReceivingInspectionRequest() { }
 
-        public int ReceivingInspectionRequestID { get; private set; }
-        public int DeviceID { get; private set; }
-        public int AdministratorID { get; private set; }
-        public int TechnicianID { get; private set; }
+        public int ReceivingInspectionRequestId { get; private set; }
+        public int DeviceId { get; private set; }
+        public int AdministratorId { get; private set; }
+        public int TechnicianId { get; private set; }
         public DateTime EmissionDate { get; private set; }
         public DateTime? AcceptedDate { get; private set; }
         public DateTime? RejectionDate { get; private set; }

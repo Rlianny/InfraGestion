@@ -10,9 +10,9 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Decommissioning");
 
-            builder.HasKey(d => d.DecommissioningID);
+            builder.HasKey(d => d.DecommissioningId);
 
-            builder.Property(d => d.DecommissioningID)
+            builder.Property(d => d.DecommissioningId)
                 .ValueGeneratedOnAdd();
 
             builder.Property(d => d.Reason)
@@ -28,17 +28,17 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
-                .HasForeignKey(d => d.DeviceReceiverID)
+                .HasForeignKey(d => d.DeviceReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(d => d.DeviceID)
+                .HasForeignKey(d => d.DeviceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Department>()
                 .WithMany()
-                .HasForeignKey(d => d.ReceiverDepartmentID)
+                .HasForeignKey(d => d.ReceiverDepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

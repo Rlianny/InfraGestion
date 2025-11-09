@@ -10,9 +10,9 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Transfers");
 
-            builder.HasKey(t => t.TransferID);
+            builder.HasKey(t => t.TransferId);
 
-            builder.Property(d => d.TransferID)
+            builder.Property(d => d.TransferId)
                 .ValueGeneratedOnAdd();
 
             builder.Property(t => t.Date)
@@ -20,22 +20,22 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
-                .HasForeignKey(t => t.DeviceID)
+                .HasForeignKey(t => t.DeviceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Section>()
                 .WithMany()
-                .HasForeignKey(t => t.SourceSectionID)
+                .HasForeignKey(t => t.SourceSectionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.Section>()
                 .WithMany()
-                .HasForeignKey(t => t.DestinationSectionID)
+                .HasForeignKey(t => t.DestinationSectionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
-                .HasForeignKey(t => t.DeviceReceiverID)
+                .HasForeignKey(t => t.DeviceReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
             return await _dbSet
                 .Include(u => u.Department)
                 .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.UserID == userId, cancellationToken);
+                .FirstOrDefaultAsync(u => u.UserId == userId, cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetUsersByDepartmentAsync(

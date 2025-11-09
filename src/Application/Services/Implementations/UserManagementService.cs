@@ -12,7 +12,7 @@ namespace Application.Services.Implementations
     public class UserManagementService : IUserManagementService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IdepartmentRepository _departmentRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace Application.Services.Implementations
 
         public UserManagementService(
             IUserRepository userRepository,
-            IDepartmentRepository departmentRepository,
+            IdepartmentRepository departmentRepository,
             IUnitOfWork unitOfWork,
             IPasswordHasher passwordHasher,
             IMapper mapper,
@@ -77,7 +77,7 @@ namespace Application.Services.Implementations
                 throw new EntityNotFoundException("Departamento", request.DepartmentId);
             }
 
-            // Get role ID from role name
+            // Get role Id from role name
             var roleId = GetRoleIdFromName(request.Role);
 
             // Hash password
@@ -125,16 +125,16 @@ namespace Application.Services.Implementations
 
             _logger.LogInformation(
                 "User created successfully: {UserId}, Role: {Role}",
-                user.UserID,
+                user.UserId,
                 request.Role
             );
 
             // Reload user with navigation properties
-            var reloadedUser = await _userRepository.GetByIdAsync(user.UserID, cancellationToken);
+            var reloadedUser = await _userRepository.GetByIdAsync(user.UserId, cancellationToken);
 
             if (reloadedUser == null)
             {
-                throw new EntityNotFoundException("Usuario", user.UserID);
+                throw new EntityNotFoundException("Usuario", user.UserId);
             }
 
             return _mapper.Map<UserDto>(reloadedUser);
@@ -231,7 +231,7 @@ namespace Application.Services.Implementations
             _logger.LogInformation("User updated successfully: {UserId}", request.UserId);
 
             // Reload user with navigation properties
-            user = await _userRepository.GetByIdAsync(user.UserID, cancellationToken);
+            user = await _userRepository.GetByIdAsync(user.UserId, cancellationToken);
 
             return _mapper.Map<UserDto>(user!);
         }

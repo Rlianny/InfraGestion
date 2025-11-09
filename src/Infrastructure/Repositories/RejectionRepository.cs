@@ -16,9 +16,9 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(r => r.TechnicianID == technicianId)
-                .Include(r => r.DeviceID)
-                .Include(r => r.DeviceReceiverID)
+                .Where(r => r.TechnicianId == technicianId)
+                .Include(r => r.DeviceId)
+                .Include(r => r.DeviceReceiverId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -28,9 +28,9 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(r => r.DeviceID == deviceId)
-                .Include(r => r.TechnicianID)
-                .Include(r => r.DeviceReceiverID)
+                .Where(r => r.DeviceId == deviceId)
+                .Include(r => r.TechnicianId)
+                .Include(r => r.DeviceReceiverId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -40,9 +40,9 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(r => r.DeviceReceiverID == DeviceReceiverId)
-                .Include(r => r.DeviceID)
-                .Include(r => r.TechnicianID)
+                .Where(r => r.DeviceReceiverId == DeviceReceiverId)
+                .Include(r => r.DeviceId)
+                .Include(r => r.TechnicianId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -62,7 +62,7 @@ namespace Infrastructure.Repositories
             CancellationToken cancellationToken = default
         )
         {
-            return await _dbSet.CountAsync(r => r.TechnicianID == technicianId, cancellationToken);
+            return await _dbSet.CountAsync(r => r.TechnicianId == technicianId, cancellationToken);
         }
     }
 }

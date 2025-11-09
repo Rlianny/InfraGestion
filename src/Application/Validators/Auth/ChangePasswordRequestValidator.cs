@@ -7,7 +7,7 @@ namespace Application.Validators.Auth
     {
         public ChangePasswordRequestValidator()
         {
-            RuleFor(x => x.UserId).GreaterThan(0).WithMessage("El ID de usuario es obligatorio");
+            RuleFor(x => x.UserId).GreaterThan(0).WithMessage("El Id de usuario es obligatorio");
 
             RuleFor(x => x.CurrentPassword)
                 .NotEmpty()

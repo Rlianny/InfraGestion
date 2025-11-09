@@ -1,4 +1,3 @@
-
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Domain.Interfaces;
@@ -21,6 +20,17 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        // Configure HTTP for Blazor
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -30,7 +40,10 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors();  // Configure HTTP for Blazor
+        
         app.UseHttpsRedirection();
+        app.UseAuthorization();
 
         app.MapControllers();
         app.Run();

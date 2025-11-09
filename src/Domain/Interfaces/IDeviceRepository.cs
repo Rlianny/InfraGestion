@@ -3,7 +3,7 @@ using Domain.Enums;
 
 namespace Domain.Interfaces
 {
-    public interface IDeviceRepository : IRepository<Device>
+    public interface IdeviceRepository : IRepository<Device>
     {
         Task<IEnumerable<Device>> GetDevicesByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default);
         Task<IEnumerable<Device>> GetDevicesByTypeAsync(DeviceType type, CancellationToken cancellationToken = default);

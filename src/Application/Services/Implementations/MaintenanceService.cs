@@ -6,12 +6,12 @@ using Domain.Interfaces;
 public class MaintenanceService : IMaintenanceService
 {
     private readonly IMaintenanceRecordRepository maintenanceRecordRepository;
-    private readonly IDeviceRepository deviceRepository;
+    private readonly IdeviceRepository deviceRepository;
     private readonly IUserRepository userRepository;
 
     public MaintenanceService(
         IMaintenanceRecordRepository maintenanceRecordRepository,
-        IDeviceRepository deviceRepository,
+        IdeviceRepository deviceRepository,
         IUserRepository userRepository
     )
     {
@@ -31,16 +31,16 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     DeviceName =
-                        (await deviceRepository.GetByIdAsync(maintenance.DeviceID))?.Name
+                        (await deviceRepository.GetByIdAsync(maintenance.DeviceId))?.Name
                         ?? "Unknown",
                     TechnicianName =
-                        (await userRepository.GetByIdAsync(maintenance.TechnicianID))?.FullName
+                        (await userRepository.GetByIdAsync(maintenance.TechnicianId))?.FullName
                         ?? "Unknown",
                 }
             );
@@ -49,11 +49,11 @@ public class MaintenanceService : IMaintenanceService
     }
 
     public async Task<IEnumerable<MaintenanceRecordDto>> GetDeviceMaintenanceHistoryAsync(
-        int deviceID
+        int deviceId
     )
     {
         var maintenanceRecords = await maintenanceRecordRepository.GetMaintenancesByDeviceAsync(
-            deviceID
+            deviceId
         );
         var dtos = new List<MaintenanceRecordDto>();
         foreach (var maintenance in maintenanceRecords)
@@ -63,16 +63,16 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     DeviceName =
-                        (await deviceRepository.GetByIdAsync(maintenance.DeviceID))?.Name
+                        (await deviceRepository.GetByIdAsync(maintenance.DeviceId))?.Name
                         ?? "Unknown",
                     TechnicianName =
-                        (await userRepository.GetByIdAsync(maintenance.TechnicianID))?.FullName
+                        (await userRepository.GetByIdAsync(maintenance.TechnicianId))?.FullName
                         ?? "Unknown",
                 }
             );
@@ -80,9 +80,9 @@ public class MaintenanceService : IMaintenanceService
         return dtos;
     }
 
-    public async Task<MaintenanceRecordDto> GetMaintenanceRecordAsync(int maintenanceID)
+    public async Task<MaintenanceRecordDto> GetMaintenanceRecordAsync(int maintenanceId)
     {
-        var maintenance = await maintenanceRecordRepository.GetByIdAsync(maintenanceID);
+        var maintenance = await maintenanceRecordRepository.GetByIdAsync(maintenanceId);
         if (maintenance == null)
         {
             throw new Exception("Maintenance record not found");
@@ -91,15 +91,15 @@ public class MaintenanceService : IMaintenanceService
         {
             Cost = maintenance.Cost,
             Description = maintenance.Description,
-            MaintenanceRecordId = maintenance.MaintenanceRecordID,
-            DeviceId = maintenance.DeviceID,
-            TechnicianId = maintenance.TechnicianID,
+            MaintenanceRecordId = maintenance.MaintenanceRecordId,
+            DeviceId = maintenance.DeviceId,
+            TechnicianId = maintenance.TechnicianId,
             MaintenanceDate = maintenance.Date,
             MaintenanceType = maintenance.Type,
             DeviceName =
-                (await deviceRepository.GetByIdAsync(maintenance.DeviceID))?.Name ?? "Unknown",
+                (await deviceRepository.GetByIdAsync(maintenance.DeviceId))?.Name ?? "Unknown",
             TechnicianName =
-                (await userRepository.GetByIdAsync(maintenance.TechnicianID))?.FullName
+                (await userRepository.GetByIdAsync(maintenance.TechnicianId))?.FullName
                 ?? "Unknown",
         };
     }
@@ -119,16 +119,16 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     DeviceName =
-                        (await deviceRepository.GetByIdAsync(maintenance.DeviceID))?.Name
+                        (await deviceRepository.GetByIdAsync(maintenance.DeviceId))?.Name
                         ?? "Unknown",
                     TechnicianName =
-                        (await userRepository.GetByIdAsync(maintenance.TechnicianID))?.FullName
+                        (await userRepository.GetByIdAsync(maintenance.TechnicianId))?.FullName
                         ?? "Unknown",
                 }
             );

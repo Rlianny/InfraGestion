@@ -9,27 +9,27 @@ namespace Domain.Aggregations
 {
     public class Transfer
     {
-        public Transfer(DateOnly dateTime, int deviceID, int sourceSectionID, int destinationSectionID, int deviceReceiverID)
+        public Transfer(DateOnly dateTime, int deviceId, int sourceSectionId, int destinationSectionId, int deviceReceiverId)
         {
             ValidateTransferDate(Date);
             Status = Enums.TransferStatus.Pending;
             Date = dateTime;
-            DeviceID = deviceID;
-            SourceSectionID = sourceSectionID;
-            DestinationSectionID = destinationSectionID;
-            DeviceReceiverID = deviceReceiverID;
+            DeviceId = deviceId;
+            SourceSectionId = sourceSectionId;
+            DestinationSectionId = destinationSectionId;
+            DeviceReceiverId = deviceReceiverId;
         }
         private Transfer()
         {
             Status = Enums.TransferStatus.Pending;
         }
 
-        public int DeviceID { get; private set; }
+        public int DeviceId { get; private set; }
         public DateOnly Date { get; private set; }
-        public int SourceSectionID { get; private set; }
-        public int DestinationSectionID { get; private set; }
-        public int TransferID { get; private set; }
-        public int DeviceReceiverID { get; private set; }
+        public int SourceSectionId { get; private set; }
+        public int DestinationSectionId { get; private set; }
+        public int TransferId { get; private set; }
+        public int DeviceReceiverId { get; private set; }
         public Enums.TransferStatus Status { get; private set; }
 
         private void ValidateTransferDate(DateOnly date)
