@@ -3,7 +3,7 @@ using Domain.Aggregations;
 
 namespace Application.Services.Interfaces
 {
-    public interface IDecommissioningService
+    public interface IdecommissioningService
     {
         Task ProposeDecommissionAsync(CreateDecommissioningRequestDto createDecommissioning);
         Task<IEnumerable<DecommissioningRequestDto>> GetPendingDecommissionProposalsAsync();

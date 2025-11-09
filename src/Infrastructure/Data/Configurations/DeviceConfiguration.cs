@@ -10,14 +10,13 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Devices");
 
-            builder.HasKey(e => e.DeviceID);
+            builder.HasKey(e => e.DeviceId);
 
-            builder.Property(e => e.DeviceID)
+            builder.Property(e => e.DeviceId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.DeviceID)
-                .ValueGeneratedOnAdd();
-
+            builder.Property(e => e.DepartmentId).IsRequired();
+            
             builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -32,11 +31,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(e => e.AcquisitionDate)
                 .IsRequired();
-
-            builder.HasOne<Department>()
-                .WithMany()
-                .HasForeignKey(e => e.DepartmentID)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Fixed relationship configuration
+            builder.HasIndex(e => e.DepartmentId);
+           
         }
     }
 }

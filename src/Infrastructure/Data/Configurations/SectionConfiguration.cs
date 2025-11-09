@@ -10,17 +10,20 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Sections");
 
-            builder.HasKey(s => s.SectionID);
+            builder.HasKey(s => s.SectionId);
 
-            builder.Property(d => d.SectionID)
+            builder.Property(d => d.SectionId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(s => s.SectionID)
+            builder.Property(s => s.SectionId)
                 .ValueGeneratedOnAdd();
 
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(200);
+
+             builder.Property(s => s.SectionManagerId)
+                .IsRequired(false);
         }
     }
 }

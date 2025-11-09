@@ -17,8 +17,8 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Include(d => d.DepartmentID)
-                .FirstOrDefaultAsync(d => d.DeviceID == deviceId, cancellationToken);
+                .Include(d => d.DepartmentId)
+                .FirstOrDefaultAsync(d => d.DeviceId == deviceId, cancellationToken);
         }
 
         public async Task<IEnumerable<Device>> GetDevicesByDepartmentAsync(
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(d => d.DepartmentID == departmentId)
+                .Where(d => d.DepartmentId == departmentId)
                 .ToListAsync(cancellationToken);
         }
 

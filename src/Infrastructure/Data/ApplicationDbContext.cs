@@ -38,11 +38,11 @@ namespace Infrastructure.Data
 
             // Seed Roles
             modelBuilder.Entity<Domain.Entities.Role>().HasData(
-                new { RoleId = (int)RoleEnum.Technician, Name = "Technician" },
-                new { RoleId = (int)RoleEnum.EquipmentReceiver, Name = "EquipmentReceiver" },
-                new { RoleId = (int)RoleEnum.SectionManager, Name = "SectionManager" },
-                new { RoleId = (int)RoleEnum.Administrator, Name = "Administrator" },
-                new { RoleId = (int)RoleEnum.Director, Name = "Director" }
+               new { RoleId = (int)RoleEnum.Technician, Name = "Technician" },
+               new { RoleId = (int)RoleEnum.EquipmentReceiver, Name = "EquipmentReceiver" },
+               new { RoleId = (int)RoleEnum.SectionManager, Name = "SectionManager" },
+               new { RoleId = (int)RoleEnum.Administrator, Name = "Administrator" },
+               new { RoleId = (int)RoleEnum.Director, Name = "Director" }
             );
 
             // Dates
@@ -56,140 +56,137 @@ namespace Infrastructure.Data
             var dateInEighteenDaysBefore = today.AddDays(-18);
             var dateInSevenDaysBefore = today.AddDays(-7);
 
-
-            // Creating seed data
-
-            // Seed Sections
+            // Seed Sections - SIN SectionManagerId
             modelBuilder.Entity<Section>().HasData(
-                new { SectionID = -1, Name = "Operaciones de Red Corporativa" },
-                new { SectionID = -2, Name = "Infraestructura de Centro de Datos (Data Center)" },
-                new { SectionID = -3, Name = "Soporte Técnico en Campo" },
-                new { SectionID = -4, Name = "Planificación y Despliegue de Red" },
-                new { SectionID = -5, Name = "División de Servicios en la Nube (Cloud)" },
-                new { SectionID = -6, Name = "Taller Central y Logística" },
-                new { SectionID = -7, Name = "Infraestructura Interna (TI Interno)" },
-                new { SectionID = -8, Name = "Seguridad Informática (Ciberseguridad)" }
+               new { SectionId = -1, Name = "Operaciones de Red Corporativa" },
+               new { SectionId = -2, Name = "Infraestructura de Centro de Datos (Data Center)" },
+               new { SectionId = -3, Name = "Soporte Técnico en Campo" },
+               new { SectionId = -4, Name = "Planificación y Despliegue de Red" },
+               new { SectionId = -5, Name = "División de Servicios en la Nube (Cloud)" },
+               new { SectionId = -6, Name = "Taller Central y Logística" },
+               new { SectionId = -7, Name = "Infraestructura Interna (TI Interno)" },
+               new { SectionId = -8, Name = "Seguridad Informática (Ciberseguridad)" }
             );
 
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
-                new { DepartmentID = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionID = -1 },
-                new { DepartmentID = -2, Name = "Seguridad Perimetral y Firewalls", SectionID = -1 },
-                new { DepartmentID = -3, Name = "Reparaciones de Red", SectionID = -1 },
+               new { DepartmentId = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionId = -1 },
+               new { DepartmentId = -2, Name = "Seguridad Perimetral y Firewalls", SectionId = -1 },
+               new { DepartmentId = -3, Name = "Reparaciones de Red", SectionId = -1 },
 
-                new { DepartmentID = -4, Name = "Servidores y Virtualización", SectionID = -2 },
-                new { DepartmentID = -5, Name = "Almacenamiento y Backup", SectionID = -2 },
-                new { DepartmentID = -6, Name = "Infraestructura Física y Climatización", SectionID = -2 },
+               new { DepartmentId = -4, Name = "Servidores y Virtualización", SectionId = -2 },
+               new { DepartmentId = -5, Name = "Almacenamiento y Backup", SectionId = -2 },
+               new { DepartmentId = -6, Name = "Infraestructura Física y Climatización", SectionId = -2 },
 
-                new { DepartmentID = -7, Name = "Instalaciones y Activaciones", SectionID = -3 },
-                new { DepartmentID = -8, Name = "Mantenimiento Correctivo y Urgencias", SectionID = -3 },
-                new { DepartmentID = -9, Name = "Soporte a Nodos Remotos", SectionID = -3 },
+               new { DepartmentId = -7, Name = "Instalaciones y Activaciones", SectionId = -3 },
+               new { DepartmentId = -8, Name = "Mantenimiento Correctivo y Urgencias", SectionId = -3 },
+               new { DepartmentId = -9, Name = "Soporte a Nodos Remotos", SectionId = -3 },
 
-                new { DepartmentID = -10, Name = "Diseño y Ingeniería de Red", SectionID = -4 },
-                new { DepartmentID = -11, Name = "Despliegue de Fibra Óptica y Acceso", SectionID = -4 },
-                new { DepartmentID = -12, Name = "Mediciones y Certificación de Red", SectionID = -4 },
+               new { DepartmentId = -10, Name = "Diseño y Ingeniería de Red", SectionId = -4 },
+               new { DepartmentId = -11, Name = "Despliegue de Fibra Óptica y Acceso", SectionId = -4 },
+               new { DepartmentId = -12, Name = "Mediciones y Certificación de Red", SectionId = -4 },
 
-                new { DepartmentID = -13, Name = "Infraestructura como Servicio", SectionID = -5 },
-                new { DepartmentID = -14, Name = "Plataforma como Servicio", SectionID = -5 },
-                new { DepartmentID = -15, Name = "Operaciones Cloud y Escalabilidad", SectionID = -5 },
+               new { DepartmentId = -13, Name = "Infraestructura como Servicio", SectionId = -5 },
+               new { DepartmentId = -14, Name = "Plataforma como Servicio", SectionId = -5 },
+               new { DepartmentId = -15, Name = "Operaciones Cloud y Escalabilidad", SectionId = -5 },
 
-                new { DepartmentID = -16, Name = "Recepción y Diagnóstico Técnico", SectionID = -6 },
-                new { DepartmentID = -17, Name = "Reparación y Refabricación", SectionID = -6 },
-                new { DepartmentID = -18, Name = "Gestión de Inventario y Distribución", SectionID = -6 },
+               new { DepartmentId = -16, Name = "Recepción y Diagnóstico Técnico", SectionId = -6 },
+               new { DepartmentId = -17, Name = "Reparación y Refabricación", SectionId = -6 },
+               new { DepartmentId = -18, Name = "Gestión de Inventario y Distribución", SectionId = -6 },
 
-                new { DepartmentID = -19, Name = "Soporte al Usuario y Helpdesk", SectionID = -7 },
-                new { DepartmentID = -20, Name = "Comunicaciones Unificadas y Telefonía IP", SectionID = -7 },
-                new { DepartmentID = -21, Name = "Gestión de Activos y Red Local", SectionID = -7 },
+               new { DepartmentId = -19, Name = "Soporte al Usuario y Helpdesk", SectionId = -7 },
+               new { DepartmentId = -20, Name = "Comunicaciones Unificadas y Telefonía IP", SectionId = -7 },
+               new { DepartmentId = -21, Name = "Gestión de Activos y Red Local", SectionId = -7 },
 
-                new { DepartmentID = -22, Name = "Arquitectura y Gestión de Firewalls", SectionID = -8 },
-                new { DepartmentID = -23, Name = "Monitorización de Amenazas y SOC", SectionID = -8 },
-                new { DepartmentID = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionID = -8 }
+               new { DepartmentId = -22, Name = "Arquitectura y Gestión de Firewalls", SectionId = -8 },
+               new { DepartmentId = -23, Name = "Monitorización de Amenazas y SOC", SectionId = -8 },
+               new { DepartmentId = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionId = -8 }
             );
 
             // Seed Users - Administrator
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -1, Username = "dgonzalez", FullName = "David González", PasswordHash = "admin01", DepartmentID = -21, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
-                new { UserID = -2, Username = "lmartinez", FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentID = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
-                new { UserID = -3, Username = "jrodriguez", FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentID = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
-                new { UserID = -4, Username = "csanchez", FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentID = -5, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
-                new { UserID = -5, Username = "rlopez", FullName = "Roberto López", PasswordHash = "admin05", DepartmentID = -3, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true }
+               new { UserId = -1, Username = "dgonzalez", FullName = "David González", PasswordHash = "admin01", DepartmentId = -21, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+               new { UserId = -2, Username = "lmartinez", FullName = "Laura Martínez", PasswordHash = "admin02", DepartmentId = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+               new { UserId = -3, Username = "jrodriguez", FullName = "Javier Rodríguez", PasswordHash = "admin03", DepartmentId = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+               new { UserId = -4, Username = "csanchez", FullName = "Carmen Sánchez", PasswordHash = "admin04", DepartmentId = -5, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
+               new { UserId = -5, Username = "rlopez", FullName = "Roberto López", PasswordHash = "admin05", DepartmentId = -3, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true }
             );
 
             // Director
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -6, Username = "emorales", FullName = "Elena Morales", PasswordHash = "dir123", DepartmentID = -24, RoleId = (int)RoleEnum.Director, CreatedAt = today, IsActive = true }
+               new { UserId = -6, Username = "emorales", FullName = "Elena Morales", PasswordHash = "dir123", DepartmentId = -24, RoleId = (int)RoleEnum.Director, CreatedAt = today, IsActive = true }
             );
 
             // SectionManagers
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -7, Username = "sramirez", FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentID = -1, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
-                new { UserID = -8, Username = "atorres", FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentID = -6, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
-                new { UserID = -9, Username = "pherrera", FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentID = -7, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
-                new { UserID = -10, Username = "rdiaz", FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentID = -10, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
-                new { UserID = -11, Username = "icastro", FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentID = -13, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true }
+               new { UserId = -7, Username = "sramirez", FullName = "Sofía Ramírez", PasswordHash = "manager01", DepartmentId = -1, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+               new { UserId = -8, Username = "atorres", FullName = "Alejandro Torres", PasswordHash = "manager02", DepartmentId = -6, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+               new { UserId = -9, Username = "pherrera", FullName = "Patricia Herrera", PasswordHash = "manager03", DepartmentId = -7, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+               new { UserId = -10, Username = "rdiaz", FullName = "Ricardo Díaz", PasswordHash = "manager04", DepartmentId = -10, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+               new { UserId = -11, Username = "icastro", FullName = "Isabel Castro", PasswordHash = "manager05", DepartmentId = -13, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true }
             );
 
             // Technicians
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -12, Username = "cmendez", FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentID = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-                new { UserID = -13, Username = "evargas", FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentID = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-                new { UserID = -14, Username = "jsilva", FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentID = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-                new { UserID = -15, Username = "mortega", FullName = "María Ortega", PasswordHash = "tech04", DepartmentID = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-                new { UserID = -16, Username = "alopez", FullName = "Ana López", PasswordHash = "tech05", DepartmentID = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true }
+               new { UserId = -12, Username = "cmendez", FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentId = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+               new { UserId = -13, Username = "evargas", FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentId = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+               new { UserId = -14, Username = "jsilva", FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentId = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+               new { UserId = -15, Username = "mortega", FullName = "María Ortega", PasswordHash = "tech04", DepartmentId = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+               new { UserId = -16, Username = "alopez", FullName = "Ana López", PasswordHash = "tech05", DepartmentId = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true }
             );
 
             // EquipmentReceiver
             modelBuilder.Entity<User>().HasData(
-                new { UserID = -17, Username = "msantos", FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentID = -9, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-                new { UserID = -18, Username = "agarcia", FullName = "Ana García", PasswordHash = "rec02", DepartmentID = -2, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-                new { UserID = -19, Username = "lfernandez", FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentID = -6, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-                new { UserID = -20, Username = "mjimenez", FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentID = -24, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-                new { UserID = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentID = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true }
+               new { UserId = -17, Username = "msantos", FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentId = -9, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+               new { UserId = -18, Username = "agarcia", FullName = "Ana García", PasswordHash = "rec02", DepartmentId = -2, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+               new { UserId = -19, Username = "lfernandez", FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentId = -6, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+               new { UserId = -20, Username = "mjimenez", FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentId = -24, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+               new { UserId = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentId = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true }
             );
 
             // Seed Devices
             modelBuilder.Entity<Device>().HasData(
-                new { DeviceID = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentID = -8, AcquisitionDate = dateInEighteenDaysBefore },
-                new { DeviceID = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentID = -16, AcquisitionDate = today },
-                new { DeviceID = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentID = -24, AcquisitionDate = dateInEighteenDaysBefore },
-                new { DeviceID = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentID = -24, AcquisitionDate = dateInEighteenDaysBefore },
-                new { DeviceID = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentID = -12, AcquisitionDate = today },
-                new { DeviceID = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentID = -14, AcquisitionDate = dateInEighteenDaysBefore }
+               new { DeviceId = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -8, AcquisitionDate = dateInEighteenDaysBefore },
+               new { DeviceId = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -16, AcquisitionDate = today },
+               new { DeviceId = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore },
+               new { DeviceId = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore },
+               new { DeviceId = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = today },
+               new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore }
             );
 
             // Seed Mainteinance - Usa DateOnly creados correctamente
-            modelBuilder.Entity<MaintenanceRecord>().HasData(
-                new { TechnicianID = -12, DeviceID = -1, Date = new DateOnly(2020, 12, 30), Cost = 0.0, Type = "Preventivo", MaintenanceRecordID = -1 },
-                new { TechnicianID = -13, DeviceID = -2, Date = new DateOnly(2022, 5, 13), Cost = 100.0, Type = "Correctivo", MaintenanceRecordID = -2 },
-                new { TechnicianID = -14, DeviceID = -3, Date = new DateOnly(2022, 10, 10), Cost = 20.0, Type = "Correctivo", MaintenanceRecordID = -3 },
-                new { TechnicianID = -15, DeviceID = -4, Date = new DateOnly(2021, 5, 11), Cost = 10.5, Type = "Preventivo", MaintenanceRecordID = -4 },
-                new { TechnicianID = -16, DeviceID = -5, Date = new DateOnly(2020, 8, 24), Cost = 0.0, Type = "Correctivo", MaintenanceRecordID = -5 },
-                new { TechnicianID = -14, DeviceID = -5, Date = new DateOnly(2022, 7, 18), Cost = 0.0, Type = "Correctivo", MaintenanceRecordID = -6 }
-            );
+            // modelBuilder.Entity<MaintenanceRecord>().HasData(
+            //    new { TechnicianId = -12, DeviceId = -1, Date = new DateOnly(2020, 12, 30), Cost = 0.0, Type = "Preventivo", MaintenanceRecordId = -1 },
+            //    new { TechnicianId = -13, DeviceId = -2, Date = new DateOnly(2022, 5, 13), Cost = 100.0, Type = "Correctivo", MaintenanceRecordId = -2 },
+            //    new { TechnicianId = -14, DeviceId = -3, Date = new DateOnly(2022, 10, 10), Cost = 20.0, Type = "Correctivo", MaintenanceRecordId = -3 },
+            //    new { TechnicianId = -15, DeviceId = -4, Date = new DateOnly(2021, 5, 11), Cost = 10.5, Type = "Preventivo", MaintenanceRecordId = -4 },
+            //    new { TechnicianId = -16, DeviceId = -5, Date = new DateOnly(2020, 8, 24), Cost = 0.0, Type = "Correctivo", MaintenanceRecordId = -5 },
+            //    new { TechnicianId = -14, DeviceId = -5, Date = new DateOnly(2022, 7, 18), Cost = 0.0, Type = "Correctivo", MaintenanceRecordId = -6 }
+            // );
 
-            // Seed DecommissioningRequest
-            modelBuilder.Entity<DecommissioningRequest>().HasData(
-                new { DecommissioningRequestID = -1, TechnicianID = -14, DeviceID = -3, DeviceReceiverID = -19, Date = dateInSevenDaysBefore },
-                new { DecommissioningRequestID = -2, TechnicianID = -15, DeviceID = -4, DeviceReceiverID = -20, Date = dateInFiveDaysBefore }
-            );
+            // // Seed DecommissioningRequest
+            // modelBuilder.Entity<DecommissioningRequest>().HasData(
+            //    new { DecommissioningRequestId = -1, TechnicianId = -14, DeviceId = -3, DeviceReceiverId = -19, Date = dateInSevenDaysBefore },
+            //    new { DecommissioningRequestId = -2, TechnicianId = -15, DeviceId = -4, DeviceReceiverId = -20, Date = dateInFiveDaysBefore }
+            // );
 
-            // Seed Decommissioning
-            modelBuilder.Entity<Decommissioning>().HasData(
-                new { DecommissioningID = -1, DeviceID = -4, DecommissioningRequestID = -2, DeviceReceiverID = -20, ReceiverDepartmentID = -23, DecommissioningDate = dateInFiveDaysBefore, Reason = DecommissioningReason.SeverePhysicalDamage, FinalDestination = "Reciclaje" }
-            );
+            // // Seed Decommissioning
+            // modelBuilder.Entity<Decommissioning>().HasData(
+            //    new { DecommissioningId = -1, DeviceId = -4, DecommissioningRequestId = -2, DeviceReceiverId = -20, ReceiverDepartmentId = -23, DecommissioningDate = dateInFiveDaysBefore, Reason = DecommissioningReason.SeverePhysicalDamage, FinalDestination = "Reciclaje" }
+            // );
 
 
-            // Seed ReceivingInspectionRequest
-            modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
-            );
+            // // Seed ReceivingInspectionRequest
+            // modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
+            // );
 
-            // Seed Rejection
-            modelBuilder.Entity<Rejection>().HasData(
-            );
+            // // Seed Rejection
+            // modelBuilder.Entity<Rejection>().HasData(
+            // );
 
-            // Seed PerformanceRating
-            modelBuilder.Entity<PerformanceRating>().HasData(
-            );
+            // // Seed PerformanceRating
+            // modelBuilder.Entity<PerformanceRating>().HasData(
+            // );
         }
     }
 }

@@ -9,21 +9,21 @@ namespace Domain.Aggregations
 {
     public class DecommissioningRequest
     {
-        public int DecommissioningRequestID { get; private set; }
-        public int TechnicianID { get; private set; }
-        public int DeviceID { get; private set; }
+        public int DecommissioningRequestId { get; private set; }
+        public int TechnicianId { get; private set; }
+        public int DeviceId { get; private set; }
         public DateTime Date { get; private set; }
-        public int DeviceReceiverID { get; private set; }
+        public int DeviceReceiverId { get; private set; }
         public Enums.RequestStatus Status { get; private set; }
         private DecommissioningRequest() { }
-        public DecommissioningRequest(int technicianID, int deviceID, int deviceReceiverID, DateTime date)
+        public DecommissioningRequest(int technicianId, int deviceId, int deviceReceiverId, DateTime date)
         {
             ValidateDate(date);
             Status = Enums.RequestStatus.Pending;
             Date = date;
-            TechnicianID = technicianID;
-            DeviceID = deviceID;
-            DeviceReceiverID = deviceReceiverID;
+            TechnicianId = technicianId;
+            DeviceId = deviceId;
+            DeviceReceiverId = deviceReceiverId;
         }
 
         private void ValidateDate(DateTime date)

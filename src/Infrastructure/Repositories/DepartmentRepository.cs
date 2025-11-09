@@ -16,8 +16,8 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Include(d => d.SectionID)
-                .FirstOrDefaultAsync(d => d.DepartmentID == departmentId, cancellationToken);
+                .Include(d => d.SectionId)
+                .FirstOrDefaultAsync(d => d.DepartmentId == departmentId, cancellationToken);
         }
 
         public async Task<IEnumerable<Department>> GetDepartmentsBySectionAsync(
@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
             CancellationToken cancellationToken = default
         )
         {
-            return await _dbSet.Where(d => d.SectionID == sectionId).ToListAsync(cancellationToken);
+            return await _dbSet.Where(d => d.SectionId == sectionId).ToListAsync(cancellationToken);
         }
 
         public async Task<int> CountDepartmentsInSectionAsync(
@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
             CancellationToken cancellationToken = default
         )
         {
-            return await _dbSet.CountAsync(d => d.SectionID == sectionId, cancellationToken);
+            return await _dbSet.CountAsync(d => d.SectionId == sectionId, cancellationToken);
         }
     }
 }

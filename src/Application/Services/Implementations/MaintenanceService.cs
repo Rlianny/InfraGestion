@@ -24,8 +24,8 @@ public class MaintenanceService : IMaintenanceService
         var dtos = new List<MaintenanceRecordDto>();
         foreach (var maintenance in maintenanceRecords)
         {
-            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceID);
-            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianID);
+            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceId);
+            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianId);
             if (device == null)
             {
                 throw new Exception("There is a maintenance with no device associated");
@@ -39,9 +39,9 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     TechnicianName = technician.FullName,
@@ -60,8 +60,8 @@ public class MaintenanceService : IMaintenanceService
         var dtos = new List<MaintenanceRecordDto>();
         foreach (var maintenance in maintenanceRecords)
         {
-            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceID);
-            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianID);
+            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceId);
+            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianId);
             if (device == null)
             {
                 throw new Exception("There is a maintenance with no device associated");
@@ -75,9 +75,9 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     DeviceName = device.Name,
@@ -95,8 +95,8 @@ public class MaintenanceService : IMaintenanceService
         {
             throw new Exception("Maintenance record not found");
         }
-        var device = await deviceRepository.GetByIdAsync(maintenance.DeviceID);
-        var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianID);
+        var device = await deviceRepository.GetByIdAsync(maintenance.DeviceId);
+        var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianId);
         if (device == null)
         {
             throw new Exception("There is a maintenance with no device associated");
@@ -109,9 +109,9 @@ public class MaintenanceService : IMaintenanceService
         {
             Cost = maintenance.Cost,
             Description = maintenance.Description,
-            MaintenanceRecordId = maintenance.MaintenanceRecordID,
-            DeviceId = maintenance.DeviceID,
-            TechnicianId = maintenance.TechnicianID,
+            MaintenanceRecordId = maintenance.MaintenanceRecordId,
+            DeviceId = maintenance.DeviceId,
+            TechnicianId = maintenance.TechnicianId,
             MaintenanceDate = maintenance.Date,
             MaintenanceType = maintenance.Type,
             DeviceName = device.Name,
@@ -125,8 +125,8 @@ public class MaintenanceService : IMaintenanceService
         var dtos = new List<MaintenanceRecordDto>();
         foreach (var maintenance in maintenances)
         {
-            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceID);
-            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianID);
+            var device = await deviceRepository.GetByIdAsync(maintenance.DeviceId);
+            var technician = await technicianRepository.GetByIdAsync(maintenance.TechnicianId);
             if (device == null)
             {
                 throw new Exception("There is a maintenance with no device associated");
@@ -140,9 +140,9 @@ public class MaintenanceService : IMaintenanceService
                 {
                     Cost = maintenance.Cost,
                     Description = maintenance.Description,
-                    MaintenanceRecordId = maintenance.MaintenanceRecordID,
-                    DeviceId = maintenance.DeviceID,
-                    TechnicianId = maintenance.TechnicianID,
+                    MaintenanceRecordId = maintenance.MaintenanceRecordId,
+                    DeviceId = maintenance.DeviceId,
+                    TechnicianId = maintenance.TechnicianId,
                     MaintenanceDate = maintenance.Date,
                     MaintenanceType = maintenance.Type,
                     DeviceName = device.Name,

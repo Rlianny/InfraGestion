@@ -1,5 +1,5 @@
 public class AssignSectionResponsibleDto
 {
-    public int userID { get; set; }
-    public int SectionID { get; set; }
+    public int userId { get; set; }
+    public int SectionId { get; set; }
 }

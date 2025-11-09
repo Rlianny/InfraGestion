@@ -1,6 +1,5 @@
 using Application.DTOs.Inventory;
 using Application.Services.Interfaces;
-using AutoMapper;
 using Domain.Aggregations;
 using Domain.Entities;
 using Domain.Enums;
@@ -41,7 +40,7 @@ public class InventoryService : IInventoryService
     public async Task ApproveDevice(int deviceID, int technicianID)
     {
         ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-        if (technicianID != inspectionRequest.TechnicianID)
+        if (technicianID != inspectionRequest.TechnicianId)
         {
             throw new Exception();
         }
@@ -52,7 +51,7 @@ public class InventoryService : IInventoryService
 
     public async Task AssignDeviceForReviewAsync(AssignDeviceForInspectionRequestDto inspectionRequestDto)
     {
-        await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorID, inspectionRequestDto.TechnicianId));
+        await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorId, inspectionRequestDto.TechnicianId));
     }
 
     public async Task<IEnumerable<DeviceDto>> GetCompanyInventoryAsync()
@@ -61,8 +60,8 @@ public class InventoryService : IInventoryService
         return await Task.WhenAll(
             devices.Select(async device =>
             {
-                var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-                return new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name);
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+                return new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name);
             })
         );
     }
@@ -70,17 +69,17 @@ public class InventoryService : IInventoryService
     public async Task<DeviceDetailDto> GetDeviceDetailAsync(int DeviceID)
     {
         var device = await deviceRepo.GetByIdAsync(DeviceID);
-        var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-        var maintenanceHistory = await maintenanceService.GetDeviceMaintenanceHistoryAsync(device.DeviceID);
-        var transferHistory = await transferService.GetTransfersByDeviceAsync(device.DeviceID);
-        var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceID);
+        var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+        var maintenanceHistory = await maintenanceService.GetDeviceMaintenanceHistoryAsync(device.DeviceId);
+        var transferHistory = await transferService.GetTransfersByDeviceAsync(device.DeviceId);
+        var decommisionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceId);
         if (decommisionings.FirstOrDefault() == null)
         {
-            return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+            return new DeviceDetailDto(device.DeviceId, device.Name, device.Type, device.OperationalState,
            department.Name, maintenanceHistory, transferHistory, null);
         }
         var finalDecommisioning = decommisionings.First(x => x.FinalDestination != null);
-        return new DeviceDetailDto(device.DeviceID, device.Name, device.Type, device.OperationalState,
+        return new DeviceDetailDto(device.DeviceId, device.Name, device.Type, device.OperationalState,
            department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID, finalDecommisioning.DeviceReceiverID, finalDecommisioning.DecommissioningRequestID, finalDecommisioning.DeviceID, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentID));
 
 
@@ -95,12 +94,12 @@ public class InventoryService : IInventoryService
         {
             if ((device.Type == filter.DeviceType || filter.DeviceType is null) &&
                 (device.OperationalState == filter.OperationalState || filter.OperationalState is null) &&
-                (device.DepartmentID == filter.DepartmentId || filter.DepartmentId is null)
+                (device.DepartmentId == filter.DepartmentId || filter.DepartmentId is null)
                 )
             {
-                var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
 
-                devicesDTOs.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+                devicesDTOs.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name));
             }
         }
         if (filter.OrderBy != null)
@@ -127,17 +126,17 @@ public class InventoryService : IInventoryService
     {
         var user = await userRepo.GetByIdAsync(userID);
         var devices = await deviceRepo.GetAllAsync();
-        if (user.Department.Section.SectionID != sectionId)
+        if (user.Department.Section.SectionId != sectionId)
         {
             throw new Exception();
         }
         var deviceDtos = new List<DeviceDto>();
         foreach (var device in devices)
         {
-            var department = await departmentRepository.GetByIdAsync(device.DepartmentID);
-            if (department.Section.SectionID == sectionId)
+            var department = await departmentRepository.GetByIdAsync(device.DepartmentId);
+            if (department.Section.SectionId == sectionId)
             {
-                deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, department.Name));
+                deviceDtos.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, department.Name));
             }
         }
         return deviceDtos;
@@ -152,9 +151,9 @@ public class InventoryService : IInventoryService
         foreach (var device in devices)
         {
             var deviceDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("User is not on that departament exist");
-            if (userDepartment.SectionID == deviceDepartment.SectionID)
+            if (userDepartment.SectionId == deviceDepartment.SectionId)
             {
-                deviceDtos.Add(new DeviceDto(device.DeviceID, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
+                deviceDtos.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
             }
         }
         return deviceDtos;
@@ -162,7 +161,7 @@ public class InventoryService : IInventoryService
 
     public async Task RegisterDeviceAsync(InsertDeviceRequestDto request)
     {
-        await deviceRepo.AddAsync(new Device(request.Name, request.DeviceType, Domain.Enums.OperationalState.Operational, request.DepartmentID, DateTime.Now));
+        await deviceRepo.AddAsync(new Device(request.Name, request.DeviceType, Domain.Enums.OperationalState.Operational, request.DepartmentId, DateTime.Now));
     }
 
     public async Task RejectDevice(int deviceID, int technicianID, string reason)
@@ -170,7 +169,7 @@ public class InventoryService : IInventoryService
         ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
         User? tech = await userRepo.GetByIdAsync(technicianID);
         Device? device = await deviceRepo.GetByIdAsync(deviceID);
-        if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianID)
+        if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianId)
         {
             throw new Exception();
         }

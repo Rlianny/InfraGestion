@@ -12,36 +12,36 @@ namespace Domain.Entities
 {
     public class Device
     {
-        public int DeviceID { get; private set; }
+        public int DeviceId { get; private set; }
         public string Name { get; private set; }
         public DeviceType Type { get; private set; }
         public OperationalState OperationalState { get; private set; }
-        public int DepartmentID { get; private set; }
+        public int DepartmentId { get; private set; }
         public DateTime AcquisitionDate { get; private set; }
 
 
-        public Device(string name, DeviceType type, OperationalState operationalState, int departmentID, DateTime acquisitionDate)
+        public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate)
         {
             ValidateName(name);
-            ValidateDepartment(departmentID);
+            ValidateDepartment(departmentId);
             ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
             OperationalState = operationalState;
-            DepartmentID = departmentID;
+            DepartmentId = departmentId;
             AcquisitionDate = acquisitionDate;
         }
-        public Device(string name, DeviceType type, OperationalState operationalState, int departmentID, DateTime acquisitionDate, int deviceID)
+        public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate, int deviceId)
         {
             ValidateName(name);
-            ValidateDepartment(departmentID);
+            ValidateDepartment(departmentId);
             ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
             OperationalState = operationalState;
-            DepartmentID = departmentID;
+            DepartmentId = departmentId;
             AcquisitionDate = acquisitionDate;
-            DeviceID = deviceID;
+            DeviceId = deviceId;
         }
 
         private void ValidateDate(DateTime acquisitionDate)
@@ -52,11 +52,11 @@ namespace Domain.Entities
             }
         }
 
-        private void ValidateDepartment(int departmentID)
+        private void ValidateDepartment(int departmentId)
         {
-            if (departmentID < 0)
+            if (departmentId < 0)
             {
-                throw new ArgumentException("Department ID cannot be negative");
+                throw new ArgumentException("Department Id cannot be negative");
             }
         }
 
@@ -75,10 +75,10 @@ namespace Domain.Entities
             }
             OperationalState = newState;
         }
-        public void ChangeDepartment(int newDepartmentID)
+        public void ChangeDepartment(int newDepartmentId)
         {
-            ValidateDepartment(newDepartmentID);
-            DepartmentID = newDepartmentID;
+            ValidateDepartment(newDepartmentId);
+            DepartmentId = newDepartmentId;
         }
         public bool CanBeDecommissioned()
         {

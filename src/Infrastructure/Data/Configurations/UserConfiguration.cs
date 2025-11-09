@@ -10,9 +10,9 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("Users");
 
-            builder.HasKey(u => u.UserID);
+            builder.HasKey(u => u.UserId);
             
-            builder.Property(u => u.UserID)
+            builder.Property(u => u.UserId)
                 .ValueGeneratedOnAdd();
 
             builder.Property(u => u.Username)

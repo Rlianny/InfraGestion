@@ -3,14 +3,16 @@ using Application.DTOs.Auth;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Web.API.Shared;
 
 namespace Web.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [Produces("application/json")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly IUserManagementService _userService;
         private readonly ILogger<UsersController> _logger;
@@ -23,11 +25,11 @@ namespace Web.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserRequestDto request)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequestDto request)
         {
             var administratorId = GetCurrentUserId();
 
@@ -49,10 +51,10 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<UserDto>> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             _logger.LogInformation("Solicitando información de usuario {UserId}", id);
 
@@ -62,9 +64,9 @@ namespace Web.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Director")]
-        [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<UserDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
             var currentUserId = GetCurrentUserId();
 
@@ -78,9 +80,9 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("department/{departmentId}")]
-        [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<UserDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersByDepartment(int departmentId)
+        public async Task<IActionResult> GetUsersByDepartment(int departmentId)
         {
             var currentUserId = GetCurrentUserId();
 
@@ -98,7 +100,7 @@ namespace Web.API.Controllers
         [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersByRole(string role)
+        public async Task<IActionResult> GetUsersByRole(string role)
         {
             var currentUserId = GetCurrentUserId();
 
@@ -114,18 +116,18 @@ namespace Web.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserDto>> UpdateUser(
+        public async Task<IActionResult> UpdateUser(
             int id,
             [FromBody] UpdateUserRequestDto request
         )
         {
             if (id != request.UserId)
             {
-                return BadRequest("El ID de la URL no coincide con el ID del usuario en el body");
+                return BadRequest("El Id de la URL no coincide con el Id del usuario en el body");
             }
 
             var administratorId = GetCurrentUserId();
@@ -149,18 +151,19 @@ namespace Web.API.Controllers
 
         [HttpPost("{id}/deactivate")]
         [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> DeactivateUser(
+        public async Task<IActionResult> DeactivateUser(
             int id,
             [FromBody] DeactivateUserRequestDto request
         )
         {
             if (id != request.UserId)
             {
-                return BadRequest("El ID de la URL no coincide con el ID del usuario en el body");
+                return BadRequest("El Id de la URL no coincide con el Id del usuario en el body");
             }
 
             var administratorId = GetCurrentUserId();
@@ -179,15 +182,16 @@ namespace Web.API.Controllers
                 administratorId
             );
 
-            return NoContent();
+            return Ok("Succes");
         }
 
         [HttpPost("{id}/activate")]
         [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> ActivateUser(int id)
+        public async Task<IActionResult> ActivateUser(int id)
         {
             var administratorId = GetCurrentUserId();
 
@@ -205,13 +209,13 @@ namespace Web.API.Controllers
                 administratorId
             );
 
-            return NoContent();
+            return Ok("Succes");
         }
 
         [HttpGet("department/{departmentId}/technicians")]
-        [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<UserDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetTechnicians(int departmentId)
+        public async Task<IActionResult> GetTechnicians(int departmentId)
         {
             var currentUserId = GetCurrentUserId();
 
@@ -234,7 +238,7 @@ namespace Web.API.Controllers
 
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
-                _logger.LogError("No se pudo obtener el ID del usuario del token JWT");
+                _logger.LogError("No se pudo obtener el Id del usuario del token JWT");
                 throw new UnauthorizedAccessException("Token inválido");
             }
 

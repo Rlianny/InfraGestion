@@ -10,28 +10,28 @@ namespace Domain.Aggregations
 {
     public class Decommissioning
     {
-        public int DecommissioningID { get; private set; }
-        public int DeviceReceiverID { get; private set; }
-        public int DecommissioningRequestID { get; private set; }
-        public int DeviceID { get; private set; }
+        public int DecommissioningId { get; private set; }
+        public int DeviceReceiverId { get; private set; }
+        public int DecommissioningRequestId { get; private set; }
+        public int DeviceId { get; private set; }
 
         public DateTime DecommissioningDate { get; private set; }
         public DecommissioningReason Reason { get; private set; }
 
         public string? FinalDestination { get; private set; }
-        public int ReceiverDepartmentID { get; private set; }
+        public int ReceiverDepartmentId { get; private set; }
 
         private Decommissioning() { }
-        public Decommissioning(int deviceID, int decommissioningRequestID, int deviceReceiverID, int receiverDepartmentID, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
+        public Decommissioning(int deviceId, int decommissioningRequestId, int deviceReceiverId, int receiverDepartmentId, DateTime decommissioningDate, DecommissioningReason reason, string finalDestination)
         {
             ValidateDecommissioningDate(decommissioningDate);
             DecommissioningDate = decommissioningDate;
             Reason = reason;
             FinalDestination = finalDestination;
-            DeviceReceiverID = deviceReceiverID;
-            DeviceID = deviceID;
-            DecommissioningRequestID = decommissioningRequestID;
-            ReceiverDepartmentID = receiverDepartmentID;
+            DeviceReceiverId = deviceReceiverId;
+            DeviceId = deviceId;
+            DecommissioningRequestId = decommissioningRequestId;
+            ReceiverDepartmentId = receiverDepartmentId;
         }
 
         private void ValidateDecommissioningDate(DateTime date)

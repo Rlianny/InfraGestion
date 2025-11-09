@@ -9,21 +9,21 @@ namespace Domain.Aggregations
 {
     public class MaintenanceRecord
     {
-        public int TechnicianID { get; private set; }
-        public int DeviceID { get; private set; }
+        public int TechnicianId { get; private set; }
+        public int DeviceId { get; private set; }
         public DateTime Date { get; private set; }
         public double Cost { get; private set; }
         public MaintenanceType Type { get; private set; }
-        public int MaintenanceRecordID { get; private set; }
+        public int MaintenanceRecordId { get; private set; }
         public string Description { get; private set; }
 
         private MaintenanceRecord() { }
-        public MaintenanceRecord(int technicianID, int deviceID, DateTime date, double cost, MaintenanceType type,string description)
+        public MaintenanceRecord(int technicianId, int deviceId, DateTime date, double cost, MaintenanceType type,string description)
         {
             ValidateDate(date);
             Description = description;
-            TechnicianID = technicianID;
-            DeviceID = deviceID;
+            TechnicianId = technicianId;
+            DeviceId = deviceId;
             Date = date;
             Cost = cost;
             Type = type;

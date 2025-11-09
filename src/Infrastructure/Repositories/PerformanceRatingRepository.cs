@@ -18,9 +18,9 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(a => a.TechnicianID == technicianId)
-                .Include(a => a.UserID)
-                .Include(a => a.TechnicianID)
+                .Where(a => a.TechnicianId == technicianId)
+                .Include(a => a.UserId)
+                .Include(a => a.TechnicianId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -30,8 +30,8 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(a => a.UserID == userId)
-                .Include(a => a.TechnicianID)
+                .Where(a => a.UserId == userId)
+                .Include(a => a.TechnicianId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         )
         {
             var Ratings = await _dbSet
-                .Where(a => a.TechnicianID == technicianId)
+                .Where(a => a.TechnicianId == technicianId)
                 .ToListAsync(cancellationToken);
 
             if (!Ratings.Any())

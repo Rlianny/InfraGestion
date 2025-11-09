@@ -17,11 +17,11 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Include(d => d.DeviceID)
-                .Include(d => d.DeviceReceiverID)
-                .Include(d => d.ReceiverDepartmentID)
+                .Include(d => d.DeviceId)
+                .Include(d => d.DeviceReceiverId)
+                .Include(d => d.ReceiverDepartmentId)
                 .FirstOrDefaultAsync(
-                    d => d.DecommissioningRequestID == decommissioningId,
+                    d => d.DecommissioningRequestId == decommissioningId,
                     cancellationToken
                 );
         }
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
             CancellationToken cancellationToken = default
         )
         {
-            return await _dbSet.Where(d => d.DeviceID == deviceId).ToListAsync(cancellationToken);
+            return await _dbSet.Where(d => d.DeviceId == deviceId).ToListAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Decommissioning>> GetDecommissioningsByReasonAsync(
@@ -59,7 +59,7 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(d => d.ReceiverDepartmentID == departmentId)
+                .Where(d => d.ReceiverDepartmentId == departmentId)
                 .ToListAsync(cancellationToken);
         }
 

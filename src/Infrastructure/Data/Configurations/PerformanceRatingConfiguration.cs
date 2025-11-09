@@ -10,12 +10,12 @@ namespace Infrastructure.Data.Configurations
         {
             builder.ToTable("PerformanceRatings");
 
-            builder.HasKey(a => a.PerformanceRatingID);
+            builder.HasKey(a => a.PerformanceRatingId);
 
-            builder.Property(a => a.PerformanceRatingID)
+            builder.Property(a => a.PerformanceRatingId)
                 .ValueGeneratedOnAdd();
 
-            builder.HasIndex(a => new { a.UserID, a.TechnicianID, a.Date })
+            builder.HasIndex(a => new { a.UserId, a.TechnicianId, a.Date })
                 .IsUnique();
 
             builder.Property(a => a.Score)
@@ -25,15 +25,16 @@ namespace Infrastructure.Data.Configurations
             builder.Property(a => a.Date)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.User>()
-                .WithMany()
-                .HasForeignKey(a => a.UserID)
-                .OnDelete(DeleteBehavior.Restrict);
+            
+        //    builder.HasOne<Domain.Entities.User>()
+        //        .WithMany()
+        //        .HasForeignKey(a => a.UserId)
+        //        .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.User>()
-                .WithMany()
-                .HasForeignKey(a => a.TechnicianID)
-                .OnDelete(DeleteBehavior.Restrict);
+        //    builder.HasOne<Domain.Entities.User>()
+        //        .WithMany()
+        //        .HasForeignKey(a => a.TechnicianId)
+        //        .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

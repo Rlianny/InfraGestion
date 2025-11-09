@@ -11,18 +11,18 @@ namespace Domain.Entities
     {
         private static readonly double MIN_SCORE = 0.0;
         private static readonly double MAX_SCORE = 5.0;
-        public int UserID { get; private set; }
-        public int TechnicianID { get; private set; }
+        public int UserId { get; private set; }
+        public int TechnicianId { get; private set; }
         public DateTime Date { get; private set; }
         public double Score { get; private set; }
-        public int PerformanceRatingID { get; private set; }
+        public int PerformanceRatingId { get; private set; }
         private PerformanceRating() { }
-        public PerformanceRating(DateTime date, double score, int superiorID, int technicianID)
+        public PerformanceRating(DateTime date, double score, int superiorId, int technicianId)
         {
             ValidateScore(score);
             ValidateDate(date);
-            UserID = superiorID;
-            TechnicianID = technicianID;
+            UserId = superiorId;
+            TechnicianId = technicianId;
             Date = date;
             Score = score;
         }
