@@ -106,6 +106,17 @@ internal class Program
             );
         });
 
+        // Configure HTTP for Blazor // DON'T DELETE
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -121,6 +132,7 @@ internal class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
+
     }
 
     private static void InjectInfraestructure(WebApplicationBuilder builder)
@@ -169,3 +181,4 @@ internal class Program
         builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
     }
 }
+
