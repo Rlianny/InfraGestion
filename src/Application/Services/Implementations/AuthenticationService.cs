@@ -14,8 +14,6 @@ namespace Application.Services.Implementations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationService> _logger;
-
-        // These will be implemented in Infrastructure layer
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
@@ -39,7 +37,8 @@ namespace Application.Services.Implementations
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<LoginResponseDto> LoginAsync(LoginRequestDto request,
+        public async Task<LoginResponseDto> LoginAsync(
+            LoginRequestDto request,
             CancellationToken cancellationToken = default
         )
         {
@@ -94,7 +93,7 @@ namespace Application.Services.Implementations
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                ExpiresAt = expiresAt
+                ExpiresAt = expiresAt,
             };
 
             _logger.LogInformation(
@@ -311,12 +310,12 @@ namespace Application.Services.Implementations
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken,
-                ExpiresAt = expiresAt
+                ExpiresAt = expiresAt,
             };
 
             _logger.LogInformation("Token refreshed successfully for user: {UserId}", userId);
 
             return response;
         }
-    }    
+    }
 }

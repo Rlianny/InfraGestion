@@ -21,11 +21,11 @@ namespace Infrastructure.Services
         public string GenerateToken(User user)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
-            var secretKey = jwtSettings["Secret"];
+            var secretKey = jwtSettings["SecretKey"];
 
             if (string.IsNullOrEmpty(secretKey))
             {
-                throw new InvalidOperationException("JWT Secret no configurado");
+                throw new InvalidOperationException("JWT SecretKey no configurado en appsettings.json");
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -41,7 +41,7 @@ namespace Infrastructure.Services
                 new Claim("roleId", user.RoleId.ToString()),
             };
 
-            var expirationMinutes = int.Parse(jwtSettings["AccessTokenExpirationMinutes"] ?? "30");
+            var expirationMinutes = int.Parse(jwtSettings["ExpirationMinutes"] ?? "30");
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],

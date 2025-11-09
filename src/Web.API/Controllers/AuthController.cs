@@ -62,9 +62,7 @@ namespace Web.API.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(ApiResponse<LoginResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RefreshToken(
-            [FromBody] RefreshTokenRequestDto request
-        )
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request)
         {
             try
             {
@@ -89,19 +87,14 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userIdClaim =
-                    User.FindFirst("sub")?.Value
-                    ?? User.FindFirst(
-                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                    )?.Value;
-
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
-                {
-                    return Unauthorized(new { message = "Token inválido" });
-                }
-
+                var userId = GetCurrentUserId();
                 var user = await _userService.GetUserByIdAsync(userId);
                 return Ok(user);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning("Intento de acceso no autorizado: {Message}", ex.Message);
+                return Unauthorized(new { message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -119,20 +112,14 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userIdClaim =
-                    User.FindFirst("sub")?.Value
-                    ?? User.FindFirst(
-                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                    )?.Value;
-
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
-                {
-                    return Unauthorized(new { message = "Token inválido" });
-                }
-
+                var userId = GetCurrentUserId();
                 await _authService.LogoutAsync(userId);
                 _logger.LogInformation("Usuario {UserId} cerró sesión", userId);
                 return Ok("Sesión cerrada exitosamente");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -141,46 +128,19 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpPost("change-password")]
-        [Authorize]
-        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+        private int GetCurrentUserId()
         {
-            try
-            {
-                var userIdClaim =
-                    User.FindFirst("sub")?.Value
-                    ?? User.FindFirst(
-                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                    )?.Value;
+            var userIdClaim = User.FindFirst("sub")?.Value;
 
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
-                {
-                    return Unauthorized(new { message = "Token inválido" });
-                }
-
-                // Asegurar que el userId del request coincide con el del token
-                if (request.UserId != userId)
-                {
-                    return Forbid();
-                }
-
-                await _authService.ChangePasswordAsync(request);
-                _logger.LogInformation("Usuario {UserId} cambió su contraseña", userId);
-                return Ok("Contraseña cambiada exitosamente");
-            }
-            catch (UnauthorizedAccessException ex)
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
-                return Unauthorized(new { message = ex.Message });
+                _logger.LogError("No se pudo obtener el claim 'sub' (UserID) del token JWT.");
+                throw new UnauthorizedAccessException(
+                    "Token inválido o no contiene ID de usuario."
+                );
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al cambiar contraseña");
-                return BadRequest("Error al cambiar la contraseña");
-            }
+
+            return userId;
         }
     }
 }
