@@ -25,15 +25,16 @@ namespace Infrastructure.Data.Configurations
             builder.Property(a => a.Date)
                 .IsRequired();
 
-            builder.HasOne<Domain.Entities.User>()
-                .WithMany()
-                .HasForeignKey(a => a.UserID)
-                .OnDelete(DeleteBehavior.Restrict);
+            
+        //    builder.HasOne<Domain.Entities.User>()
+        //        .WithMany()
+        //        .HasForeignKey(a => a.UserID)
+        //        .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Domain.Entities.User>()
-                .WithMany()
-                .HasForeignKey(a => a.TechnicianID)
-                .OnDelete(DeleteBehavior.Restrict);
+        //    builder.HasOne<Domain.Entities.User>()
+        //        .WithMany()
+        //        .HasForeignKey(a => a.TechnicianID)
+        //        .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

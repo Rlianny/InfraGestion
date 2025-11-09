@@ -13,7 +13,23 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Web.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1dfe0c6fc642c157f31cddb1043191d04f98cbe")]
+=======
+<<<<<<< HEAD
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ffb54fb129ff2bb7745a3b91d95d2fa2f445b57")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87b8c897cfa55b1129de004500b8a541ce495e55")]
+>>>>>>> c70d4ee (docs: Add Mockup not completed)
+>>>>>>> 7f59964 (docs: Add Mockup not completed)
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e27a6bddeab73d55342cfb43bb710c398f4bcc64")]
+>>>>>>> 4b672e9 (docs: Update Mockup)
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b672e9e18881171d67dc3e609e730109a208509")]
+>>>>>>> f706263 (docs: Update Mockup)
 [assembly: System.Reflection.AssemblyProductAttribute("Web.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Web.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
