@@ -26,7 +26,6 @@ public class InventoryService : IInventoryService
         IReceivingInspectionRequestRepository receivingInspectionRequestRepo,
         IUnitOfWork unitOfWork,
         IDepartmentRepository departmentRepository,
-        IMaintenanceRecordRepository maintenanceRecordRepository,
         IDecommissioningRepository decommissioningRepository
         )
     {
