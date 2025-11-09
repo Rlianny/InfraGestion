@@ -80,7 +80,7 @@ public class InventoryService : IInventoryService
         }
         var finalDecommisioning = decommisionings.First(x => x.FinalDestination != null);
         return new DeviceDetailDto(device.DeviceId, device.Name, device.Type, device.OperationalState,
-           department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningID, finalDecommisioning.DeviceReceiverID, finalDecommisioning.DecommissioningRequestID, finalDecommisioning.DeviceID, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentID));
+           department.Name, maintenanceHistory, transferHistory, new Application.DTOs.Decommissioning.DecommissioningDto(finalDecommisioning.DecommissioningId, finalDecommisioning.DeviceReceiverId, finalDecommisioning.DecommissioningRequestId, finalDecommisioning.DeviceId, finalDecommisioning.DecommissioningDate, finalDecommisioning.Reason, finalDecommisioning.FinalDestination, finalDecommisioning.ReceiverDepartmentId));
 
 
 
