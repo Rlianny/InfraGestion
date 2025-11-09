@@ -18,10 +18,12 @@ namespace Infrastructure.Data.Configurations
             builder.Property(d => d.DepartmentID)
                 .ValueGeneratedOnAdd();
 
-            builder.HasOne<Section>()
-                .WithMany()
-                .HasForeignKey(d => d.SectionID)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(d => d.SectionID);
+            builder.HasIndex(d => d.SectionID);
+            //builder.HasOne<Section>()
+            //    .WithMany()
+            //    .HasForeignKey(d => d.SectionID)
+            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

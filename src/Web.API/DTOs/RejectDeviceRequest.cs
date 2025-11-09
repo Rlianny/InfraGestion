@@ -1,0 +1,1 @@
+﻿public record RejectDeviceRequestDto(int DeviceID, int TechnicianID, string Reason);

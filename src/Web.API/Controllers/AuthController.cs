@@ -2,13 +2,14 @@ using Application.DTOs.Auth;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.API.Shared;
 
 namespace Web.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("auth")]
     [Produces("application/json")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseApiController
     {
         private readonly IAuthenticationService _authService;
         private readonly IUserManagementService _userService;
@@ -27,10 +28,10 @@ namespace Web.API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<LoginResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             try
             {
@@ -59,9 +60,9 @@ namespace Web.API.Controllers
 
         [HttpPost("refresh")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<LoginResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<LoginResponseDto>> RefreshToken(
+        public async Task<IActionResult> RefreshToken(
             [FromBody] RefreshTokenRequestDto request
         )
         {
@@ -82,9 +83,9 @@ namespace Web.API.Controllers
 
         [HttpGet("me")]
         [Authorize]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser()
         {
             try
             {
@@ -111,6 +112,7 @@ namespace Web.API.Controllers
 
         [HttpPost("logout")]
         [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Logout()
@@ -130,17 +132,18 @@ namespace Web.API.Controllers
 
                 await _authService.LogoutAsync(userId);
                 _logger.LogInformation("Usuario {UserId} cerró sesión", userId);
-                return Ok(new { message = "Sesión cerrada exitosamente" });
+                return Ok("Sesión cerrada exitosamente");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error durante el logout");
-                return BadRequest(new { message = "Error al cerrar sesión" });
+                return BadRequest("Error al cerrar sesión");
             }
         }
 
         [HttpPost("change-password")]
         [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -167,7 +170,7 @@ namespace Web.API.Controllers
 
                 await _authService.ChangePasswordAsync(request);
                 _logger.LogInformation("Usuario {UserId} cambió su contraseña", userId);
-                return Ok(new { message = "Contraseña cambiada exitosamente" });
+                return Ok("Contraseña cambiada exitosamente");
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -176,7 +179,7 @@ namespace Web.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al cambiar contraseña");
-                return BadRequest(new { message = "Error al cambiar la contraseña" });
+                return BadRequest("Error al cambiar la contraseña");
             }
         }
     }

@@ -1,56 +1,57 @@
-var builder = WebApplication.CreateBuilder(args);
+using Application.Services.Implementations;
+using Application.Services.Interfaces;
+using Domain.Interfaces;
+using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+internal class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-app.UseHttpsRedirection();
+        // Add services to the container.
+        InjectInfraestructure(builder);
+        InjectApplication(builder);
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-var summaries = new[]
-{
-    "Freezing",
-    "Bracing",
-    "Chilly",
-    "Cool",
-    "Mild",
-    "Warm",
-    "Balmy",
-    "Hot",
-    "Sweltering",
-    "Scorching",
-};
+        var app = builder.Build();
 
-app.MapGet(
-        "/weatherforecast",
-        () =>
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
         {
-            var forecast = Enumerable
-                .Range(1, 5)
-                .Select(index => new WeatherForecast(
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
-    )
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
 
-app.Run();
+        app.UseHttpsRedirection();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        app.MapControllers();
+        app.Run();
+    }
+    private static void InjectInfraestructure(WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
+            )
+            );
+        builder.Services.AddScoped<IUnitOfWork,ApplicationDbContext>();
+        builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+        builder.Services.AddScoped<ISectionRepository, SectionRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IReceivingInspectionRequestRepository, ReceivingInspectionRequestRepository>();
+        builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        builder.Services.AddScoped<IMaintenanceRecordRepository, MaintenanceRepository>();
+        builder.Services.AddScoped<IDecommissioningRequestRepository, DecommissioningRequestRepository>();
+ 
+    }
+    private static void InjectApplication(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IInventoryService,InventoryService>();
+    }
 }
