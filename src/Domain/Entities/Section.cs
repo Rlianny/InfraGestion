@@ -17,8 +17,8 @@ namespace Domain.Entities
         private Section() { }
 
         public string Name { get; private set; }
-        public int SectionID { get; private set; }
-        public int SectionManagerId { get; private set; }
+        public int SectionId { get; private set; }
+        public int? SectionManagerId { get; private set; }
         public User? SectionManager { get; private set; }
         
     }

@@ -10,7 +10,7 @@ namespace Domain.Entities
 {
     public class User
     {
-        public int UserID { get; private set; }
+        public int UserId { get; private set; }
         public string Username { get; private set; } = string.Empty;
         public string FullName { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
@@ -181,7 +181,7 @@ namespace Domain.Entities
         public void ChangeDepartment(int newDepartmentId)
         {
             if (newDepartmentId <= 0)
-                throw new UserValidationException("ID de departamento inválido");
+                throw new UserValidationException("Id de departamento inválido");
 
             DepartmentId = newDepartmentId;
         }

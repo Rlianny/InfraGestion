@@ -9,23 +9,23 @@ namespace Domain.Aggregations
 {
     public class Rejection
     {
-        public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate, int deviceReceiverID, int technicianID, int deviceID)
+        public Rejection(DateTime decommissioningRequestDate, DateTime rejectionDate, int deviceReceiverId, int technicianId, int deviceId)
         {
             ValidateRequestDate(decommissioningRequestDate);
             ValidateRejectionDate(rejectionDate, decommissioningRequestDate);
             DecommissioningRequestDate = decommissioningRequestDate;
             RejectionDate = rejectionDate;
-            DeviceReceiverID = deviceReceiverID;
-            TechnicianID = technicianID;
-            DeviceID = deviceID;
+            DeviceReceiverId = deviceReceiverId;
+            TechnicianId = technicianId;
+            DeviceId = deviceId;
         }
         private Rejection()
         {
         }
-        public int RejectionID { get; private set; }
-        public int DeviceReceiverID { get; private set; }
-        public int TechnicianID { get; private set; }
-        public int DeviceID { get; private set; }
+        public int RejectionId { get; private set; }
+        public int DeviceReceiverId { get; private set; }
+        public int TechnicianId { get; private set; }
+        public int DeviceId { get; private set; }
         public DateTime DecommissioningRequestDate { get; private set; }
         public DateTime RejectionDate { get; private set; }
         private void ValidateRequestDate(DateTime date)

@@ -249,7 +249,7 @@ Clean Architecture (by Uncle Bob) organizes code into layers with clear dependen
 6. **Audit Everything:** Log who did what, when (regulatory requirement)
 7. **Data Integrity:** Equipment history cannot be modified, only appended
 
-⚠️ **Warning:** In telecommunications, equipment data is often regulated. NEVER bypass authorization checks. A technician should NEVER see equipment outside their section, even if they know the equipment ID!
+⚠️ **Warning:** In telecommunications, equipment data is often regulated. NEVER bypass authorization checks. A technician should NEVER see equipment outside their section, even if they know the equipment Id!
 
 ---
 
@@ -1586,7 +1586,7 @@ public class AuthService : IAuthService
 
         if (await _context.Users.AnyAsync(u => u.EmployeeId == request.EmployeeId, cancellationToken))
         {
-            return Result<LoginResponse>.Failure("Employee ID already exists");
+            return Result<LoginResponse>.Failure("Employee Id already exists");
         }
 
         // Default role is Technician unless specified

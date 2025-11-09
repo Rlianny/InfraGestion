@@ -63,7 +63,7 @@ namespace Application.Services.Implementations
 
             if (!user.IsActive)
             {
-                _logger.LogWarning("Login failed: User account is inactive: {UserId}", user.UserID);
+                _logger.LogWarning("Login failed: User account is inactive: {UserId}", user.UserId);
                 throw new AuthenticationException("La cuenta de usuario está inactiva");
             }
 
@@ -72,7 +72,7 @@ namespace Application.Services.Implementations
             {
                 _logger.LogWarning(
                     "Login failed: Invalid password for user: {UserId}",
-                    user.UserID
+                    user.UserId
                 );
                 throw new AuthenticationException("Credenciales inválidas");
             }
@@ -98,7 +98,7 @@ namespace Application.Services.Implementations
 
             _logger.LogInformation(
                 "Login successful for user: {UserId}, Role: {Role}",
-                user.UserID,
+                user.UserId,
                 user.Role.Name
             );
 

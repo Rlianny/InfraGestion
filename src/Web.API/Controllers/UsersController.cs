@@ -127,7 +127,7 @@ namespace Web.API.Controllers
         {
             if (id != request.UserId)
             {
-                return BadRequest("El ID de la URL no coincide con el ID del usuario en el body");
+                return BadRequest("El Id de la URL no coincide con el Id del usuario en el body");
             }
 
             var administratorId = GetCurrentUserId();
@@ -163,7 +163,7 @@ namespace Web.API.Controllers
         {
             if (id != request.UserId)
             {
-                return BadRequest("El ID de la URL no coincide con el ID del usuario en el body");
+                return BadRequest("El Id de la URL no coincide con el Id del usuario en el body");
             }
 
             var administratorId = GetCurrentUserId();
@@ -238,7 +238,7 @@ namespace Web.API.Controllers
 
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
-                _logger.LogError("No se pudo obtener el ID del usuario del token JWT");
+                _logger.LogError("No se pudo obtener el Id del usuario del token JWT");
                 throw new UnauthorizedAccessException("Token inválido");
             }
 
