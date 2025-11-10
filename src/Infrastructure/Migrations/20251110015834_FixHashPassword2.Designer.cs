@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251110015834_FixHashPassword2")]
+    partial class FixHashPassword2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -459,7 +462,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -1,
-                            AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -8,
                             Name = "Router de Agregación ASR 9000",
                             OperationalState = "Operational",
@@ -468,7 +471,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -2,
-                            AcquisitionDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -16,
                             Name = "Servidor de Virtualización HP DL380",
                             OperationalState = "UnderMaintenance",
@@ -477,7 +480,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -3,
-                            AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -24,
                             Name = "Firewall de Próxima Generación PA-5200",
                             OperationalState = "Operational",
@@ -486,7 +489,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -4,
-                            AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -24,
                             Name = "Sistema UPS Eaton 20kVA",
                             OperationalState = "Decommissioned",
@@ -495,7 +498,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -5,
-                            AcquisitionDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -12,
                             Name = "Antena de Radioenlace AirFiber 5XHD",
                             OperationalState = "Operational",
@@ -504,7 +507,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             DeviceId = -6,
-                            AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcquisitionDate = new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -14,
                             Name = "Analizador de Espectro Viavi",
                             OperationalState = "Operational",
@@ -710,128 +713,128 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -1,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -21,
                             FullName = "David González",
                             IsActive = true,
-                            PasswordHash = "$2a$11$kkxPo0Sl6gHf46gy7Pe5xeZZa0X2gGboRBG4Rd9gWniOm1PGHZ7he",
+                            PasswordHash = "$2a$11$vZGA9Lx4CzEUPCby5lFRPe9We334kkotTWj/y5XOvPPGYbwkrTkyi",
                             RoleId = 4,
                             Username = "dgonzalez"
                         },
                         new
                         {
                             UserId = -2,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -18,
                             FullName = "Laura Martínez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$2u/fqdnoGBupkujZw8HXeu3tjULZ6e.EqZVEQwLmWGWRvPPpu8gee",
+                            PasswordHash = "$2a$11$Cs8/uunjf/212kXsJv/qs.R5P55oSoN2kgN17VjJYCD7/hIVt3nX2",
                             RoleId = 4,
                             Username = "lmartinez"
                         },
                         new
                         {
                             UserId = -3,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -18,
                             FullName = "Javier Rodríguez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$/jwi2T7PHM6fSAyAelnoaOOxPMLU25uXG/3NvTyTK5rMlEoSZm55y",
+                            PasswordHash = "$2a$11$lgCrPGrD2dFZGMG1G4j82OcsGMOprt9fGheruxZNinvl2upvgCfF.",
                             RoleId = 4,
                             Username = "jrodriguez"
                         },
                         new
                         {
                             UserId = -4,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -5,
                             FullName = "Carmen Sánchez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$J0ZStMp50aiYljT3vj.yQucG.tqZOI7x43quH5EdmzB6K5z5cIVuq",
+                            PasswordHash = "$2a$11$/L58RuuQpLT6Lt9172DQpOJAhGI2Z.c1awD7cAp8MCNuicXv4gUE2",
                             RoleId = 4,
                             Username = "csanchez"
                         },
                         new
                         {
                             UserId = -5,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -3,
                             FullName = "Roberto López",
                             IsActive = true,
-                            PasswordHash = "$2a$11$OlHPfN0V9EcZwDZ2NhvzaOT0E6F8/EfWo2wHzJhSFEVEwd7fqBkCa",
+                            PasswordHash = "$2a$11$WvTa1nBqSMzLF1ueDLTJP.DZbo19jXihhhbXq3dUySmCJhd8/scvO",
                             RoleId = 4,
                             Username = "rlopez"
                         },
                         new
                         {
                             UserId = -6,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -24,
                             FullName = "Elena Morales",
                             IsActive = true,
-                            PasswordHash = "$2a$11$frxc8XpGXgGi53fiLcSRoOt3Nq7aE56VMPf.ECnNWXJkxIFPXxrMq",
+                            PasswordHash = "$2a$11$gpvkvTKTeinzgaNlieeqw.ZnfxXiNiRLonR2/sVcvD21qtu4AixQi",
                             RoleId = 5,
                             Username = "emorales"
                         },
                         new
                         {
                             UserId = -7,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -1,
                             FullName = "Sofía Ramírez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$eZJoOAWDoV6iLxXJtV3sjeW134dzJnATrW0BUXedvDUpm8D3v1vC6",
+                            PasswordHash = "$2a$11$a2GP.F5/bPOrkM1Xtz26M.4k.UvfF/XLeZvqLBuPcEFh8luqYekte",
                             RoleId = 3,
                             Username = "sramirez"
                         },
                         new
                         {
                             UserId = -8,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -6,
                             FullName = "Alejandro Torres",
                             IsActive = true,
-                            PasswordHash = "$2a$11$2p2NYJ3apLI342Dtp5EpEub2nxcPFkzsb88ci3oDI25IykC.0Unfm",
+                            PasswordHash = "$2a$11$tPCO2JWjkAR5Bqd.FK/YOOf2iOYZB5OQ4Ug4n8XEXJ.ACkwR0mChy",
                             RoleId = 3,
                             Username = "atorres"
                         },
                         new
                         {
                             UserId = -9,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -7,
                             FullName = "Patricia Herrera",
                             IsActive = true,
-                            PasswordHash = "$2a$11$ZeaAzBiPv.Xw6IYn5HsfM.TsEo8Rsh7iwC6xyVRAY6kAibSVuK.IW",
+                            PasswordHash = "$2a$11$6zsXyXyGNFkbhZtyzIENYOhgfD48P.l8YBuL89ZQ7rQ1AY6AOq.3u",
                             RoleId = 3,
                             Username = "pherrera"
                         },
                         new
                         {
                             UserId = -10,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -10,
                             FullName = "Ricardo Díaz",
                             IsActive = true,
-                            PasswordHash = "$2a$11$DuHpt0qFrD1nX4vvR6ypUu59ou5tGK8J.v8k3KhzMCQ/LzqyFOfWi",
+                            PasswordHash = "$2a$11$sxGMNt6nW5c0kJdAHGMkDerJLn3/znxfyuZzH17N6sHZeS.VndITm",
                             RoleId = 3,
                             Username = "rdiaz"
                         },
                         new
                         {
                             UserId = -11,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -13,
                             FullName = "Isabel Castro",
                             IsActive = true,
-                            PasswordHash = "$2a$11$6l3KjoYoKF0fDqIgEDwB4u8gUJ6IKOQgMf1K6n4DoYneSFqPrMRvu",
+                            PasswordHash = "$2a$11$xPwJ8Csu8Z1hb/MzH6EeI.IeqSWeFW6gnl85v6OiVMB04MhnQl7aG",
                             RoleId = 3,
                             Username = "icastro"
                         },
                         new
                         {
                             UserId = -12,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -3,
                             FullName = "Carlos Méndez",
                             IsActive = true,
@@ -844,7 +847,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -13,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -6,
                             FullName = "Eduardo Vargas",
                             IsActive = true,
@@ -857,7 +860,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -14,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -9,
                             FullName = "Jorge Silva",
                             IsActive = true,
@@ -870,7 +873,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -15,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -22,
                             FullName = "María Ortega",
                             IsActive = true,
@@ -883,7 +886,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -16,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -11,
                             FullName = "Ana López",
                             IsActive = true,
@@ -896,7 +899,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -17,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -9,
                             FullName = "Miguel Ángel Santos",
                             IsActive = true,
@@ -907,7 +910,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -18,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -2,
                             FullName = "Ana García",
                             IsActive = true,
@@ -918,7 +921,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -19,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -6,
                             FullName = "Luis Fernández",
                             IsActive = true,
@@ -929,7 +932,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -20,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -24,
                             FullName = "Marta Jiménez",
                             IsActive = true,
@@ -940,7 +943,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             UserId = -21,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartmentId = -17,
                             FullName = "Carlos Ruiz",
                             IsActive = true,

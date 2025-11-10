@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Auth;
 using Application.DTOs.Inventory;
 using Application.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -29,8 +30,15 @@ namespace Web.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetInventoryAsync([FromQuery] DeviceFilterDto filter, [FromQuery] int userId)
         {
-            var inventory = await inventoryService.GetInventoryAsync(filter, userId);
-            return Ok(inventory);
+            try
+            {
+                var inventory = await inventoryService.GetInventoryAsync(filter, userId);
+                return Ok(inventory);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
@@ -42,9 +50,9 @@ namespace Web.API.Controllers
                 var deviceDetail = await inventoryService.GetDeviceDetailAsync(id);
                 return Ok(deviceDetail);    
             }
-            catch
+            catch(Exception ex) 
             {
-                return BadRequest("Bad request");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -56,55 +64,45 @@ namespace Web.API.Controllers
             try
             {
                 var devices = await inventoryService.GetCompanyInventoryAsync();
-                return Ok(devices, "Succes");
+                return Ok(devices);
             }
             catch (Exception ex)
             { 
-                return BadRequest("Bad request");  
+                return BadRequest(ex.Message);  
             }
         }
         [HttpGet("sections/{sectionId}")]
+        [Authorize]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSectionInventoryAsync(int sectionId)
         {
             try
             {
-                var userIdStr = User.FindFirst("id").Value;
-                if (int.TryParse(userIdStr, out var userId))
-                {
-                    return BadRequest("Bad request");
-                }
+                var userId = int.Parse(User.FindFirst("sub")!.Value);
                 var devices = await inventoryService.GetSectionInventoryAsync(sectionId, userId);
                 return Ok(devices);
             }
-            catch
+            catch(Exception ex)
             {
-               return BadRequest("Bad Request");
+               return BadRequest(ex.Message);
             }
         }
         [HttpGet("ownedSection")]
+        [Authorize]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOwnSectionInventory()
         {
-            var userSection = User.FindFirst("id").Value;
-            if(int.TryParse(userSection, out var sectionId))
-            {
-                try
-                {
-                   var devices = await inventoryService.GetUsersOwnSectionInventory(sectionId);
-                   return Ok(devices);
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-            else
-            {
-             return BadRequest();   
-            }
 
-
+            try
+            {
+                var userId = int.Parse(User.FindFirst("sub")!.Value);
+                var devices = await inventoryService.GetUsersOwnSectionInventory(userId);
+                return Ok(devices);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         #endregion
         #region POST
@@ -112,8 +110,15 @@ namespace Web.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> RegisterDevice([FromBody] InsertDeviceRequestDto request)
         {
-            await inventoryService.RegisterDeviceAsync(request);
-            return Ok("Registered");
+            try
+            {
+                await inventoryService.RegisterDeviceAsync(request);
+                return Ok("Registered");
+            }
+            catch(Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("rejections")]
@@ -127,7 +132,7 @@ namespace Web.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Bad request");
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost("approbals")]
@@ -141,7 +146,7 @@ namespace Web.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Bad request");
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost("reviews")]
@@ -155,7 +160,7 @@ namespace Web.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Bad request");
+                return BadRequest($"{ex.Message}");
             }
         }
         #endregion
@@ -170,9 +175,9 @@ namespace Web.API.Controllers
                 await inventoryService.UpdateEquipmentAsync(updateDeviceRequest);
                 return Ok();
             }
-            catch
+            catch(Exception ex) 
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
                
             }
         }
