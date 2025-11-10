@@ -19,7 +19,6 @@ namespace Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(50);
 
-            // Índice único para Username
             builder.HasIndex(u => u.Username)
                 .IsUnique()
                 .HasDatabaseName("IX_Users_Username");
@@ -32,13 +31,14 @@ namespace Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(500);
 
-            builder.HasOne(u => u.Department)
-                .WithMany()
-                .HasForeignKey(u => u.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(u => u.DepartmentId)
+                .IsRequired();
+
+            builder.Property(u => u.RoleId)
+                .IsRequired();
 
             builder.HasOne(u => u.Role)
-                .WithMany()
+                .WithMany(r => r.Users)
                 .HasForeignKey(u => u.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

@@ -106,6 +106,17 @@ internal class Program
             );
         });
 
+        // Configure HTTP for Blazor // DON'T DELETE
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -121,6 +132,7 @@ internal class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
+
     }
 
     private static void InjectInfraestructure(WebApplicationBuilder builder)
@@ -130,8 +142,9 @@ internal class Program
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
 
-        // Unit of Work
-        builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
+        // Unit of Work DON'T DELETE
+        builder.Services.AddScoped<IUnitOfWork>(provider =>
+                provider.GetRequiredService<ApplicationDbContext>());
 
         // Repositories
         builder.Services.AddScoped<ISectionRepository, SectionRepository>();
@@ -151,7 +164,7 @@ internal class Program
         builder.Services.AddScoped<IRejectionRepository, RejectionRepository>();
         builder.Services.AddScoped<IPerformanceRatingRepository, PerformanceRatingRepository>();
         builder.Services.AddScoped<IDecommissioningRepository, DecommissioningRepository>();
-
+        builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
         // Infrastructure Services (Authentication & Security)
         builder.Services.AddScoped<IPasswordHasher, Infrastructure.Services.PasswordHasher>();
         builder.Services.AddScoped<IJwtTokenGenerator, Infrastructure.Services.JwtTokenGenerator>();
@@ -169,3 +182,4 @@ internal class Program
         builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
     }
 }
+

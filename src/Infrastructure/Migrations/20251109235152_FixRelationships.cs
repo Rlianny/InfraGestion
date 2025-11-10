@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FixRelationships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,7 +69,7 @@ namespace Infrastructure.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     SectionId = table.Column<int>(type: "INTEGER", nullable: false),
                     DepartmentId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -400,7 +400,8 @@ namespace Infrastructure.Migrations
                     { -4, null, "Servidores y Virtualización", -2 },
                     { -3, null, "Reparaciones de Red", -1 },
                     { -2, null, "Seguridad Perimetral y Firewalls", -1 },
-                    { -1, null, "Conmutación y Enrutamiento Avanzado", -1 }
+                    { -1, null, "Conmutación y Enrutamiento Avanzado", -1 },
+                    { 1, null, "Mocking Deparment", -1 }
                 });
 
             migrationBuilder.InsertData(
@@ -667,7 +668,7 @@ namespace Infrastructure.Migrations
                 column: "SectionId",
                 principalTable: "Sections",
                 principalColumn: "SectionId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

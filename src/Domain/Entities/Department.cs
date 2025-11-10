@@ -18,6 +18,5 @@
         public Section? Section { get; private set; }
         public ICollection<Device> Device { get; set; } = new List<Device>();
         public ICollection<User> Staff { get; set; } = new List<User>();
-        public ICollection<Department> Departments { get; private set; }
     }
 }

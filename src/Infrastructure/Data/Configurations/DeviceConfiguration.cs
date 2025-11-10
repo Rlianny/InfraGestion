@@ -15,7 +15,8 @@ namespace Infrastructure.Data.Configurations
             builder.Property(e => e.DeviceId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.DepartmentId).IsRequired();
+            builder.Property(e => e.DepartmentId)
+                .IsRequired();
             
             builder.Property(e => e.Name)
                 .IsRequired()
@@ -31,9 +32,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(e => e.AcquisitionDate)
                 .IsRequired();
-            // Fixed relationship configuration
-            builder.HasIndex(e => e.DepartmentId);
-           
+
         }
     }
 }

@@ -15,15 +15,22 @@ namespace Infrastructure.Data.Configurations
             builder.Property(d => d.DepartmentId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(d => d.DepartmentId)
-                .ValueGeneratedOnAdd();
+            builder.Property(d => d.Name)
+                .IsRequired()
+                .HasMaxLength(200);
 
-            builder.Property(d => d.SectionId);
-            builder.HasIndex(d => d.SectionId);
-            //builder.HasOne<Section>()
-            //    .WithMany()
-            //    .HasForeignKey(d => d.SectionId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(d => d.SectionId)
+                .IsRequired();
+
+            builder.HasOne(d => d.Section)
+                .WithMany()
+                .HasForeignKey(d => d.SectionId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.HasMany(d => d.Staff)
+                .WithOne(u => u.Department)
+                .HasForeignKey(u => u.DepartmentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
