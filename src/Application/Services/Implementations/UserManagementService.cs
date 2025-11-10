@@ -64,17 +64,17 @@ namespace Application.Services.Implementations
             }
 
             // Verify department exists
-            var department = await _departmentRepository.GetByIdAsync(
-                request.DepartmentId,
+            var department = await _departmentRepository.GetDepartmentByNameAsync(
+                request.DepartmentName,
                 cancellationToken
             );
             if (department == null)
             {
                 _logger.LogWarning(
                     "User creation failed: Department not found: {DepartmentId}",
-                    request.DepartmentId
+                    request.DepartmentName
                 );
-                throw new EntityNotFoundException("Departamento", request.DepartmentId);
+                throw new EntityNotFoundException("Departamento", request.DepartmentName);
             }
 
             // Get role Id from role name
@@ -102,7 +102,7 @@ namespace Application.Services.Implementations
                     request.Username,
                     request.FullName,
                     passwordHash,
-                    request.DepartmentId,
+                    department.DepartmentId,
                     request.YearsOfExperience.Value,
                     request.Specialty
                 );
@@ -115,7 +115,7 @@ namespace Application.Services.Implementations
                     request.FullName,
                     passwordHash,
                     roleId,
-                    request.DepartmentId
+                    department.DepartmentId
                 );
             }
 

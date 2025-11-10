@@ -52,8 +52,8 @@ namespace Application.Validators.Auth
                 .Must(role => ValidRoles.Contains(role))
                 .WithMessage("El rol especificado no es válido");
 
-            RuleFor(x => x.DepartmentId)
-                .GreaterThan(0)
+            RuleFor(x => x.DepartmentName)
+                .NotEmpty()
                 .WithMessage("El departamento es obligatorio");
 
             // Technician-specific validation

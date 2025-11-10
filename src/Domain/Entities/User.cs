@@ -180,9 +180,6 @@ namespace Domain.Entities
 
         public void ChangeDepartment(int newDepartmentId)
         {
-            if (newDepartmentId <= 0)
-                throw new UserValidationException("Id de departamento inválido");
-
             DepartmentId = newDepartmentId;
         }
 
