@@ -58,6 +58,7 @@ namespace Web.API.Controllers
 
 
         [HttpGet("company/devices")]
+        [Authorize(Roles ="Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCompanyDevicesAsync()
         {
@@ -78,7 +79,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userId = int.Parse(User.FindFirst("sub")!.Value);
+                var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
                 var devices = await inventoryService.GetSectionInventoryAsync(sectionId, userId);
                 return Ok(devices);
             }
@@ -95,7 +96,7 @@ namespace Web.API.Controllers
 
             try
             {
-                var userId = int.Parse(User.FindFirst("sub")!.Value);
+                var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
                 var devices = await inventoryService.GetUsersOwnSectionInventory(userId);
                 return Ok(devices);
             }
@@ -107,6 +108,7 @@ namespace Web.API.Controllers
         #endregion
         #region POST
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> RegisterDevice([FromBody] InsertDeviceRequestDto request)
         {
@@ -167,6 +169,7 @@ namespace Web.API.Controllers
         #region PUT
 
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateEquipmentAsync([FromBody] UpdateDeviceRequestDto updateDeviceRequest)
         {
@@ -178,7 +181,6 @@ namespace Web.API.Controllers
             catch(Exception ex) 
             {
                 return BadRequest(ex.Message);
-               
             }
         }
         #endregion

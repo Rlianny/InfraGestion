@@ -245,7 +245,7 @@ public class InventoryService : IInventoryService
             var deviceDtos = new List<DeviceDto>();
             foreach (var device in devices)
             {
-                var deviceDepartment = await departmentRepository.GetByIdAsync(user.DepartmentId) ?? throw new Exception("User is not on that departament exist");
+                var deviceDepartment = await departmentRepository.GetByIdAsync(device.DepartmentId) ?? throw new Exception("User is not on that departament exist");
                 if (userDepartment.SectionId == deviceDepartment.SectionId)
                 {
                     deviceDtos.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, deviceDepartment.Name));
