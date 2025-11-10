@@ -163,7 +163,8 @@ public class InventoryService : IInventoryService
                 department.Name,
                 maintenanceDtos,
                 transferDtos,
-                decommissioningDto
+                decommissioningDto,
+                device.AcquisitionDate
             );
         }
         catch
