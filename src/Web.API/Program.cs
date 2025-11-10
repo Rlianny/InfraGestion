@@ -163,7 +163,7 @@ internal class Program
         builder.Services.AddScoped<IRejectionRepository, RejectionRepository>();
         builder.Services.AddScoped<IPerformanceRatingRepository, PerformanceRatingRepository>();
         builder.Services.AddScoped<IDecommissioningRepository, DecommissioningRepository>();
-
+        builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
         // Infrastructure Services (Authentication & Security)
         builder.Services.AddScoped<IPasswordHasher, Infrastructure.Services.PasswordHasher>();
         builder.Services.AddScoped<IJwtTokenGenerator, Infrastructure.Services.JwtTokenGenerator>();

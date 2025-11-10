@@ -162,6 +162,7 @@ public class InventoryService : IInventoryService
     public async Task RegisterDeviceAsync(InsertDeviceRequestDto request)
     {
         await deviceRepo.AddAsync(new Device(request.Name, request.DeviceType, Domain.Enums.OperationalState.Operational, request.DepartmentId, DateTime.Now));
+        await unitOfWork.SaveChangesAsync();
     }
 
     public async Task RejectDevice(int deviceID, int technicianID, string reason)
