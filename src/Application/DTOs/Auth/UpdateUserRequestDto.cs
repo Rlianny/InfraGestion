@@ -8,7 +8,7 @@ public record UpdateUserRequestDto
 
     public string? Role { get; init; }
 
-    public int? DepartmentId { get; init; }
+    public string? DepartmentName { get; init; }
 
     public int? SectionId { get; init; }
 

@@ -35,5 +35,15 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet.CountAsync(d => d.SectionId == sectionId, cancellationToken);
         }
+
+        public async Task<Department?> GetDepartmentByNameAsync(string departmentName, CancellationToken cancellationToken = default)
+        {
+            if (departmentName == null)
+            {
+                throw new Exception("DepartmentName can not be null");
+            }
+            return await _dbSet
+            .FirstOrDefaultAsync(d => d.Name != null && d.Name == departmentName, cancellationToken);
+        }
     }
 }
