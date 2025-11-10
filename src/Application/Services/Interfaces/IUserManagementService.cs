@@ -30,10 +30,6 @@ namespace Application.Services.Interfaces
 
         Task<UserDto> GetUserByIdAsync(int userId, CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<UserDto>> GetAllUsersAsync(
-            CancellationToken cancellationToken = default
-        );
-
         Task<IEnumerable<UserDto>> GetAllActiveUsersAsync(
             CancellationToken cancellationToken = default
         );

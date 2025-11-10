@@ -130,7 +130,7 @@ namespace Application.Services.Implementations
             );
 
             // Reload user with navigation properties
-            var reloadedUser = await _userRepository.GetUserWithDetailsAsync(user.UserId, cancellationToken);
+            var reloadedUser = await _userRepository.GetByIdAsync(user.UserId, cancellationToken);
 
             if (reloadedUser == null)
             {
@@ -156,7 +156,7 @@ namespace Application.Services.Implementations
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
 
             // Get existing user
-            var user = await _userRepository.GetUserWithDetailsAsync(request.UserId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user == null)
             {
                 _logger.LogWarning("User update failed: User not found: {UserId}", request.UserId);
@@ -231,7 +231,7 @@ namespace Application.Services.Implementations
             _logger.LogInformation("User updated successfully: {UserId}", request.UserId);
 
             // Reload user with navigation properties
-            user = await _userRepository.GetUserWithDetailsAsync(user.UserId, cancellationToken);
+            user = await _userRepository.GetByIdAsync(user.UserId, cancellationToken);
 
             return _mapper.Map<UserDto>(user!);
         }
@@ -252,7 +252,7 @@ namespace Application.Services.Implementations
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
 
-            var user = await _userRepository.GetUserWithDetailsAsync(request.UserId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user == null)
             {
                 _logger.LogWarning(
@@ -304,7 +304,7 @@ namespace Application.Services.Implementations
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
 
-            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
             if (user == null)
             {
                 _logger.LogWarning("User activation failed: User not found: {UserId}", userId);
@@ -324,7 +324,7 @@ namespace Application.Services.Implementations
         {
             _logger.LogDebug("Retrieving user: {UserId}", userId);
 
-            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
             if (user == null)
             {
                 _logger.LogWarning("User not found: {UserId}", userId);
@@ -334,26 +334,16 @@ namespace Application.Services.Implementations
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(
-            CancellationToken cancellationToken = default
-        )
-        {
-            _logger.LogDebug("Retrieving all users");
-
-            var users = await _userRepository.GetAllUsersWithDetailsAsync(cancellationToken);
-
-            return _mapper.Map<IEnumerable<UserDto>>(users);
-        }
-
         public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync(
             CancellationToken cancellationToken = default
         )
         {
             _logger.LogDebug("Retrieving all active users");
 
-            var users = await _userRepository.GetActiveUsersAsync(cancellationToken);
+            var users = await _userRepository.GetAllAsync(cancellationToken);
+            var activeUsers = users.Where(u => u.IsActive);
 
-            return _mapper.Map<IEnumerable<UserDto>>(users);
+            return _mapper.Map<IEnumerable<UserDto>>(activeUsers);
         }
 
         public async Task<IEnumerable<UserDto>> GetUsersByRoleAsync(
@@ -390,7 +380,7 @@ namespace Application.Services.Implementations
             CancellationToken cancellationToken
         )
         {
-            var administrator = await _userRepository.GetUserWithDetailsAsync(
+            var administrator = await _userRepository.GetByIdAsync(
                 administratorId,
                 cancellationToken
             );
