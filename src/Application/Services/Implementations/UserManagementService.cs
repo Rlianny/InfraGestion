@@ -196,21 +196,21 @@ namespace Application.Services.Implementations
             }
 
             // Update department if provided
-            if (request.DepartmentId.HasValue)
+            if (request.DepartmentName!=null)
             {
-                var department = await _departmentRepository.GetByIdAsync(
-                    request.DepartmentId.Value,
+                var department = await _departmentRepository.GetDepartmentByNameAsync(
+                    request.DepartmentName,
                     cancellationToken
                 );
                 if (department == null)
                 {
                     _logger.LogWarning(
                         "User update failed: Department not found: {DepartmentId}",
-                        request.DepartmentId.Value
+                        request.DepartmentName
                     );
-                    throw new EntityNotFoundException("Departamento", request.DepartmentId.Value);
+                    throw new EntityNotFoundException("Departamento", request.DepartmentName);
                 }
-                user.ChangeDepartment(request.DepartmentId.Value);
+                user.ChangeDepartment(department.DepartmentId);
             }
 
             // Update active status if provided
