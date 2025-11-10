@@ -43,5 +43,6 @@ namespace Application.Services.Interfaces
             int departmentId,
             CancellationToken cancellationToken = default
         );
+        public Task<IEnumerable<UserDto>> GetAllInActiveUsersAsync(CancellationToken cancellationToken = default);
     }
 }
