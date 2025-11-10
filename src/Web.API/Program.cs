@@ -18,7 +18,7 @@ internal class Program
         var configuration = builder.Configuration;
 
         // Add services to the container.
-        InjectInfraestructure(builder);
+        InjectInfrastructure(builder);
         InjectApplication(builder);
         builder.Services.AddControllers();
 
@@ -135,7 +135,7 @@ internal class Program
 
     }
 
-    private static void InjectInfraestructure(WebApplicationBuilder builder)
+    private static void InjectInfrastructure(WebApplicationBuilder builder)
     {
         // Database Context
         builder.Services.AddDbContext<ApplicationDbContext>(options =>

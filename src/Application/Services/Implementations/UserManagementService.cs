@@ -333,14 +333,22 @@ namespace Application.Services.Implementations
 
             return _mapper.Map<UserDto>(user);
         }
+        public async Task<IEnumerable<UserDto>> GetAllInActiveUsersAsync(CancellationToken cancellationToken = default)
+        {
+            _logger.LogDebug("Retrieving all active users");
 
+            var users = await _userRepository.GetAllUsersWithDetailsAsync(cancellationToken);
+            var inActiveUsers = users.Where(u => !u.IsActive);
+
+            return _mapper.Map<IEnumerable<UserDto>>(inActiveUsers);
+        }
         public async Task<IEnumerable<UserDto>> GetAllActiveUsersAsync(
             CancellationToken cancellationToken = default
         )
         {
             _logger.LogDebug("Retrieving all active users");
 
-            var users = await _userRepository.GetAllAsync(cancellationToken);
+            var users = await _userRepository.GetAllUsersWithDetailsAsync(cancellationToken);
             var activeUsers = users.Where(u => u.IsActive);
 
             return _mapper.Map<IEnumerable<UserDto>>(activeUsers);

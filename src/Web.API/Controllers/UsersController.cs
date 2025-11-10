@@ -75,8 +75,10 @@ namespace Web.API.Controllers
                 currentUserId
             );
 
-            var users = await _userService.GetAllActiveUsersAsync();
-            return Ok(users);
+            var activeUsers = await _userService.GetAllActiveUsersAsync();
+            var unActiveUsers = await _userService.GetAllInActiveUsersAsync();
+
+            return Ok(activeUsers.Concat(unActiveUsers));
         }
 
         [HttpGet("department/{departmentId}")]
