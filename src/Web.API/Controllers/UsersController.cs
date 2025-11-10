@@ -70,11 +70,11 @@ namespace Web.API.Controllers
             var currentUserId = GetCurrentUserId();
 
             _logger.LogInformation(
-                "Usuario {UserId} solicitando lista de todos los usuarios activos",
+                "Usuario {UserId} solicitando lista de todos los usuarios",
                 currentUserId
             );
 
-            var users = await _userService.GetAllActiveUsersAsync();
+            var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 

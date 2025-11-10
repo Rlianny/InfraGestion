@@ -32,6 +32,17 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.UserId == userId, cancellationToken);
         }
 
+        public async Task<IEnumerable<User>> GetAllUsersWithDetailsAsync(
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await _dbSet
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .OrderBy(u => u.FullName)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<User>> GetUsersByDepartmentAsync(
             int departmentId,
             CancellationToken cancellationToken = default

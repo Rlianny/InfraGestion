@@ -109,7 +109,7 @@ namespace Application.Services.Implementations
         {
             _logger.LogInformation("Logging out user: {UserId}", userId);
 
-            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
 
             if (user == null)
             {
@@ -131,7 +131,7 @@ namespace Application.Services.Implementations
         {
             _logger.LogInformation("Attempting password change for user: {UserId}", request.UserId);
 
-            var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            var user = await _userRepository.GetUserWithDetailsAsync(request.UserId, cancellationToken);
 
             if (user == null)
             {
@@ -210,7 +210,7 @@ namespace Application.Services.Implementations
                 departmentId
             );
 
-            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
 
             if (user == null || !user.IsActive)
             {
@@ -274,7 +274,7 @@ namespace Application.Services.Implementations
         {
             _logger.LogInformation("Attempting token refresh for user: {UserId}", userId);
 
-            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
 
             if (user == null || !user.IsActive)
             {
