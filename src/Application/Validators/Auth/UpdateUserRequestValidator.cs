@@ -41,12 +41,14 @@ namespace Application.Validators.Auth
             );
 
             When(
-                x => x.DepartmentId.HasValue,
+                x => !string.IsNullOrEmpty(x.DepartmentName),
                 () =>
                 {
-                    RuleFor(x => x.DepartmentId)
-                        .GreaterThan(0)
-                        .WithMessage("El ID de departamento debe ser válido");
+                    RuleFor(x => x.DepartmentName)
+                        .MinimumLength(2)
+                        .WithMessage("El nombre del departamento debe tener al menos 2 caracteres")
+                        .MaximumLength(100)
+                        .WithMessage("El nombre del departamento no puede exceder 100 caracteres");
                 }
             );
 
