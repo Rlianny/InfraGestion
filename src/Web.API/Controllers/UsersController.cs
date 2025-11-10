@@ -3,7 +3,6 @@ using Application.DTOs.Auth;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Web.API.Shared;
 
 namespace Web.API.Controllers
@@ -120,10 +119,7 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUser(
-            int id,
-            [FromBody] UpdateUserRequestDto request
-        )
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequestDto request)
         {
             if (id != request.UserId)
             {
@@ -225,7 +221,6 @@ namespace Web.API.Controllers
                 departmentId
             );
 
-            // Usar el método GetUsersByRoleAsync filtrando por departamento
             var allTechnicians = await _userService.GetUsersByRoleAsync("Technician");
             var departmentTechnicians = allTechnicians.Where(t => t.DepartmentId == departmentId);
 
@@ -234,7 +229,7 @@ namespace Web.API.Controllers
 
         private int GetCurrentUserId()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userIdClaim = User.FindFirst("sub")?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
