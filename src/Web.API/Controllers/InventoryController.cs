@@ -184,6 +184,23 @@ namespace Web.API.Controllers
             }
         }
         #endregion
+        #region DELETE
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteDeviceAsync(int id)
+        {
+            try
+            {
+                await inventoryService.DeleteEquimentAsync( new DeleteDeviceRequestDto { DeviceId =id });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
 
     }
 

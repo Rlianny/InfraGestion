@@ -13,4 +13,5 @@ public interface IInventoryService
     Task AssignDeviceForReviewAsync(AssignDeviceForInspectionRequestDto inspectionRequestDto);
     Task RejectDevice(int deviceId, int technicianId, string reason);
     Task ApproveDevice(int deviceId, int technicianId);
+    Task DeleteEquimentAsync(DeleteDeviceRequestDto deleteRequest);
 }

@@ -23,7 +23,6 @@ namespace Domain.Entities
         public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate)
         {
             ValidateName(name);
-            ValidateDepartment(departmentId);
             ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
@@ -34,8 +33,7 @@ namespace Domain.Entities
         public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate, int deviceId)
         {
             ValidateName(name);
-            ValidateDepartment(departmentId);
-            ValidateDate(acquisitionDate);
+            //ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
             OperationalState = operationalState;
@@ -49,14 +47,6 @@ namespace Domain.Entities
             if (acquisitionDate > DateTime.Now)
             {
                 throw new ArgumentException();
-            }
-        }
-
-        private void ValidateDepartment(int departmentId)
-        {
-            if (departmentId < 0)
-            {
-                throw new ArgumentException("Department Id cannot be negative");
             }
         }
 
@@ -77,7 +67,6 @@ namespace Domain.Entities
         }
         public void ChangeDepartment(int newDepartmentId)
         {
-            ValidateDepartment(newDepartmentId);
             DepartmentId = newDepartmentId;
         }
         public bool CanBeDecommissioned()

@@ -305,13 +305,27 @@ public class InventoryService : IInventoryService
     {
         try
         {
-            Device device = new Device(request.Name, request.DeviceType, request.OperationalState, request.DepartmentId, DateTime.Now, request.DeviceId);
+            var department = await departmentRepository.GetDepartmentByNameAsync(request.DepartmentName)??throw new Exception($"Deparment with name{request.DepartmentName} does not exists");
+            Device device = new Device(request.Name, request.DeviceType, request.OperationalState, department.DepartmentId, request.Date, request.DeviceId);
             await deviceRepo.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
             throw new Exception("Error while tryng to update device");
+        }
+    }
+    public async Task DeleteEquimentAsync(DeleteDeviceRequestDto deleteRequest)
+    {
+        try
+        {
+            var device = await deviceRepo.GetByIdAsync(deleteRequest.DeviceId) ?? throw new Exception();
+            await deviceRepo.DeleteAsync(device);
+            await unitOfWork.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error ocurred while tryng to delete the device");
         }
     }
 }

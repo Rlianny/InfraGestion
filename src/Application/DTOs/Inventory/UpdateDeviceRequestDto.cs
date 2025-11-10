@@ -7,6 +7,7 @@ namespace Application.DTOs.Inventory
         public string Name { get; set; }
         public DeviceType DeviceType { get; set; }
         public OperationalState OperationalState { get; set; }
-        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public DateTime Date { get; set; }
     }
 }
