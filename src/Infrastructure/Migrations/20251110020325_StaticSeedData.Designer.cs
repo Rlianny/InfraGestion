@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251110020325_StaticSeedData")]
+    partial class StaticSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -714,7 +717,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -21,
                             FullName = "David González",
                             IsActive = true,
-                            PasswordHash = "$2a$11$kkxPo0Sl6gHf46gy7Pe5xeZZa0X2gGboRBG4Rd9gWniOm1PGHZ7he",
+                            PasswordHash = "$2a$11$4xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5U",
                             RoleId = 4,
                             Username = "dgonzalez"
                         },
@@ -725,7 +728,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -18,
                             FullName = "Laura Martínez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$2u/fqdnoGBupkujZw8HXeu3tjULZ6e.EqZVEQwLmWGWRvPPpu8gee",
+                            PasswordHash = "$2a$11$3xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5T",
                             RoleId = 4,
                             Username = "lmartinez"
                         },
@@ -736,7 +739,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -18,
                             FullName = "Javier Rodríguez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$/jwi2T7PHM6fSAyAelnoaOOxPMLU25uXG/3NvTyTK5rMlEoSZm55y",
+                            PasswordHash = "$2a$11$2xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5S",
                             RoleId = 4,
                             Username = "jrodriguez"
                         },
@@ -747,7 +750,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -5,
                             FullName = "Carmen Sánchez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$J0ZStMp50aiYljT3vj.yQucG.tqZOI7x43quH5EdmzB6K5z5cIVuq",
+                            PasswordHash = "$2a$11$1xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5R",
                             RoleId = 4,
                             Username = "csanchez"
                         },
@@ -758,7 +761,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -3,
                             FullName = "Roberto López",
                             IsActive = true,
-                            PasswordHash = "$2a$11$OlHPfN0V9EcZwDZ2NhvzaOT0E6F8/EfWo2wHzJhSFEVEwd7fqBkCa",
+                            PasswordHash = "$2a$11$0xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Q",
                             RoleId = 4,
                             Username = "rlopez"
                         },
@@ -769,7 +772,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -24,
                             FullName = "Elena Morales",
                             IsActive = true,
-                            PasswordHash = "$2a$11$frxc8XpGXgGi53fiLcSRoOt3Nq7aE56VMPf.ECnNWXJkxIFPXxrMq",
+                            PasswordHash = "$2a$11$9yH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5P",
                             RoleId = 5,
                             Username = "emorales"
                         },
@@ -780,7 +783,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -1,
                             FullName = "Sofía Ramírez",
                             IsActive = true,
-                            PasswordHash = "$2a$11$eZJoOAWDoV6iLxXJtV3sjeW134dzJnATrW0BUXedvDUpm8D3v1vC6",
+                            PasswordHash = "$2a$11$9xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z",
                             RoleId = 3,
                             Username = "sramirez"
                         },
@@ -791,7 +794,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -6,
                             FullName = "Alejandro Torres",
                             IsActive = true,
-                            PasswordHash = "$2a$11$2p2NYJ3apLI342Dtp5EpEub2nxcPFkzsb88ci3oDI25IykC.0Unfm",
+                            PasswordHash = "$2a$11$8xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Y",
                             RoleId = 3,
                             Username = "atorres"
                         },
@@ -802,7 +805,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -7,
                             FullName = "Patricia Herrera",
                             IsActive = true,
-                            PasswordHash = "$2a$11$ZeaAzBiPv.Xw6IYn5HsfM.TsEo8Rsh7iwC6xyVRAY6kAibSVuK.IW",
+                            PasswordHash = "$2a$11$7xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5X",
                             RoleId = 3,
                             Username = "pherrera"
                         },
@@ -813,7 +816,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -10,
                             FullName = "Ricardo Díaz",
                             IsActive = true,
-                            PasswordHash = "$2a$11$DuHpt0qFrD1nX4vvR6ypUu59ou5tGK8J.v8k3KhzMCQ/LzqyFOfWi",
+                            PasswordHash = "$2a$11$6xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5W",
                             RoleId = 3,
                             Username = "rdiaz"
                         },
@@ -824,7 +827,7 @@ namespace Infrastructure.Migrations
                             DepartmentId = -13,
                             FullName = "Isabel Castro",
                             IsActive = true,
-                            PasswordHash = "$2a$11$6l3KjoYoKF0fDqIgEDwB4u8gUJ6IKOQgMf1K6n4DoYneSFqPrMRvu",
+                            PasswordHash = "$2a$11$5xH3VJKZQxW5YpJ5Z5Z5ZeF5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5V",
                             RoleId = 3,
                             Username = "icastro"
                         },
