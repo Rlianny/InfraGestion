@@ -231,7 +231,7 @@ namespace Web.API.Controllers
 
         private int GetCurrentUserId()
         {
-            var userIdClaim = User.FindFirst("sub")?.Value;
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             {
