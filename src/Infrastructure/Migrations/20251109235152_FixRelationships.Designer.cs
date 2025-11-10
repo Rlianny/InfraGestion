@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109235152_FixRelationships")]
+    partial class FixRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -257,6 +260,9 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DepartmentId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -266,6 +272,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DepartmentId");
+
+                    b.HasIndex("DepartmentId1");
 
                     b.HasIndex("SectionId");
 
@@ -661,6 +669,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DepartmentId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -683,6 +694,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Specialty")
                         .HasColumnType("TEXT");
 
@@ -698,7 +712,11 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("DepartmentId1");
+
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -1086,6 +1104,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
+                    b.HasOne("Domain.Entities.Department", null)
+                        .WithMany("Departments")
+                        .HasForeignKey("DepartmentId1");
+
                     b.HasOne("Domain.Entities.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")
@@ -1125,16 +1147,24 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.HasOne("Domain.Entities.Department", "Department")
-                        .WithMany("Staff")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.Department", null)
+                        .WithMany("Staff")
+                        .HasForeignKey("DepartmentId1");
+
                     b.HasOne("Domain.Entities.Role", "Role")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Domain.Entities.Role", null)
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId1");
 
                     b.Navigation("Department");
 
@@ -1143,6 +1173,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
+                    b.Navigation("Departments");
+
                     b.Navigation("Device");
 
                     b.Navigation("Staff");

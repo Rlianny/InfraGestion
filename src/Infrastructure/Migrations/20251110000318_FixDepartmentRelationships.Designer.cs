@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251109210433_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251110000318_FixDepartmentRelationships")]
+    partial class FixDepartmentRelationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -260,19 +260,15 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DepartmentId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SectionId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DepartmentId");
-
-                    b.HasIndex("DepartmentId1");
 
                     b.HasIndex("SectionId");
 
@@ -668,9 +664,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DepartmentId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -693,9 +686,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RoleId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Specialty")
                         .HasColumnType("TEXT");
 
@@ -711,11 +701,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("DepartmentId1");
-
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -1103,14 +1089,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
-                    b.HasOne("Domain.Entities.Department", null)
-                        .WithMany("Departments")
-                        .HasForeignKey("DepartmentId1");
-
                     b.HasOne("Domain.Entities.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -1146,24 +1128,16 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.HasOne("Domain.Entities.Department", "Department")
-                        .WithMany()
+                        .WithMany("Staff")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Department", null)
-                        .WithMany("Staff")
-                        .HasForeignKey("DepartmentId1");
-
                     b.HasOne("Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Domain.Entities.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId1");
 
                     b.Navigation("Department");
 
@@ -1172,8 +1146,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
-                    b.Navigation("Departments");
-
                     b.Navigation("Device");
 
                     b.Navigation("Staff");

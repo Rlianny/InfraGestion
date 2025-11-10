@@ -142,8 +142,9 @@ internal class Program
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
 
-        // Unit of Work
-        builder.Services.AddScoped<IUnitOfWork, ApplicationDbContext>();
+        // Unit of Work DON'T DELETE
+        builder.Services.AddScoped<IUnitOfWork>(provider =>
+                provider.GetRequiredService<ApplicationDbContext>());
 
         // Repositories
         builder.Services.AddScoped<ISectionRepository, SectionRepository>();

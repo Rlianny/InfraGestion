@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109235635_RemoveAllRelations")]
+    partial class RemoveAllRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -257,6 +260,9 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DepartmentId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -266,6 +272,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DepartmentId");
+
+                    b.HasIndex("DepartmentId1");
 
                     b.HasIndex("SectionId");
 
@@ -1086,10 +1094,14 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
+                    b.HasOne("Domain.Entities.Department", null)
+                        .WithMany("Departments")
+                        .HasForeignKey("DepartmentId1");
+
                     b.HasOne("Domain.Entities.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -1127,13 +1139,13 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Department", "Department")
                         .WithMany("Staff")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Department");
@@ -1143,6 +1155,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
+                    b.Navigation("Departments");
+
                     b.Navigation("Device");
 
                     b.Navigation("Staff");
