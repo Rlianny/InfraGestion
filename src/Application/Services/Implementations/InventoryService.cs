@@ -268,7 +268,7 @@ public class InventoryService : IInventoryService
                 request.Name,
                 request.DeviceType,
                 Domain.Enums.OperationalState.Operational,
-                request.DepartmentId,
+                null,
                 DateTime.Now
             );
 

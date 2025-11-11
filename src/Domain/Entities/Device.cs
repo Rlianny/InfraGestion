@@ -20,14 +20,19 @@ namespace Domain.Entities
         public DateTime AcquisitionDate { get; private set; }
 
 
-        public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate)
+        public Device(string name, DeviceType type, OperationalState operationalState, int? departmentId, DateTime acquisitionDate)
         {
             ValidateName(name);
             ValidateDate(acquisitionDate);
             Name = name;
             Type = type;
             OperationalState = operationalState;
-            DepartmentId = departmentId;
+            if (departmentId == null)
+            {
+                DepartmentId = 1;
+            }
+            else
+                DepartmentId = (int)departmentId;
             AcquisitionDate = acquisitionDate;
         }
         public Device(string name, DeviceType type, OperationalState operationalState, int departmentId, DateTime acquisitionDate, int deviceId)
