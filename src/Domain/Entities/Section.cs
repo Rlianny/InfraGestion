@@ -20,6 +20,11 @@ namespace Domain.Entities
         public int SectionId { get; private set; }
         public int? SectionManagerId { get; private set; }
         public User? SectionManager { get; private set; }
+        public void AssignManager(User manager)
+        {
+            SectionManager = manager;
+            SectionManagerId = manager.UserId;
+        }
         
     }
 }
