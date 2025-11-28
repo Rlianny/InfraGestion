@@ -6,9 +6,7 @@ using Web.API.Shared;
 namespace Web.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    [Authorize]
-    [Produces("application/json")]
+    [Route("personnel")]
     public class PersonnelController : BaseApiController
     {
         private readonly IPersonnelService _personnelService;
@@ -19,7 +17,7 @@ namespace Web.API.Controllers
             _personnelService = personnelService;
             _logger = logger;
         }
-
+        #region GET
         [HttpGet("company/technicians")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TechnicianDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCompanyTechniciansAsync()
@@ -99,6 +97,9 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
+
+        #region POST
 
         [HttpPost("rate")]
         [ProducesResponseType(typeof(ApiResponse<bool>), StatusCodes.Status200OK)]
@@ -147,6 +148,7 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
     }
 
 }
