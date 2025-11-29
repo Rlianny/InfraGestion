@@ -5,10 +5,10 @@ namespace Application.Services.Interfaces
     public interface ITransferService
     {
         Task InitiateTransferAsync(CreateTransferRequestDto request);
-        Task ConfirmReceptionAsync(int transferId);
+        Task ConfirmReceptionAsync(int transferId,int userId);
         Task<IEnumerable<TransferDto>> GetPendingTransfersAsync();
         Task<TransferDto> GetTransferByIdAsync(int transferId);
-        Task<List<TransferDto>> GetTransfersByDeviceAsync(int deviceId);
+        Task<IEnumerable<TransferDto>> GetTransfersByDeviceAsync(int deviceId);
         Task UpdateEquipmentLocationAsync(int equipmentId, int newDepartmentId);
     }
 }
