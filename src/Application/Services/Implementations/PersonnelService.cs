@@ -1,7 +1,11 @@
+using Application.DTOs.Personnel;
 using Application.Services.Interfaces;
 using Domain.Interfaces;
+using Domain.Exceptions;
 
-class PersonnelService : IPersonnelService  //Validations Pending
+namespace Application.Services.Implementations
+{
+    public class PersonnelService : IPersonnelService
 {
     ITechnicianRepository technicianRepository { get; set; }
     IPerformanceRatingRepository performanceRatingRepository { get; set; }
@@ -20,8 +24,8 @@ class PersonnelService : IPersonnelService  //Validations Pending
             {
                 TechnicianId = technician.UserId,
                 Name = technician.Username,
-                YearsOfExperience = (int)technician.YearsOfExperience,
-                Specialty = technician.Specialty
+                YearsOfExperience = technician.YearsOfExperience ?? 0,
+                Specialty = technician.Specialty ?? string.Empty
             };
             technicianDtos.Add(dto);
         }
@@ -30,13 +34,15 @@ class PersonnelService : IPersonnelService  //Validations Pending
 
     public async Task<TechnicianDto> GetTechnicianAsync(int technicianId)
     {
-        var technician = await technicianRepository.GetByIdAsync(technicianId);
+        var technician = await technicianRepository.GetByIdAsync(technicianId)
+            ?? throw new EntityNotFoundException("Technician", technicianId);
+        
         return new TechnicianDto
         {
             TechnicianId = technician.UserId,
             Name = technician.Username,
-            YearsOfExperience = (int)technician.YearsOfExperience,
-            Specialty = technician.Specialty
+            YearsOfExperience = technician.YearsOfExperience ?? 0,
+            Specialty = technician.Specialty ?? string.Empty
         };
     }
 
@@ -64,7 +70,7 @@ class PersonnelService : IPersonnelService  //Validations Pending
         {
             var dto = new PenaltyDto
             {
-                Bonus = (decimal)penalty.Score,
+                Penalty = Math.Abs(penalty.Score),
                 Description = penalty.Description
             };
             penaltiesDtos.Add(dto);
@@ -81,7 +87,7 @@ class PersonnelService : IPersonnelService  //Validations Pending
             var dto = new RateDto
             {
                 GiverId = rating.UserId,
-                Rate = (int)rating.Score,
+                Rate = rating.Score,
                 Comment = rating.Description
             };
             ratingDtos.Add(dto);
@@ -115,10 +121,11 @@ class PersonnelService : IPersonnelService  //Validations Pending
     {
         return performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
            DateTime.Now,
-           request.penalization,
+           request.Penalization,
            request.SuperiorId,
            request.TechnicianId,
            request.Description
            ));
     }
+}
 }

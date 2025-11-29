@@ -137,7 +137,7 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("approbals")]
+        [HttpPost("approvals")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> AcceptDevice([FromBody] AcceptDeviceRequestDto acceptDeviceRequest)
         {

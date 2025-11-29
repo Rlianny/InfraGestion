@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Services.Interfaces;
+using Application.DTOs.Personnel;
 using Web.API.Shared;
 
 namespace Web.API.Controllers
 {
     [ApiController]
     [Route("personnel")]
+    [Authorize]
+    [Produces("application/json")]
     public class PersonnelController : BaseApiController
     {
         private readonly IPersonnelService _personnelService;
@@ -19,6 +22,7 @@ namespace Web.API.Controllers
         }
         #region GET
         [HttpGet("company/technicians")]
+        [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TechnicianDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCompanyTechniciansAsync()
         {
@@ -52,7 +56,7 @@ namespace Web.API.Controllers
 
         [HttpGet("company/bonuses")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<BonusDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianBonusesAsync(int technicianId)
+        public async Task<IActionResult> GetTechnicianBonusesAsync([FromQuery] int technicianId)
         {
             try
             {
@@ -68,7 +72,7 @@ namespace Web.API.Controllers
 
         [HttpGet("company/penalties")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<PenaltyDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianPenaltiesAsync(int technicianId)
+        public async Task<IActionResult> GetTechnicianPenaltiesAsync([FromQuery] int technicianId)
         {
             try
             {
@@ -84,7 +88,7 @@ namespace Web.API.Controllers
 
         [HttpGet("company/performances")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<RateDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianPerformancesAsync(int technicianId)
+        public async Task<IActionResult> GetTechnicianPerformancesAsync([FromQuery] int technicianId)
         {
             try
             {
@@ -102,6 +106,7 @@ namespace Web.API.Controllers
         #region POST
 
         [HttpPost("rate")]
+        [Authorize(Roles = "Administrator,Director,SectionManager")]
         [ProducesResponseType(typeof(ApiResponse<bool>), StatusCodes.Status200OK)]
         public async Task<IActionResult> RateTechnicianAsync([FromBody] RateTechnicianRequest request)
         {
@@ -118,6 +123,7 @@ namespace Web.API.Controllers
         }
 
         [HttpPost("bonus")]
+        [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<bool>), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddTechnicianBonusAsync([FromBody] BonusRequest request)
         {
@@ -134,6 +140,7 @@ namespace Web.API.Controllers
         }
 
         [HttpPost("penalty")]
+        [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<bool>), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddTechnicianPenaltyAsync([FromBody] PenaltyRequest request)
         {

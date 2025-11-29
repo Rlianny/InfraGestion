@@ -1,3 +1,5 @@
+using Application.DTOs.Personnel;
+
 namespace Application.Services.Interfaces
 {
     public interface IPersonnelService

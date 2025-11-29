@@ -1,5 +1,8 @@
-public class BonusDto
+namespace Application.DTOs.Personnel
 {
-    public double Bonus { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public class BonusDto
+    {
+        public double Bonus { get; set; }
+        public string Description { get; set; } = string.Empty;
+    }
 }

@@ -1,6 +1,9 @@
-public class RateDto
+namespace Application.DTOs.Personnel
 {
-    public int GiverId { get; set; }
-    public int Rate { get; set; }
-    public string Comment { get; set; } = string.Empty;
+    public class RateDto
+    {
+        public int GiverId { get; set; }
+        public double Rate { get; set; }
+        public string Comment { get; set; } = string.Empty;
+    }
 }
