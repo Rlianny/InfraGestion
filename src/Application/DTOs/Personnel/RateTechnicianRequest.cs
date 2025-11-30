@@ -1,6 +1,10 @@
-public class RateTechnicianRequest
+namespace Application.DTOs.Personnel
 {
-    public int TechnicianId { get; set; }
-    public string Comments { get; set; } = string.Empty;
-    public int Rate { get; set; }
+    public class RateTechnicianRequest
+    {
+        public int TechnicianId { get; set; }
+        public int SuperiorId { get; set; }
+        public string Comments { get; set; } = string.Empty;
+        public double Rate { get; set; }
+    }
 }

@@ -12,12 +12,13 @@ namespace Domain.Entities
         private static readonly double MIN_SCORE = 0.0;
         private static readonly double MAX_SCORE = 5.0;
         public int UserId { get; private set; }
+        public string Description { get; private set; } = string.Empty;
         public int TechnicianId { get; private set; }
         public DateTime Date { get; private set; }
         public double Score { get; private set; }
         public int PerformanceRatingId { get; private set; }
         private PerformanceRating() { }
-        public PerformanceRating(DateTime date, double score, int superiorId, int technicianId)
+        public PerformanceRating(DateTime date, double score, int superiorId, int technicianId, string description)
         {
             ValidateScore(score);
             ValidateDate(date);
@@ -25,6 +26,7 @@ namespace Domain.Entities
             TechnicianId = technicianId;
             Date = date;
             Score = score;
+            Description = description;
         }
 
         private void ValidateScore(double score)

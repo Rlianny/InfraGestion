@@ -1,8 +1,12 @@
 using Domain.Enums;
-public class PenaltyRequest
+
+namespace Application.DTOs.Personnel
 {
-    public PenaltyType penaltyType { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public int penalization { get; set; } = 0;
-    public int TechnicianId { get; set; }
+    public class PenaltyRequest
+    {
+        public string Description { get; set; } = string.Empty;
+        public double Penalization { get; set; } = 0;
+        public int SuperiorId { get; set; }
+        public int TechnicianId { get; set; }
+    }
 }
