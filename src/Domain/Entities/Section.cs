@@ -25,6 +25,12 @@ namespace Domain.Entities
             SectionManager = manager;
             SectionManagerId = manager.UserId;
         }
-        
+
+        public void UpdateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("El nombre de la sección no puede estar vacío", nameof(name));
+            Name = name;
+        }
     }
 }

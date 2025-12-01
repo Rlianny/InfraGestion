@@ -76,15 +76,22 @@ namespace Application.Services.Implementations
         {
             var department = await departmentRepository.GetByIdAsync(departmentDto.DepartmentId)
                     ?? throw new EntityNotFoundException("Deparment", departmentDto.DepartmentId);
+            
+            // Aplicar los cambios del DTO a la entidad
+            department.UpdateName(departmentDto.Name);
+            department.UpdateSection(departmentDto.SectionId);
+            
             await departmentRepository.UpdateAsync(department);
             await unitOfWork.SaveChangesAsync();
-
         }
 
         public async Task ModifySection(SectionDto sectionDto)
         {
             var section = await sectionRepository.GetByIdAsync(sectionDto.SectionId) ??
                  throw new EntityNotFoundException("Section", sectionDto.SectionId);
+            
+            section.UpdateName(sectionDto.Name);
+            
             await sectionRepository.UpdateAsync(section);
             await unitOfWork.SaveChangesAsync();
         }
