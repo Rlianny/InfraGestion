@@ -9,10 +9,12 @@ namespace Application.Services.Implementations
     {
         ITechnicianRepository technicianRepository { get; set; }
         IPerformanceRatingRepository performanceRatingRepository { get; set; }
-        public PersonnelService(ITechnicianRepository technicianRepository, IPerformanceRatingRepository performanceRatingRepository)
+        IUnitOfWork unitOfWork { get; set; }
+        public PersonnelService(ITechnicianRepository technicianRepository, IPerformanceRatingRepository performanceRatingRepository,IUnitOfWork unitOfWork)
         {
             this.technicianRepository = technicianRepository;
             this.performanceRatingRepository = performanceRatingRepository;
+            this.unitOfWork = unitOfWork;
         }
         public async Task<IEnumerable<TechnicianDto>> GetAllTechniciansAsync()
         {
@@ -110,6 +112,7 @@ namespace Application.Services.Implementations
                  request.TechnicianId,
                  request.Comments
                  ));
+                 await unitOfWork.SaveChangesAsync();
         }
 
         public async Task RegisterBonusAsync(BonusRequest request)
@@ -121,17 +124,19 @@ namespace Application.Services.Implementations
                request.TechnicianId,
                request.Description
                ));
+                await unitOfWork.SaveChangesAsync();
         }
 
-        public Task RegisterPenaltyAsync(PenaltyRequest request)
+        public async Task RegisterPenaltyAsync(PenaltyRequest request)
         {
-            return performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
+            await performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
                DateTime.Now,
                request.Penalization,
                request.SuperiorId,
                request.TechnicianId,
                request.Description
                ));
+               await unitOfWork.SaveChangesAsync();
         }
     }
 }
