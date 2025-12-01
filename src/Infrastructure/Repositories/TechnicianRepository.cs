@@ -8,11 +8,19 @@ namespace Infrastructure.Repositories
 {
     public class TechnicianRepository : Repository<User>, ITechnicianRepository
     {
-        
+
         private const int TechnicianRoleId = (int)RoleEnum.Technician;
 
         public TechnicianRepository(ApplicationDbContext context) : base(context)
         {
+        }
+        public override async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var technician = await _dbSet
+                .Where(t => t.RoleId == TechnicianRoleId)
+                .FirstOrDefaultAsync(t => t.UserId == id, cancellationToken);
+
+            return technician;
         }
         public override async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
         {
