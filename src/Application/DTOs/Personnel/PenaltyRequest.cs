@@ -6,7 +6,7 @@ namespace Application.DTOs.Personnel
     {
         public string Description { get; set; } = string.Empty;
         public double Penalization { get; set; } = 0;
-        public int SuperiorId { get; set; }
-        public int TechnicianId { get; set; }
+        public string SuperiorUsername { get; set; } = string.Empty;
+        public string TechnicianName { get; set; } = string.Empty;
     }
 }

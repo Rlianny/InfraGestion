@@ -11,6 +11,14 @@ namespace Infrastructure.Repositories
         {
         }
 
+        // Sobrescribir para retornar solo técnicos
+        public override async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(t => t.IsTechnician)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<User?> GetTechnicianWithDetailsAsync(int technicianId, CancellationToken cancellationToken = default)
         {
             return await _dbSet
@@ -43,7 +51,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                  .Where(t => t.IsTechnician)
-                .FirstOrDefaultAsync(t => t.Username == technicianName, cancellationToken);
+                .FirstOrDefaultAsync(t => t.FullName == technicianName, cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetTopPerformingTechniciansAsync(int count, CancellationToken cancellationToken = default)

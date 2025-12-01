@@ -7,15 +7,23 @@ namespace Application.Services.Implementations
 {
     public class PersonnelService : IPersonnelService
     {
-        ITechnicianRepository technicianRepository { get; set; }
-        IPerformanceRatingRepository performanceRatingRepository { get; set; }
-        IUnitOfWork unitOfWork { get; set; }
-        public PersonnelService(ITechnicianRepository technicianRepository, IPerformanceRatingRepository performanceRatingRepository,IUnitOfWork unitOfWork)
+        private readonly ITechnicianRepository technicianRepository;
+        private readonly IPerformanceRatingRepository performanceRatingRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IUnitOfWork unitOfWork;
+
+        public PersonnelService(
+            ITechnicianRepository technicianRepository,
+            IPerformanceRatingRepository performanceRatingRepository,
+            IUserRepository userRepository,
+            IUnitOfWork unitOfWork)
         {
             this.technicianRepository = technicianRepository;
             this.performanceRatingRepository = performanceRatingRepository;
+            this.userRepository = userRepository;
             this.unitOfWork = unitOfWork;
         }
+
         public async Task<IEnumerable<TechnicianDto>> GetAllTechniciansAsync()
         {
             var technicians = await technicianRepository.GetAllAsync();
@@ -86,7 +94,7 @@ namespace Application.Services.Implementations
 
         public async Task<IEnumerable<RateDto>> GetTechnicianPerformanceHistoryAsync(string technicianName)
         {
-            var technician= await technicianRepository.GetByNameAsync(technicianName)
+            var technician = await technicianRepository.GetByNameAsync(technicianName)
                 ?? throw new EntityNotFoundException("Technician", technicianName);
             var ratings = await performanceRatingRepository.GetRatingsByTechnicianAsync(technician.UserId);
             var ratingDtos = new List<RateDto>();
@@ -105,38 +113,53 @@ namespace Application.Services.Implementations
 
         public async Task RateTechnicianPerformanceAsync(RateTechnicianRequest request)
         {
+            var technician = await technicianRepository.GetByNameAsync(request.TechnicianName)
+                ?? throw new EntityNotFoundException("Technician", request.TechnicianName);
+            var superior = await userRepository.GetByUsernameAsync(request.SuperiorUsername)
+                ?? throw new EntityNotFoundException("User", request.SuperiorUsername);
+
             await performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
-                 DateTime.Now,
-                 request.Rate,
-                 request.SuperiorId,
-                 request.TechnicianId,
-                 request.Comments
-                 ));
-                 await unitOfWork.SaveChangesAsync();
+                DateTime.Now,
+                request.Rate,
+                superior.UserId,
+                technician.UserId,
+                request.Comments
+            ));
+            await unitOfWork.SaveChangesAsync();
         }
 
         public async Task RegisterBonusAsync(BonusRequest request)
         {
+            var technician = await technicianRepository.GetByNameAsync(request.TechnicianName)
+                ?? throw new EntityNotFoundException("Technician", request.TechnicianName);
+            var superior = await userRepository.GetByUsernameAsync(request.SuperiorUsername)
+                ?? throw new EntityNotFoundException("User", request.SuperiorUsername);
+
             await performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
-               DateTime.Now,
-               request.Bonus,
-               request.SuperiorId,
-               request.TechnicianId,
-               request.Description
-               ));
-                await unitOfWork.SaveChangesAsync();
+                DateTime.Now,
+                request.Bonus,
+                superior.UserId,
+                technician.UserId,
+                request.Description
+            ));
+            await unitOfWork.SaveChangesAsync();
         }
 
         public async Task RegisterPenaltyAsync(PenaltyRequest request)
         {
+            var technician = await technicianRepository.GetByNameAsync(request.TechnicianName)
+                ?? throw new EntityNotFoundException("Technician", request.TechnicianName);
+            var superior = await userRepository.GetByUsernameAsync(request.SuperiorUsername)
+                ?? throw new EntityNotFoundException("User", request.SuperiorUsername);
+
             await performanceRatingRepository.AddAsync(new Domain.Entities.PerformanceRating(
-               DateTime.Now,
-               request.Penalization,
-               request.SuperiorId,
-               request.TechnicianId,
-               request.Description
-               ));
-               await unitOfWork.SaveChangesAsync();
+                DateTime.Now,
+                -Math.Abs(request.Penalization),
+                superior.UserId,
+                technician.UserId,
+                request.Description
+            ));
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }
