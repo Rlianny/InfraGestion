@@ -20,34 +20,39 @@ namespace Application.Services.Implementations
         private readonly IDeviceRepository deviceRepository;
         private readonly ISectionRepository sectionRepository;
         private readonly IUserRepository userRepository;
+        private readonly IDepartmentRepository departmentRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public TransferService(ITransferRepository transferRepository,IDeviceRepository deviceRepository,ISectionRepository sectionRepository,
-                IUserRepository userRepository,IUnitOfWork unitOfWork)
+        public TransferService(ITransferRepository transferRepository, IDeviceRepository deviceRepository, ISectionRepository sectionRepository,
+                IUserRepository userRepository, IDepartmentRepository departmentRepository, IUnitOfWork unitOfWork)
         {
             this.transferRepository = transferRepository;
             this.deviceRepository = deviceRepository;
             this.sectionRepository = sectionRepository;
             this.userRepository = userRepository;
+            this.departmentRepository = departmentRepository;
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task ConfirmReceptionAsync(int transferId,int userId)
+        public async Task ConfirmReceptionAsync(int transferId, string username)
         {
             var transfer = await transferRepository.GetByIdAsync(transferId)
-                ??throw new EntityNotFoundException("Transfer",transferId);
-            if (userId!=transfer.DeviceReceiverId)
+                ?? throw new EntityNotFoundException("Transfer", transferId);
+            var user = await userRepository.GetByUsernameAsync(username)
+                ?? throw new EntityNotFoundException("User", username);
+            if (user.UserId != transfer.DeviceReceiverId)
             {
-                throw new UserValidationException($"User with id:{userId} its not the receiver of the device");
+                throw new UserValidationException($"User '{username}' is not the receiver of the device");
             }
             transfer.ConfirmReceipt();
             var device = await deviceRepository.GetByIdAsync(transfer.DeviceId)
-                ?? throw new EntityNotFoundException("Device", transfer.DeviceId);  
+                ?? throw new EntityNotFoundException("Device", transfer.DeviceId);
             device.UpdateOperationalState(OperationalState.Operational);
             await deviceRepository.UpdateAsync(device);
             await transferRepository.UpdateAsync(transfer);
             await unitOfWork.SaveChangesAsync();
-        }           
+        }
+
         public async Task<IEnumerable<TransferDto>> GetPendingTransfersAsync()
         {
             var transfers = await transferRepository.GetAllAsync();
@@ -73,11 +78,11 @@ namespace Application.Services.Implementations
 
             return dtos;
         }
-       
+
         public async Task<TransferDto> GetTransferByIdAsync(int transferId)
         {
-            var transfer = await transferRepository.GetByIdAsync(transferId)??throw new EntityNotFoundException("Transfer",transferId);
-            var device = await deviceRepository.GetByIdAsync(transfer.TransferId)??throw new EntityNotFoundException("Device",transferId);
+            var transfer = await transferRepository.GetByIdAsync(transferId) ?? throw new EntityNotFoundException("Transfer", transferId);
+            var device = await deviceRepository.GetByIdAsync(transfer.DeviceId) ?? throw new EntityNotFoundException("Device", transfer.DeviceId);
             var sourceSection = await sectionRepository.GetByIdAsync(transfer.SourceSectionId)
                           ?? throw new EntityNotFoundException("Section", transfer.SourceSectionId);
             var destinySection = await sectionRepository.GetByIdAsync(transfer.DestinationSectionId)
@@ -85,21 +90,22 @@ namespace Application.Services.Implementations
             var user = await userRepository.GetByIdAsync(transfer.DeviceReceiverId)
                       ?? throw new EntityNotFoundException("User", transfer.DeviceReceiverId);
             return new TransferDto(
-                transfer.TransferId,transfer.DeviceId,device.Name,
-                transfer.Date,transfer.SourceSectionId,
-                sourceSection.Name,transfer.DestinationSectionId,
-                destinySection.Name,transfer.DeviceReceiverId,
-                user.FullName,transfer.Status
+                transfer.TransferId, transfer.DeviceId, device.Name,
+                transfer.Date, transfer.SourceSectionId,
+                sourceSection.Name, transfer.DestinationSectionId,
+                destinySection.Name, transfer.DeviceReceiverId,
+                user.FullName, transfer.Status
                 );
         }
 
-        public async Task<IEnumerable<TransferDto>> GetTransfersByDeviceAsync(int deviceId)
+        public async Task<IEnumerable<TransferDto>> GetTransfersByDeviceNameAsync(string deviceName)
         {
-            var transfers = await transferRepository.GetTransfersByDeviceAsync(deviceId);
+            var device = await deviceRepository.GetDeviceByNameAsync(deviceName)
+                ?? throw new EntityNotFoundException("Device", deviceName);
+
+            var transfers = await transferRepository.GetTransfersByDeviceAsync(device.DeviceId);
             var dtos = await Task.WhenAll(transfers.Select(async t =>
             {
-                var dev = await deviceRepository.GetByIdAsync(t.DeviceId)
-                          ?? throw new EntityNotFoundException("Device", t.TransferId);
                 var src = await sectionRepository.GetByIdAsync(t.SourceSectionId)
                           ?? throw new EntityNotFoundException("Section", t.SourceSectionId);
                 var dst = await sectionRepository.GetByIdAsync(t.DestinationSectionId)
@@ -108,7 +114,7 @@ namespace Application.Services.Implementations
                           ?? throw new EntityNotFoundException("User", t.DeviceReceiverId);
 
                 return new TransferDto(
-                    t.TransferId, t.DeviceId, dev.Name, t.Date,
+                    t.TransferId, t.DeviceId, device.Name, t.Date,
                     t.SourceSectionId, src.Name,
                     t.DestinationSectionId, dst.Name,
                     t.DeviceReceiverId, usr.FullName, t.Status);
@@ -119,20 +125,35 @@ namespace Application.Services.Implementations
 
         public async Task InitiateTransferAsync(CreateTransferRequestDto request)
         {
+            var device = await deviceRepository.GetDeviceByNameAsync(request.DeviceName)
+                ?? throw new EntityNotFoundException("Device", request.DeviceName);
+            var sourceSection = await sectionRepository.GetSectionByNameAsync(request.SourceSectionName)
+                ?? throw new EntityNotFoundException("Section", request.SourceSectionName);
+            var destinationSection = await sectionRepository.GetSectionByNameAsync(request.DestinationSectionName)
+                ?? throw new EntityNotFoundException("Section", request.DestinationSectionName);
+            var receiver = await userRepository.GetByUsernameAsync(request.DeviceReceiverUsername)
+                ?? throw new EntityNotFoundException("User", request.DeviceReceiverUsername);
 
-            await transferRepository.AddAsync(new Transfer(DateOnly.FromDateTime(request.TransferDate),request.DeviceId,request.SourceSectionId,request.DestinationSectionId,request.DeviceReceiverId));
-            var device = await deviceRepository.GetByIdAsync(request.DeviceId)
-                ?? throw new EntityNotFoundException("Device", request.DeviceId);
+            await transferRepository.AddAsync(new Transfer(
+                DateOnly.FromDateTime(request.TransferDate),
+                device.DeviceId,
+                sourceSection.SectionId,
+                destinationSection.SectionId,
+                receiver.UserId));
+
             device.UpdateOperationalState(OperationalState.BeingTransferred);
             await deviceRepository.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateEquipmentLocationAsync(int equipmentId, int newDepartmentId)
+        public async Task UpdateEquipmentLocationAsync(string deviceName, string newDepartmentName)
         {
-            var device = await deviceRepository.GetByIdAsync(equipmentId)
-                ?? throw new EntityNotFoundException("Device", equipmentId);
-            device.ChangeDepartment(newDepartmentId);
+            var device = await deviceRepository.GetDeviceByNameAsync(deviceName)
+                ?? throw new EntityNotFoundException("Device", deviceName);
+            var department = await departmentRepository.GetDepartmentByNameAsync(newDepartmentName)
+                ?? throw new EntityNotFoundException("Department", newDepartmentName);
+
+            device.ChangeDepartment(department.DepartmentId);
             await deviceRepository.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();
         }

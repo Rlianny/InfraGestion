@@ -38,29 +38,29 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("technician/{technicianId}")]
+        [HttpGet("technician/{technicianName}")]
         [ProducesResponseType(typeof(ApiResponse<TechnicianDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianByIdAsync(int technicianId)
+        public async Task<IActionResult> GetTechnicianByNameAsync(string technicianName)
         {
             try
             {
-                var technicianDetails = await _personnelService.GetTechnicianAsync(technicianId);
+                var technicianDetails = await _personnelService.GetTechnicianAsync(technicianName);
                 return Ok(technicianDetails);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error retrieving technician with ID {technicianId}");
+                _logger.LogError(ex, $"Error retrieving technician with name {technicianName}");
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("bonuses/{technicianId}")]
+        [HttpGet("bonuses/{technicianName}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<BonusDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianBonusesAsync([FromQuery] int technicianId)
+        public async Task<IActionResult> GetTechnicianBonusesAsync(string technicianName)
         {
             try
             {
-                var bonuses = await _personnelService.GetTechnicianBonusesAsync(technicianId);
+                var bonuses = await _personnelService.GetTechnicianBonusesAsync(technicianName);
                 return Ok(bonuses);
             }
             catch (Exception ex)
@@ -70,13 +70,13 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("penalties/{technicianId}")]
+        [HttpGet("penalties/{technicianName}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<PenaltyDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianPenaltiesAsync([FromQuery] int technicianId)
+        public async Task<IActionResult> GetTechnicianPenaltiesAsync(string technicianName)
         {
             try
             {
-                var penalties = await _personnelService.GetTechnicianPenaltyAsync(technicianId);
+                var penalties = await _personnelService.GetTechnicianPenaltyAsync(technicianName);
                 return Ok(penalties);
             }
             catch (Exception ex)
@@ -86,13 +86,13 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("performances/{technicianId}")]
+        [HttpGet("performances/{technicianName}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<RateDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianPerformancesAsync([FromQuery] int technicianId)
+        public async Task<IActionResult> GetTechnicianPerformancesAsync(string technicianName)
         {
             try
             {
-                var performances = await _personnelService.GetTechnicianPerformanceHistoryAsync(technicianId);
+                var performances = await _personnelService.GetTechnicianPerformanceHistoryAsync(technicianName);
                 return Ok(performances);
             }
             catch (Exception ex)

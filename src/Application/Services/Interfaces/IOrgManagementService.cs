@@ -2,6 +2,8 @@ namespace Application.Services.Interfaces
 {
     public interface IOrgManagementService
     {
+        Task<IEnumerable<SectionDto>> GetSectionsAsync();
+        Task<IEnumerable<DepartmentDto>> GetDepartmentsAsync();
         Task CreateSection(SectionDto sectionDto); 
         Task ModifySection(SectionDto sectionDto); 
         Task DisableSection(SectionDto sectionDto);

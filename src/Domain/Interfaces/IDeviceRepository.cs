@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Device>> GetDevicesAcquiredBetweenAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
         Task<int> CountDevicesByStateAsync(OperationalState state, CancellationToken cancellationToken = default);
         Task<IEnumerable<Device>> SearchDevicesByNameAsync(string name, CancellationToken cancellationToken = default);
+        Task<Device?> GetDeviceByNameAsync(string name, CancellationToken cancellationToken = default);
     }
 }

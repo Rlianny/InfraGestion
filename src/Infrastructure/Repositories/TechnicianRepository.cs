@@ -39,6 +39,12 @@ namespace Infrastructure.Repositories
                 .Where(t => t.IsTechnician && t.DepartmentId == departmentId)
                 .ToListAsync(cancellationToken);
         }
+        public async Task<User?> GetByNameAsync(string technicianName, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                 .Where(t => t.IsTechnician)
+                .FirstOrDefaultAsync(t => t.Username == technicianName, cancellationToken);
+        }
 
         public async Task<IEnumerable<User>> GetTopPerformingTechniciansAsync(int count, CancellationToken cancellationToken = default)
         {
@@ -50,6 +56,6 @@ namespace Infrastructure.Repositories
                 .Take(count)
                 .ToListAsync(cancellationToken);
         }
-        
+
     }
 }

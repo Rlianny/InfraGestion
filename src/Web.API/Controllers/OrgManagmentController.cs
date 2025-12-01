@@ -25,7 +25,7 @@ namespace Web.API.Controllers
             try
             {
                 var departments = await orgManagementService.GetDepartmentsAsync();
-                return Ok(new ApiResponse<IEnumerable<DepartmentDto>>(departments));
+                return Ok(departments);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace Web.API.Controllers
             try
             {
                 var sections = await orgManagementService.GetSectionsAsync();
-                return Ok(new ApiResponse<IEnumerable<SectionDto>>(sections));
+                return Ok(sections);
             }
             catch (Exception ex)
             {

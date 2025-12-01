@@ -51,13 +51,13 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("devices/{deviceId}")]
+        [HttpGet("devices/{deviceName}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TransferDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTransfersByDeviceIdAsync(int deviceId) 
+        public async Task<IActionResult> GetTransfersByDeviceNameAsync(string deviceName) 
         {
             try
             {
-                var transfersByDevice = await transferService.GetTransfersByDeviceAsync(deviceId);
+                var transfersByDevice = await transferService.GetTransfersByDeviceNameAsync(deviceName);
                 return Ok(transfersByDevice);
             }
             catch (Exception ex)
@@ -89,9 +89,10 @@ namespace Web.API.Controllers
         {
             try
             {
-                var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
+                var username = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value
+                    ?? throw new UnauthorizedAccessException("Username not found in token");
 
-                await transferService.ConfirmReceptionAsync(transferId,userId);
+                await transferService.ConfirmReceptionAsync(transferId, username);
                 return Ok();
             }
             catch (Exception ex)
@@ -107,7 +108,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                await transferService.UpdateEquipmentLocationAsync(request.DeviceId, request.DepartmentId);
+                await transferService.UpdateEquipmentLocationAsync(request.DeviceName, request.DepartmentName);
                 return Ok();
             }
             catch (Exception ex)
