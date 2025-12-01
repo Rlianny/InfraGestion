@@ -181,7 +181,8 @@ internal class Program
         builder.Services.AddScoped<IUserManagementService, UserManagementService>();
         builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
         builder.Services.AddScoped<IPersonnelService, PersonnelService>();
-        builder.Services.AddScoped<ITransferService,TransferService>();
+        builder.Services.AddScoped<ITransferService, TransferService>();
+        builder.Services.AddScoped<IOrgManagementService, OrgManagmentService>();
     }
 }
 
