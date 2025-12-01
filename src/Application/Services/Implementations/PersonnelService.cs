@@ -23,7 +23,7 @@ namespace Application.Services.Implementations
                 var dto = new TechnicianDto
                 {
                     TechnicianId = technician.UserId,
-                    Name = technician.Username,
+                    Name = technician.FullName,
                     YearsOfExperience = technician.YearsOfExperience ?? 0,
                     Specialty = technician.Specialty ?? string.Empty
                 };
@@ -40,7 +40,7 @@ namespace Application.Services.Implementations
             return new TechnicianDto
             {
                 TechnicianId = technician.UserId,
-                Name = technician.Username,
+                Name = technician.FullName,
                 YearsOfExperience = technician.YearsOfExperience ?? 0,
                 Specialty = technician.Specialty ?? string.Empty
             };
