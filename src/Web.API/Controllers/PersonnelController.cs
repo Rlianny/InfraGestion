@@ -21,7 +21,7 @@ namespace Web.API.Controllers
             _logger = logger;
         }
         #region GET
-        [HttpGet("company/technicians")]
+        [HttpGet("technicians")]
         [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TechnicianDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCompanyTechniciansAsync()
@@ -38,23 +38,23 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("{technician}")]
+        [HttpGet("technician/{technicianId}")]
         [ProducesResponseType(typeof(ApiResponse<TechnicianDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianByIdAsync(int technician)
+        public async Task<IActionResult> GetTechnicianByIdAsync(int technicianId)
         {
             try
             {
-                var technicianDetails = await _personnelService.GetTechnicianAsync(technician);
+                var technicianDetails = await _personnelService.GetTechnicianAsync(technicianId);
                 return Ok(technicianDetails);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error retrieving technician with ID {technician}");
+                _logger.LogError(ex, $"Error retrieving technician with ID {technicianId}");
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("company/bonuses")]
+        [HttpGet("bonuses/{technicianId}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<BonusDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTechnicianBonusesAsync([FromQuery] int technicianId)
         {
@@ -70,7 +70,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("company/penalties")]
+        [HttpGet("penalties/{technicianId}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<PenaltyDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTechnicianPenaltiesAsync([FromQuery] int technicianId)
         {
@@ -86,7 +86,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("company/performances")]
+        [HttpGet("performances/{technicianId}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<RateDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTechnicianPerformancesAsync([FromQuery] int technicianId)
         {

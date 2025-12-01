@@ -48,13 +48,13 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{id}")]
+        [HttpGet("maintenance/{maintenanceId}")]
         [ProducesResponseType(typeof(ApiResponse<MaintenanceRecordDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMaintenanceRecordAsync(int id)
+        public async Task<IActionResult> GetMaintenanceRecordAsync(int maintenanceId)
         {
             try
             {
-                var maintenance = await maintenanceService.GetMaintenanceRecordAsync(id);
+                var maintenance = await maintenanceService.GetMaintenanceRecordAsync(maintenanceId);
                 return Ok(maintenance);
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("company/maintenances")]
+        [HttpGet("maintenances")]
         [Authorize(Roles = "Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<MaintenanceRecordDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllMaintenanceRecordsAsync()
