@@ -42,10 +42,10 @@ namespace Application.Services.Implementations
             return technicianDtos;
         }
 
-        public async Task<TechnicianDto> GetTechnicianAsync(string technicianName)
+        public async Task<TechnicianDto> GetTechnicianAsync(int technicianId)
         {
-            var technician = await technicianRepository.GetByNameAsync(technicianName)
-                ?? throw new EntityNotFoundException("Technician", technicianName);
+            var technician = await technicianRepository.GetByIdAsync(technicianId)
+                ?? throw new EntityNotFoundException("Technician", technicianId);
 
             return new TechnicianDto
             {

@@ -4,7 +4,7 @@ namespace Application.Services.Interfaces
 {
     public interface IPersonnelService
     {
-        Task<TechnicianDto> GetTechnicianAsync(string technicianName);
+        Task<TechnicianDto> GetTechnicianAsync(int technicianId);
         Task<IEnumerable<TechnicianDto>> GetAllTechniciansAsync();
         Task RateTechnicianPerformanceAsync(RateTechnicianRequest request);
         Task RegisterBonusAsync(BonusRequest request);

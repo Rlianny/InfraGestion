@@ -38,18 +38,18 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("technician/{technicianName}")]
+        [HttpGet("technician/{technicianId}")]
         [ProducesResponseType(typeof(ApiResponse<TechnicianDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianByNameAsync(string technicianName)
+        public async Task<IActionResult> GetTechnicianByIdAsync(int technicianId)
         {
             try
             {
-                var technicianDetails = await _personnelService.GetTechnicianAsync(technicianName);
+                var technicianDetails = await _personnelService.GetTechnicianAsync(technicianId);
                 return Ok(technicianDetails);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error retrieving technician with name {technicianName}");
+                _logger.LogError(ex, $"Error retrieving technician with ID {technicianId}");
                 return BadRequest(ex.Message);
             }
         }
