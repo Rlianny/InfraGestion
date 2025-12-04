@@ -54,9 +54,16 @@ public class InventoryService : IInventoryService
                 throw new Exception($"Technician with id {request.TechnicianId} is not allowed to make this request");
             }
 
+            // Obtener el dispositivo para actualizar su estado
+            var device = await deviceRepo.GetByIdAsync(request.DeviceId) 
+                ?? throw new Exception($"Device with id {request.DeviceId} not found");
+
             if (request.IsApproved)
             {
                 inspectionRequest.Accept();
+                // Cambiar el estado del dispositivo a Revised cuando se aprueba
+                device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
+                await deviceRepo.UpdateAsync(device);
             }
             else
             {
@@ -65,6 +72,7 @@ public class InventoryService : IInventoryService
                     throw new Exception("Rejection reason is required when rejecting a device");
                 }
                 inspectionRequest.Reject(request.RejectionReason);
+                // El dispositivo rechazado podría quedarse en UnderRevision o cambiar a otro estado según la lógica de negocio
             }
 
             await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
@@ -80,11 +88,19 @@ public class InventoryService : IInventoryService
     {
         try
         {
+            // Obtener el dispositivo y cambiar su estado a UnderRevision
+            var device = await deviceRepo.GetByIdAsync(inspectionRequestDto.DeviceId)
+                ?? throw new Exception($"Device with id {inspectionRequestDto.DeviceId} not found");
+            
+            device.UpdateOperationalState(Domain.Enums.OperationalState.UnderRevision);
+            await deviceRepo.UpdateAsync(device);
+
             await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorId, inspectionRequestDto.TechnicianId));
+            await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while tryng to assign device for review");
+            throw new Exception($"Error while trying to assign device for review: {ex.Message}");
         }
     }
 

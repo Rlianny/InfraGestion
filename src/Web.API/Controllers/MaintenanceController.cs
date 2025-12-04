@@ -97,6 +97,23 @@ namespace Web.API.Controllers
             }
         }
         #endregion 
-        // Additional endpoints can be added here following the same pattern
+
+        #region PUT
+        [HttpPut("complete/{deviceId}")]
+        [Authorize(Roles = "Technician")]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CompleteMaintenanceAsync(int deviceId)
+        {
+            try
+            {
+                await maintenanceService.CompleteMaintenanceAsync(deviceId);
+                return Ok("Maintenance completed successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }

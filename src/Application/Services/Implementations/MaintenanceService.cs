@@ -9,13 +9,17 @@ public class MaintenanceService : IMaintenanceService
     private readonly IMaintenanceRecordRepository maintenanceRecordRepository;
     private readonly IDeviceRepository deviceRepository;
     private readonly ITechnicianRepository technicianRepository;
+    private readonly IUnitOfWork unitOfWork;
+
     public MaintenanceService(IMaintenanceRecordRepository maintenanceRecordRepository,
         IDeviceRepository deviceRepository,
-     ITechnicianRepository technicianRepository)
+        ITechnicianRepository technicianRepository,
+        IUnitOfWork unitOfWork)
     {
         this.technicianRepository = technicianRepository;
         this.deviceRepository = deviceRepository;
         this.maintenanceRecordRepository = maintenanceRecordRepository;
+        this.unitOfWork = unitOfWork;
     }
 
     public async Task<IEnumerable<MaintenanceRecordDto>> GetAllMaintenanceHistoryAsync()
@@ -155,6 +159,13 @@ public class MaintenanceService : IMaintenanceService
 
     public async Task RegisterMaintenanceAsync(MaintenanceRecordDto recordDto)
     {
+        // Obtener el dispositivo y cambiar su estado a UnderMaintenance
+        var device = await deviceRepository.GetByIdAsync(recordDto.DeviceId)
+            ?? throw new Exception($"Device with id {recordDto.DeviceId} not found");
+        
+        device.UpdateOperationalState(OperationalState.UnderMaintenance);
+        await deviceRepository.UpdateAsync(device);
+
         MaintenanceRecord maintenanceRecord = new MaintenanceRecord(
             recordDto.TechnicianId,
             recordDto.DeviceId,
@@ -164,5 +175,21 @@ public class MaintenanceService : IMaintenanceService
             recordDto.Description
         );
         await maintenanceRecordRepository.AddAsync(maintenanceRecord);
+        await unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task CompleteMaintenanceAsync(int deviceId)
+    {
+        var device = await deviceRepository.GetByIdAsync(deviceId)
+            ?? throw new Exception($"Device with id {deviceId} not found");
+        
+        if (device.OperationalState != OperationalState.UnderMaintenance)
+        {
+            throw new Exception($"Device with id {deviceId} is not under maintenance");
+        }
+
+        device.UpdateOperationalState(OperationalState.Operational);
+        await deviceRepository.UpdateAsync(device);
+        await unitOfWork.SaveChangesAsync();
     }
 }
