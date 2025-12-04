@@ -2,6 +2,10 @@ using Application.DTOs.Personnel;
 using Application.Services.Interfaces;
 using Domain.Interfaces;
 using Domain.Exceptions;
+using Application.DTOs.Inventory;
+using Domain.Enums;
+using Domain.Aggregations;
+using Domain.Entities;
 
 namespace Application.Services.Implementations
 {
@@ -10,17 +14,25 @@ namespace Application.Services.Implementations
         private readonly ITechnicianRepository technicianRepository;
         private readonly IPerformanceRatingRepository performanceRatingRepository;
         private readonly IUserRepository userRepository;
+        private readonly IDeviceRepository devicesRepository;
+        private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepository;
+        private readonly IDepartmentRepository departmentRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public PersonnelService(
             ITechnicianRepository technicianRepository,
             IPerformanceRatingRepository performanceRatingRepository,
             IUserRepository userRepository,
+            IDeviceRepository devicesRepository,
+            IReceivingInspectionRequestRepository receivingInspectionRequestRepository,
+            IDepartmentRepository departmentRepository,
             IUnitOfWork unitOfWork)
         {
             this.technicianRepository = technicianRepository;
             this.performanceRatingRepository = performanceRatingRepository;
             this.userRepository = userRepository;
+            this.devicesRepository = devicesRepository;
+            this.receivingInspectionRequestRepository = receivingInspectionRequestRepository;
             this.unitOfWork = unitOfWork;
         }
 
@@ -85,6 +97,24 @@ namespace Application.Services.Implementations
                 YearsOfExperience = technician.YearsOfExperience ?? 0,
                 Specialty = technician.Specialty ?? string.Empty
             };
+        }
+        public async Task<IEnumerable<DeviceDto>> GetTechnicianPendingDevicesAsync(int technicianId)
+        {
+            var receivingInspections = await receivingInspectionRequestRepository.GetReceivingInspectionRequestsByTechnicianAsync(technicianId);
+            var deviceDtos = new List<DeviceDto>();
+            foreach (var inspection in receivingInspections)
+            {
+                var device = await devicesRepository.GetByIdAsync(inspection.DeviceId);
+                if (device != null && device.OperationalState == OperationalState.UnderRevision)
+                {
+                    var dto = new DeviceDto
+                    (
+                     device.DeviceId, device.Name, device.Type, device.OperationalState, (await departmentRepository.GetByIdAsync(device.DepartmentId))?.Name ?? "Unassigned"
+                    );
+                    deviceDtos.Add(dto);
+                }
+            }
+            return deviceDtos;
         }
 
         public async Task<List<BonusDto>> GetTechnicianBonusesAsync(int technicianId)

@@ -43,23 +43,36 @@ public class InventoryService : IInventoryService
         this.maintenanceRepo = maintenanceRepository;
     }
 
-    public async Task ApproveDevice(int deviceID, int technicianID)
+    public async Task ProcessInspectionDecisionAsync(InspectionDecisionRequestDto request)
     {
         try
         {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            if (technicianID != inspectionRequest.TechnicianId)
+            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(request.DeviceId);
+            
+            if (request.TechnicianId != inspectionRequest.TechnicianId)
             {
-                throw new Exception($"Thechichian with id {technicianID} its not allowed to make this request");
+                throw new Exception($"Technician with id {request.TechnicianId} is not allowed to make this request");
             }
 
-            inspectionRequest.Accept();
+            if (request.IsApproved)
+            {
+                inspectionRequest.Accept();
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(request.RejectionReason))
+                {
+                    throw new Exception("Rejection reason is required when rejecting a device");
+                }
+                inspectionRequest.Reject(request.RejectionReason);
+            }
+
             await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
             await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while trying to approve the device");
+            throw new Exception($"Error while processing inspection decision: {ex.Message}");
         }
     }
 
@@ -281,26 +294,7 @@ public class InventoryService : IInventoryService
         }
     }
 
-    public async Task RejectDevice(int deviceID, int technicianID, string reason)
-    {
-        try
-        {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            User? tech = await userRepo.GetByIdAsync(technicianID);
-            Device? device = await deviceRepo.GetByIdAsync(deviceID);
-            if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianId)
-            {
-                throw new Exception();
-            }
-            inspectionRequest.Reject(reason);
-            await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
-            await unitOfWork.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error while tryng to reject device");
-        }
-    }
+
 
     public async Task UpdateEquipmentAsync(UpdateDeviceRequestDto request)
     {

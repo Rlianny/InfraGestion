@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Services.Interfaces;
 using Application.DTOs.Personnel;
+using Application.DTOs.Inventory;
 using Web.API.Shared;
 
 namespace Web.API.Controllers
@@ -98,6 +99,23 @@ namespace Web.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving company performances");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("pending-devices/{technicianId:int}")]
+        [Authorize(Roles = "Technician")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTechnicianPendingDevicesAsync([FromBody] int technicianId)
+        {
+            try
+            {
+                var pendingDevices = await _personnelService.GetTechnicianPendingDevicesAsync(technicianId);
+                return Ok(pendingDevices);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving pending devices for technician {TechnicianId}", technicianId);
                 return BadRequest(ex.Message);
             }
         }

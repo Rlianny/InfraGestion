@@ -123,28 +123,16 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpPost("rejections")]
+        [HttpPost("inspection-decision")]
+        [Authorize(Roles = "Technician")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> RejectDevice([FromBody] RejectDeviceRequestDto rejectDeviceRequest)
+        public async Task<IActionResult> ProcessInspectionDecision([FromBody] InspectionDecisionRequestDto request)
         {
             try
             {
-                await inventoryService.RejectDevice(rejectDeviceRequest.DeviceId, rejectDeviceRequest.TechnicianId, rejectDeviceRequest.Reason);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpPost("approvals")]
-        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AcceptDevice([FromBody] AcceptDeviceRequestDto acceptDeviceRequest)
-        {
-            try
-            {
-                await inventoryService.ApproveDevice(acceptDeviceRequest.DeviceId,acceptDeviceRequest.TechnicianId);
-                return Ok();
+                await inventoryService.ProcessInspectionDecisionAsync(request);
+                var message = request.IsApproved ? "Device approved successfully" : "Device rejected successfully";
+                return Ok(message);
             }
             catch (Exception ex)
             {

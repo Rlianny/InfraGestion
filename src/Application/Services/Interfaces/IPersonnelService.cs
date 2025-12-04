@@ -1,4 +1,5 @@
 using Application.DTOs.Personnel;
+using Application.DTOs.Inventory;
 
 namespace Application.Services.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Application.Services.Interfaces
         Task RegisterPenaltyAsync(PenaltyRequest request);
         Task<List<PenaltyDto>> GetTechnicianPenaltyAsync(int technicianId);
         Task<IEnumerable<RateDto>> GetTechnicianPerformanceHistoryAsync(int technicianId);
+        Task<IEnumerable<DeviceDto>> GetTechnicianPendingDevicesAsync(int technicianId);
     }
 }

@@ -2,6 +2,8 @@
 {
     public enum OperationalState
     {
+        UnderRevision,
+        Revised,
         Operational,
         UnderMaintenance,
         Decommissioned,
