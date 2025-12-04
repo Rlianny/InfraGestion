@@ -521,6 +521,10 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<double>("Score")
                         .HasPrecision(5, 2)
                         .HasColumnType("REAL");

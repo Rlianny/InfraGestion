@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixRelationships : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,17 +70,11 @@ namespace Infrastructure.Migrations
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    SectionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DepartmentId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    SectionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.DepartmentId);
-                    table.ForeignKey(
-                        name: "FK_Departments_Departments_DepartmentId1",
-                        column: x => x.DepartmentId1,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentId");
                 });
 
             migrationBuilder.CreateTable(
@@ -122,9 +116,7 @@ namespace Infrastructure.Migrations
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     RefreshToken = table.Column<string>(type: "TEXT", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DepartmentId1 = table.Column<int>(type: "INTEGER", nullable: true),
-                    RoleId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,21 +128,11 @@ namespace Infrastructure.Migrations
                         principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Departments_DepartmentId1",
-                        column: x => x.DepartmentId1,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentId");
-                    table.ForeignKey(
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId1",
-                        column: x => x.RoleId1,
-                        principalTable: "Roles",
-                        principalColumn: "RoleId");
                 });
 
             migrationBuilder.CreateTable(
@@ -196,6 +178,7 @@ namespace Infrastructure.Migrations
                     PerformanceRatingId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
                     TechnicianId = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Score = table.Column<double>(type: "REAL", precision: 5, scale: 2, nullable: false)
@@ -374,34 +357,34 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "DepartmentId", "DepartmentId1", "Name", "SectionId" },
+                columns: new[] { "DepartmentId", "Name", "SectionId" },
                 values: new object[,]
                 {
-                    { -24, null, "Análisis Forense y Respuesta a Incidentes", -8 },
-                    { -23, null, "Monitorización de Amenazas y SOC", -8 },
-                    { -22, null, "Arquitectura y Gestión de Firewalls", -8 },
-                    { -21, null, "Gestión de Activos y Red Local", -7 },
-                    { -20, null, "Comunicaciones Unificadas y Telefonía IP", -7 },
-                    { -19, null, "Soporte al Usuario y Helpdesk", -7 },
-                    { -18, null, "Gestión de Inventario y Distribución", -6 },
-                    { -17, null, "Reparación y Refabricación", -6 },
-                    { -16, null, "Recepción y Diagnóstico Técnico", -6 },
-                    { -15, null, "Operaciones Cloud y Escalabilidad", -5 },
-                    { -14, null, "Plataforma como Servicio", -5 },
-                    { -13, null, "Infraestructura como Servicio", -5 },
-                    { -12, null, "Mediciones y Certificación de Red", -4 },
-                    { -11, null, "Despliegue de Fibra Óptica y Acceso", -4 },
-                    { -10, null, "Diseño y Ingeniería de Red", -4 },
-                    { -9, null, "Soporte a Nodos Remotos", -3 },
-                    { -8, null, "Mantenimiento Correctivo y Urgencias", -3 },
-                    { -7, null, "Instalaciones y Activaciones", -3 },
-                    { -6, null, "Infraestructura Física y Climatización", -2 },
-                    { -5, null, "Almacenamiento y Backup", -2 },
-                    { -4, null, "Servidores y Virtualización", -2 },
-                    { -3, null, "Reparaciones de Red", -1 },
-                    { -2, null, "Seguridad Perimetral y Firewalls", -1 },
-                    { -1, null, "Conmutación y Enrutamiento Avanzado", -1 },
-                    { 1, null, "Mocking Deparment", -1 }
+                    { -24, "Análisis Forense y Respuesta a Incidentes", -8 },
+                    { -23, "Monitorización de Amenazas y SOC", -8 },
+                    { -22, "Arquitectura y Gestión de Firewalls", -8 },
+                    { -21, "Gestión de Activos y Red Local", -7 },
+                    { -20, "Comunicaciones Unificadas y Telefonía IP", -7 },
+                    { -19, "Soporte al Usuario y Helpdesk", -7 },
+                    { -18, "Gestión de Inventario y Distribución", -6 },
+                    { -17, "Reparación y Refabricación", -6 },
+                    { -16, "Recepción y Diagnóstico Técnico", -6 },
+                    { -15, "Operaciones Cloud y Escalabilidad", -5 },
+                    { -14, "Plataforma como Servicio", -5 },
+                    { -13, "Infraestructura como Servicio", -5 },
+                    { -12, "Mediciones y Certificación de Red", -4 },
+                    { -11, "Despliegue de Fibra Óptica y Acceso", -4 },
+                    { -10, "Diseño y Ingeniería de Red", -4 },
+                    { -9, "Soporte a Nodos Remotos", -3 },
+                    { -8, "Mantenimiento Correctivo y Urgencias", -3 },
+                    { -7, "Instalaciones y Activaciones", -3 },
+                    { -6, "Infraestructura Física y Climatización", -2 },
+                    { -5, "Almacenamiento y Backup", -2 },
+                    { -4, "Servidores y Virtualización", -2 },
+                    { -3, "Reparaciones de Red", -1 },
+                    { -2, "Seguridad Perimetral y Firewalls", -1 },
+                    { -1, "Conmutación y Enrutamiento Avanzado", -1 },
+                    { 1, "Mocking Deparment", -1 }
                 });
 
             migrationBuilder.InsertData(
@@ -409,40 +392,40 @@ namespace Infrastructure.Migrations
                 columns: new[] { "DeviceId", "AcquisitionDate", "DepartmentId", "Name", "OperationalState", "Type" },
                 values: new object[,]
                 {
-                    { -6, new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), -14, "Analizador de Espectro Viavi", "Operational", "DiagnosticAndMeasurement" },
-                    { -5, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -12, "Antena de Radioenlace AirFiber 5XHD", "Operational", "CommunicationsAndTransmission" },
-                    { -4, new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), -24, "Sistema UPS Eaton 20kVA", "Decommissioned", "ElectricalInfrastructureAndSupport" },
-                    { -3, new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), -24, "Firewall de Próxima Generación PA-5200", "Operational", "ConnectivityAndNetwork" },
-                    { -2, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -16, "Servidor de Virtualización HP DL380", "UnderMaintenance", "ComputingAndIT" },
-                    { -1, new DateTime(2025, 10, 22, 0, 0, 0, 0, DateTimeKind.Local), -8, "Router de Agregación ASR 9000", "Operational", "ConnectivityAndNetwork" }
+                    { -6, new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc), -14, "Analizador de Espectro Viavi", "Operational", "DiagnosticAndMeasurement" },
+                    { -5, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -12, "Antena de Radioenlace AirFiber 5XHD", "Operational", "CommunicationsAndTransmission" },
+                    { -4, new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc), -24, "Sistema UPS Eaton 20kVA", "Decommissioned", "ElectricalInfrastructureAndSupport" },
+                    { -3, new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc), -24, "Firewall de Próxima Generación PA-5200", "Operational", "ConnectivityAndNetwork" },
+                    { -2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -16, "Servidor de Virtualización HP DL380", "UnderMaintenance", "ComputingAndIT" },
+                    { -1, new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc), -8, "Router de Agregación ASR 9000", "Operational", "ConnectivityAndNetwork" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "CreatedAt", "DepartmentId", "DepartmentId1", "FullName", "IsActive", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "RoleId", "RoleId1", "Specialty", "Username", "YearsOfExperience" },
+                columns: new[] { "UserId", "CreatedAt", "DepartmentId", "FullName", "IsActive", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "RoleId", "Specialty", "Username", "YearsOfExperience" },
                 values: new object[,]
                 {
-                    { -21, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -17, null, "Carlos Ruiz", true, "rec05", null, null, 2, null, null, "cruiz", null },
-                    { -20, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -24, null, "Marta Jiménez", true, "rec04", null, null, 2, null, null, "mjimenez", null },
-                    { -19, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -6, null, "Luis Fernández", true, "rec03", null, null, 2, null, null, "lfernandez", null },
-                    { -18, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -2, null, "Ana García", true, "rec02", null, null, 2, null, null, "agarcia", null },
-                    { -17, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -9, null, "Miguel Ángel Santos", true, "rec01", null, null, 2, null, null, "msantos", null },
-                    { -16, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -11, null, "Ana López", true, "tech05", null, null, 1, null, "Fibra Óptica", "alopez", 6 },
-                    { -15, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -22, null, "María Ortega", true, "tech04", null, null, 1, null, "Ciberseguridad", "mortega", 4 },
-                    { -14, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -9, null, "Jorge Silva", true, "tech03", null, null, 1, null, "Electricidad y Energía", "jsilva", 7 },
-                    { -13, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -6, null, "Eduardo Vargas", true, "tech02", null, null, 1, null, "Servidores y Virtualización", "evargas", 3 },
-                    { -12, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -3, null, "Carlos Méndez", true, "tech01", null, null, 1, null, "Redes y Comunicaciones", "cmendez", 5 },
-                    { -11, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -13, null, "Isabel Castro", true, "manager05", null, null, 3, null, null, "icastro", null },
-                    { -10, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -10, null, "Ricardo Díaz", true, "manager04", null, null, 3, null, null, "rdiaz", null },
-                    { -9, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -7, null, "Patricia Herrera", true, "manager03", null, null, 3, null, null, "pherrera", null },
-                    { -8, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -6, null, "Alejandro Torres", true, "manager02", null, null, 3, null, null, "atorres", null },
-                    { -7, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -1, null, "Sofía Ramírez", true, "manager01", null, null, 3, null, null, "sramirez", null },
-                    { -6, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -24, null, "Elena Morales", true, "dir123", null, null, 5, null, null, "emorales", null },
-                    { -5, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -3, null, "Roberto López", true, "admin05", null, null, 4, null, null, "rlopez", null },
-                    { -4, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -5, null, "Carmen Sánchez", true, "admin04", null, null, 4, null, null, "csanchez", null },
-                    { -3, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -18, null, "Javier Rodríguez", true, "admin03", null, null, 4, null, null, "jrodriguez", null },
-                    { -2, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -18, null, "Laura Martínez", true, "admin02", null, null, 4, null, null, "lmartinez", null },
-                    { -1, new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Local), -21, null, "David González", true, "admin01", null, null, 4, null, null, "dgonzalez", null }
+                    { -21, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -17, "Carlos Ruiz", true, "rec05", null, null, 2, null, "cruiz", null },
+                    { -20, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -24, "Marta Jiménez", true, "rec04", null, null, 2, null, "mjimenez", null },
+                    { -19, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -6, "Luis Fernández", true, "rec03", null, null, 2, null, "lfernandez", null },
+                    { -18, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -2, "Ana García", true, "rec02", null, null, 2, null, "agarcia", null },
+                    { -17, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -9, "Miguel Ángel Santos", true, "rec01", null, null, 2, null, "msantos", null },
+                    { -16, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -11, "Ana López", true, "tech05", null, null, 1, "Fibra Óptica", "alopez", 6 },
+                    { -15, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -22, "María Ortega", true, "tech04", null, null, 1, "Ciberseguridad", "mortega", 4 },
+                    { -14, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -9, "Jorge Silva", true, "tech03", null, null, 1, "Electricidad y Energía", "jsilva", 7 },
+                    { -13, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -6, "Eduardo Vargas", true, "tech02", null, null, 1, "Servidores y Virtualización", "evargas", 3 },
+                    { -12, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -3, "Carlos Méndez", true, "tech01", null, null, 1, "Redes y Comunicaciones", "cmendez", 5 },
+                    { -11, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -13, "Isabel Castro", true, "$2a$11$6l3KjoYoKF0fDqIgEDwB4u8gUJ6IKOQgMf1K6n4DoYneSFqPrMRvu", null, null, 3, null, "icastro", null },
+                    { -10, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -10, "Ricardo Díaz", true, "$2a$11$DuHpt0qFrD1nX4vvR6ypUu59ou5tGK8J.v8k3KhzMCQ/LzqyFOfWi", null, null, 3, null, "rdiaz", null },
+                    { -9, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -7, "Patricia Herrera", true, "$2a$11$ZeaAzBiPv.Xw6IYn5HsfM.TsEo8Rsh7iwC6xyVRAY6kAibSVuK.IW", null, null, 3, null, "pherrera", null },
+                    { -8, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -6, "Alejandro Torres", true, "$2a$11$2p2NYJ3apLI342Dtp5EpEub2nxcPFkzsb88ci3oDI25IykC.0Unfm", null, null, 3, null, "atorres", null },
+                    { -7, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -1, "Sofía Ramírez", true, "$2a$11$eZJoOAWDoV6iLxXJtV3sjeW134dzJnATrW0BUXedvDUpm8D3v1vC6", null, null, 3, null, "sramirez", null },
+                    { -6, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -24, "Elena Morales", true, "$2a$11$frxc8XpGXgGi53fiLcSRoOt3Nq7aE56VMPf.ECnNWXJkxIFPXxrMq", null, null, 5, null, "emorales", null },
+                    { -5, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -3, "Roberto López", true, "$2a$11$OlHPfN0V9EcZwDZ2NhvzaOT0E6F8/EfWo2wHzJhSFEVEwd7fqBkCa", null, null, 4, null, "rlopez", null },
+                    { -4, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -5, "Carmen Sánchez", true, "$2a$11$J0ZStMp50aiYljT3vj.yQucG.tqZOI7x43quH5EdmzB6K5z5cIVuq", null, null, 4, null, "csanchez", null },
+                    { -3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -18, "Javier Rodríguez", true, "$2a$11$/jwi2T7PHM6fSAyAelnoaOOxPMLU25uXG/3NvTyTK5rMlEoSZm55y", null, null, 4, null, "jrodriguez", null },
+                    { -2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -18, "Laura Martínez", true, "$2a$11$2u/fqdnoGBupkujZw8HXeu3tjULZ6e.EqZVEQwLmWGWRvPPpu8gee", null, null, 4, null, "lmartinez", null },
+                    { -1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -21, "David González", true, "$2a$11$kkxPo0Sl6gHf46gy7Pe5xeZZa0X2gGboRBG4Rd9gWniOm1PGHZ7he", null, null, 4, null, "dgonzalez", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -480,11 +463,6 @@ namespace Infrastructure.Migrations
                 name: "IX_DecommissioningRequests_UserId",
                 table: "DecommissioningRequests",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Departments_DepartmentId1",
-                table: "Departments",
-                column: "DepartmentId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Departments_SectionId",
@@ -587,19 +565,9 @@ namespace Infrastructure.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_DepartmentId1",
-                table: "Users",
-                column: "DepartmentId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId1",
-                table: "Users",
-                column: "RoleId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
@@ -676,10 +644,6 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Users_Departments_DepartmentId",
-                table: "Users");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Users_Departments_DepartmentId1",
                 table: "Users");
 
             migrationBuilder.DropTable(

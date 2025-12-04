@@ -56,11 +56,42 @@ namespace Application.Services.Implementations
             };
         }
 
-        public async Task<List<BonusDto>> GetTechnicianBonusesAsync(string technicianName)
+        public async Task<TechnicianDto> UpdateTechnicianAsync(UpdateTechnicianRequest request)
         {
-            var technician = await technicianRepository.GetByNameAsync(technicianName)
-                ?? throw new EntityNotFoundException("Technician", technicianName);
-            var bonuses = (await performanceRatingRepository.GetRatingsByTechnicianAsync(technician.UserId)).Where(b => b.Score > 0);
+            var technician = await technicianRepository.GetByIdAsync(request.TechnicianId)
+                ?? throw new EntityNotFoundException("Technician", request.TechnicianId);
+
+            // Actualizar perfil básico
+            technician.UpdateProfile(request.FullName, request.Specialty);
+
+            // Actualizar años de experiencia si se proporciona
+            if (request.YearsOfExperience.HasValue && request.Specialty != null)
+            {
+                technician.SetTechnicalExperience(request.YearsOfExperience.Value, request.Specialty);
+            }
+
+            // Cambiar departamento si se proporciona
+            if (request.DepartmentId.HasValue)
+            {
+                technician.ChangeDepartment(request.DepartmentId.Value);
+            }
+
+            await unitOfWork.SaveChangesAsync();
+
+            return new TechnicianDto
+            {
+                TechnicianId = technician.UserId,
+                Name = technician.FullName,
+                YearsOfExperience = technician.YearsOfExperience ?? 0,
+                Specialty = technician.Specialty ?? string.Empty
+            };
+        }
+
+        public async Task<List<BonusDto>> GetTechnicianBonusesAsync(int technicianId)
+        {
+            var technician = await technicianRepository.GetByIdAsync(technicianId)
+                ?? throw new EntityNotFoundException("Technician", technicianId);
+            var bonuses = (await performanceRatingRepository.GetRatingsByTechnicianAsync(technicianId)).Where(b => b.Score > 0);
             var bonusDtos = new List<BonusDto>();
             foreach (var bonus in bonuses)
             {
@@ -74,11 +105,11 @@ namespace Application.Services.Implementations
             return bonusDtos;
         }
 
-        public async Task<List<PenaltyDto>> GetTechnicianPenaltyAsync(string technicianName)
+        public async Task<List<PenaltyDto>> GetTechnicianPenaltyAsync(int technicianId)
         {
-            var technician = await technicianRepository.GetByNameAsync(technicianName)
-                ?? throw new EntityNotFoundException("Technician", technicianName);
-            var penalties = (await performanceRatingRepository.GetRatingsByTechnicianAsync(technician.UserId)).Where(p => p.Score < 0);
+            var technician = await technicianRepository.GetByIdAsync(technicianId)
+                ?? throw new EntityNotFoundException("Technician", technicianId);
+            var penalties = (await performanceRatingRepository.GetRatingsByTechnicianAsync(technicianId)).Where(p => p.Score < 0);
             var penaltiesDtos = new List<PenaltyDto>();
             foreach (var penalty in penalties)
             {
@@ -92,11 +123,11 @@ namespace Application.Services.Implementations
             return penaltiesDtos;
         }
 
-        public async Task<IEnumerable<RateDto>> GetTechnicianPerformanceHistoryAsync(string technicianName)
+        public async Task<IEnumerable<RateDto>> GetTechnicianPerformanceHistoryAsync(int technicianId)
         {
-            var technician = await technicianRepository.GetByNameAsync(technicianName)
-                ?? throw new EntityNotFoundException("Technician", technicianName);
-            var ratings = await performanceRatingRepository.GetRatingsByTechnicianAsync(technician.UserId);
+            var technician = await technicianRepository.GetByIdAsync(technicianId)
+                ?? throw new EntityNotFoundException("Technician", technicianId);
+            var ratings = await performanceRatingRepository.GetRatingsByTechnicianAsync(technicianId);
             var ratingDtos = new List<RateDto>();
             foreach (var rating in ratings)
             {
