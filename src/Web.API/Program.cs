@@ -40,7 +40,7 @@ internal class Program
                     Description = "Ingrese el token JWT (sin prefijo 'Bearer')",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
+                    Scheme = "Bearer",
                     BearerFormat = "JWT"
                 }
             );

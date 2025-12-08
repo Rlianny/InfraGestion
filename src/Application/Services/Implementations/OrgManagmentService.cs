@@ -108,7 +108,8 @@ namespace Application.Services.Implementations
                 var dto = new SectionDto
                 {
                     SectionId = section.SectionId,
-                    Name = section.Name
+                    Name = section.Name,
+                    SectionManager = section.SectionManager.FullName
                 };
                 sectionDtos.Add(dto);
             }
