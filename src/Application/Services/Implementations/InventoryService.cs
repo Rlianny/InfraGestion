@@ -335,6 +335,10 @@ public class InventoryService : IInventoryService
 
             await deviceRepo.AddAsync(device);
             await unitOfWork.SaveChangesAsync();
+            var dev = await deviceRepo.GetDeviceByNameAsync(device.Name);
+            var receivingInspectionRequest = new ReceivingInspectionRequest(DateTime.Now, dev.DeviceId, request.admin, request.assignedTechnician);
+            await receivingInspectionRequestRepo.AddAsync(receivingInspectionRequest);
+            await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -362,7 +366,7 @@ public class InventoryService : IInventoryService
     {
         try
         {
-            var device = await deviceRepo.GetByIdAsync(id) ?? throw new EntityNotFoundException("Devices",id);
+            var device = await deviceRepo.GetByIdAsync(id) ?? throw new EntityNotFoundException("Devices", id);
             await deviceRepo.DeleteAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
