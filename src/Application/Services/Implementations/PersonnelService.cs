@@ -1,4 +1,6 @@
 using Application.DTOs.Personnel;
+using Application.DTOs.Maintenance;
+using Application.DTOs.Decommissioning;
 using Application.Services.Interfaces;
 using Domain.Interfaces;
 using Domain.Exceptions;
@@ -17,6 +19,8 @@ namespace Application.Services.Implementations
         private readonly IDeviceRepository devicesRepository;
         private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepository;
         private readonly IDepartmentRepository departmentRepository;
+        private readonly IMaintenanceRecordRepository maintenanceRecordRepository;
+        private readonly IDecommissioningRequestRepository decommissioningRequestRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public PersonnelService(
@@ -26,6 +30,8 @@ namespace Application.Services.Implementations
             IDeviceRepository devicesRepository,
             IReceivingInspectionRequestRepository receivingInspectionRequestRepository,
             IDepartmentRepository departmentRepository,
+            IMaintenanceRecordRepository maintenanceRecordRepository,
+            IDecommissioningRequestRepository decommissioningRequestRepository,
             IUnitOfWork unitOfWork)
         {
             this.technicianRepository = technicianRepository;
@@ -33,6 +39,9 @@ namespace Application.Services.Implementations
             this.userRepository = userRepository;
             this.devicesRepository = devicesRepository;
             this.receivingInspectionRequestRepository = receivingInspectionRequestRepository;
+            this.departmentRepository = departmentRepository;
+            this.maintenanceRecordRepository = maintenanceRecordRepository;
+            this.decommissioningRequestRepository = decommissioningRequestRepository;
             this.unitOfWork = unitOfWork;
         }
         public async Task<TechnicianDetailDto> GetTechnicianDetailAsync(int technicianId)
@@ -40,18 +49,22 @@ namespace Application.Services.Implementations
             var technician = await technicianRepository.GetByIdAsync(technicianId)
                 ?? throw new EntityNotFoundException("Technician", technicianId);
 
-            var maintenanceRecords = await technicianRepository.GetMaintenanceRecordsByTechnicianAsync(technicianId);
-            var decommissioningRequests = await technicianRepository.GetDecommissioningRequestsByTechnicianAsync(technicianId);
+            var maintenanceRecords = await maintenanceRecordRepository.GetMaintenancesByTechnicianAsync(technicianId);
+            var decommissioningRequests = await decommissioningRequestRepository.GetDecommissioningRequestsByTechnicianAsync(technicianId);
 
             var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
             foreach (var record in maintenanceRecords)
             {
                 var dto = new MaintenanceRecordDto
                 {
-                    RecordId = record.RecordId,
+                    MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
                     Description = record.Description,
-                    Date = record.Date
+                    MaintenanceDate = record.Date,
+                    TechnicianId = technicianId,
+                    TechnicianName = technician.FullName,
+                    Cost = record.Cost,
+                    MaintenanceType = record.Type
                 };
                 maintenanceRecordDtos.Add(dto);
             }
@@ -61,10 +74,13 @@ namespace Application.Services.Implementations
             {
                 var dto = new DecommissioningRequestDto
                 {
-                    RequestId = request.RequestId,
+                    DecommissioningRequestId = request.DecommissioningRequestId,
                     DeviceId = request.DeviceId,
                     Reason = request.Reason,
-                    DateRequested = request.DateRequested
+                    RequestDate = request.Date,
+                    TechnicianId = technicianId,
+                    TechnicianName = technician.FullName,
+                    Status = request.Status
                 };
                 decommissioningRequestDtos.Add(dto);
             }

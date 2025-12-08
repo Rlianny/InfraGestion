@@ -47,6 +47,21 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("sections/managers")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<UserDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSectionManagersAsync()
+        {
+            try
+            {
+                var managers = await orgManagementService.GetSectionManagersAsync();
+                return Ok(managers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
         
         #region POST

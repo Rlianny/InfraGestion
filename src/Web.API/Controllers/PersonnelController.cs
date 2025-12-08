@@ -87,7 +87,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("technician/{technicianId}")]
+        [HttpGet("technician/{technicianId}/detail")]
         [Authorize(Roles = "Administrator,Director,SectionManager")]
         [ProducesResponseType(typeof(ApiResponse<TechnicianDetailDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTechnicianDetailByIdAsync(int technicianId)

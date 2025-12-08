@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.DTOs.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -133,6 +134,31 @@ namespace Application.Services.Implementations
                 departmentDtos.Add(dto);
             }
             return departmentDtos;
+        }
+        
+        public async Task<IEnumerable<UserDto>> GetSectionManagersAsync()
+        {
+            var managers = await userRepository.GetUsersByRoleAsync((int)RoleEnum.SectionManager);
+
+            var managerDtos = new List<UserDto>();
+            foreach (var manager in managers)
+            {
+                managerDtos.Add(new UserDto
+                {
+                    UserId = manager.UserId,
+                    Username = manager.Username,
+                    FullName = manager.FullName,
+                    Role = manager.Role?.Name ?? "SectionManager",
+                    DepartmentId = manager.DepartmentId,
+                    DepartmentName = manager.Department?.Name ?? string.Empty,
+                    IsActive = manager.IsActive,
+                    CreatedAt = manager.CreatedAt,
+                    YearsOfExperience = manager.YearsOfExperience,
+                    Specialty = manager.Specialty
+                });
+            }
+
+            return managerDtos;
         }
     }
 }

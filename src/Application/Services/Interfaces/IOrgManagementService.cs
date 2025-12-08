@@ -7,6 +7,7 @@ namespace Application.Services.Interfaces
         Task CreateSection(SectionDto sectionDto); 
         Task ModifySection(SectionDto sectionDto); 
         Task DisableSection(SectionDto sectionDto);
+        Task<IEnumerable<UserDto>> GetSectionManagersAsync();
         Task CreateDepartment(DepartmentDto departmentDto); 
         Task ModifyDepartment(DepartmentDto departmentDto);
         Task DisableDepartment(DepartmentDto departmentDto); 
