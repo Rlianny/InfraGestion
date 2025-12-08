@@ -53,6 +53,21 @@ namespace Application.Services.Implementations
             await unitOfWork.SaveChangesAsync();
         }
 
+        public async Task DeleteTransferAsync(int transferId)
+        {
+            var transfer = await transferRepository.GetByIdAsync(transferId)??throw new EntityNotFoundException("Transfer",transferId);
+            await transferRepository.DeleteAsync(transfer);
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task DesactivateTransferAsync(int transferId)
+        {
+            var transfer = await transferRepository.GetByIdAsync(transferId) ?? throw new EntityNotFoundException("Transfer", transferId);
+            transfer.Disable();
+            await transferRepository.UpdateAsync(transfer);
+            await unitOfWork.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<TransferDto>> GetPendingTransfersAsync()
         {
             var transfers = await transferRepository.GetAllAsync();

@@ -21,7 +21,7 @@ namespace Domain.Entities
         public int SectionId { get; private set; }
         public int? SectionManagerId { get; private set; }
         public User? SectionManager { get; private set; }
-        public override bool IsDisabled { get; protected set; }
+        public override bool IsDisabled { get; set; }
 
         public void AssignManager(User manager)
         {

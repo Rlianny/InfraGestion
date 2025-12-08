@@ -4,6 +4,8 @@ namespace Application.Services.Interfaces
 {
     public interface IUserManagementService
     {
+        Task DeleteUserAync(int userId);
+
         Task<UserDto> CreateUserAsync(
             CreateUserRequestDto request,
             int administratorId,

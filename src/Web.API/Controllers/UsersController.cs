@@ -241,5 +241,19 @@ namespace Web.API.Controllers
 
             return userId;
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUserAsync(int id)
+        {
+            try
+            {
+                await _userService.DeleteUserAync(id); 
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

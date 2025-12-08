@@ -3,28 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\web.api\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|solutionrelative:src\\web.api\\controllers\\inventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\application\\dtos\\personnel\\techniciandetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|solutionrelative:src\\application\\dtos\\personnel\\techniciandetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\application\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|solutionrelative:src\\application\\services\\implementations\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\application\\services\\interfaces\\iinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|solutionrelative:src\\application\\services\\interfaces\\iinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\web.api\\controllers\\maintenancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|solutionrelative:src\\web.api\\controllers\\maintenancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\web.api\\controllers\\orgmanagmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|solutionrelative:src\\web.api\\controllers\\orgmanagmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\web.api\\controllers\\decommissioningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9435A12E-B4C9-4636-96BD-96F3D3DF0D6A}|src\\Web.API\\Web.API.csproj|solutionrelative:src\\web.api\\controllers\\decommissioningcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5B082E95-D671-402C-87F3-6EDD86E8C120}|src\\Infrastructure\\Infrastructure.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\infrastructure\\data\\configurations\\transferconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B082E95-D671-402C-87F3-6EDD86E8C120}|src\\Infrastructure\\Infrastructure.csproj|solutionrelative:src\\infrastructure\\data\\configurations\\transferconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -53,81 +37,33 @@
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "InventoryService.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Implementations\\InventoryService.cs",
-              "RelativeDocumentMoniker": "src\\Application\\Services\\Implementations\\InventoryService.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Implementations\\InventoryService.cs",
-              "RelativeToolTip": "src\\Application\\Services\\Implementations\\InventoryService.cs",
-              "ViewState": "AgIAACgBAAAAAAAAAADwv04BAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:53:46.207Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IInventoryService.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Interfaces\\IInventoryService.cs",
-              "RelativeDocumentMoniker": "src\\Application\\Services\\Interfaces\\IInventoryService.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Interfaces\\IInventoryService.cs",
-              "RelativeToolTip": "src\\Application\\Services\\Interfaces\\IInventoryService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAQwA4AAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:52:43.183Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MaintenanceController.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\MaintenanceController.cs",
-              "RelativeDocumentMoniker": "src\\Web.API\\Controllers\\MaintenanceController.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\MaintenanceController.cs",
-              "RelativeToolTip": "src\\Web.API\\Controllers\\MaintenanceController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:48:14.027Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "InventoryController.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\InventoryController.cs",
-              "RelativeDocumentMoniker": "src\\Web.API\\Controllers\\InventoryController.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\InventoryController.cs",
-              "RelativeToolTip": "src\\Web.API\\Controllers\\InventoryController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
+              "Title": "TechnicianDetailDto.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\DTOs\\Personnel\\TechnicianDetailDto.cs",
+              "RelativeDocumentMoniker": "src\\Application\\DTOs\\Personnel\\TechnicianDetailDto.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\DTOs\\Personnel\\TechnicianDetailDto.cs",
+              "RelativeToolTip": "src\\Application\\DTOs\\Personnel\\TechnicianDetailDto.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:48:13.117Z",
+              "WhenOpened": "2025-12-08T10:55:57.525Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OrgManagmentController.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\OrgManagmentController.cs",
-              "RelativeDocumentMoniker": "src\\Web.API\\Controllers\\OrgManagmentController.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\OrgManagmentController.cs",
-              "RelativeToolTip": "src\\Web.API\\Controllers\\OrgManagmentController.cs",
-              "ViewState": "AgIAAJ4AAAAAAAAAAAA6wJoAAAASAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "TransferConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Infrastructure\\Data\\Configurations\\TransferConfiguration.cs",
+              "RelativeDocumentMoniker": "src\\Infrastructure\\Data\\Configurations\\TransferConfiguration.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Infrastructure\\Data\\Configurations\\TransferConfiguration.cs",
+              "RelativeToolTip": "src\\Infrastructure\\Data\\Configurations\\TransferConfiguration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:48:17.337Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DecommissioningController.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\DecommissioningController.cs",
-              "RelativeDocumentMoniker": "src\\Web.API\\Controllers\\DecommissioningController.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Web.API\\Controllers\\DecommissioningController.cs",
-              "RelativeToolTip": "src\\Web.API\\Controllers\\DecommissioningController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T08:48:09.969Z",
+              "WhenOpened": "2025-12-08T10:44:00.492Z",
               "EditorCaption": ""
             }
           ]

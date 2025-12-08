@@ -1,3 +1,6 @@
+using Application.DTOs.Maintenance;
+using Application.DTOs.Decommissioning;
+
 namespace Application.DTOs.Personnel
 {
     public class TechnicianDetailDto : TechnicianDto

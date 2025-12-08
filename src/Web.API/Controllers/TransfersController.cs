@@ -32,7 +32,7 @@ namespace Web.API.Controllers
                 var pendingTransfers = await transferService.GetPendingTransfersAsync();
                 return Ok(pendingTransfers);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -53,7 +53,7 @@ namespace Web.API.Controllers
         }
         [HttpGet("devices/{deviceName}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TransferDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTransfersByDeviceNameAsync(string deviceName) 
+        public async Task<IActionResult> GetTransfersByDeviceNameAsync(string deviceName)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Web.API.Controllers
         #region POST
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        [Authorize(Roles= "SectionManager")]
+        [Authorize(Roles = "SectionManager")]
         public async Task<IActionResult> InitiateTransferAsync([FromBody] CreateTransferRequestDto requestDto)
         {
             try
@@ -85,7 +85,7 @@ namespace Web.API.Controllers
         [HttpPost("confirmations/{transferId}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task <IActionResult> ConfirmReception(int transferId)
+        public async Task<IActionResult> ConfirmReception(int transferId)
         {
             try
             {
@@ -116,8 +116,36 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("desactivate/{id}")]
+        public async Task<IActionResult> DesactivateTransferAsync(int id)
+        {
+            try
+            {
+                await transferService.DesactivateTransferAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
-     
+        #region
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTransferAsync(int id)
+        {
+            try
+            {
+                await transferService.DeleteTransferAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
     }
 
 }

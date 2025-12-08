@@ -20,8 +20,7 @@ namespace Domain.Entities
         public Section? Section { get; private set; }
         public ICollection<Device> Device { get; set; } = new List<Device>();
         public ICollection<User> Staff { get; set; } = new List<User>();
-        public bool IsDeleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override bool IsDisabled { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+        public override bool IsDisabled { get; set; } = false;
 
         public void UpdateName(string name)
         {

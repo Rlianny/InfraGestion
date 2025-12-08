@@ -10,5 +10,7 @@ namespace Application.Services.Interfaces
         Task<TransferDto> GetTransferByIdAsync(int transferId);
         Task<IEnumerable<TransferDto>> GetTransfersByDeviceNameAsync(string deviceName);
         Task UpdateEquipmentLocationAsync(string deviceName, string newDepartmentName);
+        Task DeleteTransferAsync(int transferId);
+        Task DesactivateTransferAsync(int transferId);
     }
 }

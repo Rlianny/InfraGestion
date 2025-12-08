@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public abstract class SoftDeleteBase
     {
-        public abstract bool IsDisabled { get; protected set; }
+        public abstract bool IsDisabled { get; set; }
         public void Disable()
         { 
           IsDisabled = true;

@@ -19,7 +19,7 @@ namespace Domain.Entities
         public OperationalState OperationalState { get; private set; }
         public int DepartmentId { get; private set; }
         public DateTime AcquisitionDate { get; private set; }
-        public override bool IsDisabled { get; protected set; }
+        public override bool IsDisabled { get; set; }
 
         public Device(string name, DeviceType type, OperationalState operationalState, int? departmentId, DateTime acquisitionDate)
         {

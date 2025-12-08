@@ -430,5 +430,12 @@ namespace Application.Services.Implementations
                 _ => throw new RoleValidationException($"Rol inválido: {roleName}"),
             };
         }
+
+        public async Task DeleteUserAync(int userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId)??throw new EntityNotFoundException("User",userId);
+            await _userRepository.DeleteAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

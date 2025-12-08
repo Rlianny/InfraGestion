@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Aggregations
 {
-    public class Transfer
+    public class Transfer:SoftDeleteBase
     {
         public Transfer(DateOnly dateTime, int deviceId, int sourceSectionId, int destinationSectionId, int deviceReceiverId)
         {
@@ -31,6 +31,7 @@ namespace Domain.Aggregations
         public int TransferId { get; private set; }
         public int DeviceReceiverId { get; private set; }
         public Enums.TransferStatus Status { get; private set; }
+        public override bool IsDisabled { get; set; }
 
         private void ValidateTransferDate(DateOnly date)
         {
