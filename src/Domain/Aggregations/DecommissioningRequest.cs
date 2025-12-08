@@ -10,15 +10,24 @@ namespace Domain.Aggregations
         public DateTime Date { get; private set; }
         public int DeviceReceiverId { get; private set; }
         public Enums.RequestStatus Status { get; private set; }
+        public string Reason { get; private set; } = string.Empty;
         private DecommissioningRequest() { }
-        public DecommissioningRequest(int technicianId, int deviceId, int deviceReceiverId, DateTime date)
+        public DecommissioningRequest(
+            int technicianId,
+            int deviceId,
+            int deviceReceiverId,
+            DateTime date,
+            string reason
+        )
         {
             ValidateDate(date);
+            ValidateReason(reason);
             Status = Enums.RequestStatus.Pending;
             Date = date;
             TechnicianId = technicianId;
             DeviceId = deviceId;
             DeviceReceiverId = deviceReceiverId;
+            Reason = reason;
         }
 
         private void ValidateDate(DateTime date)
@@ -26,6 +35,12 @@ namespace Domain.Aggregations
             if (date > DateTime.Now)
                 throw new ArgumentException("Rating date cannot be in the future");
 
+        }
+
+        private void ValidateReason(string reason)
+        {
+            if (string.IsNullOrWhiteSpace(reason))
+                throw new ArgumentException("Reason is required for a decommissioning request");
         }
 
         public void Approve()
