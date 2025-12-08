@@ -72,50 +72,50 @@ namespace Infrastructure.Data
 
          // Seed Sections
          modelBuilder.Entity<Section>().HasData(
-            new { SectionId = -1, Name = "Operaciones de Red Corporativa" },
-            new { SectionId = -2, Name = "Infraestructura de Centro de Datos (Data Center)" },
-            new { SectionId = -3, Name = "Soporte Técnico en Campo" },
-            new { SectionId = -4, Name = "Planificación y Despliegue de Red" },
-            new { SectionId = -5, Name = "División de Servicios en la Nube (Cloud)" },
-            new { SectionId = -6, Name = "Taller Central y Logística" },
-            new { SectionId = -7, Name = "Infraestructura Interna (TI Interno)" },
-            new { SectionId = -8, Name = "Seguridad Informática (Ciberseguridad)" }
+            new { SectionId = -1, Name = "Operaciones de Red Corporativa", IsDisabled = false },
+            new { SectionId = -2, Name = "Infraestructura de Centro de Datos (Data Center)", IsDisabled = false },
+            new { SectionId = -3, Name = "Soporte Técnico en Campo", IsDisabled = false },
+            new { SectionId = -4, Name = "Planificación y Despliegue de Red", IsDisabled = false },
+            new { SectionId = -5, Name = "División de Servicios en la Nube (Cloud)", IsDisabled = false },
+            new { SectionId = -6, Name = "Taller Central y Logística", IsDisabled = false },
+            new { SectionId = -7, Name = "Infraestructura Interna (TI Interno)", IsDisabled = false },
+            new { SectionId = -8, Name = "Seguridad Informática (Ciberseguridad)", IsDisabled = false }
          );
 
          // Seed Departments
          modelBuilder.Entity<Department>().HasData(
-            new { DepartmentId = 1, Name = "Almacen General", SectionId = -1},
-            new { DepartmentId = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionId = -1 },
-            new { DepartmentId = -2, Name = "Seguridad Perimetral y Firewalls", SectionId = -1 },
-            new { DepartmentId = -3, Name = "Reparaciones de Red", SectionId = -1 },
+            new { DepartmentId = 1, Name = "Almacen General", SectionId = -1, IsDisabled = false },
+            new { DepartmentId = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionId = -1, IsDisabled = false },
+            new { DepartmentId = -2, Name = "Seguridad Perimetral y Firewalls", SectionId = -1, IsDisabled = false },
+            new { DepartmentId = -3, Name = "Reparaciones de Red", SectionId = -1, IsDisabled = false },
 
-            new { DepartmentId = -4, Name = "Servidores y Virtualización", SectionId = -2 },
-            new { DepartmentId = -5, Name = "Almacenamiento y Backup", SectionId = -2 },
-            new { DepartmentId = -6, Name = "Infraestructura Física y Climatización", SectionId = -2 },
+            new { DepartmentId = -4, Name = "Servidores y Virtualización", SectionId = -2, IsDisabled = false },
+            new { DepartmentId = -5, Name = "Almacenamiento y Backup", SectionId = -2, IsDisabled = false },
+            new { DepartmentId = -6, Name = "Infraestructura Física y Climatización", SectionId = -2, IsDisabled = false },
 
-            new { DepartmentId = -7, Name = "Instalaciones y Activaciones", SectionId = -3 },
-            new { DepartmentId = -8, Name = "Mantenimiento Correctivo y Urgencias", SectionId = -3 },
-            new { DepartmentId = -9, Name = "Soporte a Nodos Remotos", SectionId = -3 },
+            new { DepartmentId = -7, Name = "Instalaciones y Activaciones", SectionId = -3, IsDisabled = false },
+            new { DepartmentId = -8, Name = "Mantenimiento Correctivo y Urgencias", SectionId = -3, IsDisabled = false },
+            new { DepartmentId = -9, Name = "Soporte a Nodos Remotos", SectionId = -3, IsDisabled = false },
 
-            new { DepartmentId = -10, Name = "Diseño y Ingeniería de Red", SectionId = -4 },
-            new { DepartmentId = -11, Name = "Despliegue de Fibra Óptica y Acceso", SectionId = -4 },
-            new { DepartmentId = -12, Name = "Mediciones y Certificación de Red", SectionId = -4 },
+            new { DepartmentId = -10, Name = "Diseño y Ingeniería de Red", SectionId = -4, IsDisabled = false },
+            new { DepartmentId = -11, Name = "Despliegue de Fibra Óptica y Acceso", SectionId = -4, IsDisabled = false },
+            new { DepartmentId = -12, Name = "Mediciones y Certificación de Red", SectionId = -4, IsDisabled = false },
 
-            new { DepartmentId = -13, Name = "Infraestructura como Servicio", SectionId = -5 },
-            new { DepartmentId = -14, Name = "Plataforma como Servicio", SectionId = -5 },
-            new { DepartmentId = -15, Name = "Operaciones Cloud y Escalabilidad", SectionId = -5 },
+            new { DepartmentId = -13, Name = "Infraestructura como Servicio", SectionId = -5, IsDisabled = false },
+            new { DepartmentId = -14, Name = "Plataforma como Servicio", SectionId = -5, IsDisabled = false },
+            new { DepartmentId = -15, Name = "Operaciones Cloud y Escalabilidad", SectionId = -5, IsDisabled = false },
 
-            new { DepartmentId = -16, Name = "Recepción y Diagnóstico Técnico", SectionId = -6 },
-            new { DepartmentId = -17, Name = "Reparación y Refabricación", SectionId = -6 },
-            new { DepartmentId = -18, Name = "Gestión de Inventario y Distribución", SectionId = -6 },
+            new { DepartmentId = -16, Name = "Recepción y Diagnóstico Técnico", SectionId = -6, IsDisabled = false },
+            new { DepartmentId = -17, Name = "Reparación y Refabricación", SectionId = -6, IsDisabled = false },
+            new { DepartmentId = -18, Name = "Gestión de Inventario y Distribución", SectionId = -6, IsDisabled = false },
 
-            new { DepartmentId = -19, Name = "Soporte al Usuario y Helpdesk", SectionId = -7 },
-            new { DepartmentId = -20, Name = "Comunicaciones Unificadas y Telefonía IP", SectionId = -7 },
-            new { DepartmentId = -21, Name = "Gestión de Activos y Red Local", SectionId = -7 },
+            new { DepartmentId = -19, Name = "Soporte al Usuario y Helpdesk", SectionId = -7, IsDisabled = false },
+            new { DepartmentId = -20, Name = "Comunicaciones Unificadas y Telefonía IP", SectionId = -7, IsDisabled = false },
+            new { DepartmentId = -21, Name = "Gestión de Activos y Red Local", SectionId = -7, IsDisabled = false },
 
-            new { DepartmentId = -22, Name = "Arquitectura y Gestión de Firewalls", SectionId = -8 },
-            new { DepartmentId = -23, Name = "Monitorización de Amenazas y SOC", SectionId = -8 },
-            new { DepartmentId = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionId = -8 }
+            new { DepartmentId = -22, Name = "Arquitectura y Gestión de Firewalls", SectionId = -8, IsDisabled = false },
+            new { DepartmentId = -23, Name = "Monitorización de Amenazas y SOC", SectionId = -8, IsDisabled = false },
+            new { DepartmentId = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionId = -8, IsDisabled = false }
          );
 
          // Seed Users - Administrator
@@ -161,12 +161,12 @@ namespace Infrastructure.Data
 
          // Seed Devices
          modelBuilder.Entity<Device>().HasData(
-            new { DeviceId = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -8, AcquisitionDate = dateInEighteenDaysBefore },
-            new { DeviceId = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -16, AcquisitionDate = today },
-            new { DeviceId = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore },
-            new { DeviceId = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore },
-            new { DeviceId = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = today },
-            new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore }
+            new { DeviceId = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -8, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+            new { DeviceId = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -16, AcquisitionDate = today, IsDisabled = false },
+            new { DeviceId = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+            new { DeviceId = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+            new { DeviceId = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = today, IsDisabled = false },
+            new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false }
          );
 
          // Seed Mainteinance - Usa DateOnly creados correctamente

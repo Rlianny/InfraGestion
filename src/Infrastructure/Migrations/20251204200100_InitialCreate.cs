@@ -70,7 +70,8 @@ namespace Infrastructure.Migrations
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    SectionId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SectionId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsDisabled = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -357,34 +358,34 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "DepartmentId", "Name", "SectionId" },
+                columns: new[] { "DepartmentId", "Name", "SectionId", "IsDisabled" },
                 values: new object[,]
                 {
-                    { -24, "Análisis Forense y Respuesta a Incidentes", -8 },
-                    { -23, "Monitorización de Amenazas y SOC", -8 },
-                    { -22, "Arquitectura y Gestión de Firewalls", -8 },
-                    { -21, "Gestión de Activos y Red Local", -7 },
-                    { -20, "Comunicaciones Unificadas y Telefonía IP", -7 },
-                    { -19, "Soporte al Usuario y Helpdesk", -7 },
-                    { -18, "Gestión de Inventario y Distribución", -6 },
-                    { -17, "Reparación y Refabricación", -6 },
-                    { -16, "Recepción y Diagnóstico Técnico", -6 },
-                    { -15, "Operaciones Cloud y Escalabilidad", -5 },
-                    { -14, "Plataforma como Servicio", -5 },
-                    { -13, "Infraestructura como Servicio", -5 },
-                    { -12, "Mediciones y Certificación de Red", -4 },
-                    { -11, "Despliegue de Fibra Óptica y Acceso", -4 },
-                    { -10, "Diseño y Ingeniería de Red", -4 },
-                    { -9, "Soporte a Nodos Remotos", -3 },
-                    { -8, "Mantenimiento Correctivo y Urgencias", -3 },
-                    { -7, "Instalaciones y Activaciones", -3 },
-                    { -6, "Infraestructura Física y Climatización", -2 },
-                    { -5, "Almacenamiento y Backup", -2 },
-                    { -4, "Servidores y Virtualización", -2 },
-                    { -3, "Reparaciones de Red", -1 },
-                    { -2, "Seguridad Perimetral y Firewalls", -1 },
-                    { -1, "Conmutación y Enrutamiento Avanzado", -1 },
-                    { 1, "Mocking Deparment", -1 }
+                    { -24, "Análisis Forense y Respuesta a Incidentes", -8, false },
+                    { -23, "Monitorización de Amenazas y SOC", -8, false },
+                    { -22, "Arquitectura y Gestión de Firewalls", -8, false },
+                    { -21, "Gestión de Activos y Red Local", -7, false },
+                    { -20, "Comunicaciones Unificadas y Telefonía IP", -7, false },
+                    { -19, "Soporte al Usuario y Helpdesk", -7, false },
+                    { -18, "Gestión de Inventario y Distribución", -6, false },
+                    { -17, "Reparación y Refabricación", -6, false },
+                    { -16, "Recepción y Diagnóstico Técnico", -6, false },
+                    { -15, "Operaciones Cloud y Escalabilidad", -5, false },
+                    { -14, "Plataforma como Servicio", -5, false },
+                    { -13, "Infraestructura como Servicio", -5, false },
+                    { -12, "Mediciones y Certificación de Red", -4, false },
+                    { -11, "Despliegue de Fibra Óptica y Acceso", -4, false },
+                    { -10, "Diseño y Ingeniería de Red", -4, false },
+                    { -9, "Soporte a Nodos Remotos", -3, false },
+                    { -8, "Mantenimiento Correctivo y Urgencias", -3, false },
+                    { -7, "Instalaciones y Activaciones", -3, false },
+                    { -6, "Infraestructura Física y Climatización", -2, false },
+                    { -5, "Almacenamiento y Backup", -2, false },
+                    { -4, "Servidores y Virtualización", -2, false },
+                    { -3, "Reparaciones de Red", -1, false },
+                    { -2, "Seguridad Perimetral y Firewalls", -1, false },
+                    { -1, "Conmutación y Enrutamiento Avanzado", -1, false },
+                    { 1, "Mocking Deparment", -1, false }
                 });
 
             migrationBuilder.InsertData(

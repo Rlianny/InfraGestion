@@ -36,12 +36,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FinalDestination")
-                        .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Reason")
-                        .HasMaxLength(500)
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ReceiverDepartmentId")
@@ -49,13 +46,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("DecommissioningId");
 
-                    b.HasIndex("DeviceId");
-
-                    b.HasIndex("DeviceReceiverId");
-
-                    b.HasIndex("ReceiverDepartmentId");
-
-                    b.ToTable("Decommissioning", (string)null);
+                    b.ToTable("Decommissionings");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
@@ -75,7 +66,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Status")
@@ -89,16 +79,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("DecommissioningRequestId");
 
-                    b.HasIndex("DeviceId");
-
-                    b.HasIndex("DeviceReceiverId");
-
                     b.HasIndex("UserId");
 
-                    b.HasIndex("TechnicianId", "DeviceId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("DecommissioningRequests", (string)null);
+                    b.ToTable("DecommissioningRequests");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.MaintenanceRecord", b =>
@@ -108,7 +91,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<double>("Cost")
-                        .HasPrecision(18, 2)
                         .HasColumnType("REAL");
 
                     b.Property<DateTime>("Date")
@@ -125,7 +107,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Type")
-                        .HasMaxLength(100)
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserId")
@@ -133,14 +114,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("MaintenanceRecordId");
 
-                    b.HasIndex("DeviceId");
-
                     b.HasIndex("UserId");
 
-                    b.HasIndex("TechnicianId", "DeviceId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("Maintenances", (string)null);
+                    b.ToTable("Mainteinances");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.ReceivingInspectionRequest", b =>
@@ -176,14 +152,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ReceivingInspectionRequestId");
 
-                    b.HasIndex("AdministratorId");
-
-                    b.HasIndex("TechnicianId");
-
-                    b.HasIndex("DeviceId", "AdministratorId", "TechnicianId", "EmissionDate")
-                        .IsUnique();
-
-                    b.ToTable("ReceivingInspectionRequests", (string)null);
+                    b.ToTable("ReceivingInspectionRequests");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Rejection", b =>
@@ -209,14 +178,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RejectionId");
 
-                    b.HasIndex("DeviceId");
-
-                    b.HasIndex("TechnicianId");
-
-                    b.HasIndex("DeviceReceiverId", "TechnicianId", "DeviceId", "DecommissioningRequestDate")
-                        .IsUnique();
-
-                    b.ToTable("Rejections", (string)null);
+                    b.ToTable("Rejections");
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Transfer", b =>
@@ -237,6 +199,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("SourceSectionId")
                         .HasColumnType("INTEGER");
 
@@ -245,15 +210,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("TransferId");
 
-                    b.HasIndex("DestinationSectionId");
-
-                    b.HasIndex("DeviceId");
-
-                    b.HasIndex("DeviceReceiverId");
-
-                    b.HasIndex("SourceSectionId");
-
-                    b.ToTable("Transfers", (string)null);
+                    b.ToTable("Transfers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
@@ -262,9 +219,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SectionId")
@@ -274,156 +233,181 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
 
                     b.HasData(
                         new
                         {
                             DepartmentId = 1,
+                            IsDisabled = false,
                             Name = "Almacen General",
                             SectionId = -1
                         },
                         new
                         {
                             DepartmentId = -1,
+                            IsDisabled = false,
                             Name = "Conmutación y Enrutamiento Avanzado",
                             SectionId = -1
                         },
                         new
                         {
                             DepartmentId = -2,
+                            IsDisabled = false,
                             Name = "Seguridad Perimetral y Firewalls",
                             SectionId = -1
                         },
                         new
                         {
                             DepartmentId = -3,
+                            IsDisabled = false,
                             Name = "Reparaciones de Red",
                             SectionId = -1
                         },
                         new
                         {
                             DepartmentId = -4,
+                            IsDisabled = false,
                             Name = "Servidores y Virtualización",
                             SectionId = -2
                         },
                         new
                         {
                             DepartmentId = -5,
+                            IsDisabled = false,
                             Name = "Almacenamiento y Backup",
                             SectionId = -2
                         },
                         new
                         {
                             DepartmentId = -6,
+                            IsDisabled = false,
                             Name = "Infraestructura Física y Climatización",
                             SectionId = -2
                         },
                         new
                         {
                             DepartmentId = -7,
+                            IsDisabled = false,
                             Name = "Instalaciones y Activaciones",
                             SectionId = -3
                         },
                         new
                         {
                             DepartmentId = -8,
+                            IsDisabled = false,
                             Name = "Mantenimiento Correctivo y Urgencias",
                             SectionId = -3
                         },
                         new
                         {
                             DepartmentId = -9,
+                            IsDisabled = false,
                             Name = "Soporte a Nodos Remotos",
                             SectionId = -3
                         },
                         new
                         {
                             DepartmentId = -10,
+                            IsDisabled = false,
                             Name = "Diseño y Ingeniería de Red",
                             SectionId = -4
                         },
                         new
                         {
                             DepartmentId = -11,
+                            IsDisabled = false,
                             Name = "Despliegue de Fibra Óptica y Acceso",
                             SectionId = -4
                         },
                         new
                         {
                             DepartmentId = -12,
+                            IsDisabled = false,
                             Name = "Mediciones y Certificación de Red",
                             SectionId = -4
                         },
                         new
                         {
                             DepartmentId = -13,
+                            IsDisabled = false,
                             Name = "Infraestructura como Servicio",
                             SectionId = -5
                         },
                         new
                         {
                             DepartmentId = -14,
+                            IsDisabled = false,
                             Name = "Plataforma como Servicio",
                             SectionId = -5
                         },
                         new
                         {
                             DepartmentId = -15,
+                            IsDisabled = false,
                             Name = "Operaciones Cloud y Escalabilidad",
                             SectionId = -5
                         },
                         new
                         {
                             DepartmentId = -16,
+                            IsDisabled = false,
                             Name = "Recepción y Diagnóstico Técnico",
                             SectionId = -6
                         },
                         new
                         {
                             DepartmentId = -17,
+                            IsDisabled = false,
                             Name = "Reparación y Refabricación",
                             SectionId = -6
                         },
                         new
                         {
                             DepartmentId = -18,
+                            IsDisabled = false,
                             Name = "Gestión de Inventario y Distribución",
                             SectionId = -6
                         },
                         new
                         {
                             DepartmentId = -19,
+                            IsDisabled = false,
                             Name = "Soporte al Usuario y Helpdesk",
                             SectionId = -7
                         },
                         new
                         {
                             DepartmentId = -20,
+                            IsDisabled = false,
                             Name = "Comunicaciones Unificadas y Telefonía IP",
                             SectionId = -7
                         },
                         new
                         {
                             DepartmentId = -21,
+                            IsDisabled = false,
                             Name = "Gestión de Activos y Red Local",
                             SectionId = -7
                         },
                         new
                         {
                             DepartmentId = -22,
+                            IsDisabled = false,
                             Name = "Arquitectura y Gestión de Firewalls",
                             SectionId = -8
                         },
                         new
                         {
                             DepartmentId = -23,
+                            IsDisabled = false,
                             Name = "Monitorización de Amenazas y SOC",
                             SectionId = -8
                         },
                         new
                         {
                             DepartmentId = -24,
+                            IsDisabled = false,
                             Name = "Análisis Forense y Respuesta a Incidentes",
                             SectionId = -8
                         });
@@ -441,24 +425,24 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OperationalState")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("OperationalState")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("DeviceId");
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Devices", (string)null);
+                    b.ToTable("Devices");
 
                     b.HasData(
                         new
@@ -466,54 +450,60 @@ namespace Infrastructure.Migrations
                             DeviceId = -1,
                             AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -8,
+                            IsDisabled = false,
                             Name = "Router de Agregación ASR 9000",
-                            OperationalState = "Operational",
-                            Type = "ConnectivityAndNetwork"
+                            OperationalState = 2,
+                            Type = 0
                         },
                         new
                         {
                             DeviceId = -2,
                             AcquisitionDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -16,
+                            IsDisabled = false,
                             Name = "Servidor de Virtualización HP DL380",
-                            OperationalState = "UnderMaintenance",
-                            Type = "ComputingAndIT"
+                            OperationalState = 3,
+                            Type = 1
                         },
                         new
                         {
                             DeviceId = -3,
                             AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -24,
+                            IsDisabled = false,
                             Name = "Firewall de Próxima Generación PA-5200",
-                            OperationalState = "Operational",
-                            Type = "ConnectivityAndNetwork"
+                            OperationalState = 2,
+                            Type = 0
                         },
                         new
                         {
                             DeviceId = -4,
                             AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -24,
+                            IsDisabled = false,
                             Name = "Sistema UPS Eaton 20kVA",
-                            OperationalState = "Decommissioned",
-                            Type = "ElectricalInfrastructureAndSupport"
+                            OperationalState = 4,
+                            Type = 2
                         },
                         new
                         {
                             DeviceId = -5,
                             AcquisitionDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -12,
+                            IsDisabled = false,
                             Name = "Antena de Radioenlace AirFiber 5XHD",
-                            OperationalState = "Operational",
-                            Type = "CommunicationsAndTransmission"
+                            OperationalState = 2,
+                            Type = 3
                         },
                         new
                         {
                             DeviceId = -6,
                             AcquisitionDate = new DateTime(2024, 12, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             DepartmentId = -14,
+                            IsDisabled = false,
                             Name = "Analizador de Espectro Viavi",
-                            OperationalState = "Operational",
-                            Type = "DiagnosticAndMeasurement"
+                            OperationalState = 2,
+                            Type = 4
                         });
                 });
 
@@ -531,7 +521,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Score")
-                        .HasPrecision(5, 2)
                         .HasColumnType("REAL");
 
                     b.Property<int>("TechnicianId")
@@ -542,10 +531,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("PerformanceRatingId");
 
-                    b.HasIndex("UserId", "TechnicianId", "Date")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
-                    b.ToTable("PerformanceRatings", (string)null);
+                    b.ToTable("Assessments");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
@@ -556,16 +544,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("RoleId");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Roles_Name");
-
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -606,9 +589,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("SectionManagerId")
@@ -618,47 +603,55 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SectionManagerId");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
 
                     b.HasData(
                         new
                         {
                             SectionId = -1,
+                            IsDisabled = false,
                             Name = "Operaciones de Red Corporativa"
                         },
                         new
                         {
                             SectionId = -2,
+                            IsDisabled = false,
                             Name = "Infraestructura de Centro de Datos (Data Center)"
                         },
                         new
                         {
                             SectionId = -3,
+                            IsDisabled = false,
                             Name = "Soporte Técnico en Campo"
                         },
                         new
                         {
                             SectionId = -4,
+                            IsDisabled = false,
                             Name = "Planificación y Despliegue de Red"
                         },
                         new
                         {
                             SectionId = -5,
+                            IsDisabled = false,
                             Name = "División de Servicios en la Nube (Cloud)"
                         },
                         new
                         {
                             SectionId = -6,
+                            IsDisabled = false,
                             Name = "Taller Central y Logística"
                         },
                         new
                         {
                             SectionId = -7,
+                            IsDisabled = false,
                             Name = "Infraestructura Interna (TI Interno)"
                         },
                         new
                         {
                             SectionId = -8,
+                            IsDisabled = false,
                             Name = "Seguridad Informática (Ciberseguridad)"
                         });
                 });
@@ -677,7 +670,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -685,7 +677,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RefreshToken")
@@ -702,7 +693,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("YearsOfExperience")
@@ -714,11 +704,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Username");
-
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -964,47 +950,8 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Aggregations.Decommissioning", b =>
-                {
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Department", null)
-                        .WithMany()
-                        .HasForeignKey("ReceiverDepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
                 {
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("TechnicianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany("DecommissioningsProposed")
                         .HasForeignKey("UserId");
@@ -1012,90 +959,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregations.MaintenanceRecord", b =>
                 {
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("TechnicianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany("MaintenancesPerformed")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Domain.Aggregations.ReceivingInspectionRequest", b =>
-                {
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("AdministratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("TechnicianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Aggregations.Rejection", b =>
-                {
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("TechnicianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Aggregations.Transfer", b =>
-                {
-                    b.HasOne("Domain.Entities.Section", null)
-                        .WithMany()
-                        .HasForeignKey("DestinationSectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Device", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("DeviceReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Section", null)
-                        .WithMany()
-                        .HasForeignKey("SourceSectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
@@ -1103,7 +969,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -1141,13 +1007,13 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Department", "Department")
                         .WithMany("Staff")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Department");
