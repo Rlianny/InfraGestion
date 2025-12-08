@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Inventory;
+﻿using Application.DTOs.Auth;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

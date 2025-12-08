@@ -80,7 +80,7 @@ namespace Application.Services.Implementations
                     RequestDate = request.Date,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
-                    Status = request.Status
+                    Status = MapToDecommissioningStatus(request.Status)
                 };
                 decommissioningRequestDtos.Add(dto);
             }
@@ -112,6 +112,17 @@ namespace Application.Services.Implementations
                 technicianDtos.Add(dto);
             }
             return technicianDtos;
+        }
+
+        private static DecommissioningStatus MapToDecommissioningStatus(RequestStatus status)
+        {
+            return status switch
+            {
+                RequestStatus.Pending => DecommissioningStatus.Pending,
+                RequestStatus.Approved => DecommissioningStatus.Accepted,
+                RequestStatus.Rejected => DecommissioningStatus.Rejected,
+                _ => DecommissioningStatus.Pending
+            };
         }
 
         public async Task<TechnicianDto> GetTechnicianAsync(int technicianId)

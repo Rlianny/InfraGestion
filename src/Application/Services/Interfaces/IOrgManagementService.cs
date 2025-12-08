@@ -1,3 +1,5 @@
+using Application.DTOs.Auth;
+
 namespace Application.Services.Interfaces
 {
     public interface IOrgManagementService
