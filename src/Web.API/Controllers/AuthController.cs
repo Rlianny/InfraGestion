@@ -54,7 +54,7 @@ namespace Web.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error durante el login de {Username}", request.Username);
-                return BadRequest(new { message = "Error durante el proceso de login" });
+                return BadRequest(new { message = "Error durante el proceso de login: " + ex.Message });
             }
         }
 

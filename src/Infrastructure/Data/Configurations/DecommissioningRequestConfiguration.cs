@@ -21,6 +21,11 @@ namespace Infrastructure.Data.Configurations
             builder.Property(dr => dr.Date)
                 .IsRequired();
 
+            builder.Property(dr => dr.Reason)
+                .IsRequired()
+                .HasMaxLength(500);
+
+
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(dr => dr.TechnicianId)

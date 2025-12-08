@@ -19,6 +19,7 @@ public class InventoryService : IInventoryService
     private readonly IMaintenanceRecordRepository maintenanceRepo;
     private readonly ITransferRepository transferRepo;
     private readonly IDecommissioningRepository decommissioningRepository;
+    private readonly IDecommissioningRequestRepository decommissioningRequestRepository;
 
     public InventoryService(
         IDeviceRepository deviceRepo,
@@ -28,6 +29,7 @@ public class InventoryService : IInventoryService
         IUnitOfWork unitOfWork,
         IDepartmentRepository departmentRepository,
         IDecommissioningRepository decommissioningRepository,
+        IDecommissioningRequestRepository decommissioningRequestRepository,
         ITransferRepository transferRepository,
         IMaintenanceRecordRepository maintenanceRepository
         )
@@ -38,6 +40,7 @@ public class InventoryService : IInventoryService
         this.unitOfWork = unitOfWork;
         this.departmentRepository = departmentRepository;
         this.decommissioningRepository = decommissioningRepository;
+        this.decommissioningRequestRepository = decommissioningRequestRepository;
         this.receivingInspectionRequestRepo = receivingInspectionRequestRepo;
         this.transferRepo = transferRepository;
         this.maintenanceRepo = maintenanceRepository;
@@ -57,19 +60,42 @@ public class InventoryService : IInventoryService
             var device = await deviceRepo.GetByIdAsync(request.DeviceId)
                 ?? throw new Exception($"Device with id {request.DeviceId} not found");
 
+            device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
             if (request.IsApproved)
             {
                 inspectionRequest.Accept();
-                device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
                 await deviceRepo.UpdateAsync(device);
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(request.RejectionReason))
+                if (string.IsNullOrWhiteSpace(request.Reason))
                 {
-                    throw new Exception("Rejection reason is required when rejecting a device");
+                    throw new Exception("Reason is required when rejecting a device");
                 }
-                inspectionRequest.Reject(request.RejectionReason);
+
+                inspectionRequest.Reject(request.Reason);
+
+                // Create a decommissioning request addressed to the section manager of the device's section
+                var department = await departmentRepository.GetByIdAsync(device.DepartmentId)
+                    ?? throw new Exception($"Department with id {device.DepartmentId} not found for device {device.DeviceId}");
+
+                var section = await sectionRepo.GetByIdAsync(department.SectionId)
+                    ?? throw new Exception($"Section with id {department.SectionId} not found for department {department.DepartmentId}");
+
+                if (!section.SectionManagerId.HasValue)
+                {
+                    throw new Exception($"Section {section.SectionId} does not have an assigned manager to receive the decommissioning request");
+                }
+
+                var decommissioningRequest = new DecommissioningRequest(
+                    request.TechnicianId,
+                    request.DeviceId,
+                    section.SectionManagerId.Value,
+                    DateTime.Now,
+                    request.Reason
+                );
+
+                await decommissioningRequestRepository.AddAsync(decommissioningRequest);
             }
 
             await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
@@ -311,7 +337,7 @@ public class InventoryService : IInventoryService
         }
         catch (Exception ex)
         {
-            throw new Exception("Error tryng to register device async");
+            throw new Exception("Error trying to register device async");
         }
     }
 
