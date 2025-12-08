@@ -10,6 +10,5 @@ namespace Application.Services.Interfaces
         Task CreateDepartment(DepartmentDto departmentDto); 
         Task ModifyDepartment(DepartmentDto departmentDto);
         Task DisableDepartment(DepartmentDto departmentDto); 
-        Task AssignSectionResponsible(AssignSectionResponsibleDto assignSectionResponsible);
     }
 }
