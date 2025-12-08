@@ -301,7 +301,7 @@ public class InventoryService : IInventoryService
             var device = new Device(
                 request.Name,
                 request.DeviceType,
-                Domain.Enums.OperationalState.Operational,
+                Domain.Enums.OperationalState.UnderRevision,
                 null,
                 DateTime.Now
             );
@@ -328,7 +328,7 @@ public class InventoryService : IInventoryService
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while tryng to update device");
+            throw new Exception("Error while trying to update device");
         }
     }
     public async Task DeleteEquimentAsync(DeleteDeviceRequestDto deleteRequest)

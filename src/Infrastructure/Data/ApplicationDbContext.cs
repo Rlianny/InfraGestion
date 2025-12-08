@@ -43,7 +43,8 @@ namespace Infrastructure.Data
             new { RoleId = (int)RoleEnum.EquipmentReceiver, Name = "EquipmentReceiver" },
             new { RoleId = (int)RoleEnum.SectionManager, Name = "SectionManager" },
             new { RoleId = (int)RoleEnum.Administrator, Name = "Administrator" },
-            new { RoleId = (int)RoleEnum.Director, Name = "Director" }
+            new { RoleId = (int)RoleEnum.Director, Name = "Director" },
+            new { RoleId = (int)RoleEnum.Logistician, Name = "Logistician" }
          );
 
          // Dates STATICS
