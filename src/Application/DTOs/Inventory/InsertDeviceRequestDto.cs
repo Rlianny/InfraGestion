@@ -6,7 +6,7 @@ namespace Application.DTOs.Inventory
         public string Name { get; set; } = string.Empty;
         public DeviceType DeviceType { get; set; }
         public DateTime AcquisitionDate { get; set; }
-        public int assignedTechnician { get; set; }
-        public int admin { get; set; }
+        public int technicianId { get; set; }
+        public int userID { get; set; }
     }
 }
