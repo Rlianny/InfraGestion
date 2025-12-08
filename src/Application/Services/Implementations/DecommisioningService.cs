@@ -12,6 +12,7 @@ public class DecommissioningService : IDecommissioningService
     private readonly IDeviceRepository _deviceRepository;
     private readonly IUserRepository _userRepository;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly ISectionRepository _sectionRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public DecommissioningService(
@@ -20,6 +21,7 @@ public class DecommissioningService : IDecommissioningService
         IDeviceRepository deviceRepository,
         IUserRepository userRepository,
         IDepartmentRepository departmentRepository,
+        ISectionRepository sectionRepository,
         IUnitOfWork unitOfWork)
     {
         _requestRepository = requestRepository;
@@ -27,6 +29,7 @@ public class DecommissioningService : IDecommissioningService
         _deviceRepository = deviceRepository;
         _userRepository = userRepository;
         _departmentRepository = departmentRepository;
+        _sectionRepository = sectionRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -44,14 +47,38 @@ public class DecommissioningService : IDecommissioningService
         var technician = await _userRepository.GetByIdAsync(request.TechnicianId)
             ?? throw new EntityNotFoundException("Technician", request.TechnicianId);
 
-        var receiver = await _userRepository.GetByIdAsync(request.DeviceReceiverId)
-            ?? throw new EntityNotFoundException("DeviceReceiver", request.DeviceReceiverId);
+        var department = await _departmentRepository.GetByIdAsync(device.DepartmentId)
+            ?? throw new EntityNotFoundException("Department", device.DepartmentId);
+
+        var section = await _sectionRepository.GetByIdAsync(department.SectionId)
+            ?? throw new EntityNotFoundException("Section", department.SectionId);
+
+        if (!section.SectionManagerId.HasValue)
+        {
+            throw new DecommissioningValidationException($"Section {section.SectionId} does not have an assigned manager to receive decommissioning requests");
+        }
+
+        var receiverId = section.SectionManagerId.Value;
+
+        if (request.DeviceReceiverId != receiverId)
+        {
+            throw new DecommissioningValidationException($"DeviceReceiverId must match the section manager (expected {receiverId})");
+        }
+
+        var receiver = await _userRepository.GetByIdAsync(receiverId)
+            ?? throw new EntityNotFoundException("SectionManager", receiverId);
+        
+        if (string.IsNullOrWhiteSpace(request.Reason))
+        {
+            throw new DecommissioningValidationException("Reason is required for a decommissioning request");
+        }
 
         var decommissioningRequest = new DecommissioningRequest(
             request.TechnicianId,
             request.DeviceId,
-            request.DeviceReceiverId,
-            request.RequestDate
+            receiverId,
+            request.RequestDate,
+            request.Reason
         );
 
         await _requestRepository.AddAsync(decommissioningRequest);
@@ -91,7 +118,8 @@ public class DecommissioningService : IDecommissioningService
             DeviceReceiverId = request.DeviceReceiverId,
             DeviceReceiverName = receiver?.FullName ?? "Unknown",
             RequestDate = request.Date,
-            Status = MapToDecommissioningStatus(request.Status)
+            Status = MapToDecommissioningStatus(request.Status),
+            Reason = request.Reason
         };
     }
 
@@ -130,10 +158,6 @@ public class DecommissioningService : IDecommissioningService
         }
         else
         {
-            if (string.IsNullOrWhiteSpace(review.RejectionReason))
-            {
-                throw new Exception("Rejection reason is required when rejecting a decommissioning request");
-            }
             request.Reject();
         }
 
@@ -160,13 +184,13 @@ public class DecommissioningService : IDecommissioningService
                 DeviceReceiverId = request.DeviceReceiverId,
                 DeviceReceiverName = receiver?.FullName ?? "Unknown",
                 RequestDate = request.Date,
-                Status = MapToDecommissioningStatus(request.Status)
+                Status = MapToDecommissioningStatus(request.Status),
+                Reason = request.Reason
             });
         }
 
         return dtos;
     }
-
     private DecommissioningStatus MapToDecommissioningStatus(RequestStatus status)
     {
         return status switch

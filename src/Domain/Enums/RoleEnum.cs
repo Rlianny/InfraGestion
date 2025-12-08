@@ -11,5 +11,6 @@ public enum RoleEnum
     Administrator = 4,
 
     Director = 5,
+    
     Logistician = 6
 }
