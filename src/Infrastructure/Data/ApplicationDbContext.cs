@@ -84,7 +84,9 @@ namespace Infrastructure.Data
 
          // Seed Departments
          modelBuilder.Entity<Department>().HasData(
+
             new { DepartmentId = 1, Name = "Almacen General", SectionId = -1, IsDisabled = false },
+
             new { DepartmentId = -1, Name = "Conmutación y Enrutamiento Avanzado", SectionId = -1, IsDisabled = false },
             new { DepartmentId = -2, Name = "Seguridad Perimetral y Firewalls", SectionId = -1, IsDisabled = false },
             new { DepartmentId = -3, Name = "Reparaciones de Red", SectionId = -1, IsDisabled = false },

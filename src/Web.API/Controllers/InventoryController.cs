@@ -18,7 +18,6 @@ namespace Web.API.Controllers
     {
         private readonly IInventoryService inventoryService;
 
-
         public InventoryController(IInventoryService inventoryService)
         {
             this.inventoryService = inventoryService;
@@ -129,6 +128,9 @@ namespace Web.API.Controllers
         {
             try
             {
+                // Always tie the request to the authenticated administrator to avoid missing/invalid IDs
+                var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
+                request.userID = userId;
                 await inventoryService.RegisterDeviceAsync(request);
                 return Ok("Registered");
             }

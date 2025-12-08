@@ -17,7 +17,8 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(s => s.SectionId)
                 .ValueGeneratedOnAdd();
-            builder.Property(s => s.IsDisabled);
+            builder.Property(s => s.IsDisabled)
+                .HasDefaultValue(false);
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(200);

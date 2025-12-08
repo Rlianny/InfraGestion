@@ -15,7 +15,8 @@ namespace Infrastructure.Data.Configurations
             builder.Property(e => e.DeviceId)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.IsDisabled);
+            builder.Property(e => e.IsDisabled)
+                .HasDefaultValue(false);
 
             builder.Property(e => e.DepartmentId)
                 .IsRequired();
