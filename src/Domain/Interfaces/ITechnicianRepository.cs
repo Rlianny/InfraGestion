@@ -9,5 +9,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<User>> GetTechniciansByExperienceAsync(int minYears, CancellationToken cancellationToken = default);
         Task<IEnumerable<User>> GetTechniciansByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default);
         Task<IEnumerable<User>> GetTopPerformingTechniciansAsync(int count, CancellationToken cancellationToken = default);
+        Task<User?> GetByNameAsync(string technicianName, CancellationToken cancellationToken = default);
     }
 }

@@ -1,5 +1,8 @@
-public class PenaltyDto
+namespace Application.DTOs.Personnel
 {
-    public decimal Bonus { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public class PenaltyDto
+    {
+        public double Penalty { get; set; }
+        public string Description { get; set; } = string.Empty;
+    }
 }

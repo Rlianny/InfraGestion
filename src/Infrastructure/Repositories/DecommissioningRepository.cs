@@ -26,12 +26,13 @@ namespace Infrastructure.Repositories
                 );
         }
 
-        public async Task<IEnumerable<Decommissioning>> GetDecommissioningsByDeviceAsync(
+        // Un dispositivo solo puede tener UNA baja final
+        public async Task<Decommissioning?> GetDecommissioningByDeviceAsync(
             int deviceId,
             CancellationToken cancellationToken = default
         )
         {
-            return await _dbSet.Where(d => d.DeviceId == deviceId).ToListAsync(cancellationToken);
+            return await _dbSet.FirstOrDefaultAsync(d => d.DeviceId == deviceId, cancellationToken);
         }
 
         public async Task<IEnumerable<Decommissioning>> GetDecommissioningsByReasonAsync(

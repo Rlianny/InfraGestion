@@ -75,5 +75,13 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet.Where(d => d.Name.Contains(name)).ToListAsync(cancellationToken);
         }
+
+        public async Task<Device?> GetDeviceByNameAsync(
+            string name,
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await _dbSet.FirstOrDefaultAsync(d => d.Name == name, cancellationToken);
+        }
     }
 }

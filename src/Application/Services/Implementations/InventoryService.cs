@@ -43,23 +43,41 @@ public class InventoryService : IInventoryService
         this.maintenanceRepo = maintenanceRepository;
     }
 
-    public async Task ApproveDevice(int deviceID, int technicianID)
+    public async Task ProcessInspectionDecisionAsync(InspectionDecisionRequestDto request)
     {
         try
         {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            if (technicianID != inspectionRequest.TechnicianId)
+            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(request.DeviceId);
+
+            if (request.TechnicianId != inspectionRequest.TechnicianId)
             {
-                throw new Exception($"Thechichian with id {technicianID} its not allowed to make this request");
+                throw new Exception($"Technician with id {request.TechnicianId} is not allowed to make this request");
             }
 
-            inspectionRequest.Accept();
+            var device = await deviceRepo.GetByIdAsync(request.DeviceId)
+                ?? throw new Exception($"Device with id {request.DeviceId} not found");
+
+            if (request.IsApproved)
+            {
+                inspectionRequest.Accept();
+                device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
+                await deviceRepo.UpdateAsync(device);
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(request.RejectionReason))
+                {
+                    throw new Exception("Rejection reason is required when rejecting a device");
+                }
+                inspectionRequest.Reject(request.RejectionReason);
+            }
+
             await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
             await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while trying to approve the device");
+            throw new Exception($"Error while processing inspection decision: {ex.Message}");
         }
     }
 
@@ -67,11 +85,19 @@ public class InventoryService : IInventoryService
     {
         try
         {
+            // Obtener el dispositivo y cambiar su estado a UnderRevision
+            var device = await deviceRepo.GetByIdAsync(inspectionRequestDto.DeviceId)
+                ?? throw new Exception($"Device with id {inspectionRequestDto.DeviceId} not found");
+
+            device.UpdateOperationalState(Domain.Enums.OperationalState.UnderRevision);
+            await deviceRepo.UpdateAsync(device);
+
             await receivingInspectionRequestRepo.AddAsync(new ReceivingInspectionRequest(DateTime.Now, inspectionRequestDto.DeviceId, inspectionRequestDto.AdministratorId, inspectionRequestDto.TechnicianId));
+            await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while tryng to assign device for review");
+            throw new Exception($"Error while trying to assign device for review: {ex.Message}");
         }
     }
 
@@ -100,61 +126,69 @@ public class InventoryService : IInventoryService
         {
             var device = await deviceRepo.GetByIdAsync(deviceID) ?? throw new Exception("Device not found");
             var department = await departmentRepository.GetByIdAsync(device.DepartmentId) ?? throw new Exception("Department not found");
-
-            //var maintenanceHistory = await maintenanceRepo.GetMaintenancesByDeviceAsync(device.DeviceId);
-            
-            //TODO
-            //Fixing this
-            //var transferHistory = await transferRepo.GetTransfersByDeviceAsync(device.DeviceId);
-            //var decommissionings = await decommissioningRepository.GetDecommissioningsByDeviceAsync(device.DeviceId);
-            
+            var maintenanceHistory = await maintenanceRepo.GetMaintenancesByDeviceAsync(device.DeviceId);
 
             var maintenanceDtos = new List<MaintenanceRecordDto>();
-           /* await Task.WhenAll(maintenanceHistory.Select(async m =>
+            foreach (var m in maintenanceHistory)
             {
-                //var technician = await userRepo.GetByIdAsync(m.TechnicianId);
-                return new MaintenanceRecordDto(
+                var technician = await userRepo.GetByIdAsync(m.TechnicianId);
+                maintenanceDtos.Add(new MaintenanceRecordDto(
                     m.MaintenanceRecordId,
                     m.DeviceId,
                     device.Name,
                     m.TechnicianId,
-                    "Unknown",//technician?.FullName ?? 
+                    technician?.FullName ?? "Unknown",
                     m.Date,
                     m.Type,
                     m.Cost,
                     m.Description
-                );
-            }));
-           */
+                ));
+            }
+
+            var transferHistory = await transferRepo.GetTransfersByDeviceAsync(device.DeviceId);
             var transferDtos = new List<TransferDto>();
-            /* await Task.WhenAll(transferHistory.Select(async t =>
-             {
-                 var receiver = await userRepo.GetByIdAsync(t.DeviceReceiverId);
-                 return new TransferDto
-                 {
-                     DeviceId = t.DeviceId,
-                     DestinationSectionId = t.DestinationSectionId,
-                     DeviceReceiverId = t.DeviceReceiverId,
-                     DeviceReceiverName = receiver?.FullName ?? "Unknown"
-                 };
-             })); */
+            foreach (var t in transferHistory)
+            {
+                var receiver = await userRepo.GetByIdAsync(t.DeviceReceiverId);
+                var sourceSection = await sectionRepo.GetByIdAsync(t.SourceSectionId);
+                var destSection = await sectionRepo.GetByIdAsync(t.DestinationSectionId);
+                transferDtos.Add(new TransferDto(
+                    t.TransferId,
+                    t.DeviceId,
+                    device.Name,
+                    t.Date,
+                    t.SourceSectionId,
+                    sourceSection?.Name ?? "Unknown",
+                    t.DestinationSectionId,
+                    destSection?.Name ?? "Unknown",
+                    t.DeviceReceiverId,
+                    receiver?.FullName ?? "Unknown",
+                    t.Status
+                ));
+            }
 
-
-            //decommissionings.FirstOrDefault(x => x.FinalDestination != null);
+            var decommissioning = await decommissioningRepository.GetDecommissioningByDeviceAsync(device.DeviceId);
             DecommissioningDto? decommissioningDto = null;
-            /*finalDecommissioning != null
-                ? new DecommissioningDto(
-                    finalDecommissioning.DecommissioningId,
-                    finalDecommissioning.DeviceReceiverId,
-                    finalDecommissioning.DecommissioningRequestId,
-                    finalDecommissioning.DeviceId,
-                    finalDecommissioning.DecommissioningDate,
-                    finalDecommissioning.Reason,
-                    finalDecommissioning.FinalDestination,
-                    finalDecommissioning.ReceiverDepartmentId
-                )
-                : null;
-            */
+            if (decommissioning != null)
+            {
+                var decommReceiver = await userRepo.GetByIdAsync(decommissioning.DeviceReceiverId);
+                var receiverDepartment = await departmentRepository.GetByIdAsync(decommissioning.ReceiverDepartmentId);
+                decommissioningDto = new DecommissioningDto
+                {
+                    DecommissioningId = decommissioning.DecommissioningId,
+                    DeviceId = decommissioning.DeviceId,
+                    DeviceName = device.Name,
+                    DecommissioningRequestId = decommissioning.DecommissioningRequestId,
+                    DeviceReceiverId = decommissioning.DeviceReceiverId,
+                    DeviceReceiverName = decommReceiver?.FullName ?? "Unknown",
+                    ReceiverDepartmentId = decommissioning.ReceiverDepartmentId,
+                    ReceiverDepartmentName = receiverDepartment?.Name ?? "Unknown",
+                    DecommissioningDate = decommissioning.DecommissioningDate,
+                    Reason = decommissioning.Reason,
+                    FinalDestination = decommissioning.FinalDestination
+                };
+            }
+
             return new DeviceDetailDto(
                 device.DeviceId,
                 device.Name,
@@ -167,9 +201,9 @@ public class InventoryService : IInventoryService
                 device.AcquisitionDate
             );
         }
-        catch
+        catch (Exception ex)
         {
-            throw new Exception("Error while trying to get device detail");
+            throw new Exception($"Error while trying to get device detail: {ex.Message}");
         }
     }
 
@@ -197,7 +231,7 @@ public class InventoryService : IInventoryService
                 {
                     "name" => deviceDtos.OrderBy(x => x.Name),
                     "deviceid" => deviceDtos.OrderBy(x => x.DeviceId),
-                        _ => throw new NotImplementedException()
+                    _ => throw new NotImplementedException()
                 };
                 int skip = filter.PageNumber * filter.PageSize;
                 if (filter.IsDescending)
@@ -207,7 +241,7 @@ public class InventoryService : IInventoryService
                 return ordered.Skip(skip).Take(filter.PageSize);
             }
 
-        return deviceDtos;
+            return deviceDtos;
         }
         catch
         {
@@ -267,7 +301,7 @@ public class InventoryService : IInventoryService
             var device = new Device(
                 request.Name,
                 request.DeviceType,
-                Domain.Enums.OperationalState.Operational,
+                Domain.Enums.OperationalState.UnderRevision,
                 null,
                 DateTime.Now
             );
@@ -281,39 +315,20 @@ public class InventoryService : IInventoryService
         }
     }
 
-    public async Task RejectDevice(int deviceID, int technicianID, string reason)
-    {
-        try
-        {
-            ReceivingInspectionRequest inspectionRequest = await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByDeviceAsync(deviceID);
-            User? tech = await userRepo.GetByIdAsync(technicianID);
-            Device? device = await deviceRepo.GetByIdAsync(deviceID);
-            if (tech == null || device == null || !tech.IsTechnician || technicianID != inspectionRequest.TechnicianId)
-            {
-                throw new Exception();
-            }
-            inspectionRequest.Reject(reason);
-            await receivingInspectionRequestRepo.UpdateAsync(inspectionRequest);
-            await unitOfWork.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error while tryng to reject device");
-        }
-    }
+
 
     public async Task UpdateEquipmentAsync(UpdateDeviceRequestDto request)
     {
         try
         {
-            var department = await departmentRepository.GetDepartmentByNameAsync(request.DepartmentName)??throw new Exception($"Deparment with name{request.DepartmentName} does not exists");
+            var department = await departmentRepository.GetDepartmentByNameAsync(request.DepartmentName) ?? throw new Exception($"Deparment with name{request.DepartmentName} does not exists");
             Device device = new Device(request.Name, request.DeviceType, request.OperationalState, department.DepartmentId, request.Date, request.DeviceId);
             await deviceRepo.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error while tryng to update device");
+            throw new Exception("Error while trying to update device");
         }
     }
     public async Task DeleteEquimentAsync(DeleteDeviceRequestDto deleteRequest)

@@ -426,6 +426,7 @@ namespace Application.Services.Implementations
                 "SectionManager" => (int)RoleEnum.SectionManager,
                 "Administrator" => (int)RoleEnum.Administrator,
                 "Director" => (int)RoleEnum.Director,
+                "Logistician" => (int)RoleEnum.Logistician,
                 _ => throw new RoleValidationException($"Rol inválido: {roleName}"),
             };
         }

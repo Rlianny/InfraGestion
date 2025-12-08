@@ -2,10 +2,10 @@ namespace Application.DTOs.Transfer
 {
     public class CreateTransferRequestDto
     {
-        public int DeviceId { get; set; }
-        public int SourceSectionId { get; set; }
-        public int DestinationSectionId { get; set; }
-        public int DeviceReceiverId { get; set; }
+        public string DeviceName { get; set; } = string.Empty;
+        public string SourceSectionName { get; set; } = string.Empty;
+        public string DestinationSectionName { get; set; } = string.Empty;
+        public string DeviceReceiverUsername { get; set; } = string.Empty;
         public DateTime TransferDate { get; set; }
     }
 }

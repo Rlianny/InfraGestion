@@ -17,6 +17,38 @@ namespace Web.API.Controllers
             this.orgManagementService = orgManagementService;
         }
 
+        #region GET
+        [HttpGet("departments")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<DepartmentDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetDepartmentsAsync()
+        {
+            try
+            {
+                var departments = await orgManagementService.GetDepartmentsAsync();
+                return Ok(departments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("sections")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<SectionDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSectionsAsync()
+        {
+            try
+            {
+                var sections = await orgManagementService.GetSectionsAsync();
+                return Ok(sections);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+        
         #region POST
         [HttpPost("sections")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
