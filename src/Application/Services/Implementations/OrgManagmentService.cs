@@ -10,6 +10,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Domain.Exceptions;
 using Domain.Enums;
+using Application.DTOs.Auth;
 namespace Application.Services.Implementations
 {
     public class OrgManagmentService : IOrgManagementService
@@ -26,19 +27,6 @@ namespace Application.Services.Implementations
             this.departmentRepository = departmentRepository;
             this.unitOfWork = unitOfWork;
             this.userRepository = userRepository;
-        }
-
-        public async Task AssignSectionResponsible(AssignSectionResponsibleDto assignSectionResponsible)
-        {
-            var section = await sectionRepository.GetByIdAsync(assignSectionResponsible.SectionId) ??
-                throw new EntityNotFoundException("Section", assignSectionResponsible.SectionId);
-            var user = await userRepository.GetByIdAsync(assignSectionResponsible.UserId) ??
-                throw new EntityNotFoundException("User", assignSectionResponsible.UserId);
-            section.AssignManager(user);
-            user.ChangeRole((int)RoleEnum.SectionManager);
-            await sectionRepository.UpdateAsync(section);
-            await userRepository.UpdateAsync(user);
-            await unitOfWork.SaveChangesAsync();
         }
 
         public async Task CreateDepartment(DepartmentDto departmentDto)
@@ -87,14 +75,30 @@ namespace Application.Services.Implementations
 
         public async Task ModifySection(SectionDto sectionDto)
         {
-            var section = await sectionRepository.GetByIdAsync(sectionDto.SectionId) ??
-                 throw new EntityNotFoundException("Section", sectionDto.SectionId);
-            
+            var section =
+                await sectionRepository.GetByIdAsync(sectionDto.SectionId)
+                ?? throw new EntityNotFoundException("Section", sectionDto.SectionId);
+
             section.UpdateName(sectionDto.Name);
-            
+
+            if (!string.IsNullOrWhiteSpace(sectionDto.SectionManager))
+            {
+                var manager =
+                    await userRepository.GetByUsernameAsync(sectionDto.SectionManager)
+                    ?? throw new EntityNotFoundException("User", sectionDto.SectionManager);
+
+                if (manager.RoleId != (int)RoleEnum.SectionManager)
+                    throw new BusinessRuleViolationException(
+                        "El usuario asignado como manager debe tener el rol SectionManager."
+                    );
+
+                section.AssignManager(manager);
+            }
+
             await sectionRepository.UpdateAsync(section);
             await unitOfWork.SaveChangesAsync();
         }
+
         public async Task<IEnumerable<SectionDto>> GetSectionsAsync()
         {
             var sections = await sectionRepository.GetAllAsync();
@@ -142,5 +146,32 @@ namespace Application.Services.Implementations
             await departmentRepository.DeleteAsync(department);
             await unitOfWork.SaveChangesAsync();
         }
+
+
+           public async Task<IEnumerable<UserDto>> GetSectionManagersAsync()
+        {
+            var managers = await userRepository.GetUsersByRoleAsync((int)RoleEnum.SectionManager);
+
+            var managerDtos = new List<UserDto>();
+            foreach (var manager in managers)
+            {
+                managerDtos.Add(new UserDto
+                {
+                    UserId = manager.UserId,
+                    Username = manager.Username,
+                    FullName = manager.FullName,
+                    Role = manager.Role?.Name ?? "SectionManager",
+                    DepartmentId = manager.DepartmentId,
+                    DepartmentName = manager.Department?.Name ?? string.Empty,
+                    IsActive = manager.IsActive,
+                    CreatedAt = manager.CreatedAt,
+                    YearsOfExperience = manager.YearsOfExperience,
+                    Specialty = manager.Specialty
+                });
+            }
+
+            return managerDtos;
+        }
+        }
     }
-}
+

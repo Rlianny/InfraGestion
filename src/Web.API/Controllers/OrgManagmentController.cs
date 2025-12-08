@@ -93,20 +93,7 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("sections/managers")]
-        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AssignSectionResponsableAsync([FromBody] AssignSectionResponsibleDto assignSectionResponsibleDto)
-        {
-            try
-            {
-                await orgManagementService.AssignSectionResponsible(assignSectionResponsibleDto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
         [HttpPost("sections/disables{id}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> DisableSectionAsync(int id)

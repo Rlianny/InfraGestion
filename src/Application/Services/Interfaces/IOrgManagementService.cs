@@ -14,6 +14,5 @@ namespace Application.Services.Interfaces
         Task ModifyDepartment(DepartmentDto departmentDto);
         Task DisableDepartment(int departmentId);
         Task DeleteDepartment(int departmentId);
-        Task AssignSectionResponsible(AssignSectionResponsibleDto assignSectionResponsible);
-    }
+        Task<IEnumerable<UserDto>> GetSectionManagersAsync();}
 }
