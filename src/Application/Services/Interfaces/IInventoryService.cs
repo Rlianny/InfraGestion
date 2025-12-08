@@ -14,4 +14,5 @@ public interface IInventoryService
     Task ProcessInspectionDecisionAsync(InspectionDecisionRequestDto request);
     Task DisableEquipmentAsync(int id);
     Task DeleteEquipmentAsync(int id);
+    Task<IEnumerable<ReceivingInspectionRequestDto>> ReceivingInspectionRequestsByTechnician(int technicianId);
 }

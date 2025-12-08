@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.DTOs.Decommissioning;
 using Application.DTOs.Inventory;
 using Application.DTOs.Maintenance;
@@ -330,13 +331,13 @@ public class InventoryService : IInventoryService
                 request.DeviceType,
                 Domain.Enums.OperationalState.UnderRevision,
                 null,
-                DateTime.Now
+                request.AcquisitionDate
             );
 
             await deviceRepo.AddAsync(device);
             await unitOfWork.SaveChangesAsync();
             var dev = await deviceRepo.GetDeviceByNameAsync(device.Name);
-            var receivingInspectionRequest = new ReceivingInspectionRequest(DateTime.Now, dev.DeviceId, request.admin, request.assignedTechnician);
+            var receivingInspectionRequest = new ReceivingInspectionRequest(DateTime.Now, dev.DeviceId, request.userID, request.technicianId);
             await receivingInspectionRequestRepo.AddAsync(receivingInspectionRequest);
             await unitOfWork.SaveChangesAsync();
         }
@@ -344,6 +345,19 @@ public class InventoryService : IInventoryService
         {
             throw new Exception("Error trying to register device async");
         }
+    }
+    public async Task<IEnumerable<ReceivingInspectionRequestDto>> ReceivingInspectionRequestsByTechnician(int technicianId)
+    {
+        var inspections = (await receivingInspectionRequestRepo.GetAllAsync()).Where(t => t.TechnicianId == technicianId);
+        List<ReceivingInspectionRequestDto> receivingInspectionRequests = [];
+        foreach (var inspection in inspections)
+        {
+            receivingInspectionRequests.Add(new ReceivingInspectionRequestDto(inspection.ReceivingInspectionRequestId,
+                                                                              inspection.EmissionDate, inspection.DeviceId,
+                                                                               inspection.AdministratorId, inspection.TechnicianId,
+                                                                                inspection.Status, inspection.RejectReason));
+        }
+        return receivingInspectionRequests;
     }
 
 

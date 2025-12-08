@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Auth;
+﻿using Application.DTOs;
+using Application.DTOs.Auth;
 using Application.DTOs.Inventory;
 using Application.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
@@ -24,16 +25,30 @@ namespace Web.API.Controllers
         }
         #region GET
 
-
-
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetInventoryAsync([FromQuery] DeviceFilterDto filter, [FromQuery] int userId)
+        public async Task<IActionResult> GetInventoryAsync()
         {
             try
             {
-                var inventory = await inventoryService.GetInventoryAsync(filter, userId);
-                return Ok(inventory);
+                var devices = await inventoryService.GetCompanyInventoryAsync();
+                return Ok(devices);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("receiving-inspection-requests")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetReceivingInspectionRequestsByTechnicianAsync(int technicianId)
+        {
+            try
+            {
+                var inspectionRequests = await inventoryService.ReceivingInspectionRequestsByTechnician(technicianId);
+                return Ok(inspectionRequests);
             }
             catch (Exception ex)
             {
@@ -48,9 +63,9 @@ namespace Web.API.Controllers
             try
             {
                 var deviceDetail = await inventoryService.GetDeviceDetailAsync(id);
-                return Ok(deviceDetail);    
+                return Ok(deviceDetail);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -58,7 +73,7 @@ namespace Web.API.Controllers
 
 
         [HttpGet("company/devices")]
-        [Authorize(Roles ="Director")]
+        [Authorize(Roles = "Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCompanyDevicesAsync()
         {
@@ -68,8 +83,8 @@ namespace Web.API.Controllers
                 return Ok(devices);
             }
             catch (Exception ex)
-            { 
-                return BadRequest(ex.Message);  
+            {
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("sections/{sectionId}")]
@@ -83,9 +98,9 @@ namespace Web.API.Controllers
                 var devices = await inventoryService.GetSectionInventoryAsync(sectionId, userId);
                 return Ok(devices);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("ownedSection")]
@@ -117,7 +132,7 @@ namespace Web.API.Controllers
                 await inventoryService.RegisterDeviceAsync(request);
                 return Ok("Registered");
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -180,7 +195,7 @@ namespace Web.API.Controllers
                 await inventoryService.UpdateEquipmentAsync(updateDeviceRequest);
                 return Ok();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
