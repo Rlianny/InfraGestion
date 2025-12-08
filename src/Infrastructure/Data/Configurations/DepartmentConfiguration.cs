@@ -9,7 +9,7 @@ namespace Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Department> builder)
         {
             builder.ToTable("Departments");
-
+            builder.Property(d => d.IsDisabled);
             builder.HasKey(d => d.DepartmentId);
 
             builder.Property(d => d.DepartmentId)

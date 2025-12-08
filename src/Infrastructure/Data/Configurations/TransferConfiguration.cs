@@ -1,5 +1,6 @@
 using Domain.Aggregations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
@@ -17,6 +18,8 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Date)
                 .IsRequired();
+
+            builder.Property(t => t.IsDisabled);
 
             builder.HasOne<Domain.Entities.Device>()
                 .WithMany()
