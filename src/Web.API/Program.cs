@@ -37,10 +37,11 @@ internal class Program
                 new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Ingrese 'Bearer' seguido de un espacio y el token JWT",
+                    Description = "Ingrese el token JWT (sin prefijo 'Bearer')",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
                 }
             );
 
@@ -86,25 +87,6 @@ internal class Program
                     ),
                 };
             });
-
-        // Configure Authorization Policies based on Roles
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrator"));
-            options.AddPolicy("RequireTechnicianRole", policy => policy.RequireRole("Technician"));
-            options.AddPolicy(
-                "ManagementRoles",
-                policy => policy.RequireRole("Administrator", "SectionManager")
-            );
-            options.AddPolicy(
-                "CanManageDevices",
-                policy => policy.RequireRole("Administrator", "SectionManager", "Director")
-            );
-            options.AddPolicy(
-                "CanPerformMaintenance",
-                policy => policy.RequireRole("Administrator", "Technician")
-            );
-        });
 
         // Configure HTTP for Blazor // DON'T DELETE
         builder.Services.AddCors(options =>
@@ -180,6 +162,7 @@ internal class Program
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddScoped<IUserManagementService, UserManagementService>();
         builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
+        builder.Services.AddScoped<IDecommissioningService, DecommissioningService>();
         builder.Services.AddScoped<IPersonnelService, PersonnelService>();
         builder.Services.AddScoped<ITransferService, TransferService>();
         builder.Services.AddScoped<IOrgManagementService, OrgManagmentService>();

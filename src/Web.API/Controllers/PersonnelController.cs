@@ -87,6 +87,23 @@ namespace Web.API.Controllers
             }
         }
 
+        [HttpGet("technician/{technicianId}")]
+        [Authorize(Roles = "Administrator,Director,SectionManager")]
+        [ProducesResponseType(typeof(ApiResponse<TechnicianDetailDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTechnicianDetailByIdAsync(int technicianId)
+        {
+            try
+            {
+                var technicianDetails = await _personnelService.GetTechnicianDetailAsync(technicianId);
+                return Ok(technicianDetails);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving technician details with ID {technicianId}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("performances/{technicianId:int}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<RateDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTechnicianPerformancesAsync(int technicianId)

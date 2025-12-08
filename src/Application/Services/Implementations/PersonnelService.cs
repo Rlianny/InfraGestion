@@ -35,6 +35,50 @@ namespace Application.Services.Implementations
             this.receivingInspectionRequestRepository = receivingInspectionRequestRepository;
             this.unitOfWork = unitOfWork;
         }
+        public async Task<TechnicianDetailDto> GetTechnicianDetailAsync(int technicianId)
+        {
+            var technician = await technicianRepository.GetByIdAsync(technicianId)
+                ?? throw new EntityNotFoundException("Technician", technicianId);
+
+            var maintenanceRecords = await technicianRepository.GetMaintenanceRecordsByTechnicianAsync(technicianId);
+            var decommissioningRequests = await technicianRepository.GetDecommissioningRequestsByTechnicianAsync(technicianId);
+
+            var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
+            foreach (var record in maintenanceRecords)
+            {
+                var dto = new MaintenanceRecordDto
+                {
+                    RecordId = record.RecordId,
+                    DeviceId = record.DeviceId,
+                    Description = record.Description,
+                    Date = record.Date
+                };
+                maintenanceRecordDtos.Add(dto);
+            }
+
+            var decommissioningRequestDtos = new List<DecommissioningRequestDto>();
+            foreach (var request in decommissioningRequests)
+            {
+                var dto = new DecommissioningRequestDto
+                {
+                    RequestId = request.RequestId,
+                    DeviceId = request.DeviceId,
+                    Reason = request.Reason,
+                    DateRequested = request.DateRequested
+                };
+                decommissioningRequestDtos.Add(dto);
+            }
+
+            return new TechnicianDetailDto
+            {
+                TechnicianId = technician.UserId,
+                Name = technician.FullName,
+                YearsOfExperience = technician.YearsOfExperience ?? 0,
+                Specialty = technician.Specialty ?? string.Empty,
+                MaintenanceRecords = maintenanceRecordDtos,
+                DecommissioningRequests = decommissioningRequestDtos
+            };
+        }
 
         public async Task<IEnumerable<TechnicianDto>> GetAllTechniciansAsync()
         {

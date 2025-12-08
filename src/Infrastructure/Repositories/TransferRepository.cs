@@ -16,10 +16,6 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Include(t => t.DeviceId)
-                .Include(t => t.SourceSectionId)
-                .Include(t => t.DestinationSectionId)
-                .Include(t => t.DeviceReceiverId)
                 .FirstOrDefaultAsync(t => t.TransferId == transferId, cancellationToken);
         }
 
@@ -30,8 +26,6 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.DeviceId == deviceId)
-                .Include(t => t.SourceSectionId)
-                .Include(t => t.DestinationSectionId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -42,8 +36,6 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.SourceSectionId == sourceSectionId)
-                .Include(t => t.DeviceId)
-                .Include(t => t.DestinationSectionId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -54,8 +46,6 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Where(t => t.DestinationSectionId == destinationSectionId)
-                .Include(t => t.DeviceId)
-                .Include(t => t.SourceSectionId)
                 .ToListAsync(cancellationToken);
         }
 
