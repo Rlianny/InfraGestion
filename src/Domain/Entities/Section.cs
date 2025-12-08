@@ -1,4 +1,5 @@
 ﻿using Domain.Aggregations;
+using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Section
+    public class Section:SoftDeleteBase
     {
         public Section(string name)
         {
@@ -20,6 +21,8 @@ namespace Domain.Entities
         public int SectionId { get; private set; }
         public int? SectionManagerId { get; private set; }
         public User? SectionManager { get; private set; }
+        public override bool IsDisabled { get; protected set; }
+
         public void AssignManager(User manager)
         {
             SectionManager = manager;

@@ -53,23 +53,23 @@ namespace Application.Services.Implementations
             await unitOfWork.SaveChangesAsync();
         }
 
-        public async Task DisableDepartment(DepartmentDto departmentDto)
+        public async Task DisableDepartment(int departmentId)
         {
-            var department = await departmentRepository.GetByIdAsync(departmentDto.DepartmentId) ??
-                throw new EntityNotFoundException("Deparment", departmentDto.DepartmentId);
-            await departmentRepository.DeleteAsync(department);
+            var department = await departmentRepository.GetByIdAsync(departmentId)??
+                throw new EntityNotFoundException("Department",departmentId);
+            department.Disable();
+            await departmentRepository.UpdateAsync(department);
             await unitOfWork.SaveChangesAsync();
-
         }
 
-        public async Task DisableSection(SectionDto sectionDto)
+        
+        public async Task DisableSection(int sectionId)
         {
-
-            var section = await sectionRepository.GetByIdAsync(sectionDto.SectionId) ??
-                throw new EntityNotFoundException("Section", sectionDto.SectionId);
-            await sectionRepository.DeleteAsync(section);
+            var section = await sectionRepository.GetByIdAsync(sectionId)??
+                throw new EntityNotFoundException("Section",sectionId);
+            section.Disable();
+            await sectionRepository.UpdateAsync(section);
             await unitOfWork.SaveChangesAsync();
-
         }
 
         public async Task ModifyDepartment(DepartmentDto departmentDto)
@@ -125,6 +125,22 @@ namespace Application.Services.Implementations
                 departmentDtos.Add(dto);
             }
             return departmentDtos;
+        }
+
+        public async Task DeleteSection(int sectionId)
+        {
+            var section = await sectionRepository.GetByIdAsync(sectionId) ??
+               throw new EntityNotFoundException("Section", sectionId);
+            await sectionRepository.DeleteAsync(section);
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task DeleteDepartment(int departmentId)
+        {
+            var department = await departmentRepository.GetByIdAsync(departmentId) ??
+                throw new EntityNotFoundException("Deparment", departmentId);
+            await departmentRepository.DeleteAsync(department);
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -6,6 +6,7 @@ using Application.Services.Interfaces;
 using Domain.Aggregations;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using Domain.Interfaces;
 
 public class InventoryService : IInventoryService
@@ -357,11 +358,11 @@ public class InventoryService : IInventoryService
             throw new Exception("Error while trying to update device");
         }
     }
-    public async Task DeleteEquimentAsync(DeleteDeviceRequestDto deleteRequest)
+    public async Task DeleteEquipmentAsync(int id)
     {
         try
         {
-            var device = await deviceRepo.GetByIdAsync(deleteRequest.DeviceId) ?? throw new Exception();
+            var device = await deviceRepo.GetByIdAsync(id) ?? throw new EntityNotFoundException("Devices",id);
             await deviceRepo.DeleteAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
@@ -369,5 +370,20 @@ public class InventoryService : IInventoryService
         {
             throw new Exception("An error ocurred while tryng to delete the device");
         }
+    }
+    public async Task DisableEquipmentAsync(int id)
+    {
+        try
+        {
+            var device = await deviceRepo.GetByIdAsync(id) ?? throw new EntityNotFoundException("Devices", id);
+            device.Disable();
+            await deviceRepo.UpdateAsync(device);
+            await unitOfWork.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error ocurred while tryng to delete the device");
+        }
+
     }
 }

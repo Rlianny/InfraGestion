@@ -153,6 +153,20 @@ namespace Web.API.Controllers
                 return BadRequest($"{ex.Message}");
             }
         }
+        [HttpPost("disables{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DisableDevicesAsync(int id)
+        {
+            try
+            {
+                await inventoryService.DisableEquipmentAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+        }
         #endregion
         #region PUT
 
@@ -180,7 +194,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                await inventoryService.DeleteEquimentAsync( new DeleteDeviceRequestDto { DeviceId =id });
+                await inventoryService.DeleteEquipmentAsync(id);
                 return Ok();
             }
             catch (Exception ex)

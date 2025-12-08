@@ -34,11 +34,8 @@ namespace Infrastructure.Data
       {
          base.OnModelCreating(modelBuilder);
 
-         // Apply all configurations
-         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-         // Seed Roles
-         modelBuilder.Entity<Domain.Entities.Role>().HasData(
+            // Seed Roles
+            modelBuilder.Entity<Domain.Entities.Role>().HasData(
             new { RoleId = (int)RoleEnum.Technician, Name = "Technician" },
             new { RoleId = (int)RoleEnum.EquipmentReceiver, Name = "EquipmentReceiver" },
             new { RoleId = (int)RoleEnum.SectionManager, Name = "SectionManager" },

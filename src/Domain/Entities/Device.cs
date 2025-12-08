@@ -1,5 +1,6 @@
 ﻿using Domain.Aggregations;
 using Domain.Enums;
+using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -10,7 +11,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Domain.Entities
 {
-    public class Device
+    public class Device:SoftDeleteBase
     {
         public int DeviceId { get; private set; }
         public string Name { get; private set; }
@@ -18,7 +19,7 @@ namespace Domain.Entities
         public OperationalState OperationalState { get; private set; }
         public int DepartmentId { get; private set; }
         public DateTime AcquisitionDate { get; private set; }
-
+        public override bool IsDisabled { get; protected set; }
 
         public Device(string name, DeviceType type, OperationalState operationalState, int? departmentId, DateTime acquisitionDate)
         {

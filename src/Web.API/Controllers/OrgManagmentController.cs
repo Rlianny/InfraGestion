@@ -9,11 +9,11 @@ namespace Web.API.Controllers
     [ApiController]
     [Route("organization")]
     [Authorize(Roles = "Administrator")]
-    public class OrgManagmentController:BaseApiController
+    public class OrgManagmentController : BaseApiController
     {
         private readonly IOrgManagementService orgManagementService;
         public OrgManagmentController(IOrgManagementService orgManagementService)
-        { 
+        {
             this.orgManagementService = orgManagementService;
         }
 
@@ -48,11 +48,11 @@ namespace Web.API.Controllers
             }
         }
         #endregion
-        
+
         #region POST
         [HttpPost("sections")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreateSectionAsync([FromBody]SectionDto sectionDto)
+        public async Task<IActionResult> CreateSectionAsync([FromBody] SectionDto sectionDto)
         {
             try
             {
@@ -80,11 +80,39 @@ namespace Web.API.Controllers
         }
         [HttpPost("sections/managers")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AssignSectionResponsableAsync([FromBody]AssignSectionResponsibleDto assignSectionResponsibleDto)
+        public async Task<IActionResult> AssignSectionResponsableAsync([FromBody] AssignSectionResponsibleDto assignSectionResponsibleDto)
         {
             try
             {
                 await orgManagementService.AssignSectionResponsible(assignSectionResponsibleDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("sections/disables{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DisableSectionAsync(int id)
+        {
+            try
+            {
+                await orgManagementService.DisableSection(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("departments/disables{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DisableDepartmentAsync(int id)
+        {
+            try
+            {
+                await orgManagementService.DisableDepartment(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -111,7 +139,7 @@ namespace Web.API.Controllers
 
         [HttpPut("departments")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ModifyDepartmentAsync([FromBody]DepartmentDto departmentDto)
+        public async Task<IActionResult> ModifyDepartmentAsync([FromBody] DepartmentDto departmentDto)
         {
             try
             {
@@ -126,13 +154,13 @@ namespace Web.API.Controllers
 
         #endregion
         #region DELETE
-        [HttpDelete("departments")]
+        [HttpDelete("departments{id}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteDepartmentsAsync([FromBody] DepartmentDto departmentDto)
+        public async Task<IActionResult> DeleteDepartmentsAsync(int id)
         {
             try
             {
-                await orgManagementService.DisableDepartment(departmentDto);
+                await orgManagementService.DeleteDepartment(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -140,13 +168,13 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("sections")]
+        [HttpDelete("sections{id}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteSectionAsync([FromBody]SectionDto sectionDto)
+        public async Task<IActionResult> DeleteSectionAsync(int id)
         {
             try
             {
-                await orgManagementService.DisableSection(sectionDto);
+                await orgManagementService.DeleteSection(id);
                 return Ok();
             }
             catch (Exception ex)
