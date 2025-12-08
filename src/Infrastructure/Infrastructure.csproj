@@ -17,6 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="9.0.10" />
+    <PackageReference Include="QuestPDF" Version="2025.7.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
   </ItemGroup>
 </Project>

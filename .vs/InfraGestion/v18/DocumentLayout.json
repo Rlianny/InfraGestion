@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\application\\services\\implementations\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|solutionrelative:src\\application\\services\\implementations\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|c:\\users\\pc\\desktop\\quickacces\\infragestion\\src\\application\\services\\interfaces\\ireportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69A3D5E2-2358-4AC0-8134-D5751A63051C}|src\\Application\\Application.csproj|solutionrelative:src\\application\\services\\interfaces\\ireportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReportService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Implementations\\ReportService.cs",
+              "RelativeDocumentMoniker": "src\\Application\\Services\\Implementations\\ReportService.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Implementations\\ReportService.cs",
+              "RelativeToolTip": "src\\Application\\Services\\Implementations\\ReportService.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAowFcAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T20:28:00.797Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IReportService.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Interfaces\\IReportService.cs",
+              "RelativeDocumentMoniker": "src\\Application\\Services\\Interfaces\\IReportService.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\QuickAcces\\InfraGestion\\src\\Application\\Services\\Interfaces\\IReportService.cs",
+              "RelativeToolTip": "src\\Application\\Services\\Interfaces\\IReportService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAxwA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T20:16:04.183Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

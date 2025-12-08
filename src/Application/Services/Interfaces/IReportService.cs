@@ -11,5 +11,7 @@ namespace Application.Services.Interfaces
         Task<IEnumerable<DepartmentTransferReportDto>> GenerateDepartmentTransferReportAsync(string departmentId);
         Task<IEnumerable<CorrelationAnalysisReportDto>> GenerateCorrelationAnalysisReportAsync();
         Task<IEnumerable<BonusDeterminationReportDto>> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria);
+        Task<PdfReportDTO> ExportToPdf<T>(IEnumerable<T> table);
+
     }
 }
