@@ -3,7 +3,7 @@ namespace Application.DTOs.Transfer
 {
     public class TransferDto
     {
-        public TransferDto(int transferId, int deviceId, string deviceName, DateOnly transferDate, int sourceSectionId, string sourceSectionName, int destinationSectionId, string destinationSectionName, int deviceReceiverId, string deviceReceiverName, TransferStatus status)
+        public TransferDto(int transferId, int deviceId, string deviceName, DateTime transferDate, int sourceSectionId, string sourceSectionName, int destinationSectionId, string destinationSectionName, int deviceReceiverId, string deviceReceiverName, TransferStatus status)
         {
             TransferId = transferId;
             DeviceId = deviceId;
@@ -21,7 +21,7 @@ namespace Application.DTOs.Transfer
         public int TransferId { get; set; }
         public int DeviceId { get; set; }
         public string DeviceName { get; set; } = string.Empty;
-        public DateOnly TransferDate { get; set; }
+        public DateTime TransferDate { get; set; }
         public int SourceSectionId { get; set; }
         public string SourceSectionName { get; set; } = string.Empty;
         public int DestinationSectionId { get; set; }

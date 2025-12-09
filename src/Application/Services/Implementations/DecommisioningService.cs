@@ -4,11 +4,11 @@ using Domain.Aggregations;
 using Domain.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
+using AutoMapper.Configuration.Annotations;
 
 public class DecommissioningService : IDecommissioningService
 {
     private readonly IDecommissioningRequestRepository _requestRepository;
-    private readonly IDecommissioningRepository _decommissioningRepository;
     private readonly IDeviceRepository _deviceRepository;
     private readonly IUserRepository _userRepository;
     private readonly IDepartmentRepository _departmentRepository;
@@ -17,7 +17,6 @@ public class DecommissioningService : IDecommissioningService
 
     public DecommissioningService(
         IDecommissioningRequestRepository requestRepository,
-        IDecommissioningRepository decommissioningRepository,
         IDeviceRepository deviceRepository,
         IUserRepository userRepository,
         IDepartmentRepository departmentRepository,
@@ -25,7 +24,6 @@ public class DecommissioningService : IDecommissioningService
         IUnitOfWork unitOfWork)
     {
         _requestRepository = requestRepository;
-        _decommissioningRepository = decommissioningRepository;
         _deviceRepository = deviceRepository;
         _userRepository = userRepository;
         _departmentRepository = departmentRepository;
@@ -67,11 +65,6 @@ public class DecommissioningService : IDecommissioningService
 
         var receiver = await _userRepository.GetByIdAsync(receiverId)
             ?? throw new EntityNotFoundException("SectionManager", receiverId);
-        
-        if (string.IsNullOrWhiteSpace(request.Reason))
-        {
-            throw new DecommissioningValidationException("Reason is required for a decommissioning request");
-        }
 
         var decommissioningRequest = new DecommissioningRequest(
             request.TechnicianId,
@@ -89,7 +82,6 @@ public class DecommissioningService : IDecommissioningService
     {
         var allRequests = await _requestRepository.GetAllAsync();
         var pendingRequests = allRequests.Where(r => r.IsPending());
-
         return await MapToDto(pendingRequests);
     }
 
@@ -141,18 +133,6 @@ public class DecommissioningService : IDecommissioningService
         {
             request.Approve();
 
-            var decommissioning = new Decommissioning(
-                request.DeviceId,
-                request.DecommissioningRequestId,
-                request.DeviceReceiverId,
-                review.ReceiverDepartmentId ?? 1,
-                DateTime.Now,
-                review.DecommissioningReason ?? DecommissioningReason.EOL,
-                review.FinalDestination ?? "Storage"
-            );
-
-            await _decommissioningRepository.AddAsync(decommissioning);
-
             device.UpdateOperationalState(OperationalState.Decommissioned);
             await _deviceRepository.UpdateAsync(device);
         }
@@ -191,6 +171,25 @@ public class DecommissioningService : IDecommissioningService
 
         return dtos;
     }
+    private async Task<DecommissioningDto> MapRequestToDecommissioningDto(DecommissioningRequest decommissioningRequest)
+    {
+        var device = await _deviceRepository.GetByIdAsync(decommissioningRequest.DeviceId);
+        var user = await _userRepository.GetByIdAsync(decommissioningRequest.DeviceReceiverId);
+        var userDptmt = await _departmentRepository.GetByIdAsync(user.DepartmentId);
+        return new DecommissioningDto
+        {
+            DeviceId = decommissioningRequest.DeviceId,
+            DeviceName = device.Name,
+            DecommissioningRequestId = decommissioningRequest.DecommissioningRequestId,
+            DeviceReceiverId = decommissioningRequest.DeviceReceiverId,
+            DeviceReceiverName = user.FullName,
+            ReceiverDepartmentId = user.DepartmentId,
+            ReceiverDepartmentName = userDptmt.Name,
+            DecommissioningDate = DateTime.Now,
+            Reason = decommissioningRequest.Reason,
+            FinalDestination = null
+        };
+    }
     private DecommissioningStatus MapToDecommissioningStatus(RequestStatus status)
     {
         return status switch
@@ -206,73 +205,73 @@ public class DecommissioningService : IDecommissioningService
 
     public async Task<IEnumerable<DecommissioningDto>> GetAllDecommissioningsAsync()
     {
-        var decommissionings = await _decommissioningRepository.GetAllAsync();
-        return await MapDecommissioningsToDto(decommissionings);
+        var decommissionings = (await _requestRepository.GetAllAsync()).Where(decommissioningRequest => decommissioningRequest.IsApproved);
+        List<DecommissioningDto> decommissioningDtos = [];
+        foreach (var decommission in decommissionings)
+        {
+            var dto = await MapRequestToDecommissioningDto(decommission);
+            decommissioningDtos.Add(dto);
+        }
+        return decommissioningDtos;
     }
 
     public async Task<DecommissioningDto> GetDecommissioningByIdAsync(int decommissioningId)
     {
-        var decommissioning = await _decommissioningRepository.GetByIdAsync(decommissioningId)
+        var decommissioning = await _requestRepository.GetByIdAsync(decommissioningId)
             ?? throw new EntityNotFoundException("Decommissioning", decommissioningId);
 
-        return await MapDecommissioningToDto(decommissioning);
+        if (!decommissioning.IsApproved)
+        {
+            throw new EntityNotFoundException("Decommissioning Request not a Decommissioning", decommissioningId);
+        }
+        return await MapRequestToDecommissioningDto(decommissioning);
     }
 
     // There can only be ONE decommissioning per device
     public async Task<DecommissioningDto?> GetDecommissioningByDeviceIdAsync(int deviceId)
     {
-        var decommissioning = await _decommissioningRepository.GetDecommissioningByDeviceAsync(deviceId);
+        var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(deviceId)).Where(d => d.IsApproved);
         if (decommissioning == null)
-            return null;
-        return await MapDecommissioningToDto(decommissioning);
+        {
+            throw new Exception("No decommissions for this device");
+        }
+
+        return await MapRequestToDecommissioningDto(decommissioning.First());
     }
 
     public async Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-        var decommissionings = await _decommissioningRepository.GetDecommissioningsByDateRangeAsync(startDate, endDate);
-        return await MapDecommissioningsToDto(decommissionings);
+        var decommissionings = await _requestRepository.GetDecommissioningRequestsByDateRangeAsync(startDate, endDate);
+        List<DecommissioningDto> decommissioningDtos = [];
+        foreach (var decommission in decommissionings)
+        {
+            var dto = await MapRequestToDecommissioningDto(decommission);
+            decommissioningDtos.Add(dto);
+        }
+        return decommissioningDtos;
     }
 
     public async Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByDepartmentAsync(int departmentId)
     {
-        var decommissionings = await _decommissioningRepository.GetDecommissioningsByDepartmentAsync(departmentId);
-        return await MapDecommissioningsToDto(decommissionings);
+        var devices = (await _deviceRepository.GetAllAsync()).Where(d => d.DepartmentId == departmentId);
+
+        var decommissionings = new List<DecommissioningDto>();
+        foreach (var device in devices)
+        {
+            var decommissioningRequest = await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId);
+            var decommissioning = await MapRequestToDecommissioningDto(decommissioningRequest.Where(d => d.IsApproved).First());
+            if (decommissioning != null && device.DepartmentId == departmentId)
+            {
+                decommissionings.Add(decommissioning);
+            }
+        }
+        return decommissionings;
     }
 
     public async Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByReasonAsync(DecommissioningReason reason)
     {
-        var decommissionings = await _decommissioningRepository.GetDecommissioningsByReasonAsync(reason);
-        return await MapDecommissioningsToDto(decommissionings);
-    }
-    private async Task<DecommissioningDto> MapDecommissioningToDto(Decommissioning decommissioning)
-    {
-        var device = await _deviceRepository.GetByIdAsync(decommissioning.DeviceId);
-        var receiver = await _userRepository.GetByIdAsync(decommissioning.DeviceReceiverId);
-        var department = await _departmentRepository.GetByIdAsync(decommissioning.ReceiverDepartmentId);
-
-        return new DecommissioningDto
-        {
-            DecommissioningId = decommissioning.DecommissioningId,
-            DeviceId = decommissioning.DeviceId,
-            DeviceName = device?.Name ?? "Unknown",
-            DecommissioningRequestId = decommissioning.DecommissioningRequestId,
-            DeviceReceiverId = decommissioning.DeviceReceiverId,
-            DeviceReceiverName = receiver?.FullName ?? "Unknown",
-            ReceiverDepartmentId = decommissioning.ReceiverDepartmentId,
-            ReceiverDepartmentName = department?.Name ?? "Unknown",
-            DecommissioningDate = decommissioning.DecommissioningDate,
-            Reason = decommissioning.Reason,
-            FinalDestination = decommissioning.FinalDestination
-        };
-    }
-    private async Task<IEnumerable<DecommissioningDto>> MapDecommissioningsToDto(IEnumerable<Decommissioning> decommissionings)
-    {
-        var dtos = new List<DecommissioningDto>();
-        foreach (var decommissioning in decommissionings)
-        {
-            dtos.Add(await MapDecommissioningToDto(decommissioning));
-        }
-        return dtos;
+       // var decommissionings = await _requestRepository.GetDecommissioningRequestByReasinAsync();
+        return new List<DecommissioningDto>();
     }
 
     #endregion

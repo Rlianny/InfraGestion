@@ -52,13 +52,36 @@ namespace Application.Services.Implementations
             var maintenanceRecords = await maintenanceRecordRepository.GetMaintenancesByTechnicianAsync(technicianId);
             var decommissioningRequests = await decommissioningRequestRepository.GetDecommissioningRequestsByTechnicianAsync(technicianId);
 
+            // Preload devices and receivers to enrich DTOs with names
+            var deviceIds = maintenanceRecords.Select(m => m.DeviceId)
+                .Concat(decommissioningRequests.Select(d => d.DeviceId))
+                .Distinct()
+                .ToList();
+
+            var deviceLookup = new Dictionary<int, Domain.Entities.Device?>();
+            foreach (var deviceId in deviceIds)
+            {
+                var device = await devicesRepository.GetByIdAsync(deviceId);
+                deviceLookup[deviceId] = device;
+            }
+
+            var receiverIds = decommissioningRequests.Select(d => d.DeviceReceiverId).Distinct().ToList();
+            var receiverLookup = new Dictionary<int, User?>();
+            foreach (var receiverId in receiverIds)
+            {
+                var receiver = await userRepository.GetByIdAsync(receiverId);
+                receiverLookup[receiverId] = receiver;
+            }
+
             var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
             foreach (var record in maintenanceRecords)
             {
+                deviceLookup.TryGetValue(record.DeviceId, out var device);
                 var dto = new MaintenanceRecordDto
                 {
                     MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
+                    DeviceName = device?.Name ?? $"Equipo {record.DeviceId}",
                     Description = record.Description,
                     MaintenanceDate = record.Date,
                     TechnicianId = technicianId,
@@ -72,14 +95,20 @@ namespace Application.Services.Implementations
             var decommissioningRequestDtos = new List<DecommissioningRequestDto>();
             foreach (var request in decommissioningRequests)
             {
+                deviceLookup.TryGetValue(request.DeviceId, out var device);
+                receiverLookup.TryGetValue(request.DeviceReceiverId, out var receiver);
                 var dto = new DecommissioningRequestDto
                 {
                     DecommissioningRequestId = request.DecommissioningRequestId,
                     DeviceId = request.DeviceId,
+                    DeviceName = device?.Name ?? $"Equipo {request.DeviceId}",
                     Reason = request.Reason,
                     RequestDate = request.Date,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
+                    DeviceReceiverId = request.DeviceReceiverId,
+                    DeviceReceiverName = receiver?.FullName ?? $"Usuario {request.DeviceReceiverId}",
+                   // IsApproved = request.IsApproved,
                     Status = MapToDecommissioningStatus(request.Status)
                 };
                 decommissioningRequestDtos.Add(dto);
@@ -229,14 +258,27 @@ namespace Application.Services.Implementations
             var technician = await technicianRepository.GetByIdAsync(technicianId)
                 ?? throw new EntityNotFoundException("Technician", technicianId);
             var ratings = await performanceRatingRepository.GetRatingsByTechnicianAsync(technicianId);
+
+            // Preload givers to avoid n+1
+            var giverIds = ratings.Select(r => r.UserId).Distinct().ToList();
+            var giverLookup = new Dictionary<int, User?>();
+            foreach (var giverId in giverIds)
+            {
+                giverLookup[giverId] = await userRepository.GetByIdAsync(giverId);
+            }
+
             var ratingDtos = new List<RateDto>();
             foreach (var rating in ratings)
             {
+                giverLookup.TryGetValue(rating.UserId, out var giver);
                 var dto = new RateDto
                 {
+                    RateId = rating.PerformanceRatingId,
                     GiverId = rating.UserId,
-                    Rate = rating.Score,
-                    Comment = rating.Description
+                    GiverName = giver?.FullName ?? $"Usuario {rating.UserId}",
+                    Score = rating.Score,
+                    Comment = rating.Description,
+                    Date = rating.Date
                 };
                 ratingDtos.Add(dto);
             }

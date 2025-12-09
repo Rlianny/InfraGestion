@@ -150,7 +150,7 @@ namespace Application.Services.Implementations
                 ?? throw new EntityNotFoundException("User", request.DeviceReceiverUsername);
 
             await transferRepository.AddAsync(new Transfer(
-                DateOnly.FromDateTime(request.TransferDate),
+                request.TransferDate,
                 device.DeviceId,
                 sourceSection.SectionId,
                 destinationSection.SectionId,

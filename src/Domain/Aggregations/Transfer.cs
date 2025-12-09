@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Aggregations
 {
-    public class Transfer:SoftDeleteBase
+    public class Transfer : SoftDeleteBase
     {
-        public Transfer(DateOnly dateTime, int deviceId, int sourceSectionId, int destinationSectionId, int deviceReceiverId)
+        public Transfer(DateTime dateTime, int deviceId, int sourceSectionId, int destinationSectionId, int deviceReceiverId)
         {
             ValidateTransferDate(Date);
             Status = Enums.TransferStatus.Pending;
@@ -25,7 +25,7 @@ namespace Domain.Aggregations
         }
 
         public int DeviceId { get; private set; }
-        public DateOnly Date { get; private set; }
+        public DateTime Date { get; private set; }
         public int SourceSectionId { get; private set; }
         public int DestinationSectionId { get; private set; }
         public int TransferId { get; private set; }
@@ -33,9 +33,9 @@ namespace Domain.Aggregations
         public Enums.TransferStatus Status { get; private set; }
         public override bool IsDisabled { get; set; }
 
-        private void ValidateTransferDate(DateOnly date)
+        private void ValidateTransferDate(DateTime date)
         {
-            if (date > DateOnly.FromDateTime(DateTime.Now.AddDays(30)))
+            if (date > DateTime.Now)
                 throw new ArgumentException("Transfer date cannot be more than 30 days in the future", nameof(date));
         }
 

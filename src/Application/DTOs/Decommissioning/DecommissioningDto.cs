@@ -4,7 +4,6 @@ namespace Application.DTOs.Decommissioning
 {
     public class DecommissioningDto
     {
-        public int DecommissioningId { get; set; }
         public int DeviceId { get; set; }
         public string DeviceName { get; set; } = string.Empty;
         public int DecommissioningRequestId { get; set; }

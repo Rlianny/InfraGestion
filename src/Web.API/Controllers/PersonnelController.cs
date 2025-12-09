@@ -95,7 +95,7 @@ namespace Web.API.Controllers
             try
             {
                 var technicianDetails = await _personnelService.GetTechnicianDetailAsync(technicianId);
-                return Ok(technicianDetails);
+                return Ok(ApiResponse<TechnicianDetailDto>.Ok(technicianDetails));
             }
             catch (Exception ex)
             {

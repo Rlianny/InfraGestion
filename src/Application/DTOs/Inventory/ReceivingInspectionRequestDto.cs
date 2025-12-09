@@ -10,9 +10,9 @@ public class ReceivingInspectionRequestDto
     public int UserId { get; set; }
     public int TechnicianId { get; set; }
     public InspectionRequestStatus Status { get; set; }
-    public string RejectReason { get; set; }
+    public DecommissioningReason RejectReason { get; set; }
 
-    public ReceivingInspectionRequestDto(int requestId, DateTime requestDate, int deviceId, int userId, int technicianId, InspectionRequestStatus status, string rejectReason)
+    public ReceivingInspectionRequestDto(int requestId, DateTime requestDate, int deviceId, int userId, int technicianId, InspectionRequestStatus status, DecommissioningReason rejectReason)
     {
         RequestId = requestId;
         RequestDate = requestDate;

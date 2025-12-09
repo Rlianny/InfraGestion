@@ -17,38 +17,6 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
-            modelBuilder.Entity("Domain.Aggregations.Decommissioning", b =>
-                {
-                    b.Property<int>("DecommissioningId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DecommissioningDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DecommissioningRequestId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DeviceId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DeviceReceiverId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FinalDestination")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Reason")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ReceiverDepartmentId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DecommissioningId");
-
-                    b.ToTable("Decommissionings");
-                });
-
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
                 {
                     b.Property<int>("DecommissioningRequestId")
@@ -64,9 +32,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Reason")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
@@ -137,9 +107,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("EmissionDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RejectReason")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RejectReason")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("RejectionDate")
                         .HasColumnType("TEXT");
@@ -187,7 +156,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DestinationSectionId")

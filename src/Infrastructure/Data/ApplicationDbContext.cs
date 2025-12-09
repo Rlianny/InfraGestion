@@ -24,7 +24,6 @@ namespace Infrastructure.Data
       // Aggregations
       public DbSet<Transfer> Transfers { get; set; }
       public DbSet<MaintenanceRecord> Mainteinances { get; set; }
-      public DbSet<Decommissioning> Decommissionings { get; set; }
       public DbSet<DecommissioningRequest> DecommissioningRequests { get; set; }
       public DbSet<ReceivingInspectionRequest> ReceivingInspectionRequests { get; set; }
       public DbSet<Rejection> Rejections { get; set; }

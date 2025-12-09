@@ -11,8 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
     [Migration("20251208080443_FixSeedDataIsDisabled")]
     partial class FixSeedDataIsDisabled
+========
+    [Migration("20251209035911_InitialCreate")]
+    partial class InitialCreate
+>>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +25,7 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
+<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
             modelBuilder.Entity("Domain.Aggregations.Decommissioning", b =>
                 {
                     b.Property<int>("DecommissioningId")
@@ -52,6 +58,8 @@ namespace Infrastructure.Migrations
                     b.ToTable("Decommissionings");
                 });
 
+========
+>>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
                 {
                     b.Property<int>("DecommissioningRequestId")
@@ -67,9 +75,17 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
+<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("TEXT");
+========
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Reason")
+                        .HasColumnType("INTEGER");
+>>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
@@ -140,9 +156,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("EmissionDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RejectReason")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RejectReason")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("RejectionDate")
                         .HasColumnType("TEXT");
@@ -190,7 +205,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DestinationSectionId")

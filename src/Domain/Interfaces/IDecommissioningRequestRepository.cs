@@ -9,5 +9,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<DecommissioningRequest>> GetPendingDecommissioningRequestsAsync(CancellationToken cancellationToken = default);
         Task<IEnumerable<DecommissioningRequest>> GetDecommissioningRequestsByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
         Task<int> CountPendingDecommissioningRequestsAsync(CancellationToken cancellationToken = default);
+        
     }
 }

@@ -25,6 +25,8 @@ namespace Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(500);
 
+            builder.Property(dr => dr.IsApproved)
+            .HasDefaultValue(false);
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()

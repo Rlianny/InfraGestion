@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Domain.Aggregations
         public DateTime? AcceptedDate { get; private set; }
         public DateTime? RejectionDate { get; private set; }
         public Enums.InspectionRequestStatus Status { get; private set; }
-        public string RejectReason { get; private set; }
+        public DecommissioningReason RejectReason { get; private set; }
         private void ValidateDate(DateTime date)
         {
             if (date > DateTime.Now)
@@ -49,7 +50,7 @@ namespace Domain.Aggregations
             Status = Enums.InspectionRequestStatus.Accepted;
         }
 
-        public void Reject(string reason)
+        public void Reject(DecommissioningReason reason)
         {
             if (Status != Enums.InspectionRequestStatus.Pending)
                 throw new InvalidOperationException("Only pending inspections can be rejected");

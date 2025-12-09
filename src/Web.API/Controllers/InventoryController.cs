@@ -26,11 +26,11 @@ namespace Web.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetInventoryAsync()
+        public async Task<IActionResult> GetInventoryAsync(int userID)
         {
             try
             {
-                var devices = await inventoryService.GetCompanyInventoryAsync();
+                var devices = await inventoryService.GetCompanyInventoryAsync(userID);
                 return Ok(devices);
             }
             catch (Exception ex)
@@ -55,6 +55,34 @@ namespace Web.API.Controllers
             }
         }
 
+        [HttpGet("FirstInspection/technicianId")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetReceivingInspectionRequestByTechnician(int technicianId)
+        {
+            try
+            {
+                return Ok(await inventoryService.GetReceivingInspectionRequestsByTechnicianAsync(technicianId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("FirstInspection/adminId")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetReceivingInspectionRequestByAdmin(int adminId)
+        {
+            try
+            {
+                return Ok(await inventoryService.GetReceivingInspectionRequestsByAdminAsync(adminId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDetailDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDeviceDetailAsync(int id)
@@ -70,15 +98,14 @@ namespace Web.API.Controllers
             }
         }
 
-
         [HttpGet("company/devices")]
         [Authorize(Roles = "Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCompanyDevicesAsync()
+        public async Task<IActionResult> GetCompanyDevicesAsync(int userID)
         {
             try
             {
-                var devices = await inventoryService.GetCompanyInventoryAsync();
+                var devices = await inventoryService.GetCompanyInventoryAsync(userID);
                 return Ok(devices);
             }
             catch (Exception ex)
@@ -184,6 +211,24 @@ namespace Web.API.Controllers
                 return BadRequest($"{ex.Message}");
             }
         }
+
+        [HttpPost("ProcessFirstInspection")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ProcessFirstInspection(InspectionDecisionRequestDto inspectionReviewRequestDto)
+        {
+            try
+            {
+                await inventoryService.ProcessInspectionDecisionAsync(inspectionReviewRequestDto);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+
         #endregion
         #region PUT
 
@@ -202,6 +247,9 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
         #endregion
         #region DELETE
         [HttpDelete]

@@ -55,11 +55,8 @@ namespace Infrastructure.Repositories
             CancellationToken cancellationToken = default
         )
         {
-            var startDateOnly = DateOnly.FromDateTime(startDate);
-            var endDateOnly = DateOnly.FromDateTime(endDate);
-
             return await _dbSet
-                .Where(t => t.Date >= startDateOnly && t.Date <= endDateOnly)
+                .Where(t => t.Date >= startDate && t.Date <= endDate)
                 .ToListAsync(cancellationToken);
         }
 
