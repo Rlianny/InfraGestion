@@ -132,14 +132,17 @@ public class InventoryService : IInventoryService
             if (user.IsTechnician || user.IsSectionManager)
             {
                 var dep = await departmentRepository.GetByIdAsync(user.DepartmentId);
+                System.Console.WriteLine(dep.SectionId);
                 foreach (var d in devices)
                 {
                     var depart = await departmentRepository.GetByIdAsync(d.DepartmentId);
                     if (depart.SectionId == dep.SectionId)
                     {
-                        finalDevices.Append(d);
+                        System.Console.WriteLine("Add device " + d.Name);
+                        finalDevices = finalDevices.Append(d);
                     }
                 }
+               
             }
 
             else if (user.IsAdministrator)
@@ -166,6 +169,7 @@ public class InventoryService : IInventoryService
         try
         {
             var device = await deviceRepo.GetByIdAsync(deviceID) ?? throw new Exception("Device not found");
+            System.Console.WriteLine(device.Name);
             var department = await departmentRepository.GetByIdAsync(device.DepartmentId) ?? throw new Exception("Department not found");
             var maintenanceHistory = await maintenanceRepo.GetMaintenancesByDeviceAsync(device.DeviceId);
 

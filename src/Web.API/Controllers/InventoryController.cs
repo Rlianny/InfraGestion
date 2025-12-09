@@ -30,7 +30,9 @@ namespace Web.API.Controllers
         {
             try
             {
+                System.Console.WriteLine(userID);
                 var devices = await inventoryService.GetCompanyInventoryAsync(userID);
+                System.Console.WriteLine(devices.Count());
                 return Ok(devices);
             }
             catch (Exception ex)
@@ -83,7 +85,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("deviceDetail/{id}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDetailDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDeviceDetailAsync(int id)
         {
