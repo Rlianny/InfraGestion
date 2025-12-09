@@ -436,4 +436,17 @@ public class InventoryService : IInventoryService
     {
         return (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByTechnicianAsync(technicianId)).Where(p => p.Status == InspectionRequestStatus.Pending).Select(MapReceivingToReceivingDto);
     }
+
+    public async Task<IEnumerable<DeviceDto>> GetRevisedDevicesByAdmin(int adminId)
+    {
+        var insp = (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByAdministratorAsync(adminId)).Where(r => r.IsPending());
+        List<DeviceDto> devices = [];
+        foreach (var item in insp)
+        {
+            var device = await deviceRepo.GetByIdAsync(item.DeviceId);
+            var dpt = await departmentRepository.GetByIdAsync(device.DepartmentId);
+            devices.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, dpt.Name));
+        }
+        return devices;
+    }
 }
