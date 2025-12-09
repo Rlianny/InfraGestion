@@ -142,7 +142,7 @@ public class InventoryService : IInventoryService
                         finalDevices = finalDevices.Append(d);
                     }
                 }
-               
+
             }
 
             else if (user.IsAdministrator)
@@ -431,5 +431,9 @@ public class InventoryService : IInventoryService
     public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetReceivingInspectionRequestsByAdminAsync(int adminId)
     {
         return (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByAdministratorAsync(adminId)).Select(MapReceivingToReceivingDto);
+    }
+    public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetPendingReceivingInspectionRequestByTechnicianAsync(int technicianId)
+    {
+        return (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByTechnicianAsync(technicianId)).Where(p => p.Status == InspectionRequestStatus.Pending).Select(MapReceivingToReceivingDto);
     }
 }

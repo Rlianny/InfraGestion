@@ -57,13 +57,13 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("FirstInspection/technicianId")]
+        [HttpGet("pendingFirstInspection/technicianId")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetReceivingInspectionRequestByTechnician(int technicianId)
+        public async Task<IActionResult> GetPendingReceivingInspectionRequestByTechnician(int technicianId)
         {
             try
             {
-                return Ok(await inventoryService.GetReceivingInspectionRequestsByTechnicianAsync(technicianId));
+                return Ok(await inventoryService.GetPendingReceivingInspectionRequestByTechnicianAsync(technicianId));
             }
             catch (Exception e)
             {
@@ -71,7 +71,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("FirstInspection/adminId")]
+        [HttpGet("firstInspection/adminId")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetReceivingInspectionRequestByAdmin(int adminId)
         {
