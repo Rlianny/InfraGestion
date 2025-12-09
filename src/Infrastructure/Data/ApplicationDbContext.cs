@@ -170,39 +170,45 @@ namespace Infrastructure.Data
             new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false }
          );
 
-         // Seed Mainteinance - Usa DateOnly creados correctamente
-         // modelBuilder.Entity<MaintenanceRecord>().HasData(
-         //    new { TechnicianId = -12, DeviceId = -1, Date = new DateOnly(2020, 12, 30), Cost = 0.0, Type = "Preventivo", MaintenanceRecordId = -1 },
-         //    new { TechnicianId = -13, DeviceId = -2, Date = new DateOnly(2022, 5, 13), Cost = 100.0, Type = "Correctivo", MaintenanceRecordId = -2 },
-         //    new { TechnicianId = -14, DeviceId = -3, Date = new DateOnly(2022, 10, 10), Cost = 20.0, Type = "Correctivo", MaintenanceRecordId = -3 },
-         //    new { TechnicianId = -15, DeviceId = -4, Date = new DateOnly(2021, 5, 11), Cost = 10.5, Type = "Preventivo", MaintenanceRecordId = -4 },
-         //    new { TechnicianId = -16, DeviceId = -5, Date = new DateOnly(2020, 8, 24), Cost = 0.0, Type = "Correctivo", MaintenanceRecordId = -5 },
-         //    new { TechnicianId = -14, DeviceId = -5, Date = new DateOnly(2022, 7, 18), Cost = 0.0, Type = "Correctivo", MaintenanceRecordId = -6 }
-         // );
+         modelBuilder.Entity<MaintenanceRecord>().HasData(
+            new { MaintenanceRecordId = -1, TechnicianId = -12, DeviceId = -1, Date = new DateTime(2025, 1, 5, 0, 0, 0, DateTimeKind.Utc), Cost = 120.0, Type = MaintenanceType.Preventive, Description = "Chequeo de enlaces y limpieza de puertos" },
+            new { MaintenanceRecordId = -2, TechnicianId = -13, DeviceId = -2, Date = new DateTime(2025, 2, 10, 0, 0, 0, DateTimeKind.Utc), Cost = 450.0, Type = MaintenanceType.Corrective, Description = "Reemplazo de módulo RAID" },
+            new { MaintenanceRecordId = -3, TechnicianId = -14, DeviceId = -3, Date = new DateTime(2025, 3, 15, 0, 0, 0, DateTimeKind.Utc), Cost = 210.0, Type = MaintenanceType.Preventive, Description = "Actualización de firmware y pruebas de firewall" },
+            new { MaintenanceRecordId = -4, TechnicianId = -15, DeviceId = -4, Date = new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Utc), Cost = 80.0, Type = MaintenanceType.Corrective, Description = "Calibración y reemplazo de baterías UPS" },
+            new { MaintenanceRecordId = -5, TechnicianId = -16, DeviceId = -5, Date = new DateTime(2025, 5, 12, 0, 0, 0, DateTimeKind.Utc), Cost = 150.0, Type = MaintenanceType.Predictive, Description = "Ajuste de antena y verificación de potencia" },
+            new { MaintenanceRecordId = -6, TechnicianId = -12, DeviceId = -6, Date = new DateTime(2025, 6, 20, 0, 0, 0, DateTimeKind.Utc), Cost = 60.0, Type = MaintenanceType.Preventive, Description = "Revisión de calibración del analizador" }
+         );
 
-         // // Seed DecommissioningRequest
-         // modelBuilder.Entity<DecommissioningRequest>().HasData(
-         //    new { DecommissioningRequestId = -1, TechnicianId = -14, DeviceId = -3, DeviceReceiverId = -19, Date = dateInSevenDaysBefore },
-         //    new { DecommissioningRequestId = -2, TechnicianId = -15, DeviceId = -4, DeviceReceiverId = -20, Date = dateInFiveDaysBefore }
-         // );
+         modelBuilder.Entity<DecommissioningRequest>().HasData(
+            new { DecommissioningRequestId = -1, TechnicianId = -14, DeviceId = -4, DeviceReceiverId = -19, Date = new DateTime(2025, 1, 20, 0, 0, 0, DateTimeKind.Utc), Status = RequestStatus.Approved, Reason = DecommissioningReason.SeverePhysicalDamage, IsApproved = true, UserId = -1 },
+            new { DecommissioningRequestId = -2, TechnicianId = -15, DeviceId = -3, DeviceReceiverId = -18, Date = new DateTime(2025, 2, 5, 0, 0, 0, DateTimeKind.Utc), Status = RequestStatus.Pending, Reason = DecommissioningReason.TechnologicalObsolescence, IsApproved = false, UserId = (int?)null },
+            new { DecommissioningRequestId = -3, TechnicianId = -16, DeviceId = -5, DeviceReceiverId = -17, Date = new DateTime(2025, 3, 10, 0, 0, 0, DateTimeKind.Utc), Status = RequestStatus.Rejected, Reason = DecommissioningReason.ExcessiveRepairCost, IsApproved = false, UserId = -2 }
+         );
 
-         // // Seed Decommissioning
-         // modelBuilder.Entity<Decommissioning>().HasData(
-         //    new { DecommissioningId = -1, DeviceId = -4, DecommissioningRequestId = -2, DeviceReceiverId = -20, ReceiverDepartmentId = -23, DecommissioningDate = dateInFiveDaysBefore, Reason = DecommissioningReason.SeverePhysicalDamage, FinalDestination = "Reciclaje" }
-         // );
+         modelBuilder.Entity<Transfer>().HasData(
+            new { TransferId = -1, DeviceId = -1, Date = new DateTime(2025, 1, 8, 0, 0, 0, DateTimeKind.Utc), SourceSectionId = -1, DestinationSectionId = -2, DeviceReceiverId = -17, Status = TransferStatus.InTransit, IsDisabled = false },
+            new { TransferId = -2, DeviceId = -2, Date = new DateTime(2025, 2, 12, 0, 0, 0, DateTimeKind.Utc), SourceSectionId = -6, DestinationSectionId = -3, DeviceReceiverId = -18, Status = TransferStatus.Completed, IsDisabled = false },
+            new { TransferId = -3, DeviceId = -5, Date = new DateTime(2025, 3, 18, 0, 0, 0, DateTimeKind.Utc), SourceSectionId = -4, DestinationSectionId = -5, DeviceReceiverId = -19, Status = TransferStatus.Pending, IsDisabled = false }
+         );
 
+         modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
+            new { ReceivingInspectionRequestId = -1, DeviceId = -1, AdministratorId = -1, TechnicianId = -12, EmissionDate = new DateTime(2025, 1, 2, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.IrreparableTechnicalFailure },
+            new { ReceivingInspectionRequestId = -2, DeviceId = -2, AdministratorId = -2, TechnicianId = -13, EmissionDate = new DateTime(2025, 2, 15, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 2, 17, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
+            new { ReceivingInspectionRequestId = -3, DeviceId = -3, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 3, 20, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = new DateTime(2025, 3, 22, 0, 0, 0, DateTimeKind.Utc), Status = InspectionRequestStatus.Rejected, RejectReason = DecommissioningReason.ExcessiveRepairCost }
+         );
 
-         // // Seed ReceivingInspectionRequest
-         // modelBuilder.Entity<ReceivingInspectionRequest>().HasData(
-         // );
+         modelBuilder.Entity<Rejection>().HasData(
+            new { RejectionId = -1, DeviceReceiverId = -19, TechnicianId = -15, DeviceId = -3, DecommissioningRequestDate = new DateTime(2025, 2, 5, 0, 0, 0, DateTimeKind.Utc), RejectionDate = new DateTime(2025, 2, 10, 0, 0, 0, DateTimeKind.Utc) },
+            new { RejectionId = -2, DeviceReceiverId = -17, TechnicianId = -16, DeviceId = -5, DecommissioningRequestDate = new DateTime(2025, 3, 10, 0, 0, 0, DateTimeKind.Utc), RejectionDate = new DateTime(2025, 3, 15, 0, 0, 0, DateTimeKind.Utc) }
+         );
 
-         // // Seed Rejection
-         // modelBuilder.Entity<Rejection>().HasData(
-         // );
-
-         // // Seed PerformanceRating
-         // modelBuilder.Entity<PerformanceRating>().HasData(
-         // );
+         modelBuilder.Entity<PerformanceRating>().HasData(
+            new { PerformanceRatingId = -1, UserId = -7, TechnicianId = -12, Date = new DateTime(2025, 1, 10, 0, 0, 0, DateTimeKind.Utc), Score = 4.8, Description = "Excelente trabajo en red troncal" },
+            new { PerformanceRatingId = -2, UserId = -8, TechnicianId = -13, Date = new DateTime(2025, 2, 12, 0, 0, 0, DateTimeKind.Utc), Score = 3.9, Description = "Buen manejo de servidores" },
+            new { PerformanceRatingId = -3, UserId = -9, TechnicianId = -14, Date = new DateTime(2025, 3, 18, 0, 0, 0, DateTimeKind.Utc), Score = 2.5, Description = "Mejorar tiempos de respuesta" },
+            new { PerformanceRatingId = -4, UserId = -10, TechnicianId = -15, Date = new DateTime(2025, 4, 22, 0, 0, 0, DateTimeKind.Utc), Score = 4.2, Description = "Cumplimiento en ciberseguridad" },
+            new { PerformanceRatingId = -5, UserId = -11, TechnicianId = -16, Date = new DateTime(2025, 5, 5, 0, 0, 0, DateTimeKind.Utc), Score = 4.0, Description = "Trabajo constante en fibra" }
+         );
       }
    }
 }

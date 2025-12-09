@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
-    [Migration("20251208080443_FixSeedDataIsDisabled")]
-    partial class FixSeedDataIsDisabled
-========
-    [Migration("20251209035911_InitialCreate")]
-    partial class InitialCreate
->>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
+    [Migration("20251209161503_InitialFullSeed")]
+    partial class InitialFullSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,41 +20,6 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
-<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
-            modelBuilder.Entity("Domain.Aggregations.Decommissioning", b =>
-                {
-                    b.Property<int>("DecommissioningId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DecommissioningDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DecommissioningRequestId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DeviceId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DeviceReceiverId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FinalDestination")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Reason")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ReceiverDepartmentId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DecommissioningId");
-
-                    b.ToTable("Decommissionings");
-                });
-
-========
->>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
             modelBuilder.Entity("Domain.Aggregations.DecommissioningRequest", b =>
                 {
                     b.Property<int>("DecommissioningRequestId")
@@ -75,17 +35,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
-<<<<<<<< HEAD:src/Infrastructure/Migrations/20251208080443_FixSeedDataIsDisabled.Designer.cs
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-========
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Reason")
                         .HasColumnType("INTEGER");
->>>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.Designer.cs
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
@@ -101,6 +55,43 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("DecommissioningRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            DecommissioningRequestId = -1,
+                            Date = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -4,
+                            DeviceReceiverId = -19,
+                            IsApproved = true,
+                            Reason = 4,
+                            Status = 1,
+                            TechnicianId = -14,
+                            UserId = -1
+                        },
+                        new
+                        {
+                            DecommissioningRequestId = -2,
+                            Date = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -3,
+                            DeviceReceiverId = -18,
+                            IsApproved = false,
+                            Reason = 1,
+                            Status = 0,
+                            TechnicianId = -15
+                        },
+                        new
+                        {
+                            DecommissioningRequestId = -3,
+                            Date = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -5,
+                            DeviceReceiverId = -17,
+                            IsApproved = false,
+                            Reason = 3,
+                            Status = 2,
+                            TechnicianId = -16,
+                            UserId = -2
+                        });
                 });
 
             modelBuilder.Entity("Domain.Aggregations.MaintenanceRecord", b =>
@@ -136,6 +127,68 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Mainteinances");
+
+                    b.HasData(
+                        new
+                        {
+                            MaintenanceRecordId = -1,
+                            Cost = 120.0,
+                            Date = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Chequeo de enlaces y limpieza de puertos",
+                            DeviceId = -1,
+                            TechnicianId = -12,
+                            Type = 0
+                        },
+                        new
+                        {
+                            MaintenanceRecordId = -2,
+                            Cost = 450.0,
+                            Date = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Reemplazo de módulo RAID",
+                            DeviceId = -2,
+                            TechnicianId = -13,
+                            Type = 1
+                        },
+                        new
+                        {
+                            MaintenanceRecordId = -3,
+                            Cost = 210.0,
+                            Date = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Actualización de firmware y pruebas de firewall",
+                            DeviceId = -3,
+                            TechnicianId = -14,
+                            Type = 0
+                        },
+                        new
+                        {
+                            MaintenanceRecordId = -4,
+                            Cost = 80.0,
+                            Date = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Calibración y reemplazo de baterías UPS",
+                            DeviceId = -4,
+                            TechnicianId = -15,
+                            Type = 1
+                        },
+                        new
+                        {
+                            MaintenanceRecordId = -5,
+                            Cost = 150.0,
+                            Date = new DateTime(2025, 5, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Ajuste de antena y verificación de potencia",
+                            DeviceId = -5,
+                            TechnicianId = -16,
+                            Type = 2
+                        },
+                        new
+                        {
+                            MaintenanceRecordId = -6,
+                            Cost = 60.0,
+                            Date = new DateTime(2025, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Revisión de calibración del analizador",
+                            DeviceId = -6,
+                            TechnicianId = -12,
+                            Type = 0
+                        });
                 });
 
             modelBuilder.Entity("Domain.Aggregations.ReceivingInspectionRequest", b =>
@@ -171,6 +224,40 @@ namespace Infrastructure.Migrations
                     b.HasKey("ReceivingInspectionRequestId");
 
                     b.ToTable("ReceivingInspectionRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            ReceivingInspectionRequestId = -1,
+                            AdministratorId = -1,
+                            DeviceId = -1,
+                            EmissionDate = new DateTime(2025, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RejectReason = 0,
+                            Status = 2,
+                            TechnicianId = -12
+                        },
+                        new
+                        {
+                            ReceivingInspectionRequestId = -2,
+                            AcceptedDate = new DateTime(2025, 2, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AdministratorId = -2,
+                            DeviceId = -2,
+                            EmissionDate = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RejectReason = 6,
+                            Status = 0,
+                            TechnicianId = -13
+                        },
+                        new
+                        {
+                            ReceivingInspectionRequestId = -3,
+                            AdministratorId = -3,
+                            DeviceId = -3,
+                            EmissionDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RejectReason = 3,
+                            RejectionDate = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Status = 1,
+                            TechnicianId = -14
+                        });
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Rejection", b =>
@@ -197,6 +284,26 @@ namespace Infrastructure.Migrations
                     b.HasKey("RejectionId");
 
                     b.ToTable("Rejections");
+
+                    b.HasData(
+                        new
+                        {
+                            RejectionId = -1,
+                            DecommissioningRequestDate = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -3,
+                            DeviceReceiverId = -19,
+                            RejectionDate = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            TechnicianId = -15
+                        },
+                        new
+                        {
+                            RejectionId = -2,
+                            DecommissioningRequestDate = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -5,
+                            DeviceReceiverId = -17,
+                            RejectionDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            TechnicianId = -16
+                        });
                 });
 
             modelBuilder.Entity("Domain.Aggregations.Transfer", b =>
@@ -229,6 +336,41 @@ namespace Infrastructure.Migrations
                     b.HasKey("TransferId");
 
                     b.ToTable("Transfers");
+
+                    b.HasData(
+                        new
+                        {
+                            TransferId = -1,
+                            Date = new DateTime(2025, 1, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DestinationSectionId = -2,
+                            DeviceId = -1,
+                            DeviceReceiverId = -17,
+                            IsDisabled = false,
+                            SourceSectionId = -1,
+                            Status = 3
+                        },
+                        new
+                        {
+                            TransferId = -2,
+                            Date = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DestinationSectionId = -3,
+                            DeviceId = -2,
+                            DeviceReceiverId = -18,
+                            IsDisabled = false,
+                            SourceSectionId = -6,
+                            Status = 4
+                        },
+                        new
+                        {
+                            TransferId = -3,
+                            Date = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DestinationSectionId = -5,
+                            DeviceId = -5,
+                            DeviceReceiverId = -19,
+                            IsDisabled = false,
+                            SourceSectionId = -4,
+                            Status = 2
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Department", b =>
@@ -552,6 +694,53 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Assessments");
+
+                    b.HasData(
+                        new
+                        {
+                            PerformanceRatingId = -1,
+                            Date = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Excelente trabajo en red troncal",
+                            Score = 4.7999999999999998,
+                            TechnicianId = -12,
+                            UserId = -7
+                        },
+                        new
+                        {
+                            PerformanceRatingId = -2,
+                            Date = new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Buen manejo de servidores",
+                            Score = 3.8999999999999999,
+                            TechnicianId = -13,
+                            UserId = -8
+                        },
+                        new
+                        {
+                            PerformanceRatingId = -3,
+                            Date = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mejorar tiempos de respuesta",
+                            Score = 2.5,
+                            TechnicianId = -14,
+                            UserId = -9
+                        },
+                        new
+                        {
+                            PerformanceRatingId = -4,
+                            Date = new DateTime(2025, 4, 22, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cumplimiento en ciberseguridad",
+                            Score = 4.2000000000000002,
+                            TechnicianId = -15,
+                            UserId = -10
+                        },
+                        new
+                        {
+                            PerformanceRatingId = -5,
+                            Date = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trabajo constante en fibra",
+                            Score = 4.0,
+                            TechnicianId = -16,
+                            UserId = -11
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>

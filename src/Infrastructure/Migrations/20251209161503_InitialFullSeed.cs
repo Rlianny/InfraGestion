@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialFullSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -125,15 +125,9 @@ namespace Infrastructure.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-<<<<<<< HEAD:src/Infrastructure/Migrations/20251204200100_InitialCreate.cs
-                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    SectionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsDisabled = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
-=======
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     SectionId = table.Column<int>(type: "INTEGER", nullable: false),
                     IsDisabled = table.Column<bool>(type: "INTEGER", nullable: false)
->>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.cs
                 },
                 constraints: table =>
                 {
@@ -244,6 +238,43 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "DecommissioningRequests",
+                columns: new[] { "DecommissioningRequestId", "Date", "DeviceId", "DeviceReceiverId", "IsApproved", "Reason", "Status", "TechnicianId", "UserId" },
+                values: new object[] { -2, new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc), -3, -18, false, 1, 0, -15, null });
+
+            migrationBuilder.InsertData(
+                table: "Mainteinances",
+                columns: new[] { "MaintenanceRecordId", "Cost", "Date", "Description", "DeviceId", "TechnicianId", "Type", "UserId" },
+                values: new object[,]
+                {
+                    { -6, 60.0, new DateTime(2025, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc), "Revisión de calibración del analizador", -6, -12, 0, null },
+                    { -5, 150.0, new DateTime(2025, 5, 12, 0, 0, 0, 0, DateTimeKind.Utc), "Ajuste de antena y verificación de potencia", -5, -16, 2, null },
+                    { -4, 80.0, new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Calibración y reemplazo de baterías UPS", -4, -15, 1, null },
+                    { -3, 210.0, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc), "Actualización de firmware y pruebas de firewall", -3, -14, 0, null },
+                    { -2, 450.0, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Reemplazo de módulo RAID", -2, -13, 1, null },
+                    { -1, 120.0, new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Chequeo de enlaces y limpieza de puertos", -1, -12, 0, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ReceivingInspectionRequests",
+                columns: new[] { "ReceivingInspectionRequestId", "AcceptedDate", "AdministratorId", "DeviceId", "EmissionDate", "RejectReason", "RejectionDate", "Status", "TechnicianId" },
+                values: new object[,]
+                {
+                    { -3, null, -3, -3, new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc), 3, new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Utc), 1, -14 },
+                    { -2, new DateTime(2025, 2, 17, 0, 0, 0, 0, DateTimeKind.Utc), -2, -2, new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Utc), 6, null, 0, -13 },
+                    { -1, null, -1, -1, new DateTime(2025, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc), 0, null, 2, -12 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Rejections",
+                columns: new[] { "RejectionId", "DecommissioningRequestDate", "DeviceId", "DeviceReceiverId", "RejectionDate", "TechnicianId" },
+                values: new object[,]
+                {
+                    { -2, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc), -5, -17, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc), -16 },
+                    { -1, new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc), -3, -19, new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc), -15 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "RoleId", "Name" },
                 values: new object[,]
@@ -272,37 +303,17 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Departments",
-<<<<<<< HEAD:src/Infrastructure/Migrations/20251204200100_InitialCreate.cs
-                columns: new[] { "DepartmentId", "Name", "SectionId", "IsDisabled" },
+                table: "Transfers",
+                columns: new[] { "TransferId", "Date", "DestinationSectionId", "DeviceId", "DeviceReceiverId", "IsDisabled", "SourceSectionId", "Status" },
                 values: new object[,]
                 {
-                    { -24, "Análisis Forense y Respuesta a Incidentes", -8, false },
-                    { -23, "Monitorización de Amenazas y SOC", -8, false },
-                    { -22, "Arquitectura y Gestión de Firewalls", -8, false },
-                    { -21, "Gestión de Activos y Red Local", -7, false },
-                    { -20, "Comunicaciones Unificadas y Telefonía IP", -7, false },
-                    { -19, "Soporte al Usuario y Helpdesk", -7, false },
-                    { -18, "Gestión de Inventario y Distribución", -6, false },
-                    { -17, "Reparación y Refabricación", -6, false },
-                    { -16, "Recepción y Diagnóstico Técnico", -6, false },
-                    { -15, "Operaciones Cloud y Escalabilidad", -5, false },
-                    { -14, "Plataforma como Servicio", -5, false },
-                    { -13, "Infraestructura como Servicio", -5, false },
-                    { -12, "Mediciones y Certificación de Red", -4, false },
-                    { -11, "Despliegue de Fibra Óptica y Acceso", -4, false },
-                    { -10, "Diseño y Ingeniería de Red", -4, false },
-                    { -9, "Soporte a Nodos Remotos", -3, false },
-                    { -8, "Mantenimiento Correctivo y Urgencias", -3, false },
-                    { -7, "Instalaciones y Activaciones", -3, false },
-                    { -6, "Infraestructura Física y Climatización", -2, false },
-                    { -5, "Almacenamiento y Backup", -2, false },
-                    { -4, "Servidores y Virtualización", -2, false },
-                    { -3, "Reparaciones de Red", -1, false },
-                    { -2, "Seguridad Perimetral y Firewalls", -1, false },
-                    { -1, "Conmutación y Enrutamiento Avanzado", -1, false },
-                    { 1, "Mocking Deparment", -1, false }
-=======
+                    { -3, new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc), -5, -5, -19, false, -4, 2 },
+                    { -2, new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Utc), -3, -2, -18, false, -6, 4 },
+                    { -1, new DateTime(2025, 1, 8, 0, 0, 0, 0, DateTimeKind.Utc), -2, -1, -17, false, -1, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
                 columns: new[] { "DepartmentId", "IsDisabled", "Name", "SectionId" },
                 values: new object[,]
                 {
@@ -331,7 +342,6 @@ namespace Infrastructure.Migrations
                     { -2, false, "Seguridad Perimetral y Firewalls", -1 },
                     { -1, false, "Conmutación y Enrutamiento Avanzado", -1 },
                     { 1, false, "Almacen General", -1 }
->>>>>>> 37da48e (refactor: DB changed):src/Infrastructure/Migrations/20251209035911_InitialCreate.cs
                 });
 
             migrationBuilder.InsertData(
@@ -373,6 +383,27 @@ namespace Infrastructure.Migrations
                     { -3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -18, "Javier Rodríguez", true, "$2a$11$/jwi2T7PHM6fSAyAelnoaOOxPMLU25uXG/3NvTyTK5rMlEoSZm55y", null, null, 4, null, "jrodriguez", null },
                     { -2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -18, "Laura Martínez", true, "$2a$11$2u/fqdnoGBupkujZw8HXeu3tjULZ6e.EqZVEQwLmWGWRvPPpu8gee", null, null, 4, null, "lmartinez", null },
                     { -1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), -21, "David González", true, "$2a$11$kkxPo0Sl6gHf46gy7Pe5xeZZa0X2gGboRBG4Rd9gWniOm1PGHZ7he", null, null, 4, null, "dgonzalez", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Assessments",
+                columns: new[] { "PerformanceRatingId", "Date", "Description", "Score", "TechnicianId", "UserId" },
+                values: new object[,]
+                {
+                    { -5, new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Utc), "Trabajo constante en fibra", 4.0, -16, -11 },
+                    { -4, new DateTime(2025, 4, 22, 0, 0, 0, 0, DateTimeKind.Utc), "Cumplimiento en ciberseguridad", 4.2000000000000002, -15, -10 },
+                    { -3, new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc), "Mejorar tiempos de respuesta", 2.5, -14, -9 },
+                    { -2, new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Utc), "Buen manejo de servidores", 3.8999999999999999, -13, -8 },
+                    { -1, new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Excelente trabajo en red troncal", 4.7999999999999998, -12, -7 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DecommissioningRequests",
+                columns: new[] { "DecommissioningRequestId", "Date", "DeviceId", "DeviceReceiverId", "IsApproved", "Reason", "Status", "TechnicianId", "UserId" },
+                values: new object[,]
+                {
+                    { -3, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc), -5, -17, false, 3, 2, -16, -2 },
+                    { -1, new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc), -4, -19, true, 4, 1, -14, -1 }
                 });
 
             migrationBuilder.CreateIndex(
