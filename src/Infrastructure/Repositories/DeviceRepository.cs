@@ -17,7 +17,6 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Include(d => d.DepartmentId)
                 .FirstOrDefaultAsync(d => d.DeviceId == deviceId, cancellationToken);
         }
 
