@@ -12,11 +12,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.HasKey(s => s.SectionId);
 
-            builder.Property(d => d.SectionId)
-                .ValueGeneratedOnAdd();
-
             builder.Property(s => s.SectionId)
                 .ValueGeneratedOnAdd();
+
             builder.Property(s => s.IsDisabled)
                 .HasDefaultValue(false);
             builder.Property(s => s.Name)

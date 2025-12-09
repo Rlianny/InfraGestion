@@ -38,12 +38,12 @@ namespace Infrastructure.Repositories
 
         public async Task<Department?> GetDepartmentByNameAsync(string departmentName, CancellationToken cancellationToken = default)
         {
-            if (departmentName == null)
+            if (string.IsNullOrWhiteSpace(departmentName))
             {
-                throw new Exception("DepartmentName can not be null");
+                throw new ArgumentNullException(nameof(departmentName), "Department name cannot be null or empty");
             }
             return await _dbSet
-            .FirstOrDefaultAsync(d => d.Name != null && d.Name == departmentName, cancellationToken);
+                .FirstOrDefaultAsync(d => d.Name == departmentName, cancellationToken);
         }
     }
 }
