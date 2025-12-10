@@ -60,10 +60,10 @@ public class InventoryService : IInventoryService
                 ?? throw new Exception($"Device with id {request.DeviceId} not found");
 
             device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
+            await deviceRepo.UpdateAsync(device);
             if (request.IsApproved)
             {
                 inspectionRequest.Accept();
-                await deviceRepo.UpdateAsync(device);
             }
             else
             {
@@ -132,14 +132,17 @@ public class InventoryService : IInventoryService
             if (user.IsTechnician || user.IsSectionManager)
             {
                 var dep = await departmentRepository.GetByIdAsync(user.DepartmentId);
+                System.Console.WriteLine(dep.SectionId);
                 foreach (var d in devices)
                 {
                     var depart = await departmentRepository.GetByIdAsync(d.DepartmentId);
                     if (depart.SectionId == dep.SectionId)
                     {
-                        finalDevices.Append(d);
+                        System.Console.WriteLine("Add device " + d.Name);
+                        finalDevices = finalDevices.Append(d);
                     }
                 }
+
             }
 
             else if (user.IsAdministrator)
@@ -166,6 +169,7 @@ public class InventoryService : IInventoryService
         try
         {
             var device = await deviceRepo.GetByIdAsync(deviceID) ?? throw new Exception("Device not found");
+            System.Console.WriteLine(device.Name);
             var department = await departmentRepository.GetByIdAsync(device.DepartmentId) ?? throw new Exception("Department not found");
             var maintenanceHistory = await maintenanceRepo.GetMaintenancesByDeviceAsync(device.DeviceId);
 
@@ -185,7 +189,6 @@ public class InventoryService : IInventoryService
                     m.Description
                 ));
             }
-
             var transferHistory = await transferRepo.GetTransfersByDeviceAsync(device.DeviceId);
             var transferDtos = new List<TransferDto>();
             foreach (var t in transferHistory)
@@ -207,8 +210,7 @@ public class InventoryService : IInventoryService
                     t.Status
                 ));
             }
-
-            var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)).Where(d => d.IsApproved).First();
+            var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)).Where(d => d.IsApproved).FirstOrDefault();
             DecommissioningDto? decommissioningDto = null;
             if (decommissioning != null)
             {
@@ -365,8 +367,6 @@ public class InventoryService : IInventoryService
         return receivingInspectionRequests;
     }
 
-
-
     public async Task UpdateEquipmentAsync(UpdateDeviceRequestDto request)
     {
         try
@@ -427,5 +427,22 @@ public class InventoryService : IInventoryService
     public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetReceivingInspectionRequestsByAdminAsync(int adminId)
     {
         return (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByAdministratorAsync(adminId)).Select(MapReceivingToReceivingDto);
+    }
+    public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetPendingReceivingInspectionRequestByTechnicianAsync(int technicianId)
+    {
+        return (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByTechnicianAsync(technicianId)).Where(p => p.Status == InspectionRequestStatus.Pending).Select(MapReceivingToReceivingDto);
+    }
+
+    public async Task<IEnumerable<DeviceDto>> GetRevisedDevicesByAdmin(int adminId)
+    {
+        var insp = (await receivingInspectionRequestRepo.GetReceivingInspectionRequestsByAdministratorAsync(adminId)).Where(r => r.IsPending());
+        List<DeviceDto> devices = [];
+        foreach (var item in insp)
+        {
+            var device = await deviceRepo.GetByIdAsync(item.DeviceId);
+            var dpt = await departmentRepository.GetByIdAsync(device.DepartmentId);
+            devices.Add(new DeviceDto(device.DeviceId, device.Name, device.Type, device.OperationalState, dpt.Name));
+        }
+        return devices;
     }
 }

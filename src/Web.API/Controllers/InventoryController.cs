@@ -30,7 +30,9 @@ namespace Web.API.Controllers
         {
             try
             {
+                System.Console.WriteLine(userID);
                 var devices = await inventoryService.GetCompanyInventoryAsync(userID);
+                System.Console.WriteLine(devices.Count());
                 return Ok(devices);
             }
             catch (Exception ex)
@@ -55,21 +57,37 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("FirstInspection/technicianId")]
+
+        [HttpGet("pendingFirstInspection/technicianId")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetReceivingInspectionRequestByTechnician(int technicianId)
+        public async Task<IActionResult> GetPendingReceivingInspectionRequestByTechnician(int technicianId)
         {
             try
             {
-                return Ok(await inventoryService.GetReceivingInspectionRequestsByTechnicianAsync(technicianId));
+                return Ok(await inventoryService.GetPendingReceivingInspectionRequestByTechnicianAsync(technicianId));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("RevisedDevices/adminId")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRevisedDevicesByAdmin(int adminId)
+        {
+            try
+            {
+                var devices = await inventoryService.GetRevisedDevicesByAdmin(adminId);
+                return Ok(devices);
+            }
+            catch (System.Exception e)
+            {
 
-        [HttpGet("FirstInspection/adminId")]
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("firstInspection/adminId")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ReceivingInspectionRequestDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetReceivingInspectionRequestByAdmin(int adminId)
         {
@@ -83,7 +101,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("deviceDetail/{id}")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DeviceDetailDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDeviceDetailAsync(int id)
         {

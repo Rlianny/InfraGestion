@@ -130,17 +130,17 @@ namespace Web.API.Controllers
 
         private int GetCurrentUserId()
         {
-            var userIdClaim = User.FindFirst("sub")?.Value;
+            var userIdClaim = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
 
-            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
-            {
-                _logger.LogError("No se pudo obtener el claim 'sub' (UserID) del token JWT.");
-                throw new UnauthorizedAccessException(
-                    "Token inválido o no contiene ID de usuario."
-                );
-            }
+            // if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+            // {
+            //     _logger.LogError("No se pudo obtener el claim 'sub' (UserID) del token JWT.");
+            //     throw new UnauthorizedAccessException(
+            //         "Token inválido o no contiene ID de usuario."
+            //     );
+            // }
 
-            return userId;
+            return userIdClaim;
         }
     }
 }

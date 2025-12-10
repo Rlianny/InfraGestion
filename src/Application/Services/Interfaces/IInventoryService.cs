@@ -17,4 +17,6 @@ public interface IInventoryService
     Task<IEnumerable<ReceivingInspectionRequestDto>> ReceivingInspectionRequestsByTechnician(int technicianId);
     Task<IEnumerable<ReceivingInspectionRequestDto>> GetReceivingInspectionRequestsByTechnicianAsync(int technicianId);
     Task<IEnumerable<ReceivingInspectionRequestDto>> GetReceivingInspectionRequestsByAdminAsync(int adminId);
+    Task<IEnumerable<ReceivingInspectionRequestDto>> GetPendingReceivingInspectionRequestByTechnicianAsync(int technicianId);
+    Task<IEnumerable<DeviceDto>> GetRevisedDevicesByAdmin(int adminId);
 }
