@@ -9,7 +9,7 @@ namespace Web.API.Controllers
 {
     [ApiController]
     [Route("organization")]
-    [Authorize(Roles = "Administrator")]
+    // [Authorize(Roles = "Administrator")]
     public class OrganizationController : BaseApiController
     {
         private readonly IOrgManagementService _orgManagementService;
@@ -80,11 +80,11 @@ namespace Web.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> CreateSectionAsync([FromBody] SectionDto sectionDto)
+        public async Task<IActionResult> CreateSectionAsync([FromBody] CreateSectionDto createSectionDto)
         {
             try
             {
-                await _orgManagementService.CreateSection(sectionDto);
+                await _orgManagementService.CreateSection(createSectionDto);
                 return Ok();
             }
             catch (DuplicateEntityException ex)
@@ -103,12 +103,12 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateDepartmentAsync(
-            [FromBody] DepartmentDto departmentDto
+            [FromBody] CreateDepartmentDto createDepartmentDto
         )
         {
             try
             {
-                await _orgManagementService.CreateDepartment(departmentDto);
+                await _orgManagementService.CreateDepartment(createDepartmentDto);
                 return Ok();
             }
             catch (EntityNotFoundException ex)

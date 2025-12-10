@@ -4,3 +4,9 @@ public class DepartmentDto
     public int DepartmentId { get; set; }
     public string Name { get; set; } = string.Empty;
 }
+
+public class CreateDepartmentDto
+{
+    public int SectionId { get; set; }
+    public string Name { get; set; } = string.Empty;
+}

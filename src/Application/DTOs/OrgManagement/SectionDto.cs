@@ -2,5 +2,11 @@ public class SectionDto
 {
     public int SectionId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string? SectionManager { get; set; }
+    public int? SectionManagerId { get; set; }
+}
+
+public class CreateSectionDto
+{
+    public string Name { get; set; } = string.Empty;
+    public int? SectionManagerId { get; set; }
 }

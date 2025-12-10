@@ -34,35 +34,58 @@ namespace Application.Services.Implementations
             this.userRepository = userRepository;
         }
 
-        public async Task CreateDepartment(DepartmentDto departmentDto)
+        public async Task CreateDepartment(CreateDepartmentDto createDepartmentDto)
         {
-            var section = await sectionRepository.GetByIdAsync(departmentDto.SectionId);
+            var section = await sectionRepository.GetByIdAsync(createDepartmentDto.SectionId);
             if (section == null)
             {
-                throw new EntityNotFoundException("Section", departmentDto.SectionId);
+                throw new EntityNotFoundException("Section", createDepartmentDto.SectionId);
             }
 
-            var exists = await departmentRepository.GetDepartmentByNameAsync(departmentDto.Name);
+            var exists = await departmentRepository.GetDepartmentByNameAsync(createDepartmentDto.Name);
             if (exists != null)
             {
-                throw new DuplicateEntityException("Department", "Name", departmentDto.Name);
+                throw new DuplicateEntityException("Department", "Name", createDepartmentDto.Name);
             }
 
             await departmentRepository.AddAsync(
-                new Department(departmentDto.Name, departmentDto.SectionId)
+                new Department(createDepartmentDto.Name, createDepartmentDto.SectionId)
             );
             await unitOfWork.SaveChangesAsync();
         }
 
-        public async Task CreateSection(SectionDto sectionDto)
+        public async Task CreateSection(CreateSectionDto createSectionDto)
         {
-            var exists = await sectionRepository.SectionExistsAsync(sectionDto.Name);
-            if (exists)
+            var exists = await sectionRepository.GetSectionByNameAsync(createSectionDto.Name);
+            if (exists != null)
             {
-                throw new DuplicateEntityException("Section", "Name", sectionDto.Name);
+                throw new DuplicateEntityException("Section", "Name", createSectionDto.Name);
             }
 
-            await sectionRepository.AddAsync(new Section(sectionDto.Name));
+            if (string.IsNullOrWhiteSpace(createSectionDto.Name))
+            {
+                throw new ArgumentException("El nombre de la sección no puede estar vacío", nameof(createSectionDto.Name));
+            }
+
+            var section = new Section(createSectionDto.Name);
+
+            if (createSectionDto.SectionManagerId.HasValue)
+            {
+                var manager =
+                    await userRepository.GetByIdAsync(createSectionDto.SectionManagerId.Value)
+                    ?? throw new EntityNotFoundException("User", createSectionDto.SectionManagerId.Value);
+
+                if (manager.RoleId != (int)RoleEnum.SectionManager)
+                {
+                    throw new BusinessRuleViolationException(
+                        "El usuario asignado como manager debe tener el rol SectionManager."
+                    );
+                }
+
+                section.AssignManager(manager);
+            }
+
+            await sectionRepository.AddAsync(section);
             await unitOfWork.SaveChangesAsync();
         }
 
@@ -136,11 +159,11 @@ namespace Application.Services.Implementations
 
             section.UpdateName(sectionDto.Name);
 
-            if (!string.IsNullOrWhiteSpace(sectionDto.SectionManager))
+            if (sectionDto.SectionManagerId.HasValue)
             {
                 var manager =
-                    await userRepository.GetByUsernameAsync(sectionDto.SectionManager)
-                    ?? throw new EntityNotFoundException("User", sectionDto.SectionManager);
+                    await userRepository.GetByIdAsync(sectionDto.SectionManagerId.Value)
+                    ?? throw new EntityNotFoundException("User", sectionDto.SectionManagerId.Value);
 
                 if (manager.RoleId != (int)RoleEnum.SectionManager)
                     throw new BusinessRuleViolationException(
@@ -164,7 +187,7 @@ namespace Application.Services.Implementations
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
-                    SectionManager = section.SectionManager?.FullName,
+                    SectionManagerId = section.SectionManagerId,
                 };
                 sectionDtos.Add(dto);
             }
