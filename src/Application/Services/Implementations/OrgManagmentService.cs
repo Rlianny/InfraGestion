@@ -183,11 +183,18 @@ namespace Application.Services.Implementations
             var sectionDtos = new List<SectionDto>();
             foreach (var section in sections)
             {
+                User manager = null;
+                if (section.SectionManagerId != null)
+                {
+                    manager = await userRepository.GetByIdAsync((int)section.SectionManagerId);
+
+                }
                 var dto = new SectionDto
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
-                    SectionManagerId = section.SectionManagerId,
+                    SectionManagerId = manager == null ? null : manager.UserId,
+                    SectionManagerFullName = manager == null ? "" : manager.FullName
                 };
                 sectionDtos.Add(dto);
             }
