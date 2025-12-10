@@ -60,10 +60,10 @@ public class InventoryService : IInventoryService
                 ?? throw new Exception($"Device with id {request.DeviceId} not found");
 
             device.UpdateOperationalState(Domain.Enums.OperationalState.Revised);
+            await deviceRepo.UpdateAsync(device);
             if (request.IsApproved)
             {
                 inspectionRequest.Accept();
-                await deviceRepo.UpdateAsync(device);
             }
             else
             {
@@ -189,7 +189,6 @@ public class InventoryService : IInventoryService
                     m.Description
                 ));
             }
-
             var transferHistory = await transferRepo.GetTransfersByDeviceAsync(device.DeviceId);
             var transferDtos = new List<TransferDto>();
             foreach (var t in transferHistory)
@@ -211,8 +210,7 @@ public class InventoryService : IInventoryService
                     t.Status
                 ));
             }
-
-            var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)).Where(d => d.IsApproved).First();
+            var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)).Where(d => d.IsApproved).FirstOrDefault();
             DecommissioningDto? decommissioningDto = null;
             if (decommissioning != null)
             {
@@ -368,8 +366,6 @@ public class InventoryService : IInventoryService
         }
         return receivingInspectionRequests;
     }
-
-
 
     public async Task UpdateEquipmentAsync(UpdateDeviceRequestDto request)
     {
