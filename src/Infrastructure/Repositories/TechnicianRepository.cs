@@ -17,7 +17,6 @@ namespace Infrastructure.Repositories
         public override async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             var technician = await _dbSet
-                //.Where(t => t.RoleId == TechnicianRoleId)
                 .FirstOrDefaultAsync(t => t.UserId == id, cancellationToken);
 
             return technician;

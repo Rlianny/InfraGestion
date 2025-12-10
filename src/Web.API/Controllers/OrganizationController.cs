@@ -9,7 +9,7 @@ namespace Web.API.Controllers
 {
     [ApiController]
     [Route("organization")]
-    // [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class OrganizationController : BaseApiController
     {
         private readonly IOrgManagementService _orgManagementService;
