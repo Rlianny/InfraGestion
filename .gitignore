@@ -93,3 +93,13 @@ bld/
 .vscode/tasks.json
 .vscode/launch.json
 /.vs/InfraGestion/FileContentIndex
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*_backup.sqlite
+*_corrupt.sqlite
+dump.sql
