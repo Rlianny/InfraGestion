@@ -213,16 +213,16 @@ public class InventoryService : IInventoryService
             DecommissioningDto? decommissioningDto = null;
             if (decommissioning != null)
             {
-                var decommReceiver = await userRepo.GetByIdAsync(decommissioning.DeviceReceiverId);
-                var receiverDepartment = await departmentRepository.GetByIdAsync(decommissioning.DeviceReceiverId);
+                var decommReceiver = await userRepo.GetByIdAsync((int)decommissioning.DeviceReceiverId);
+                var receiverDepartment = await departmentRepository.GetByIdAsync((int)decommissioning.DeviceReceiverId);
                 decommissioningDto = new DecommissioningDto
                 {
                     DeviceId = decommissioning.DeviceId,
                     DeviceName = device.Name,
                     DecommissioningRequestId = decommissioning.DecommissioningRequestId,
-                    DeviceReceiverId = decommissioning.DeviceReceiverId,
+                    DeviceReceiverId = (int)decommissioning.DeviceReceiverId,
                     DeviceReceiverName = decommReceiver?.FullName ?? "Unknown",
-                    ReceiverDepartmentId = decommissioning.DeviceReceiverId,
+                    ReceiverDepartmentId = receiverDepartment.DepartmentId,
                     ReceiverDepartmentName = receiverDepartment?.Name ?? "Unknown",
                     DecommissioningDate = decommissioning.Date,
                     Reason = decommissioning.Reason,

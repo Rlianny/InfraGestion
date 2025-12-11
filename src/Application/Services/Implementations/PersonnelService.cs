@@ -150,10 +150,7 @@ namespace Application.Services.Implementations
                     RequestDate = request.Date,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
-                    DeviceReceiverId = request.DeviceReceiverId,
-                    DeviceReceiverName =
-                        (await userRepository.GetByIdAsync(request.DeviceReceiverId))?.FullName
-                        ?? $"Usuario {request.DeviceReceiverId}",
+                   
 
                     Status = MapToDecommissioningStatus(request.Status),
                 };

@@ -144,14 +144,14 @@ public class DecommissioningService : IDecommissioningService
     private async Task<DecommissioningDto> MapRequestToDecommissioningDto(DecommissioningRequest decommissioningRequest)
     {
         var device = await _deviceRepository.GetByIdAsync(decommissioningRequest.DeviceId);
-        var user = await _userRepository.GetByIdAsync(decommissioningRequest.DeviceReceiverId);
+        var user = await _userRepository.GetByIdAsync((int)decommissioningRequest.DeviceReceiverId);
         var userDptmt = await _departmentRepository.GetByIdAsync(user.DepartmentId);
         return new DecommissioningDto
         {
             DeviceId = decommissioningRequest.DeviceId,
             DeviceName = device.Name,
             DecommissioningRequestId = decommissioningRequest.DecommissioningRequestId,
-            DeviceReceiverId = decommissioningRequest.DeviceReceiverId,
+            DeviceReceiverId = (int)decommissioningRequest.DeviceReceiverId,
             DeviceReceiverName = user.FullName,
             ReceiverDepartmentId = user.DepartmentId,
             ReceiverDepartmentName = userDptmt.Name,

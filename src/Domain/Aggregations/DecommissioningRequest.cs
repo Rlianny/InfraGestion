@@ -12,6 +12,7 @@ namespace Domain.Aggregations
         public DateTime Date { get; private set; }
         public Enums.RequestStatus Status { get; private set; }
         public DecommissioningReason Reason { get; private set; }
+        public int? DeviceReceiverId { get; private set; }
         public bool IsApproved { get; private set; }
         private DecommissioningRequest() { }
         public DecommissioningRequest(
@@ -27,6 +28,7 @@ namespace Domain.Aggregations
             TechnicianId = technicianId;
             DeviceId = deviceId;
             Reason = reason;
+            DeviceReceiverId = null;
         }
 
         private void ValidateDate(DateTime date)
