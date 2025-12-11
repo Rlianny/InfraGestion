@@ -86,8 +86,6 @@ public class MaintenanceService : IMaintenanceService
             TechnicianId = maintenance.TechnicianId,
             MaintenanceDate = maintenance.Date,
             MaintenanceType = maintenance.Type,
-            DeviceName = device.Name,
-            TechnicianName = technician.FullName
         };
     }
 
@@ -97,7 +95,7 @@ public class MaintenanceService : IMaintenanceService
         return await MapMaintenancesToDto(maintenances);
     }
 
-    public async Task RegisterMaintenanceAsync(MaintenanceRecordDto recordDto)
+    public async Task RegisterMaintenanceAsync(CreateMaintenanceRecordRequestDto recordDto)
     {
         var device = await deviceRepository.GetByIdAsync(recordDto.DeviceId)
             ?? throw new Exception($"Device with id {recordDto.DeviceId} not found");
@@ -133,7 +131,7 @@ public class MaintenanceService : IMaintenanceService
         }
         if (maintenance == null || maintenance.Count() == 0)
         {
-           throw new Exception("Device with no maintenance");
+            throw new Exception("Device with no maintenance");
         }
 
         device.UpdateOperationalState(OperationalState.Operational);

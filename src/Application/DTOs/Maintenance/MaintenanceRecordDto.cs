@@ -2,7 +2,8 @@ namespace Application.DTOs.Maintenance
 {
     public class MaintenanceRecordDto
     {
-        public MaintenanceRecordDto() { 
+        public MaintenanceRecordDto()
+        {
         }
         public MaintenanceRecordDto(int maintenanceRecordId, int deviceId, string deviceName, int technicianId, string technicianName, DateTime maintenanceDate, MaintenanceType maintenanceType, double cost, string description)
         {

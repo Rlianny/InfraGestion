@@ -124,11 +124,9 @@ namespace Application.Services.Implementations
                 {
                     MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
-                    DeviceName = (await devicesRepository.GetByIdAsync(record.DeviceId))?.Name,
                     Description = record.Description,
                     MaintenanceDate = record.Date,
                     TechnicianId = technicianId,
-                    TechnicianName = technician.FullName,
                     Cost = record.Cost,
                     MaintenanceType = record.Type,
                 };
@@ -150,7 +148,7 @@ namespace Application.Services.Implementations
                     RequestDate = request.Date,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
-                   
+
 
                     Status = MapToDecommissioningStatus(request.Status),
                 };

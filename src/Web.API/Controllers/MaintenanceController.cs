@@ -84,7 +84,7 @@ namespace Web.API.Controllers
         [HttpPost]
         [Authorize(Roles = "Technician")]
         [ProducesResponseType(typeof(ApiResponse<MaintenanceRecordDto>), StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateMaintenanceRecordAsync([FromBody] MaintenanceRecordDto createDto)
+        public async Task<IActionResult> CreateMaintenanceRecordAsync([FromBody] CreateMaintenanceRecordRequestDto createDto)
         {
             try
             {
