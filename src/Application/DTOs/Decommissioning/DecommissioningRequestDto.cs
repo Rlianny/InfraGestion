@@ -14,6 +14,7 @@ namespace Application.DTOs.Decommissioning
         public DecommissioningStatus Status { get; set; } = DecommissioningStatus.Pending; // Pending, Approved, Rejected
         public string Justification { get; set; } = string.Empty;
         public DecommissioningReason Reason { get; set; }
+        public string? ReasonDescription { get; set; }
         public DateTime? ReviewedDate { get; set; }
         public int? ReviewedByUserId { get; set; }
         public string? ReviewedByUserName { get; set; }

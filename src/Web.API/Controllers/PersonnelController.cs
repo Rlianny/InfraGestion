@@ -30,12 +30,12 @@ namespace Web.API.Controllers
             try
             {
                 var technicians = await _personnelService.GetAllTechniciansAsync();
-                return Ok(ApiResponse<IEnumerable<TechnicianDto>>.Ok(technicians));
+                return Ok(technicians);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving company technicians");
-                return BadRequest(ApiResponse<IEnumerable<TechnicianDto>>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -46,12 +46,12 @@ namespace Web.API.Controllers
             try
             {
                 var technicianDetails = await _personnelService.GetTechnicianAsync(technicianId);
-                return Ok(ApiResponse<TechnicianDto>.Ok(technicianDetails));
+                return Ok(technicianDetails);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving technician with ID {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<TechnicianDto>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -62,12 +62,12 @@ namespace Web.API.Controllers
             try
             {
                 var bonuses = await _personnelService.GetTechnicianBonusesAsync(technicianId);
-                return Ok(ApiResponse<IEnumerable<BonusDto>>.Ok(bonuses));
+                return Ok(bonuses);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving bonuses for technician {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<IEnumerable<BonusDto>>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -78,29 +78,29 @@ namespace Web.API.Controllers
             try
             {
                 var penalties = await _personnelService.GetTechnicianPenaltyAsync(technicianId);
-                return Ok(ApiResponse<IEnumerable<PenaltyDto>>.Ok(penalties));
+                return Ok(penalties);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving penalties for technician {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<IEnumerable<PenaltyDto>>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("technician/{technicianId:int}/detail")]
+        [HttpGet("technician/{technicianId:int}/details")]
         // [Authorize(Roles = "Administrator,Director,SectionManager")]
-        [ProducesResponseType(typeof(ApiResponse<TechnicianDetailDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTechnicianDetailByIdAsync(int technicianId)
+        [ProducesResponseType(typeof(ApiResponse<TechnicianDetailsDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTechnicianDetailedProfileByIdAsync(int technicianId)
         {
             try
             {
-                var technicianDetails = await _personnelService.GetTechnicianDetailAsync(technicianId);
-                return Ok(ApiResponse<TechnicianDetailDto>.Ok(technicianDetails));
+                var technicianDetails = await _personnelService.GetTechnicianDetailedProfileAsync(technicianId);
+                return Ok(technicianDetails);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving technician details with ID {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<TechnicianDetailDto>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -111,12 +111,12 @@ namespace Web.API.Controllers
             try
             {
                 var performances = await _personnelService.GetTechnicianPerformanceHistoryAsync(technicianId);
-                return Ok(ApiResponse<IEnumerable<RateDto>>.Ok(performances));
+                return Ok(performances);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving performances for technician {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<IEnumerable<RateDto>>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -128,12 +128,12 @@ namespace Web.API.Controllers
             try
             {
                 var pendingDevices = await _personnelService.GetTechnicianPendingDevicesAsync(technicianId);
-                return Ok(ApiResponse<IEnumerable<DeviceDto>>.Ok(pendingDevices));
+                return Ok(pendingDevices);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving pending devices for technician {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<IEnumerable<DeviceDto>>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
         #endregion
@@ -150,12 +150,12 @@ namespace Web.API.Controllers
                 request.TechnicianId = technicianId;
                 var technician = await _personnelService.UpdateTechnicianAsync(request);
                 _logger.LogInformation("Técnico {TechnicianId} actualizado exitosamente", technicianId);
-                return Ok(ApiResponse<TechnicianDto>.Ok(technician));
+                return Ok(technician);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating technician {TechnicianId}", technicianId);
-                return BadRequest(ApiResponse<TechnicianDto>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -171,12 +171,12 @@ namespace Web.API.Controllers
             try
             {
                 await _personnelService.RateTechnicianPerformanceAsync(request);
-                return Ok(ApiResponse<bool>.Ok(true));
+                return Ok(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error rating technician {TechnicianId}", request.TechnicianId);
-                return BadRequest(ApiResponse<bool>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -188,12 +188,12 @@ namespace Web.API.Controllers
             try
             {
                 await _personnelService.RegisterBonusAsync(request);
-                return Ok(ApiResponse<bool>.Ok(true));
+                return Ok(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding bonus for technician {TechnicianId}", request.TechnicianId);
-                return BadRequest(ApiResponse<bool>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
 
@@ -205,12 +205,12 @@ namespace Web.API.Controllers
             try
             {
                 await _personnelService.RegisterPenaltyAsync(request);
-                return Ok(ApiResponse<bool>.Ok(true));
+                return Ok(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding penalty for technician {TechnicianId}", request.TechnicianId);
-                return BadRequest(ApiResponse<bool>.Fail(ex.Message));
+                return BadRequest(ex.Message);
             }
         }
         #endregion

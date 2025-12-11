@@ -5,7 +5,7 @@ namespace Application.Services.Interfaces
 {
     public interface IPersonnelService
     {
-        Task<TechnicianDetailDto> GetTechnicianDetailAsync(int technicianId);
+        Task<TechnicianDetailsDto> GetTechnicianDetailedProfileAsync(int technicianId);
         Task<TechnicianDto> GetTechnicianAsync(int technicianId);
         Task<IEnumerable<TechnicianDto>> GetAllTechniciansAsync();
         Task<TechnicianDto> UpdateTechnicianAsync(UpdateTechnicianRequest request);

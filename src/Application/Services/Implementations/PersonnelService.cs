@@ -19,6 +19,7 @@ namespace Application.Services.Implementations
         private readonly IDeviceRepository devicesRepository;
         private readonly IReceivingInspectionRequestRepository receivingInspectionRequestRepository;
         private readonly IDepartmentRepository departmentRepository;
+        private readonly ISectionRepository sectionRepository;
         private readonly IMaintenanceRecordRepository maintenanceRecordRepository;
         private readonly IDecommissioningRequestRepository decommissioningRequestRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -30,6 +31,7 @@ namespace Application.Services.Implementations
             IDeviceRepository devicesRepository,
             IReceivingInspectionRequestRepository receivingInspectionRequestRepository,
             IDepartmentRepository departmentRepository,
+            ISectionRepository sectionRepository,
             IMaintenanceRecordRepository maintenanceRecordRepository,
             IDecommissioningRequestRepository decommissioningRequestRepository,
             IUnitOfWork unitOfWork
@@ -41,17 +43,73 @@ namespace Application.Services.Implementations
             this.devicesRepository = devicesRepository;
             this.receivingInspectionRequestRepository = receivingInspectionRequestRepository;
             this.departmentRepository = departmentRepository;
+            this.sectionRepository = sectionRepository;
             this.maintenanceRecordRepository = maintenanceRecordRepository;
             this.decommissioningRequestRepository = decommissioningRequestRepository;
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<TechnicianDetailDto> GetTechnicianDetailAsync(int technicianId)
+        public async Task<TechnicianDetailsDto> GetTechnicianDetailedProfileAsync(int technicianId)
         {
             var technician =
                 await technicianRepository.GetByIdAsync(technicianId)
                 ?? throw new EntityNotFoundException("Technician", technicianId);
 
+            // Get department and section information
+            var department = await departmentRepository.GetByIdAsync(technician.DepartmentId);
+            string departmentName = department?.Name ?? "Sin Departamento";
+            string sectionName = "Sin Sección";
+            string sectionManagerName = "Sin Manager";
+
+            if (department?.SectionId != null)
+            {
+                var section = await sectionRepository.GetByIdAsync(department.SectionId);
+                if (section != null)
+                {
+                    sectionName = section.Name;
+                    if (section.SectionManagerId.HasValue)
+                    {
+                        var sectionManager = await userRepository.GetByIdAsync(
+                            section.SectionManagerId.Value
+                        );
+                        sectionManagerName = sectionManager?.FullName ?? "Sin Manager";
+                    }
+                }
+            }
+
+            // Get performance ratings and calculate average
+            var ratings = await performanceRatingRepository.GetRatingsByTechnicianAsync(
+                technicianId
+            );
+
+            // Build ratings DTOs
+            var giverIds = ratings.Select(r => r.UserId).Distinct().ToList();
+            var giverLookup = new Dictionary<int, User?>();
+            foreach (var giverId in giverIds)
+            {
+                giverLookup[giverId] = await userRepository.GetByIdAsync(giverId);
+            }
+
+            var ratingDtos = ratings
+                .Select(rating =>
+                {
+                    giverLookup.TryGetValue(rating.UserId, out var giver);
+                    return new RateDto
+                    {
+                        RateId = rating.PerformanceRatingId,
+                        TechnicianId = technicianId,
+                        GiverId = rating.UserId,
+                        GiverName = giver?.FullName ?? $"Usuario {rating.UserId}",
+                        Score = rating.Score,
+                        Comment = rating.Description,
+                        Date = rating.Date,
+                    };
+                })
+                .ToList();
+
+            double averageRating = ratings.Any() ? ratings.Average(r => r.Score) : 0.0;
+
+            // Get maintenance records and decommissioning requests
             var maintenanceRecords =
                 await maintenanceRecordRepository.GetMaintenancesByTechnicianAsync(technicianId);
             var decommissioningRequests =
@@ -59,40 +117,14 @@ namespace Application.Services.Implementations
                     technicianId
                 );
 
-            // Preload devices and receivers to enrich DTOs with names
-            var deviceIds = maintenanceRecords
-                .Select(m => m.DeviceId)
-                .Concat(decommissioningRequests.Select(d => d.DeviceId))
-                .Distinct()
-                .ToList();
-
-            var deviceLookup = new Dictionary<int, Domain.Entities.Device?>();
-            foreach (var deviceId in deviceIds)
-            {
-                var device = await devicesRepository.GetByIdAsync(deviceId);
-                deviceLookup[deviceId] = device;
-            }
-
-            var receiverIds = decommissioningRequests
-                .Select(d => d.DeviceReceiverId)
-                .Distinct()
-                .ToList();
-            var receiverLookup = new Dictionary<int, User?>();
-            foreach (var receiverId in receiverIds)
-            {
-                var receiver = await userRepository.GetByIdAsync(receiverId);
-                receiverLookup[receiverId] = receiver;
-            }
-
             var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
             foreach (var record in maintenanceRecords)
             {
-                deviceLookup.TryGetValue(record.DeviceId, out var device);
                 var dto = new MaintenanceRecordDto
                 {
                     MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
-                    DeviceName = device?.Name ?? $"Equipo {record.DeviceId}",
+                    DeviceName = (await devicesRepository.GetByIdAsync(record.DeviceId))?.Name,
                     Description = record.Description,
                     MaintenanceDate = record.Date,
                     TechnicianId = technicianId,
@@ -106,34 +138,84 @@ namespace Application.Services.Implementations
             var decommissioningRequestDtos = new List<DecommissioningRequestDto>();
             foreach (var request in decommissioningRequests)
             {
-                deviceLookup.TryGetValue(request.DeviceId, out var device);
-                receiverLookup.TryGetValue(request.DeviceReceiverId, out var receiver);
                 var dto = new DecommissioningRequestDto
                 {
                     DecommissioningRequestId = request.DecommissioningRequestId,
                     DeviceId = request.DeviceId,
-                    DeviceName = device?.Name ?? $"Equipo {request.DeviceId}",
+                    DeviceName =
+                        (await devicesRepository.GetByIdAsync(request.DeviceId))?.Name
+                        ?? $"Equipo {request.DeviceId}",
                     Reason = request.Reason,
+                    ReasonDescription = GetReasonDescription(request.Reason),
                     RequestDate = request.Date,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
                     DeviceReceiverId = request.DeviceReceiverId,
                     DeviceReceiverName =
-                        receiver?.FullName ?? $"Usuario {request.DeviceReceiverId}",
-                    // IsApproved = request.IsApproved,
+                        (await userRepository.GetByIdAsync(request.DeviceReceiverId))?.FullName
+                        ?? $"Usuario {request.DeviceReceiverId}",
                     Status = MapToDecommissioningStatus(request.Status),
                 };
                 decommissioningRequestDtos.Add(dto);
             }
 
-            return new TechnicianDetailDto
+            // Determine last intervention date
+            DateTime? lastInterventionDate = null;
+            var lastMaintenance = maintenanceRecords
+                .OrderByDescending(m => m.Date)
+                .FirstOrDefault();
+            var lastDecommission = decommissioningRequests
+                .OrderByDescending(d => d.Date)
+                .FirstOrDefault();
+
+            if (lastMaintenance != null && lastDecommission != null)
+            {
+                lastInterventionDate =
+                    lastMaintenance.Date > lastDecommission.Date
+                        ? lastMaintenance.Date
+                        : lastDecommission.Date;
+            }
+            else if (lastMaintenance != null)
+            {
+                lastInterventionDate = lastMaintenance.Date;
+            }
+            else if (lastDecommission != null)
+            {
+                lastInterventionDate = lastDecommission.Date;
+            }
+
+            return new TechnicianDetailsDto
             {
                 TechnicianId = technician.UserId,
                 Name = technician.FullName,
                 YearsOfExperience = technician.YearsOfExperience ?? 0,
                 Specialty = technician.Specialty ?? string.Empty,
+                AverageRating = averageRating,
+                LastInterventionDate = lastInterventionDate,
+                CreatedAt = technician.CreatedAt,
+                DepartmentName = departmentName,
+                SectionName = sectionName,
+                SectionManagerName = sectionManagerName,
+                Ratings = ratingDtos,
                 MaintenanceRecords = maintenanceRecordDtos,
                 DecommissioningRequests = decommissioningRequestDtos,
+            };
+        }
+
+        private string GetReasonDescription(DecommissioningReason reason)
+        {
+            return (int)reason switch
+            {
+                0 => "Fallo Técnico Irreparable",
+                1 => "Obsolencia Tecnológica",
+                2 => "EOL",
+                3 => "Costo de Reparación Excesivo",
+                4 => "Daño Físico Severo",
+                5 => "Incomptibilidad Infraestructural",
+                6 => "Mejora Tecnológica",
+                7 => "Robo o Pérdida",
+                8 => "Finalización del Contrato",
+                _ => "N / A",
             };
         }
 
