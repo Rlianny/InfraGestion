@@ -103,3 +103,8 @@ bld/
 *_backup.sqlite
 *_corrupt.sqlite
 dump.sql
+
+# Explicit local DB used by Web.API (avoid tracking the local sqlite DB)
+/src/Web.API/InfraGestionDb.sqlite
+/src/Web.API/InfraGestionDb.sqlite-shm
+/src/Web.API/InfraGestionDb.sqlite-wal
