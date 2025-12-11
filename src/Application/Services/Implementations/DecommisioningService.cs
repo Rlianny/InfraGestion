@@ -41,35 +41,12 @@ public class DecommissioningService : IDecommissioningService
         {
             throw new Exception($"Device {device.Name} cannot be decommissioned in its current state");
         }
-
         var technician = await _userRepository.GetByIdAsync(request.TechnicianId)
             ?? throw new EntityNotFoundException("Technician", request.TechnicianId);
-
-        var department = await _departmentRepository.GetByIdAsync(device.DepartmentId)
-            ?? throw new EntityNotFoundException("Department", device.DepartmentId);
-
-        var section = await _sectionRepository.GetByIdAsync(department.SectionId)
-            ?? throw new EntityNotFoundException("Section", department.SectionId);
-
-        if (!section.SectionManagerId.HasValue)
-        {
-            throw new DecommissioningValidationException($"Section {section.SectionId} does not have an assigned manager to receive decommissioning requests");
-        }
-
-        var receiverId = section.SectionManagerId.Value;
-
-        if (request.DeviceReceiverId != receiverId)
-        {
-            throw new DecommissioningValidationException($"DeviceReceiverId must match the section manager (expected {receiverId})");
-        }
-
-        var receiver = await _userRepository.GetByIdAsync(receiverId)
-            ?? throw new EntityNotFoundException("SectionManager", receiverId);
 
         var decommissioningRequest = new DecommissioningRequest(
             request.TechnicianId,
             request.DeviceId,
-            receiverId,
             request.RequestDate,
             request.Reason
         );
@@ -98,7 +75,6 @@ public class DecommissioningService : IDecommissioningService
 
         var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
         var technician = await _userRepository.GetByIdAsync(request.TechnicianId);
-        var receiver = await _userRepository.GetByIdAsync(request.DeviceReceiverId);
 
         return new DecommissioningRequestDto
         {
@@ -107,8 +83,6 @@ public class DecommissioningService : IDecommissioningService
             DeviceName = device?.Name ?? "Unknown",
             TechnicianId = request.TechnicianId,
             TechnicianName = technician?.FullName ?? "Unknown",
-            DeviceReceiverId = request.DeviceReceiverId,
-            DeviceReceiverName = receiver?.FullName ?? "Unknown",
             RequestDate = request.Date,
             Status = MapToDecommissioningStatus(request.Status),
             Reason = request.Reason
@@ -152,8 +126,6 @@ public class DecommissioningService : IDecommissioningService
         {
             var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
             var technician = await _userRepository.GetByIdAsync(request.TechnicianId);
-            var receiver = await _userRepository.GetByIdAsync(request.DeviceReceiverId);
-
             dtos.Add(new DecommissioningRequestDto
             {
                 DecommissioningRequestId = request.DecommissioningRequestId,
@@ -161,8 +133,6 @@ public class DecommissioningService : IDecommissioningService
                 DeviceName = device?.Name ?? "Unknown",
                 TechnicianId = request.TechnicianId,
                 TechnicianName = technician?.FullName ?? "Unknown",
-                DeviceReceiverId = request.DeviceReceiverId,
-                DeviceReceiverName = receiver?.FullName ?? "Unknown",
                 RequestDate = request.Date,
                 Status = MapToDecommissioningStatus(request.Status),
                 Reason = request.Reason
@@ -231,17 +201,16 @@ public class DecommissioningService : IDecommissioningService
     public async Task<DecommissioningDto?> GetDecommissioningByDeviceIdAsync(int deviceId)
     {
         var decommissioning = (await _requestRepository.GetDecommissioningRequestsByDeviceAsync(deviceId)).Where(d => d.IsApproved);
-        if (decommissioning == null)
+        if (decommissioning == null || decommissioning.Count() == 0)
         {
             throw new Exception("No decommissions for this device");
         }
-
         return await MapRequestToDecommissioningDto(decommissioning.First());
     }
 
     public async Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-        var decommissionings = await _requestRepository.GetDecommissioningRequestsByDateRangeAsync(startDate, endDate);
+        var decommissionings = (await _requestRepository.GetDecommissioningRequestsByDateRangeAsync(startDate, endDate)).Where(d => d.IsApproved);
         List<DecommissioningDto> decommissioningDtos = [];
         foreach (var decommission in decommissionings)
         {
@@ -259,7 +228,7 @@ public class DecommissioningService : IDecommissioningService
         foreach (var device in devices)
         {
             var decommissioningRequest = await _requestRepository.GetDecommissioningRequestsByDeviceAsync(device.DeviceId);
-            var decommissioning = await MapRequestToDecommissioningDto(decommissioningRequest.Where(d => d.IsApproved).First());
+            var decommissioning = await MapRequestToDecommissioningDto(decommissioningRequest.Where(d => d.IsApproved).FirstOrDefault());
             if (decommissioning != null && device.DepartmentId == departmentId)
             {
                 decommissionings.Add(decommissioning);
@@ -270,7 +239,7 @@ public class DecommissioningService : IDecommissioningService
 
     public async Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByReasonAsync(DecommissioningReason reason)
     {
-       // var decommissionings = await _requestRepository.GetDecommissioningRequestByReasinAsync();
+        // var decommissionings = await _requestRepository.GetDecommissioningRequestByReasonAsync();
         return new List<DecommissioningDto>();
     }
 

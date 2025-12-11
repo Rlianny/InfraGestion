@@ -10,7 +10,6 @@ namespace Domain.Aggregations
         public int TechnicianId { get; private set; }
         public int DeviceId { get; private set; }
         public DateTime Date { get; private set; }
-        public int DeviceReceiverId { get; private set; }
         public Enums.RequestStatus Status { get; private set; }
         public DecommissioningReason Reason { get; private set; }
         public bool IsApproved { get; private set; }
@@ -18,7 +17,6 @@ namespace Domain.Aggregations
         public DecommissioningRequest(
             int technicianId,
             int deviceId,
-            int deviceReceiverId,
             DateTime date,
             DecommissioningReason reason
         )
@@ -28,7 +26,6 @@ namespace Domain.Aggregations
             Date = date;
             TechnicianId = technicianId;
             DeviceId = deviceId;
-            DeviceReceiverId = deviceReceiverId;
             Reason = reason;
         }
 

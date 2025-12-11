@@ -63,7 +63,7 @@ namespace Web.API.Controllers
             }
         }
         [HttpGet("maintenances")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Director, Administrator")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<MaintenanceRecordDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllMaintenanceRecordsAsync()
         {

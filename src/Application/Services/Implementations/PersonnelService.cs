@@ -154,6 +154,7 @@ namespace Application.Services.Implementations
                     DeviceReceiverName =
                         (await userRepository.GetByIdAsync(request.DeviceReceiverId))?.FullName
                         ?? $"Usuario {request.DeviceReceiverId}",
+
                     Status = MapToDecommissioningStatus(request.Status),
                 };
                 decommissioningRequestDtos.Add(dto);

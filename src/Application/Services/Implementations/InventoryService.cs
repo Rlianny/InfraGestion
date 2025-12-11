@@ -85,7 +85,6 @@ public class InventoryService : IInventoryService
                 var decommissioningRequest = new DecommissioningRequest(
                     request.TechnicianId,
                     request.DeviceId,
-                    section.SectionManagerId.Value,
                     DateTime.Now,
                     request.Reason
                 );
