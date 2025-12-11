@@ -29,7 +29,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DeviceReceiverId")
+                    b.Property<int?>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsApproved")

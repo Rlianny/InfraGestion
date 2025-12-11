@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251209161503_InitialFullSeed")]
+    [Migration("20251211212235_InitialFullSeed")]
     partial class InitialFullSeed
     {
         /// <inheritdoc />
@@ -32,7 +32,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DeviceReceiverId")
+                    b.Property<int?>("DeviceReceiverId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsApproved")

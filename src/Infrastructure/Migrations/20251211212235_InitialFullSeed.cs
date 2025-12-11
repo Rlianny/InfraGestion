@@ -108,9 +108,9 @@ namespace Infrastructure.Migrations
                     TechnicianId = table.Column<int>(type: "INTEGER", nullable: false),
                     DeviceId = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DeviceReceiverId = table.Column<int>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
                     Reason = table.Column<int>(type: "INTEGER", nullable: false),
+                    DeviceReceiverId = table.Column<int>(type: "INTEGER", nullable: true),
                     IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
