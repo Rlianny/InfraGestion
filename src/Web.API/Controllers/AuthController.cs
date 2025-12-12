@@ -79,15 +79,14 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("me")]
+        [HttpGet("me/{userId:int}")]
         [Authorize]
         [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser(int userId)
         {
             try
             {
-                var userId = GetCurrentUserId();
                 var user = await _userService.GetUserByIdAsync(userId);
                 return Ok(user);
             }
@@ -103,16 +102,15 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpPost("logout")]
+        [HttpPost("logout/{userId:int}")]
         [Authorize]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(int userId)
         {
             try
             {
-                var userId = GetCurrentUserId();
                 await _authService.LogoutAsync(userId);
                 _logger.LogInformation("Usuario {UserId} cerró sesión", userId);
                 return Ok("Sesión cerrada exitosamente");
@@ -126,21 +124,6 @@ namespace Web.API.Controllers
                 _logger.LogError(ex, "Error durante el logout");
                 return BadRequest("Error al cerrar sesión");
             }
-        }
-
-        private int GetCurrentUserId()
-        {
-            var userIdClaim = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")!.Value);
-
-            // if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
-            // {
-            //     _logger.LogError("No se pudo obtener el claim 'sub' (UserID) del token JWT.");
-            //     throw new UnauthorizedAccessException(
-            //         "Token inválido o no contiene ID de usuario."
-            //     );
-            // }
-
-            return userIdClaim;
         }
     }
 }

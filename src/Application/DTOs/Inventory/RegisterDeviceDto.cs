@@ -1,7 +1,7 @@
 using Domain.Enums;
 namespace Application.DTOs.Inventory
 {
-    public class InsertDeviceRequestDto
+    public class RegisterNewDeviceDto
     {
         public string Name { get; set; } = string.Empty;
         public DeviceType DeviceType { get; set; }

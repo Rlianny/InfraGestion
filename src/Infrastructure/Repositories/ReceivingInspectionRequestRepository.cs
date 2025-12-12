@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
 
         public async Task<
             IEnumerable<ReceivingInspectionRequest>
-        > GetReceivingInspectionRequestsByAdministratorAsync(
+        > GetInspectionRequestsByAdminAsync(
             int administratorId,
             CancellationToken cancellationToken = default
         )

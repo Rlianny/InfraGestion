@@ -59,7 +59,7 @@ namespace Application.Services.Implementations
             var department = await departmentRepository.GetByIdAsync(technician.DepartmentId);
             string departmentName = department?.Name ?? "Sin Departamento";
             string sectionName = "Sin Sección";
-            string sectionManagerName = "Sin Manager";
+            string sectionManagerName = "N/A";
 
             if (department?.SectionId != null)
             {
@@ -72,7 +72,7 @@ namespace Application.Services.Implementations
                         var sectionManager = await userRepository.GetByIdAsync(
                             section.SectionManagerId.Value
                         );
-                        sectionManagerName = sectionManager?.FullName ?? "Sin Manager";
+                        sectionManagerName = sectionManager?.FullName ?? "N/A";
                     }
                 }
             }
