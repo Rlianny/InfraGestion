@@ -86,6 +86,8 @@ public class MaintenanceService : IMaintenanceService
             TechnicianId = maintenance.TechnicianId,
             MaintenanceDate = maintenance.Date,
             MaintenanceType = maintenance.Type,
+            TechnicianName = technician.FullName,
+            DeviceName = device.Name
         };
     }
 
