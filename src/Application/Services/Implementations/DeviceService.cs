@@ -1,5 +1,5 @@
 using Application.DTOs.Decommissioning;
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 using Application.DTOs.Maintenance;
 using Application.DTOs.Transfer;
 using Application.Services.Interfaces;
@@ -50,37 +50,28 @@ namespace Application.Services.Implementations
 
         #region Queries
 
-        public async Task<IEnumerable<DeviceDto>> GetAllDevicesAsync(int userId)
-        {
-            var user =
-                await _userRepo.GetByIdAsync(userId)
-                ?? throw new EntityNotFoundException("User", userId);
-
-            var devices = await _deviceRepo.GetAllAsync();
-            var filteredDevices = await FilterDevicesByUserRoleAsync(user, devices);
-
-            return await MapToDeviceDtosAsync(filteredDevices);
-        }
-
-        public async Task<IEnumerable<DeviceDto>> GetDevicesByFilterAsync(
-            DeviceFilterDto filter,
-            int userId
+        public async Task<IEnumerable<DeviceDto>> GetDevicesAsync(
+            int currentUserId,
+            string role,
+            DeviceFilterDto? filter = null
         )
         {
             var devices = await _deviceRepo.GetAllAsync();
+            var filteredDevices = await FilterDevicesByRoleAsync(currentUserId, role, devices);
 
-            var filtered = devices.Where(d =>
-                (!filter.DeviceType.HasValue || d.Type == filter.DeviceType)
-                && (
-                    !filter.OperationalState.HasValue
-                    || d.OperationalState == filter.OperationalState
-                )
-                && (!filter.DepartmentId.HasValue || d.DepartmentId == filter.DepartmentId)
-            );
+            if (filter != null)
+            {
+                filteredDevices = ApplyFilters(filteredDevices, filter);
+            }
 
-            var deviceDtos = await MapToDeviceDtosAsync(filtered);
+            var deviceDtos = await MapToDeviceDtosAsync(filteredDevices);
 
-            return ApplyOrderingAndPaging(deviceDtos, filter);
+            if (filter != null)
+            {
+                return ApplyOrderingAndPaging(deviceDtos, filter);
+            }
+
+            return deviceDtos;
         }
 
         public async Task<DeviceDetailDto> GetDeviceDetailsAsync(int deviceId)
@@ -110,77 +101,53 @@ namespace Application.Services.Implementations
             );
         }
 
-        public async Task<IEnumerable<DeviceDto>> GetDevicesBySectionAsync(
-            int userId,
-            int sectionId
-        )
+        public async Task<IEnumerable<DeviceDto>> GetDevicesBySectionAsync(int sectionId)
         {
-            var user =
-                await _userRepo.GetByIdAsync(userId)
-                ?? throw new EntityNotFoundException("User", userId);
+            var section =
+                await _sectionRepo.GetByIdAsync(sectionId)
+                ?? throw new EntityNotFoundException("Section", sectionId);
 
             var devices = await _deviceRepo.GetAllAsync();
+            var departments = await LoadDepartmentsAsync(devices);
 
-            // Obtener todos los departamentos
-            var departmentIds = devices.Select(d => d.DepartmentId).Distinct();
-            var departments = new Dictionary<int, Department>();
-            foreach (var deptId in departmentIds)
-            {
-                var dept = await _departmentRepo.GetByIdAsync(deptId);
-                if (dept != null)
-                    departments[deptId] = dept;
-            }
-
-            var deviceDtos = devices
+            var sectionDevices = devices
                 .Where(d =>
                     departments.ContainsKey(d.DepartmentId)
                     && departments[d.DepartmentId].SectionId == sectionId
-                    && user.DepartmentId == d.DepartmentId
                 )
-                .Select(d => CreateDeviceDto(d, departments[d.DepartmentId]))
                 .ToList();
 
-            return deviceDtos;
+            return await MapToDeviceDtosAsync(sectionDevices);
         }
 
-        public async Task<IEnumerable<DeviceDto>> GetSectionDevicesByUserAsync(int userId)
+        public async Task<IEnumerable<DeviceDto>> GetMySectionDevicesAsync(int currentUserId)
         {
             var user =
-                await _userRepo.GetByIdAsync(userId)
-                ?? throw new EntityNotFoundException("User", userId);
+                await _userRepo.GetByIdAsync(currentUserId)
+                ?? throw new EntityNotFoundException("User", currentUserId);
 
             var userDepartment =
                 await _departmentRepo.GetByIdAsync(user.DepartmentId)
                 ?? throw new EntityNotFoundException("Department", user.DepartmentId);
 
             var devices = await _deviceRepo.GetAllAsync();
+            var departments = await LoadDepartmentsAsync(devices);
 
-            // Obtener todos los departamentos en una sola consulta batch
-            var departmentIds = devices.Select(d => d.DepartmentId).Distinct();
-            var departments = new Dictionary<int, Department>();
-            foreach (var deptId in departmentIds)
-            {
-                var dept = await _departmentRepo.GetByIdAsync(deptId);
-                if (dept != null)
-                    departments[deptId] = dept;
-            }
-
-            var deviceDtos = devices
+            var sectionDevices = devices
                 .Where(d =>
                     departments.ContainsKey(d.DepartmentId)
                     && departments[d.DepartmentId].SectionId == userDepartment.SectionId
                 )
-                .Select(d => CreateDeviceDto(d, departments[d.DepartmentId]))
                 .ToList();
 
-            return deviceDtos;
+            return await MapToDeviceDtosAsync(sectionDevices);
         }
 
         #endregion
 
         #region Commands
 
-        public async Task RegisterDeviceAsync(RegisterNewDeviceDto request)
+        public async Task<int> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId)
         {
             var device = new Device(
                 request.Name,
@@ -197,16 +164,22 @@ namespace Application.Services.Implementations
             var inspectionRequest = new Domain.Aggregations.ReceivingInspectionRequest(
                 DateTime.Now,
                 savedDevice.DeviceId,
-                request.userID,
-                request.technicianId
+                currentUserId,
+                request.TechnicianId
             );
 
             await _inspectionRepo.AddAsync(inspectionRequest);
             await _unitOfWork.SaveChangesAsync();
+
+            return savedDevice.DeviceId;
         }
 
-        public async Task UpdateDeviceAsync(UpdateDeviceRequestDto request)
+        public async Task UpdateDeviceAsync(int deviceId, UpdateDeviceRequestDto request)
         {
+            var existingDevice =
+                await _deviceRepo.GetByIdAsync(deviceId)
+                ?? throw new EntityNotFoundException("Device", deviceId);
+
             var department =
                 await _departmentRepo.GetDepartmentByNameAsync(request.DepartmentName)
                 ?? throw new EntityNotFoundException("Department", request.DepartmentName);
@@ -217,7 +190,7 @@ namespace Application.Services.Implementations
                 request.OperationalState,
                 department.DepartmentId,
                 request.Date,
-                request.DeviceId
+                deviceId
             );
 
             await _deviceRepo.UpdateAsync(device);
@@ -249,39 +222,72 @@ namespace Application.Services.Implementations
 
         #region Private Helper Methods
 
-        private async Task<IEnumerable<Device>> FilterDevicesByUserRoleAsync(
-            User user,
+        /// <summary>
+        /// Filtra dispositivos según el rol del usuario.
+        /// - Administrator/Director: Todos los dispositivos
+        /// - SectionManager/Technician/EquipmentReceiver/Logistician: Solo dispositivos de su sección
+        /// </summary>
+        private async Task<IEnumerable<Device>> FilterDevicesByRoleAsync(
+            int currentUserId,
+            string role,
             IEnumerable<Device> devices
         )
         {
-            if (user.IsAdministrator)
+            // Roles con acceso total
+            if (role == nameof(RoleEnum.Administrator) || role == nameof(RoleEnum.Director))
             {
                 return devices;
             }
 
-            if (user.IsTechnician || user.IsSectionManager)
+            // Roles con acceso a su sección
+            var user = await _userRepo.GetByIdAsync(currentUserId);
+            if (user == null)
+                return Enumerable.Empty<Device>();
+
+            var userDepartment = await _departmentRepo.GetByIdAsync(user.DepartmentId);
+            if (userDepartment == null)
+                return Enumerable.Empty<Device>();
+
+            var departments = await LoadDepartmentsAsync(devices);
+
+            return devices
+                .Where(d =>
+                    departments.ContainsKey(d.DepartmentId)
+                    && departments[d.DepartmentId].SectionId == userDepartment.SectionId
+                )
+                .ToList();
+        }
+
+        private static IEnumerable<Device> ApplyFilters(
+            IEnumerable<Device> devices,
+            DeviceFilterDto filter
+        )
+        {
+            return devices.Where(d =>
+                (!filter.DeviceType.HasValue || d.Type == filter.DeviceType)
+                && (
+                    !filter.OperationalState.HasValue
+                    || d.OperationalState == filter.OperationalState
+                )
+                && (!filter.DepartmentId.HasValue || d.DepartmentId == filter.DepartmentId)
+            );
+        }
+
+        private async Task<Dictionary<int, Department>> LoadDepartmentsAsync(
+            IEnumerable<Device> devices
+        )
+        {
+            var departmentIds = devices.Select(d => d.DepartmentId).Distinct();
+            var departments = new Dictionary<int, Department>();
+
+            foreach (var deptId in departmentIds)
             {
-                var userDepartment = await _departmentRepo.GetByIdAsync(user.DepartmentId);
-
-                // Cargar todos los departamentos necesarios de una vez
-                var departmentIds = devices.Select(d => d.DepartmentId).Distinct();
-                var departments = new Dictionary<int, Department>();
-                foreach (var deptId in departmentIds)
-                {
-                    var dept = await _departmentRepo.GetByIdAsync(deptId);
-                    if (dept != null)
-                        departments[deptId] = dept;
-                }
-
-                return devices
-                    .Where(d =>
-                        departments.ContainsKey(d.DepartmentId)
-                        && departments[d.DepartmentId].SectionId == userDepartment?.SectionId
-                    )
-                    .ToList();
+                var dept = await _departmentRepo.GetByIdAsync(deptId);
+                if (dept != null)
+                    departments[deptId] = dept;
             }
 
-            return Enumerable.Empty<Device>();
+            return departments;
         }
 
         private async Task<List<DeviceDto>> MapToDeviceDtosAsync(IEnumerable<Device> devices)

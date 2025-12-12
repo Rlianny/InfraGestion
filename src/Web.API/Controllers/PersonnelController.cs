@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Services.Interfaces;
 using Application.DTOs.Personnel;
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 using Web.API.Shared;
 
 namespace Web.API.Controllers

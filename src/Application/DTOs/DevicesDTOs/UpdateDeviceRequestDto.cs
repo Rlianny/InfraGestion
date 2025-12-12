@@ -1,5 +1,6 @@
 using Domain.Enums;
-namespace Application.DTOs.Inventory
+
+namespace Application.DTOs.DevicesDTOs
 {
     public class UpdateDeviceRequestDto
     {

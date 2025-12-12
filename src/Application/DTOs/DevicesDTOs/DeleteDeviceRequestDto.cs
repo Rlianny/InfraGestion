@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Inventory
+﻿namespace Application.DTOs.DevicesDTOs
 {
     public class DeleteDeviceRequestDto
     {

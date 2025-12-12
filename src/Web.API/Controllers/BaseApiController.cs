@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Web.API.Shared;
 
 namespace Web.API.Controllers
@@ -7,6 +9,21 @@ namespace Web.API.Controllers
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
+        protected int GetCurrentUserId()
+        {
+            var userIdClaim =
+                User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return int.TryParse(userIdClaim, out var userId) ? userId : 0;
+        }
+
+        protected string GetCurrentUserRole()
+        {
+            return User.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+        }
+
+
         protected IActionResult Ok<T>(T data, string message = null)
         {
             return base.Ok(ApiResponse<T>.Ok(data, message));

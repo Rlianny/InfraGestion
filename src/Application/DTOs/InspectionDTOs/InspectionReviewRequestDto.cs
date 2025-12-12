@@ -1,4 +1,4 @@
-namespace Application.DTOs.Inventory
+namespace Application.DTOs.InspectionDTOs
 {
     public class InspectionReviewRequestDto
     {

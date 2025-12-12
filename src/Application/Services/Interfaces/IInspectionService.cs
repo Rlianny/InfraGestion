@@ -1,4 +1,5 @@
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
+using Application.DTOs.InspectionDTOs;
 
 namespace Application.Services.Interfaces
 {

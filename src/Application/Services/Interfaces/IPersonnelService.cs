@@ -1,5 +1,5 @@
 using Application.DTOs.Personnel;
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 
 namespace Application.Services.Interfaces
 {

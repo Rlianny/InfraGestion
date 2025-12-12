@@ -2,7 +2,8 @@ using Application.DTOs.Maintenance;
 using Application.DTOs.Transfer;
 using Application.DTOs.Decommissioning;
 using Domain.Enums;
-namespace Application.DTOs.Inventory
+
+namespace Application.DTOs.DevicesDTOs
 {
     public class DeviceDetailDto : DeviceDto
     {

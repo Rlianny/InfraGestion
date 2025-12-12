@@ -1,4 +1,4 @@
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 
 namespace Application.Services.Interfaces
 {
@@ -10,14 +10,12 @@ namespace Application.Services.Interfaces
         #region Queries
 
         /// <summary>
-        /// Obtiene todos los dispositivos según el rol del usuario.
+        /// Obtiene todos los dispositivos filtrados según el rol del usuario autenticado.
+        /// - Administrator/Director: Todos los dispositivos
+        /// - SectionManager: Dispositivos de su sección
+        /// - Technician: Dispositivos de su sección
         /// </summary>
-        Task<IEnumerable<DeviceDto>> GetAllDevicesAsync(int userId);
-
-        /// <summary>
-        /// Obtiene dispositivos filtrados según criterios específicos.
-        /// </summary>
-        Task<IEnumerable<DeviceDto>> GetDevicesByFilterAsync(DeviceFilterDto filter, int userId);
+        Task<IEnumerable<DeviceDto>> GetDevicesAsync(int currentUserId, string role, DeviceFilterDto? filter = null);
 
         /// <summary>
         /// Obtiene el detalle completo de un dispositivo.
@@ -25,14 +23,14 @@ namespace Application.Services.Interfaces
         Task<DeviceDetailDto> GetDeviceDetailsAsync(int deviceId);
 
         /// <summary>
-        /// Obtiene dispositivos de una sección específica.
+        /// Obtiene dispositivos de una sección específica (solo para Admin/Director/SectionManager).
         /// </summary>
-        Task<IEnumerable<DeviceDto>> GetDevicesBySectionAsync(int userId, int sectionId);
+        Task<IEnumerable<DeviceDto>> GetDevicesBySectionAsync(int sectionId);
 
         /// <summary>
-        /// Obtiene dispositivos de la sección del usuario.
+        /// Obtiene dispositivos de la sección del usuario autenticado.
         /// </summary>
-        Task<IEnumerable<DeviceDto>> GetSectionDevicesByUserAsync(int userId);
+        Task<IEnumerable<DeviceDto>> GetMySectionDevicesAsync(int currentUserId);
 
         #endregion
 
@@ -41,12 +39,12 @@ namespace Application.Services.Interfaces
         /// <summary>
         /// Registra un nuevo dispositivo en el sistema.
         /// </summary>
-        Task RegisterDeviceAsync(RegisterNewDeviceDto request);
+        Task<int> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId);
 
         /// <summary>
         /// Actualiza la información de un dispositivo existente.
         /// </summary>
-        Task UpdateDeviceAsync(UpdateDeviceRequestDto request);
+        Task UpdateDeviceAsync(int deviceId, UpdateDeviceRequestDto request);
 
         /// <summary>
         /// Elimina un dispositivo del sistema.

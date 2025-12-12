@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Inventory;
+﻿using Application.DTOs.DevicesDTOs;
 using Domain.Enums;
 using System;
 using System.Collections.Generic;

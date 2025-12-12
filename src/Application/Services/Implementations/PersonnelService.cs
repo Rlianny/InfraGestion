@@ -1,5 +1,5 @@
 using Application.DTOs.Decommissioning;
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 using Application.DTOs.Maintenance;
 using Application.DTOs.Personnel;
 using Application.Services.Interfaces;

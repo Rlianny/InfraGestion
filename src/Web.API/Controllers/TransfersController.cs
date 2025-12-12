@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Auth;
-using Application.DTOs.Inventory;
+using Application.DTOs.DevicesDTOs;
 using Application.DTOs.Transfer;
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
