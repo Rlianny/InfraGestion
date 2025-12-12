@@ -84,6 +84,17 @@ namespace Application.Services.Implementations
                 await _departmentRepo.GetByIdAsync(device.DepartmentId)
                 ?? throw new EntityNotFoundException("Department", device.DepartmentId);
 
+            var section =
+                await _sectionRepo.GetByIdAsync(department.SectionId)
+                ?? throw new EntityNotFoundException("Section", department.SectionId);
+
+            string? sectionManagerName = null;
+            if (section.SectionManagerId.HasValue)
+            {
+                var sectionManager = await _userRepo.GetByIdAsync(section.SectionManagerId.Value);
+                sectionManagerName = sectionManager?.FullName;
+            }
+
             var maintenanceHistory = await GetMaintenanceHistoryAsync(device);
             var transferHistory = await GetTransferHistoryAsync(device);
             var decommissioning = await GetDecommissioningInfoAsync(device);
@@ -97,7 +108,9 @@ namespace Application.Services.Implementations
                 maintenanceHistory,
                 transferHistory,
                 decommissioning,
-                device.AcquisitionDate
+                device.AcquisitionDate,
+                section.Name,
+                sectionManagerName
             );
         }
 
