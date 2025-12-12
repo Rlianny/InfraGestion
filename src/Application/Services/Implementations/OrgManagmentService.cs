@@ -124,18 +124,18 @@ namespace Application.Services.Implementations
                 }
             }
 
-            if (department.Name != departmentDto.Name)
+            if (department.Name != departmentDto.DepartmentName)
             {
                 var exists = await departmentRepository.GetDepartmentByNameAsync(
-                    departmentDto.Name
+                    departmentDto.DepartmentName
                 );
                 if (exists != null)
                 {
-                    throw new DuplicateEntityException("Department", "Name", departmentDto.Name);
+                    throw new DuplicateEntityException("Department", "Name", departmentDto.DepartmentName);
                 }
             }
 
-            department.UpdateName(departmentDto.Name);
+            department.UpdateName(departmentDto.DepartmentName);
             department.UpdateSection(departmentDto.SectionId);
 
             await departmentRepository.UpdateAsync(department);
@@ -205,14 +205,18 @@ namespace Application.Services.Implementations
         {
             var departments = await departmentRepository.GetAllAsync();
             var departmentDtos = new List<DepartmentDto>();
+
             foreach (var department in departments)
             {
-                var dto = new DepartmentDto
-                {
-                    DepartmentId = department.DepartmentId,
-                    Name = department.Name,
-                    SectionId = department.SectionId,
-                };
+                var section = await sectionRepository.GetByIdAsync(department.SectionId);
+                var dto = new DepartmentDto(
+                    department.SectionId,
+                    department.DepartmentId,
+                    department.Name,
+                    section.Name,
+                    !department.IsDisabled
+                )
+                ;
                 departmentDtos.Add(dto);
             }
             return departmentDtos;

@@ -17,6 +17,7 @@ namespace Application.Services.Implementations
         private readonly IDeviceRepository _deviceRepo;
         private readonly IDepartmentRepository _departmentRepo;
         private readonly ISectionRepository _sectionRepo;
+        private readonly IUserRepository _userRepo;
         private readonly IDecommissioningRequestRepository _decommissioningRepo;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -26,6 +27,7 @@ namespace Application.Services.Implementations
             IDepartmentRepository departmentRepo,
             ISectionRepository sectionRepo,
             IDecommissioningRequestRepository decommissioningRepo,
+            IUserRepository userRepo,
             IUnitOfWork unitOfWork
         )
         {
@@ -34,6 +36,7 @@ namespace Application.Services.Implementations
             _departmentRepo = departmentRepo;
             _sectionRepo = sectionRepo;
             _decommissioningRepo = decommissioningRepo;
+            _userRepo = userRepo;
             _unitOfWork = unitOfWork;
         }
 
@@ -42,15 +45,15 @@ namespace Application.Services.Implementations
         public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetInspectionRequestsByTechnicianAsync(int technicianId)
         {
             var inspections = await _inspectionRepo.GetReceivingInspectionRequestsByTechnicianAsync(technicianId);
-            return inspections.Select(MapToDto);
+            return await MapToDtoList(inspections);
         }
 
         public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetPendingInspectionsByTechnicianAsync(int technicianId)
         {
             var inspections = await _inspectionRepo.GetReceivingInspectionRequestsByTechnicianAsync(technicianId);
-            return inspections
-                .Where(i => i.Status == InspectionRequestStatus.Pending)
-                .Select(MapToDto);
+            return await MapToDtoList(inspections
+                .Where(i => i.Status == InspectionRequestStatus.Pending));
+
         }
 
         #endregion
@@ -60,7 +63,7 @@ namespace Application.Services.Implementations
         public async Task<IEnumerable<ReceivingInspectionRequestDto>> GetInspectionRequestsByAdminAsync(int adminId)
         {
             var inspections = await _inspectionRepo.GetInspectionRequestsByAdminAsync(adminId);
-            return inspections.Select(MapToDto);
+            return await MapToDtoList(inspections);
         }
 
         public async Task<IEnumerable<DeviceDto>> GetRevisedDevicesByAdminAsync(int adminId)
@@ -73,7 +76,7 @@ namespace Application.Services.Implementations
             // Cargar todos los dispositivos necesarios
             var deviceIds = pendingInspections.Select(i => i.DeviceId).Distinct();
             var devices = new Dictionary<int, Domain.Entities.Device>();
-            
+
             foreach (var deviceId in deviceIds)
             {
                 var device = await _deviceRepo.GetByIdAsync(deviceId);
@@ -83,7 +86,7 @@ namespace Application.Services.Implementations
             // Cargar todos los departamentos necesarios 
             var departmentIds = devices.Values.Select(d => d.DepartmentId).Distinct();
             var departments = new Dictionary<int, Domain.Entities.Department>();
-            
+
             foreach (var deptId in departmentIds)
             {
                 var dept = await _departmentRepo.GetByIdAsync(deptId);
@@ -97,7 +100,7 @@ namespace Application.Services.Implementations
                 {
                     var device = devices[i.DeviceId];
                     var department = departments.GetValueOrDefault(device.DepartmentId);
-                    
+
                     return new DeviceDto(
                         device.DeviceId,
                         device.Name,
@@ -162,17 +165,38 @@ namespace Application.Services.Implementations
 
         #region Private Helper Methods
 
-        private static ReceivingInspectionRequestDto MapToDto(ReceivingInspectionRequest inspection)
+        private async Task<ReceivingInspectionRequestDto> MapToDto(ReceivingInspectionRequest inspection)
         {
+
+            var deviceName = (await _deviceRepo.GetByIdAsync(inspection.DeviceId))?.Name ?? "Unknown Device";
+            System.Console.WriteLine(deviceName);
+            System.Console.WriteLine(inspection.AdministratorId);
+            var userName = (await _userRepo.GetByIdAsync(inspection.AdministratorId))?.FullName ?? "Unknown Admin";
+            System.Console.WriteLine(userName);
+            var technicianFullName = (await _userRepo.GetByIdAsync(inspection.TechnicianId))?.FullName ?? "Unknown Technician";
+            System.Console.WriteLine(technicianFullName);
             return new ReceivingInspectionRequestDto(
                 inspection.ReceivingInspectionRequestId,
                 inspection.EmissionDate,
                 inspection.DeviceId,
+                deviceName,
                 inspection.AdministratorId,
+                userName,
                 inspection.TechnicianId,
+                technicianFullName,
                 inspection.Status,
                 inspection.RejectReason
             );
+        }
+        private async Task<List<ReceivingInspectionRequestDto>> MapToDtoList(IEnumerable<ReceivingInspectionRequest> inspections)
+        {
+            var dtoList = new List<ReceivingInspectionRequestDto>();
+            foreach (var inspection in inspections)
+            {
+                var dto = await MapToDto(inspection);
+                dtoList.Add(dto);
+            }
+            return dtoList;
         }
 
         private static void ValidateTechnicianAuthorization(int requestTechnicianId, int assignedTechnicianId)

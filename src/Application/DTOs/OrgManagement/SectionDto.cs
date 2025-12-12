@@ -4,6 +4,7 @@ public class SectionDto
     public string Name { get; set; } = string.Empty;
     public int? SectionManagerId { get; set; }
     public string? SectionManagerFullName { get; set; }
+    public bool IsActive { get; set; }
 
 }
 
