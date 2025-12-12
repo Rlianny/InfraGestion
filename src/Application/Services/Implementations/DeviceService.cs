@@ -147,7 +147,7 @@ namespace Application.Services.Implementations
 
         #region Commands
 
-        public async Task<int> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId)
+        public async Task<DeviceDto> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId)
         {
             var device = new Device(
                 request.Name,
@@ -160,7 +160,9 @@ namespace Application.Services.Implementations
             await _deviceRepo.AddAsync(device);
             await _unitOfWork.SaveChangesAsync();
 
-            var savedDevice = await _deviceRepo.GetDeviceByNameAsync(device.Name);
+            var savedDevice = await _deviceRepo.GetDeviceByNameAsync(device.Name)
+                ?? throw new EntityNotFoundException("Device", device.Name);
+
             var inspectionRequest = new Domain.Aggregations.ReceivingInspectionRequest(
                 DateTime.Now,
                 savedDevice.DeviceId,
@@ -171,7 +173,7 @@ namespace Application.Services.Implementations
             await _inspectionRepo.AddAsync(inspectionRequest);
             await _unitOfWork.SaveChangesAsync();
 
-            return savedDevice.DeviceId;
+            return CreateDeviceDto(savedDevice, null);
         }
 
         public async Task UpdateDeviceAsync(int deviceId, UpdateDeviceRequestDto request)

@@ -36,7 +36,7 @@ namespace Web.API.Controllers
         {
             var currentUserId = GetCurrentUserId();
             var role = GetCurrentUserRole();
-            
+
             var devices = await _deviceService.GetDevicesAsync(currentUserId, role, filter);
             return Ok(devices);
         }
@@ -89,13 +89,17 @@ namespace Web.API.Controllers
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ProducesResponseType(typeof(ApiResponse<int>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<DeviceDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterDeviceAsync([FromBody] RegisterDeviceDto request)
         {
             var currentUserId = GetCurrentUserId();
-            var deviceId = await _deviceService.RegisterDeviceAsync(request, currentUserId);
-            return CreatedAtAction(nameof(GetDeviceDetailsAsync), new { id = deviceId }, deviceId);
+            var device = await _deviceService.RegisterDeviceAsync(request, currentUserId);
+            return CreatedAtAction(
+                nameof(GetDeviceDetailsAsync),
+                new { id = device.DeviceId },
+                device
+            );
         }
 
         /// <summary>
@@ -125,7 +129,10 @@ namespace Web.API.Controllers
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateDeviceAsync(int id, [FromBody] UpdateDeviceRequestDto request)
+        public async Task<IActionResult> UpdateDeviceAsync(
+            int id,
+            [FromBody] UpdateDeviceRequestDto request
+        )
         {
             await _deviceService.UpdateDeviceAsync(id, request);
             return Ok("Device updated successfully");

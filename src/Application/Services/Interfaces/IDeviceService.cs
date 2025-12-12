@@ -39,7 +39,7 @@ namespace Application.Services.Interfaces
         /// <summary>
         /// Registra un nuevo dispositivo en el sistema.
         /// </summary>
-        Task<int> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId);
+        Task<DeviceDto> RegisterDeviceAsync(RegisterDeviceDto request, int currentUserId);
 
         /// <summary>
         /// Actualiza la información de un dispositivo existente.
