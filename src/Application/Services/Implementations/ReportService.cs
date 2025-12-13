@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.Report;
 using Application.Services.Interfaces;
+using Domain.Extensions;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -55,15 +56,20 @@ namespace Application.Services.Implementations
             {
                 case "correlation-analysis":
                     var table = await GenerateCorrelationAnalysisReportAsync();
-                    return pdfReportGenerator.CreatePdfTable<CorrelationAnalysisReportDto>(table);
-                    
+                    var pdf = await pdfReportGenerator.GeneratePdf(table);
+                    return new PdfExportDto(pdf);
+                default:
+                    throw new Exception("Invalid report type");
             }
-            throw new NotImplementedException();
+            
         }
 
         public Task<IEnumerable<PersonnelEffectivenessReportDto>> GeneratePersonnelEffectivenessReportAsync(PersonnelReportFilterDto criteria)
         {
+           throw new NotImplementedException() 
+           {
            
+           };
         }
     }
 }
