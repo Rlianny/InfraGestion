@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Attributes;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
@@ -82,10 +83,8 @@ namespace Domain.Extensions
                     {
                         cells.Add("NULL");
                     }
-
-                    rows.Add(new TableRow(cells));
                 }
-                
+                rows.Add(new TableRow(cells));
             }
             return rows;
         }
@@ -95,7 +94,8 @@ namespace Domain.Extensions
             List<string> headers = new();
             foreach (var property in properties)
             {
-                headers.Add(property.Name);
+                var pdfDisplayAttribute = property.GetCustomAttribute<PdfReportDisplayAttribute>();
+                headers.Add(pdfDisplayAttribute is null?property.Name:pdfDisplayAttribute.Text);
             }
             return headers;
         }

@@ -16,7 +16,7 @@ namespace Application.Services.Implementations
         {
             this.pdfReportGenerator = pdfReportGenerator;
         }
-        private static readonly string[] _names = { "bonus-determination",};
+        
         private readonly IPdfReportGenerator pdfReportGenerator;
 
         public Task<IEnumerable<BonusDeterminationReportDto>> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria)
