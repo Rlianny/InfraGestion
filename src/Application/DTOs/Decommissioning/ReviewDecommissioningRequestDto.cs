@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Domain.Enums;
 
 namespace Application.DTOs.Decommissioning
@@ -6,9 +7,13 @@ namespace Application.DTOs.Decommissioning
     {
         public int DecommissioningRequestId { get; set; }
         public bool IsApproved { get; set; }
+        public DateTime date { get; set; }
+
         // if is approved
         public DecommissioningReason? DecommissioningReason { get; set; } // EOL, IrreparableTechnicalFailure, etc.
-        public string? FinalDestination { get; set; } // "Almacén", "Desecho", "Reciclaje", etc.
-        public int? ReceiverDepartmentId { get; set; }
+        public int? FinalDestination { get; set; }
+        public string description { get; set; } = string.Empty;
+        public int? ReceiverID { get; set; }
+        public int? logisticId { get; set; }
     }
 }

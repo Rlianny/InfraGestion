@@ -15,18 +15,27 @@ namespace Infrastructure.Data.Configurations
             builder.Property(dr => dr.DecommissioningRequestId)
                 .ValueGeneratedOnAdd();
 
-            builder.HasIndex(dr => new { dr.TechnicianId, dr.DeviceId, dr.Date })
+            builder.HasIndex(dr => new { dr.TechnicianId, dr.DeviceId, dr.EmissionDate })
                 .IsUnique();
 
-            builder.Property(dr => dr.Date)
+            builder.Property(dr => dr.EmissionDate)
+                .IsRequired();
+
+            builder.Property(dr => dr.AnswerDate)
+                .IsRequired(false);
+
+            builder.Property(dr => dr.Status)
                 .IsRequired();
 
             builder.Property(dr => dr.Reason)
-                .IsRequired()
-                .HasMaxLength(500);
+                .IsRequired();
 
             builder.Property(dr => dr.IsApproved)
-            .HasDefaultValue(false);
+                .IsRequired(false);
+
+            builder.Property(dr => dr.description)
+                .IsRequired()
+                .HasMaxLength(2000);
 
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
@@ -41,6 +50,16 @@ namespace Infrastructure.Data.Configurations
             builder.HasOne<Domain.Entities.User>()
                 .WithMany()
                 .HasForeignKey(dr => dr.DeviceReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Domain.Entities.User>()
+                .WithMany()
+                .HasForeignKey(dr => dr.logisticId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Domain.Entities.Department>()
+                .WithMany()
+                .HasForeignKey(dr => dr.FinalDestinationDepartmentID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

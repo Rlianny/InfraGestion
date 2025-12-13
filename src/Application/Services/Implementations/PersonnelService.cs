@@ -144,8 +144,8 @@ namespace Application.Services.Implementations
                         (await devicesRepository.GetByIdAsync(request.DeviceId))?.Name
                         ?? $"Equipo {request.DeviceId}",
                     Reason = request.Reason,
-                    ReasonDescription = GetReasonDescription(request.Reason),
-                    RequestDate = request.Date,
+                    Justification = GetReasonDescription(request.Reason),
+                    RequestDate = request.EmissionDate,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
 
@@ -161,15 +161,15 @@ namespace Application.Services.Implementations
                 .OrderByDescending(m => m.Date)
                 .FirstOrDefault();
             var lastDecommission = decommissioningRequests
-                .OrderByDescending(d => d.Date)
+                .OrderByDescending(d => d.EmissionDate)
                 .FirstOrDefault();
 
             if (lastMaintenance != null && lastDecommission != null)
             {
                 lastInterventionDate =
-                    lastMaintenance.Date > lastDecommission.Date
+                    lastMaintenance.Date > lastDecommission.EmissionDate
                         ? lastMaintenance.Date
-                        : lastDecommission.Date;
+                        : lastDecommission.EmissionDate;
             }
             else if (lastMaintenance != null)
             {
@@ -177,7 +177,7 @@ namespace Application.Services.Implementations
             }
             else if (lastDecommission != null)
             {
-                lastInterventionDate = lastDecommission.Date;
+                lastInterventionDate = lastDecommission.EmissionDate;
             }
 
             return new TechnicianDetailsDto
