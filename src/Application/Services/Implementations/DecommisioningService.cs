@@ -140,7 +140,11 @@ public class DecommissioningService : IDecommissioningService
                 TechnicianName = technician?.FullName ?? "Unknown",
                 RequestDate = request.EmissionDate,
                 Status = MapToDecommissioningStatus(request.Status),
-                Reason = request.Reason
+                Reason = request.Reason,
+                ReviewedDate = request.AnswerDate,
+                Justification = request.description,
+                ReviewedByUserId = request.logisticId,
+                ReviewedByUserName = request.logisticId == null ? "Unrevised" : (await _userRepository.GetByIdAsync((int)request.logisticId)).FullName
             });
         }
 
