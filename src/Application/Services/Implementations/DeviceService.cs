@@ -456,7 +456,7 @@ namespace Application.Services.Implementations
             var decommissioning = (
                 await _decommissioningRepo.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)
             )
-                .Where(d => d.IsApproved)
+                .Where(d => d.IsApproved != null && d.IsApproved == true)
                 .FirstOrDefault();
 
             if (decommissioning == null)
@@ -478,7 +478,7 @@ namespace Application.Services.Implementations
                 DeviceReceiverName = receiver?.FullName ?? "Unknown",
                 ReceiverDepartmentId = receiverDepartment?.DepartmentId ?? 0,
                 ReceiverDepartmentName = receiverDepartment?.Name ?? "Unknown",
-                DecommissioningDate = decommissioning.Date,
+                DecommissioningDate = decommissioning.EmissionDate,
                 Reason = decommissioning.Reason,
                 FinalDestination = null,
             };

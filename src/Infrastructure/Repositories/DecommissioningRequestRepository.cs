@@ -58,7 +58,7 @@ namespace Infrastructure.Repositories
         )
         {
             return await _dbSet
-                .Where(dr => dr.Date >= startDate && dr.Date <= endDate)
+                .Where(dr => dr.AnswerDate >= startDate && dr.AnswerDate <= endDate)
                 .ToListAsync(cancellationToken);
         }
 

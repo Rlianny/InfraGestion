@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251213052601_FixDecommissioningRequestConfigAndSeed")]
+    partial class FixDecommissioningRequestConfigAndSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -38,8 +41,10 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("FinalDestinationDepartmentID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("IsApproved")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("IsApproved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Reason")
                         .HasColumnType("INTEGER");
@@ -86,7 +91,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -4,
                             DeviceReceiverId = -19,
                             EmissionDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 4,
                             Status = 1,
@@ -99,6 +104,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -2,
                             DeviceId = -3,
                             EmissionDate = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 1,
                             Status = 0,
                             TechnicianId = -15,
@@ -122,6 +128,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -4,
                             DeviceId = -7,
                             EmissionDate = new DateTime(2025, 1, 6, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 6,
                             Status = 0,
                             TechnicianId = -12,
@@ -145,6 +152,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -6,
                             DeviceId = -9,
                             EmissionDate = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 3,
                             Status = 0,
                             TechnicianId = -14,
@@ -157,7 +165,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -10,
                             DeviceReceiverId = -21,
                             EmissionDate = new DateTime(2025, 1, 14, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 4,
                             Status = 1,
@@ -170,6 +178,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -8,
                             DeviceId = -11,
                             EmissionDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 6,
                             Status = 0,
                             TechnicianId = -16,
@@ -193,6 +202,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -10,
                             DeviceId = -13,
                             EmissionDate = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 0,
                             Status = 0,
                             TechnicianId = -13,
@@ -205,7 +215,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -14,
                             DeviceReceiverId = -20,
                             EmissionDate = new DateTime(2025, 2, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 6,
                             Status = 1,
@@ -218,6 +228,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -12,
                             DeviceId = -15,
                             EmissionDate = new DateTime(2025, 2, 22, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 3,
                             Status = 0,
                             TechnicianId = -15,
@@ -241,6 +252,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -14,
                             DeviceId = -17,
                             EmissionDate = new DateTime(2025, 3, 6, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 6,
                             Status = 0,
                             TechnicianId = -12,
@@ -264,6 +276,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -16,
                             DeviceId = -19,
                             EmissionDate = new DateTime(2025, 3, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 1,
                             Status = 0,
                             TechnicianId = -14,
@@ -274,6 +287,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -17,
                             DeviceId = -20,
                             EmissionDate = new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 0,
                             Status = 0,
                             TechnicianId = -15,
@@ -286,7 +300,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -21,
                             DeviceReceiverId = -17,
                             EmissionDate = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 1,
                             Status = 1,
@@ -301,7 +315,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -22,
                             DeviceReceiverId = -18,
                             EmissionDate = new DateTime(2025, 4, 3, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 6,
                             Status = 1,
@@ -316,7 +330,7 @@ namespace Infrastructure.Migrations
                             DeviceId = -23,
                             DeviceReceiverId = -19,
                             EmissionDate = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Utc),
-                            FinalDestinationDepartmentID = -18,
+                            FinalDestinationDepartmentID = 1,
                             IsApproved = true,
                             Reason = 4,
                             Status = 1,
@@ -329,6 +343,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -21,
                             DeviceId = -24,
                             EmissionDate = new DateTime(2025, 4, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 6,
                             Status = 0,
                             TechnicianId = -14,
@@ -339,6 +354,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -22,
                             DeviceId = -25,
                             EmissionDate = new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 3,
                             Status = 0,
                             TechnicianId = -15,
@@ -362,6 +378,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -24,
                             DeviceId = -27,
                             EmissionDate = new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 1,
                             Status = 0,
                             TechnicianId = -12,
@@ -372,6 +389,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -25,
                             DeviceId = -28,
                             EmissionDate = new DateTime(2025, 4, 22, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 0,
                             Status = 0,
                             TechnicianId = -13,
@@ -382,6 +400,7 @@ namespace Infrastructure.Migrations
                             DecommissioningRequestId = -26,
                             DeviceId = -29,
                             EmissionDate = new DateTime(2025, 4, 25, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsApproved = false,
                             Reason = 3,
                             Status = 0,
                             TechnicianId = -14,
@@ -496,66 +515,6 @@ namespace Infrastructure.Migrations
                             DeviceId = -6,
                             TechnicianId = -12,
                             Type = 0
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -7,
-                            Cost = 95.0,
-                            Date = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Inspección de ventiladores y revisión de VLANs",
-                            DeviceId = -7,
-                            TechnicianId = -13,
-                            Type = 0
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -8,
-                            Cost = 180.0,
-                            Date = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Actualización de parches del SO y verificación de discos",
-                            DeviceId = -8,
-                            TechnicianId = -14,
-                            Type = 0
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -9,
-                            Cost = 320.0,
-                            Date = new DateTime(2025, 2, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Reemplazo de fuente redundante y pruebas I/O",
-                            DeviceId = -9,
-                            TechnicianId = -15,
-                            Type = 1
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -10,
-                            Cost = 50.0,
-                            Date = new DateTime(2025, 3, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Recalibración y limpieza de conectores",
-                            DeviceId = -11,
-                            TechnicianId = -16,
-                            Type = 0
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -11,
-                            Cost = 140.0,
-                            Date = new DateTime(2025, 3, 21, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Medición de potencia y análisis de degradación",
-                            DeviceId = -12,
-                            TechnicianId = -12,
-                            Type = 2
-                        },
-                        new
-                        {
-                            MaintenanceRecordId = -12,
-                            Cost = 110.0,
-                            Date = new DateTime(2025, 4, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Revisión de reglas y backup de configuración",
-                            DeviceId = -13,
-                            TechnicianId = -13,
-                            Type = 0
                         });
                 });
 
@@ -600,17 +559,17 @@ namespace Infrastructure.Migrations
                             AdministratorId = -1,
                             DeviceId = -1,
                             EmissionDate = new DateTime(2025, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
+                            RejectReason = 0,
                             Status = 2,
                             TechnicianId = -12
                         },
                         new
                         {
                             ReceivingInspectionRequestId = -2,
-                            AcceptedDate = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            AcceptedDate = new DateTime(2025, 2, 17, 0, 0, 0, 0, DateTimeKind.Utc),
                             AdministratorId = -2,
                             DeviceId = -2,
-                            EmissionDate = new DateTime(2025, 1, 3, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EmissionDate = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             RejectReason = 6,
                             Status = 0,
                             TechnicianId = -13
@@ -620,298 +579,11 @@ namespace Infrastructure.Migrations
                             ReceivingInspectionRequestId = -3,
                             AdministratorId = -3,
                             DeviceId = -3,
-                            EmissionDate = new DateTime(2025, 1, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EmissionDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             RejectReason = 3,
-                            RejectionDate = new DateTime(2025, 1, 6, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RejectionDate = new DateTime(2025, 3, 22, 0, 0, 0, 0, DateTimeKind.Utc),
                             Status = 1,
                             TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -4,
-                            AcceptedDate = new DateTime(2025, 1, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -4,
-                            DeviceId = -4,
-                            EmissionDate = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -5,
-                            AdministratorId = -5,
-                            DeviceId = -5,
-                            EmissionDate = new DateTime(2025, 1, 6, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -16
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -6,
-                            AcceptedDate = new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -1,
-                            DeviceId = -6,
-                            EmissionDate = new DateTime(2025, 1, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -12
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -7,
-                            AdministratorId = -2,
-                            DeviceId = -7,
-                            EmissionDate = new DateTime(2025, 1, 8, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -13
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -8,
-                            AdministratorId = -3,
-                            DeviceId = -8,
-                            EmissionDate = new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 0,
-                            RejectionDate = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -9,
-                            AcceptedDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -4,
-                            DeviceId = -9,
-                            EmissionDate = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -10,
-                            AdministratorId = -5,
-                            DeviceId = -10,
-                            EmissionDate = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -16
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -11,
-                            AcceptedDate = new DateTime(2025, 1, 14, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -1,
-                            DeviceId = -11,
-                            EmissionDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -12
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -12,
-                            AdministratorId = -2,
-                            DeviceId = -12,
-                            EmissionDate = new DateTime(2025, 1, 13, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 4,
-                            RejectionDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -13
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -13,
-                            AdministratorId = -3,
-                            DeviceId = -13,
-                            EmissionDate = new DateTime(2025, 1, 14, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -14,
-                            AcceptedDate = new DateTime(2025, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -4,
-                            DeviceId = -14,
-                            EmissionDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -15,
-                            AdministratorId = -5,
-                            DeviceId = -15,
-                            EmissionDate = new DateTime(2025, 1, 16, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -16
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -16,
-                            AdministratorId = -1,
-                            DeviceId = -16,
-                            EmissionDate = new DateTime(2025, 1, 17, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 3,
-                            RejectionDate = new DateTime(2025, 1, 19, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -12
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -17,
-                            AcceptedDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -2,
-                            DeviceId = -17,
-                            EmissionDate = new DateTime(2025, 1, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -13
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -18,
-                            AdministratorId = -3,
-                            DeviceId = -18,
-                            EmissionDate = new DateTime(2025, 1, 19, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -19,
-                            AcceptedDate = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -4,
-                            DeviceId = -19,
-                            EmissionDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -20,
-                            AdministratorId = -5,
-                            DeviceId = -20,
-                            EmissionDate = new DateTime(2025, 1, 21, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 1,
-                            RejectionDate = new DateTime(2025, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -16
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -21,
-                            AdministratorId = -1,
-                            DeviceId = -21,
-                            EmissionDate = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -12
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -22,
-                            AcceptedDate = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -2,
-                            DeviceId = -22,
-                            EmissionDate = new DateTime(2025, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -13
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -23,
-                            AdministratorId = -3,
-                            DeviceId = -23,
-                            EmissionDate = new DateTime(2025, 1, 24, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -24,
-                            AcceptedDate = new DateTime(2025, 1, 27, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -4,
-                            DeviceId = -24,
-                            EmissionDate = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -25,
-                            AdministratorId = -5,
-                            DeviceId = -25,
-                            EmissionDate = new DateTime(2025, 1, 26, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 3,
-                            RejectionDate = new DateTime(2025, 1, 28, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -16
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -26,
-                            AdministratorId = -1,
-                            DeviceId = -26,
-                            EmissionDate = new DateTime(2025, 1, 27, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -12
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -27,
-                            AcceptedDate = new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -2,
-                            DeviceId = -27,
-                            EmissionDate = new DateTime(2025, 1, 28, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -13
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -28,
-                            AdministratorId = -3,
-                            DeviceId = -28,
-                            EmissionDate = new DateTime(2025, 1, 29, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 2,
-                            TechnicianId = -14
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -29,
-                            AdministratorId = -4,
-                            DeviceId = -29,
-                            EmissionDate = new DateTime(2025, 1, 30, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 0,
-                            RejectionDate = new DateTime(2025, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Status = 1,
-                            TechnicianId = -15
-                        },
-                        new
-                        {
-                            ReceivingInspectionRequestId = -30,
-                            AcceptedDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            AdministratorId = -5,
-                            DeviceId = -30,
-                            EmissionDate = new DateTime(2025, 1, 31, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RejectReason = 6,
-                            Status = 0,
-                            TechnicianId = -16
                         });
                 });
 
@@ -944,20 +616,20 @@ namespace Infrastructure.Migrations
                         new
                         {
                             RejectionId = -1,
-                            DecommissioningRequestDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceId = -4,
+                            DecommissioningRequestDate = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -3,
                             DeviceReceiverId = -19,
-                            RejectionDate = new DateTime(2025, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            TechnicianId = -14
+                            RejectionDate = new DateTime(2025, 2, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            TechnicianId = -15
                         },
                         new
                         {
                             RejectionId = -2,
-                            DecommissioningRequestDate = new DateTime(2025, 4, 3, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DeviceId = -22,
-                            DeviceReceiverId = -18,
-                            RejectionDate = new DateTime(2025, 4, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            TechnicianId = -12
+                            DecommissioningRequestDate = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DeviceId = -5,
+                            DeviceReceiverId = -17,
+                            RejectionDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            TechnicianId = -16
                         });
                 });
 
@@ -1024,50 +696,6 @@ namespace Infrastructure.Migrations
                             DeviceReceiverId = -19,
                             IsDisabled = false,
                             SourceSectionId = -4,
-                            Status = 2
-                        },
-                        new
-                        {
-                            TransferId = -4,
-                            Date = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DestinationSectionId = -7,
-                            DeviceId = -7,
-                            DeviceReceiverId = -20,
-                            IsDisabled = false,
-                            SourceSectionId = -1,
-                            Status = 4
-                        },
-                        new
-                        {
-                            TransferId = -5,
-                            Date = new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DestinationSectionId = -6,
-                            DeviceId = -8,
-                            DeviceReceiverId = -21,
-                            IsDisabled = false,
-                            SourceSectionId = -2,
-                            Status = 3
-                        },
-                        new
-                        {
-                            TransferId = -6,
-                            Date = new DateTime(2025, 1, 16, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DestinationSectionId = -5,
-                            DeviceId = -10,
-                            DeviceReceiverId = -19,
-                            IsDisabled = false,
-                            SourceSectionId = -6,
-                            Status = 4
-                        },
-                        new
-                        {
-                            TransferId = -7,
-                            Date = new DateTime(2025, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DestinationSectionId = -6,
-                            DeviceId = -14,
-                            DeviceReceiverId = -18,
-                            IsDisabled = false,
-                            SourceSectionId = -8,
                             Status = 2
                         });
                 });
@@ -1678,51 +1306,6 @@ namespace Infrastructure.Migrations
                             Description = "Trabajo constante en fibra",
                             Score = 4.0,
                             TechnicianId = -16,
-                            UserId = -11
-                        },
-                        new
-                        {
-                            PerformanceRatingId = -6,
-                            Date = new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Buen soporte en incidentes",
-                            Score = 4.2999999999999998,
-                            TechnicianId = -13,
-                            UserId = -7
-                        },
-                        new
-                        {
-                            PerformanceRatingId = -7,
-                            Date = new DateTime(2025, 6, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Necesita mejorar documentación",
-                            Score = 3.3999999999999999,
-                            TechnicianId = -14,
-                            UserId = -8
-                        },
-                        new
-                        {
-                            PerformanceRatingId = -8,
-                            Date = new DateTime(2025, 7, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Excelente gestión de riesgos",
-                            Score = 4.7000000000000002,
-                            TechnicianId = -15,
-                            UserId = -9
-                        },
-                        new
-                        {
-                            PerformanceRatingId = -9,
-                            Date = new DateTime(2025, 7, 14, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Rendimiento estable",
-                            Score = 3.7999999999999998,
-                            TechnicianId = -16,
-                            UserId = -10
-                        },
-                        new
-                        {
-                            PerformanceRatingId = -10,
-                            Date = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Buen trabajo con tareas preventivas",
-                            Score = 4.0999999999999996,
-                            TechnicianId = -12,
                             UserId = -11
                         });
                 });
