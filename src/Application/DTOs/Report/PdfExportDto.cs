@@ -8,6 +8,11 @@ namespace Application.DTOs.Report
 {
     public class PdfExportDto
     {
+        public PdfExportDto(byte[] pdfContent)
+        {
+            PdfContent = pdfContent;
+        }
+
         public byte[] PdfContent { get; set; }
     }
 }
