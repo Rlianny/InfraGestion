@@ -38,5 +38,6 @@ namespace Application.DTOs.Report
         /// Fecha final de adquisición para el rango
         /// </summary>
         public DateTime? ToDate { get; set; }
+        public string? Department { get; internal set; }
     }
 }

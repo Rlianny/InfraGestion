@@ -10,6 +10,14 @@ namespace Application.DTOs.Report
     /// </summary>
     public class DeviceReplacementReportDto
     {
+        private string name;
+
+        public DeviceReplacementReportDto(int deviceId, string name)
+        {
+            DeviceId = deviceId;
+            this.name = name;
+        }
+
         [PdfReportDisplay("ID Equipo")]
         public int DeviceId { get; set; }
 

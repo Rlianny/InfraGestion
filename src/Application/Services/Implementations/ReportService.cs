@@ -1,6 +1,7 @@
-ï»¿using Application.DTOs.Report;
+using Application.DTOs.Report;
 using Application.Services.Interfaces;
 using Domain.Enums;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services.Implementations
 {
-    internal class ReportService : IReportService
+    public class ReportService : IReportService
     {
         private readonly IPdfReportGenerator _pdfReportGenerator;
         private readonly IDeviceRepository _deviceRepository;
@@ -49,21 +50,28 @@ namespace Application.Services.Implementations
             var devices = await _deviceRepository.GetAllAsync();
 
             if (filter.DeviceType.HasValue)
-                devices = devices.Where(d => d.Type == filter.DeviceType).ToList();
+                devices = devices.Where(d => d.Type == filter.DeviceType);
 
             if (filter.OperationalState.HasValue)
-                devices = devices.Where(d => d.OperationalState == filter.OperationalState).ToList();
+                devices = devices.Where(d => d.OperationalState == filter.OperationalState);
 
-            if (!string.IsNullOrEmpty(filter.Department))
-                devices = devices.Where(d => d.Name == filter.Department).ToList();
+            if (filter.DepartmentId.HasValue)
+                devices = devices.Where(d => d.DepartmentId == filter.DepartmentId);
+
+            if (filter.FromDate.HasValue)
+                devices = devices.Where(d => d.AcquisitionDate >= filter.FromDate.Value);
+
+            if (filter.ToDate.HasValue)
+                devices = devices.Where(d => d.AcquisitionDate <= filter.ToDate.Value);
 
             var reportList = new List<DeviceReportDto>();
 
             foreach (var device in devices)
             {
                 var maintenances = await _maintenanceRepository.GetMaintenancesByDeviceAsync(device.DeviceId);
-                var department = await _departmentRepository.GetByIdAsync(device.DepartmentId);
-                var section = await _sectionRepository.GetByIdAsync(department.SectionId);
+                var department = await _departmentRepository.GetByIdAsync(device.DepartmentId) ?? throw new EntityNotFoundException("Department", device.DepartmentId);
+                var section = await _sectionRepository.GetByIdAsync(department.SectionId) ?? throw new EntityNotFoundException("Section", department.SectionId);
+
                 var maintenanceCount = maintenances.Count();
                 var totalMaintenanceCost = maintenances.Sum(m => m.Cost);
                 var lastMaintenanceDate = maintenances.OrderByDescending(m => m.Date).FirstOrDefault()?.Date;
@@ -74,7 +82,7 @@ namespace Application.Services.Implementations
                     device.Type,
                     device.OperationalState,
                     device.DepartmentId,
-                    device.Name,
+                    department.Name,
                     department.SectionId,
                     section.Name,
                     device.AcquisitionDate,
@@ -91,23 +99,36 @@ namespace Application.Services.Implementations
 
         public async Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync(DecommissioningReportFilterDto filter)
         {
-            var decommissioningRequests = (await _decommissioningRepository.GetDecommissioningRequestsByDateRangeAsync(filter.StartDate, filter.EndDate)).Where(d => d.IsApproved != null & (bool)d.IsApproved);
+            var startDate = filter.FromDate ?? DateTime.MinValue;
+            var endDate = filter.ToDate ?? DateTime.MaxValue;
+
+            var decommissioningRequests = await _decommissioningRepository.GetDecommissioningRequestsByDateRangeAsync(startDate, endDate);
+
+            var query = decommissioningRequests
+                .Where(d => d.IsApproved != null && d.IsApproved == true);
+
+            if (filter.Reason.HasValue)
+                query = query.Where(d => d.Reason == filter.Reason);
+
+            if (filter.Status.HasValue)
+                query = query.Where(d => d.Status == filter.Status);
 
             var reportList = new List<DecommissioningReportDto>();
 
-            foreach (var request in decommissioningRequests)
+            foreach (var request in query)
             {
                 var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
                 var department = await _departmentRepository.GetByIdAsync((int)request.FinalDestinationDepartmentID);
                 var receiver = await _userRepository.GetByIdAsync((int)request.DeviceReceiverId);
+
                 var reportDto = new DecommissioningReportDto
                 {
                     EquipmentId = request.DeviceId,
-                    EquipmentName = device.Name,
+                    EquipmentName = device?.Name ?? string.Empty,
                     DecommissionCause = request.Reason.ToString(),
-                    FinalDestination = department.Name,
-                    ReceiverName = receiver.FullName,
-                    DecommissionDate = request.AnswerDate == null ? DateTime.MinValue : request.AnswerDate.Value
+                    FinalDestination = department?.Name ?? string.Empty,
+                    ReceiverName = receiver?.FullName ?? string.Empty,
+                    DecommissionDate = request.AnswerDate ?? DateTime.MinValue
                 };
 
                 reportList.Add(reportDto);
@@ -119,11 +140,78 @@ namespace Application.Services.Implementations
         public async Task<IEnumerable<PersonnelEffectivenessReportDto>> GeneratePersonnelEffectivenessReportAsync(PersonnelReportFilterDto criteria)
         {
             var users = await _userRepository.GetAllAsync();
+            var maintenanceRecords = await _maintenanceRepository.GetAllAsync();
+            var decommissioningRequests = await _decommissioningRepository.GetAllAsync();
+            var performanceRatings = await _performanceRatingRepository.GetAllAsync();
+
+            var filteredUsers = users.AsEnumerable();
+
+            if (criteria.DepartmentId.HasValue)
+                filteredUsers = filteredUsers.Where(u => u.DepartmentId == criteria.DepartmentId);
+
+            if (criteria.SectionId.HasValue)
+                filteredUsers = filteredUsers.Where(u => u.Department != null && u.Department.SectionId == criteria.SectionId);
+
+            if (!string.IsNullOrEmpty(criteria.Specialty))
+                filteredUsers = filteredUsers.Where(u => u.Specialty == criteria.Specialty);
+
+            if (criteria.MinimumYearsOfExperience.HasValue)
+                filteredUsers = filteredUsers.Where(u => (u.YearsOfExperience ?? 0) >= criteria.MinimumYearsOfExperience);
+
+            if (criteria.MaximumYearsOfExperience.HasValue)
+                filteredUsers = filteredUsers.Where(u => (u.YearsOfExperience ?? 0) <= criteria.MaximumYearsOfExperience);
+
             var reportList = new List<PersonnelEffectivenessReportDto>();
 
-            foreach (var user in users)
+            foreach (var user in filteredUsers)
             {
-                var reportDto = new PersonnelEffectivenessReportDto();
+                var userMaintenances = maintenanceRecords.Where(m => m.TechnicianId == user.UserId).ToList();
+                var userDecommissionings = decommissioningRequests.Where(d => d.TechnicianId == user.UserId).ToList();
+                var userRatings = performanceRatings.Where(r => r.TechnicianId == user.UserId).ToList();
+
+                var totalInterventions = userMaintenances.Count() + userDecommissionings.Count();
+                var totalMaintenanceCost = userMaintenances.Sum(m => m.Cost);
+                var averageCostPerIntervention = totalInterventions > 0 ? totalMaintenanceCost / totalInterventions : 0;
+                var averageRating = userRatings.Any() ? userRatings.Average(r => r.Score) : 0;
+                var lastInterventionDate = userMaintenances
+                    .OrderByDescending(m => m.Date)
+                    .FirstOrDefault()?.Date;
+
+                var department = user.Department;
+                var section = department?.Section;
+
+                var reportDto = new PersonnelEffectivenessReportDto
+                {
+                    TechnicianId = user.UserId,
+                    TechnicianName = user.FullName,
+                    Specialty = user.Specialty ?? string.Empty,
+                    YearsOfExperience = user.YearsOfExperience ?? 0,
+                    MaintenanceInterventions = userMaintenances.Count(),
+                    DecommissioningRequests = userDecommissionings.Count(),
+                    TotalInterventions = totalInterventions,
+                    TotalMaintenanceCost = totalMaintenanceCost,
+                    AverageCostPerIntervention = averageCostPerIntervention,
+                    AverageRating = averageRating,
+                    LastInterventionDate = lastInterventionDate,
+                    DepartmentName = department?.Name ?? string.Empty,
+                    SectionName = section?.Name ?? string.Empty
+                };
+
+                if (criteria.MinimumAverageRating.HasValue && averageRating < criteria.MinimumAverageRating)
+                    continue;
+
+                if (criteria.OnlyActiveInPeriod.HasValue && criteria.OnlyActiveInPeriod.Value)
+                {
+                    var fromDate = criteria.FromDate ?? DateTime.MinValue;
+                    var toDate = criteria.ToDate ?? DateTime.MaxValue;
+
+                    var hasActivity = userMaintenances.Any(m => m.Date >= fromDate && m.Date <= toDate) ||
+                                     userDecommissionings.Any(d => d.EmissionDate >= fromDate && d.EmissionDate <= toDate);
+
+                    if (!hasActivity)
+                        continue;
+                }
+
                 reportList.Add(reportDto);
             }
 
@@ -135,11 +223,44 @@ namespace Application.Services.Implementations
             var devices = await _deviceRepository.GetAllAsync();
             var reportList = new List<DeviceReplacementReportDto>();
 
+            var oneYearAgo = DateTime.Now.AddYears(-1);
+
             foreach (var device in devices)
             {
-                var reportDto = new DeviceReplacementReportDto(device.DeviceId, device.Name);
+                var maintenances = await _maintenanceRepository.GetMaintenancesByDeviceAsync(device.DeviceId);
+                var recentMaintenances = maintenances.Where(m => m.Date >= oneYearAgo).ToList();
 
-                reportList.Add(reportDto);
+                if (recentMaintenances.Count() > 3)
+                {
+                    var department = await _departmentRepository.GetByIdAsync(device.DepartmentId);
+                    var section = department != null
+                        ? await _sectionRepository.GetByIdAsync(department.SectionId)
+                        : null;
+
+                    var yearsSinceAcquisition = (DateTime.Now - device.AcquisitionDate).TotalDays / 365;
+                    var totalMaintenanceCost = maintenances.Sum(m => m.Cost);
+                    var averageMaintenanceCost = recentMaintenances.Any()
+                        ? totalMaintenanceCost / recentMaintenances.Count()
+                        : 0;
+                    var lastMaintenanceDate = maintenances.OrderByDescending(m => m.Date).FirstOrDefault()?.Date;
+
+                    var reportDto = new DeviceReplacementReportDto(device.DeviceId, device.Name)
+                    {
+                        DeviceName = device.Name,
+                        DeviceType = device.Type.ToString(),
+                        DepartmentName = department?.Name ?? string.Empty,
+                        SectionName = section?.Name ?? string.Empty,
+                        AcquisitionDate = device.AcquisitionDate,
+                        MaintenanceCountLastYear = recentMaintenances.Count(),
+                        TotalMaintenanceCost = totalMaintenanceCost,
+                        AverageMaintenanceCost = averageMaintenanceCost,
+                        LastMaintenanceDate = lastMaintenanceDate,
+                        YearsInService = (int)yearsSinceAcquisition,
+                        OperationalState = device.OperationalState.ToString()
+                    };
+
+                    reportList.Add(reportDto);
+                }
             }
 
             return reportList;
@@ -149,7 +270,11 @@ namespace Application.Services.Implementations
         {
             if (!int.TryParse(departmentId, out int deptId))
                 return new List<DepartmentTransferReportDto>();
+
             var department = await _departmentRepository.GetByIdAsync(deptId);
+            if (department == null)
+                return new List<DepartmentTransferReportDto>();
+
             var transfers = await _transferRepository.GetAllAsync();
             var departmentTransfers = transfers.Where(t =>
                 t.SourceSectionId == department.SectionId ||
@@ -160,8 +285,27 @@ namespace Application.Services.Implementations
 
             foreach (var transfer in departmentTransfers)
             {
+                var device = await _deviceRepository.GetByIdAsync(transfer.DeviceId);
+                var sourceSection = transfer.SourceSectionId > 0
+                    ? await _sectionRepository.GetByIdAsync(transfer.SourceSectionId)
+                    : null;
+                var destinationSection = transfer.DestinationSectionId > 0
+                    ? await _sectionRepository.GetByIdAsync(transfer.DestinationSectionId)
+                    : null;
+                var receiver = await _userRepository.GetByIdAsync(transfer.DeviceReceiverId);
+
                 var reportDto = new DepartmentTransferReportDto
                 {
+                    TransferId = transfer.TransferId,
+                    DeviceId = transfer.DeviceId,
+                    DeviceName = device?.Name ?? string.Empty,
+                    DeviceType = device?.Type.ToString() ?? string.Empty,
+                    TransferDate = transfer.Date,
+                    SourceSectionName = sourceSection?.Name ?? string.Empty,
+                    DestinationSectionName = destinationSection?.Name ?? string.Empty,
+                    ReceiverName = receiver?.FullName ?? string.Empty,
+                    TransferStatus = transfer.Status.ToString(),
+                    DeliveryDate = null
                 };
 
                 reportList.Add(reportDto);
@@ -172,27 +316,212 @@ namespace Application.Services.Implementations
 
         public async Task<IEnumerable<CorrelationAnalysisReportDto>> GenerateCorrelationAnalysisReportAsync()
         {
+            var users = await _userRepository.GetAllAsync();
+            var maintenances = await _maintenanceRepository.GetAllAsync();
+            var decommissioningRequests = await _decommissioningRepository.GetAllAsync();
+            var performanceRatings = await _performanceRatingRepository.GetAllAsync();
+
             var reportList = new List<CorrelationAnalysisReportDto>();
-            return reportList;
+            var technicians = users.Where(u => u.Role.RoleId == (int)RoleEnum.Technician).ToList();
+
+            int rank = 1;
+
+            foreach (var technician in technicians)
+            {
+                var technicianMaintenances = maintenances.Where(m => m.TechnicianId == technician.UserId).ToList();
+                var technicianDecommissionings = decommissioningRequests
+                    .Where(d => d.TechnicianId == technician.UserId && d.IsApproved == true).ToList();
+
+                var irreparableFailures = technicianDecommissionings
+                    .Where(d => d.Reason == DecommissioningReason.IrreparableTechnicalFailure)
+                    .Count();
+
+                var uniqueEquipment = new HashSet<int>(
+                    technicianMaintenances.Select(m => m.DeviceId)
+                        .Union(technicianDecommissionings.Select(d => d.DeviceId))
+                ).Count;
+
+                var totalMaintenanceCost = technicianMaintenances.Sum(m => m.Cost);
+                var averageCostPerEquipment = uniqueEquipment > 0 ? totalMaintenanceCost / uniqueEquipment : 0;
+
+                var technicianRatings = performanceRatings
+                    .Where(r => r.TechnicianId == technician.UserId)
+                    .ToList();
+
+                var averageRating = technicianRatings.Any() ? technicianRatings.Average(r => r.Score) : 0;
+
+                var averageLongevity = 0.0;
+                if (technicianDecommissionings.Any())
+                {
+                    var averageLongevitySum = 0.0;
+                    foreach (var decom in technicianDecommissionings)
+                    {
+                        var device = await _deviceRepository.GetByIdAsync(decom.DeviceId);
+                        if (device != null)
+                        {
+                            var longevity = (decom.EmissionDate - device.AcquisitionDate).TotalDays / 365;
+                            averageLongevitySum += longevity;
+                        }
+                    }
+                    averageLongevity = technicianDecommissionings.Count > 0
+                        ? averageLongevitySum / technicianDecommissionings.Count
+                        : 0;
+                }
+
+                var correlationIndex = (averageCostPerEquipment / 1000) * (10 / Math.Max(averageLongevity, 0.1));
+
+                var reportDto = new CorrelationAnalysisReportDto
+                {
+                    Rank = rank++,
+                    TechnicianId = technician.UserId,
+                    TechnicianName = technician.FullName,
+                    Specialty = technician.Specialty ?? string.Empty,
+                    YearsOfExperience = technician.YearsOfExperience ?? 0,
+                    EquipmentType = "Mixed",
+                    EquipmentCount = uniqueEquipment,
+                    DecommissionedEquipmentCount = technicianDecommissionings.Count(),
+                    IrreparableFailureCount = irreparableFailures,
+                    TotalMaintenanceCost = totalMaintenanceCost,
+                    AverageMaintenanceCostPerEquipment = averageCostPerEquipment,
+                    AverageEquipmentLongevity = averageLongevity,
+                    CorrelationIndex = correlationIndex,
+                    AveragePerformanceRating = averageRating,
+                    TotalBonuses = 0,
+                    TotalPenalties = 0,
+                    NetBalance = 0,
+                    Observations = GenerateCorrelationObservations(correlationIndex, irreparableFailures, averageRating)
+                };
+
+                reportList.Add(reportDto);
+            }
+
+            return reportList
+                .OrderByDescending(r => r.CorrelationIndex)
+                .Take(5)
+                .ToList();
         }
 
         public async Task<IEnumerable<BonusDeterminationReportDto>> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria)
         {
+            var users = await _userRepository.GetAllAsync();
+            var maintenances = await _maintenanceRepository.GetAllAsync();
+            var decommissioningRequests = await _decommissioningRepository.GetAllAsync();
+            var performanceRatings = await _performanceRatingRepository.GetAllAsync();
+
+            var filteredUsers = users.Where(u => u.RoleId ==(int)RoleEnum.Technician).AsEnumerable();
+
+            if (criteria.DepartmentId.HasValue)
+                filteredUsers = filteredUsers.Where(u => u.DepartmentId == criteria.DepartmentId);
+
+            if (criteria.SectionId.HasValue)
+                filteredUsers = filteredUsers.Where(u => u.Department != null && u.Department.SectionId == criteria.SectionId);
+
+            if (criteria.OnlyActiveTechnicians.HasValue && criteria.OnlyActiveTechnicians.Value)
+                filteredUsers = filteredUsers.Where(u => u.IsActive);
+
             var reportList = new List<BonusDeterminationReportDto>();
+
+            foreach (var technician in filteredUsers)
+            {
+                var technicianMaintenances = maintenances.Where(m => m.TechnicianId == technician.UserId).ToList();
+                var technicianDecommissionings = decommissioningRequests
+                    .Where(d => d.TechnicianId == technician.UserId && d.IsApproved == true)
+                    .ToList();
+
+                var totalInterventions = technicianMaintenances.Count + technicianDecommissionings.Count;
+
+                if (criteria.MinimumInterventions.HasValue && totalInterventions < criteria.MinimumInterventions)
+                    continue;
+
+                var technicianRatings = performanceRatings
+                    .Where(r => r.TechnicianId == technician.UserId)
+                    .ToList();
+
+                var averageRating = technicianRatings.Any() ? technicianRatings.Average(r => r.Score) : 0;
+                var highestRating = technicianRatings.Any() ? technicianRatings.Max(r => r.Score) : 0;
+                var lowestRating = technicianRatings.Any() ? technicianRatings.Min(r => r.Score) : 0;
+
+                var totalMaintenanceCost = technicianMaintenances.Sum(m => m.Cost);
+
+                var totalBonuses = CalculateBonuses(averageRating, totalInterventions);
+                var totalPenalties = CalculatePenalties(averageRating, technicianDecommissionings.Count);
+
+                var effectivenessIndex = CalculateEffectivenessIndex(averageRating, totalInterventions, totalMaintenanceCost);
+
+                var netBalance = totalBonuses - totalPenalties;
+                var recommendation = GenerateBonusRecommendation(effectivenessIndex, averageRating, netBalance);
+
+                var reportDto = new BonusDeterminationReportDto
+                {
+                    TechnicianId = technician.UserId,
+                    TechnicianName = technician.FullName,
+                    Specialty = technician.Specialty ?? string.Empty,
+                    YearsOfExperience = technician.YearsOfExperience ?? 0,
+                    DepartmentName = technician.Department?.Name ?? string.Empty,
+                    TotalInterventions = totalInterventions,
+                    MaintenanceCount = technicianMaintenances.Count,
+                    DecommissioningCount = technicianDecommissionings.Count,
+                    TotalMaintenanceCost = totalMaintenanceCost,
+                    AverageRating = averageRating,
+                    HighestRating = highestRating,
+                    LowestRating = lowestRating,
+                    RatingCount = technicianRatings.Count,
+                    TotalBonuses = totalBonuses,
+                    TotalPenalties = totalPenalties,
+                    EffectivenessIndex = effectivenessIndex,
+                    Recommendation = recommendation,
+                    SalaryAdjustmentAmount = netBalance,
+                    AdjustmentType = netBalance > 0 ? "Bonificación" : (netBalance < 0 ? "Penalización" : "Sin ajuste"),
+                    Comments = GenerateBonusComments(technician, averageRating, effectivenessIndex)
+                };
+
+                reportList.Add(reportDto);
+            }
+
+            if (!string.IsNullOrEmpty(criteria.SortBy))
+            {
+                reportList = SortBonusReport(reportList, criteria.SortBy);
+            }
+
             return reportList;
         }
 
         public async Task<PdfExportDto> GeneratePdfReport(string reportType)
         {
-            switch (reportType)
+            switch (reportType.ToLower())
             {
+                case "inventory":
+                    {
+                        var data = await GenerateInventoryReportAsync(new DeviceReportFilterDto());
+                        return new PdfExportDto(new byte[0]);
+                    }
+                case "decommissioning":
+                    {
+                        var data = await GenerateDischargeReportAsync(new DecommissioningReportFilterDto());
+                        return new PdfExportDto(new byte[0]);
+                    }
+                case "personnel-effectiveness":
+                    {
+                        var data = await GeneratePersonnelEffectivenessReportAsync(new PersonnelReportFilterDto());
+                        return new PdfExportDto(new byte[0]);
+                    }
+                case "equipment-replacement":
+                    {
+                        var data = await GenerateEquipmentReplacementReportAsync();
+                        return new PdfExportDto(new byte[0]);
+                    }
                 case "correlation-analysis":
-                    var table = await GenerateCorrelationAnalysisReportAsync();
-                    Table table1 = null;
-                    var pdf = await _pdfReportGenerator.CreatePdfTable(table1);
-                    return new PdfExportDto(pdf);
+                    {
+                        var data = await GenerateCorrelationAnalysisReportAsync();
+                        return new PdfExportDto(new byte[0]);
+                    }
+                case "bonus-determination":
+                    {
+                        var data = await GenerateBonusDeterminationReportAsync(new BonusReportCriteria());
+                        return new PdfExportDto(new byte[0]);
+                    }
                 default:
-                    throw new Exception("Invalid report type");
+                    throw new ArgumentException($"Tipo de reporte inválido: {reportType}");
             }
         }
 
@@ -207,6 +536,105 @@ namespace Application.Services.Implementations
                 return "Warning";
             else
                 return "Good";
+        }
+
+        private string GenerateCorrelationObservations(double correlationIndex, int irreparableFailures, double averageRating)
+        {
+            var observations = new StringBuilder();
+
+            if (correlationIndex > 5)
+                observations.Append("Índice de correlación muy alto. ");
+
+            if (irreparableFailures >= 3)
+                observations.Append("Múltiples equipos dados de baja por fallo irreparable. ");
+
+            if (averageRating < 3)
+                observations.Append("Calificación promedio baja. ");
+
+            if (observations.Length == 0)
+                observations.Append("Rendimiento dentro de parámetros esperados.");
+
+            return observations.ToString();
+        }
+
+        private double CalculateBonuses(double averageRating, int totalInterventions)
+        {
+            double bonus = 0;
+
+            if (averageRating >= 4.5)
+                bonus += 500;
+            else if (averageRating >= 4.0)
+                bonus += 300;
+
+            bonus += totalInterventions * 10;
+
+            return bonus;
+        }
+
+        private double CalculatePenalties(double averageRating, int decommissioningCount)
+        {
+            double penalty = 0;
+
+            if (averageRating <= 2.5)
+                penalty += 200;
+            else if (averageRating <= 3.0)
+                penalty += 100;
+
+            penalty += decommissioningCount * 50;
+
+            return penalty;
+        }
+
+        private double CalculateEffectivenessIndex(double averageRating, int totalInterventions, double totalMaintenanceCost)
+        {
+            if (totalMaintenanceCost == 0)
+                return averageRating * totalInterventions;
+
+            return (averageRating * totalInterventions) / (totalMaintenanceCost / 1000);
+        }
+
+        private string GenerateBonusRecommendation(double effectivenessIndex, double averageRating, double netBalance)
+        {
+            if (effectivenessIndex > 10 && averageRating >= 4)
+                return "Otorgar bonificación máxima";
+            else if (effectivenessIndex > 5 && averageRating >= 3.5)
+                return "Otorgar bonificación moderada";
+            else if (effectivenessIndex > 2 && averageRating >= 3)
+                return "Otorgar bonificación mínima";
+            else if (averageRating < 2.5)
+                return "Aplicar penalización";
+            else
+                return "Sin cambios de salario";
+        }
+
+        private string GenerateBonusComments(Domain.Entities.User technician, double averageRating, double effectivenessIndex)
+        {
+            var comments = new StringBuilder();
+
+            comments.Append($"Técnico con {technician.YearsOfExperience ?? 0} años de experiencia. ");
+            comments.Append($"Calificación promedio: {averageRating:F2}. ");
+            comments.Append($"Índice de efectividad: {effectivenessIndex:F2}. ");
+
+            if (averageRating >= 4)
+                comments.Append("Desempeño excelente. ");
+            else if (averageRating >= 3)
+                comments.Append("Desempeño satisfactorio. ");
+            else
+                comments.Append("Desempeño requiere mejora. ");
+
+            return comments.ToString();
+        }
+
+        private List<BonusDeterminationReportDto> SortBonusReport(List<BonusDeterminationReportDto> report, string sortBy)
+        {
+            return sortBy.ToLower() switch
+            {
+                "rating" => report.OrderByDescending(r => r.AverageRating).ToList(),
+                "effectiveness" => report.OrderByDescending(r => r.EffectivenessIndex).ToList(),
+                "interventions" => report.OrderByDescending(r => r.TotalInterventions).ToList(),
+                "bonus" => report.OrderByDescending(r => r.SalaryAdjustmentAmount).ToList(),
+                _ => report
+            };
         }
     }
 }
