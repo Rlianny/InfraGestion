@@ -10,7 +10,7 @@ namespace Application.Services.Interfaces
 
         Task CreateDecommissioningRequestAsync(CreateDecommissioningRequestDto request);
         Task<IEnumerable<DecommissioningRequestDto>> GetPendingRequestsAsync();
-        Task<IEnumerable<DecommissioningRequestDto>> GetAllRequestsAsync();
+        Task<IEnumerable<DecommissioningRequestDto>> GetAllRequestsAsync(int userId);
         Task<DecommissioningRequestDto> GetRequestByIdAsync(int requestId);
         Task<IEnumerable<DecommissioningRequestDto>> GetRequestsByDeviceIdAsync(int deviceId);
 
@@ -29,7 +29,6 @@ namespace Application.Services.Interfaces
         Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByDepartmentAsync(int departmentId);
         Task<IEnumerable<DecommissioningDto>> GetDecommissioningsByReasonAsync(DecommissioningReason reason);
-
         #endregion
     }
 }
