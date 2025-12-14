@@ -245,7 +245,7 @@ namespace Domain.Entities
 
         public void UpdatePassword(string newPasswordHash)
         {
-            throw new NotImplementedException();
+            PasswordHash = newPasswordHash;
         }
 
         public bool IsTechnician => RoleId == (int)RoleEnum.Technician;

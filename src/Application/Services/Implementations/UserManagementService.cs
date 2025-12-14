@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Application.DTOs.Auth;
 using Application.Services.Interfaces;
 using AutoMapper;
@@ -151,6 +152,7 @@ namespace Application.Services.Implementations
                 administratorId,
                 request.UserId
             );
+            System.Console.WriteLine(JsonSerializer.Serialize(request));
 
             // Verify administrator role
             await ValidateAdministratorRoleAsync(administratorId, cancellationToken);
@@ -226,12 +228,13 @@ namespace Application.Services.Implementations
                 }
             }
 
-            if (string.IsNullOrEmpty(request.Password))
+            if (!string.IsNullOrEmpty(request.Password))
             {
                 // Update password if provided
                 var newPasswordHash = _passwordHasher.HashPassword(request.Password!);
                 user.UpdatePassword(newPasswordHash);
             }
+            await _userRepository.UpdateAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("User updated successfully: {UserId}", request.UserId);

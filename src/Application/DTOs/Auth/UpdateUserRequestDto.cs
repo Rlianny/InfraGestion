@@ -11,13 +11,10 @@ public record UpdateUserRequestDto
 
     public string? DepartmentName { get; init; }
 
-    public int? SectionId { get; init; }
-
     public bool? IsActive { get; init; }
 
     public int? YearsOfExperience { get; init; }
 
     public string? Specialty { get; init; }
 
-    public decimal? Salary { get; init; }
 }
