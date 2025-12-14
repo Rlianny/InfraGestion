@@ -142,8 +142,10 @@ namespace Application.Services.Implementations
         {
             var device = await deviceRepository.GetDeviceByNameAsync(request.DeviceName)
                 ?? throw new EntityNotFoundException("Device", request.DeviceName);
-            var sourceSection = await sectionRepository.GetSectionByNameAsync(request.SourceSectionName)
-                ?? throw new EntityNotFoundException("Section", request.SourceSectionName);
+            var sourceDepartment = await departmentRepository.GetByIdAsync(device.DepartmentId)??
+                throw new EntityNotFoundException("Department",device.DepartmentId);
+            var sourceSection = await sectionRepository.GetByIdAsync(sourceDepartment.SectionId) ??
+                throw new EntityNotFoundException("Section",sourceDepartment.SectionId);
             var destinationSection = await sectionRepository.GetSectionByNameAsync(request.DestinationSectionName)
                 ?? throw new EntityNotFoundException("Section", request.DestinationSectionName);
             var receiver = await userRepository.GetByUsernameAsync(request.DeviceReceiverUsername)

@@ -9,7 +9,7 @@ namespace Application.DTOs.Transfer
 {
     public class UpdateTransferDto
     {
-        public UpdateTransferDto(int id, int deviceId, string origin, string destination, DateTime transferDate, string receiverName, string? notes)
+        public UpdateTransferDto(int id, int deviceId, string origin, string destination, DateTime transferDate, string receiverName)
         {
             Id = id;
             DeviceId = deviceId;
@@ -17,7 +17,6 @@ namespace Application.DTOs.Transfer
             Destination = destination;
             TransferDate = transferDate;
             ReceiverName = receiverName;
-            Notes = notes;
         }
 
         public int Id { get; set; }
@@ -26,6 +25,5 @@ namespace Application.DTOs.Transfer
         public string Destination { get; set; } = string.Empty;
         public DateTime TransferDate { get; set; }
         public string ReceiverName { get; set; } = string.Empty;
-        public string? Notes { get; set; }
     }
 }
