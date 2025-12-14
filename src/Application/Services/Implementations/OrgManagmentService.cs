@@ -201,23 +201,26 @@ namespace Application.Services.Implementations
         {
             var sections = await sectionRepository.GetAllAsync();
             var sectionDtos = new List<SectionDto>();
+
             foreach (var section in sections)
             {
-                User manager = null;
-                if (section.SectionManagerId != null)
+                User? manager = null;
+                if (section.SectionManagerId.HasValue)
                 {
-                    manager = await userRepository.GetByIdAsync((int)section.SectionManagerId);
-
+                    manager = await userRepository.GetByIdAsync(section.SectionManagerId.Value);
                 }
+
                 var dto = new SectionDto
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
-                    SectionManagerId = manager == null ? null : manager.UserId,
-                    SectionManagerFullName = manager == null ? "" : manager.FullName
+                    SectionManagerId = manager?.UserId,
+                    SectionManagerFullName = manager?.FullName,
+                    IsActive = !section.IsDisabled
                 };
                 sectionDtos.Add(dto);
             }
+
             return sectionDtos;
         }
 
