@@ -5,6 +5,7 @@ using Domain.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
 using AutoMapper.Configuration.Annotations;
+using Application.DTOs;
 
 public class DecommissioningService : IDecommissioningService
 {
@@ -259,4 +260,33 @@ public class DecommissioningService : IDecommissioningService
     }
 
     #endregion
+
+    public async Task DeleteDecommissioningRequestAsync(int requestId)
+    {
+        var request = await _requestRepository.GetByIdAsync(requestId)
+            ?? throw new EntityNotFoundException("DecommissioningRequest", requestId);
+
+        await _requestRepository.DeleteAsync(request);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateDecommissioningRequestAsync(UpdateDecommissioningRequestDto requestDto)
+    {
+        var decommissioningRequest = await _requestRepository.GetByIdAsync(requestDto.DecommissioningRequestId)
+            ?? throw new EntityNotFoundException("DecommissioningRequest", requestDto.DecommissioningRequestId);
+        decommissioningRequest.Update(requestDto.DecommissioningRequestId,
+        requestDto.TechnicianId,
+        requestDto.DeviceId,
+        requestDto.EmissionDate,
+        requestDto.AnswerDate,
+        requestDto.Status,
+        requestDto.Reason,
+        requestDto.DeviceReceiverId,
+        requestDto.IsApproved,
+        requestDto.FinalDestinationDepartmentID,
+        requestDto.logisticId,
+        requestDto.description);
+        await _requestRepository.UpdateAsync(decommissioningRequest);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }
