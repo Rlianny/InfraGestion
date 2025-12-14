@@ -71,7 +71,7 @@ namespace Web.API.Controllers
             );
 
             var activeUsers = await _userService.GetAllActiveUsersAsync();
-            var unActiveUsers = await _userService.GetAllInActiveUsersAsync();
+            var unActiveUsers = await _userService.GetAllInactiveUsersAsync();
 
             return Ok(activeUsers.Concat(unActiveUsers));
         }

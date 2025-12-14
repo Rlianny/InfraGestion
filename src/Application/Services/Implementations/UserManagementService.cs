@@ -333,7 +333,7 @@ namespace Application.Services.Implementations
         {
             _logger.LogDebug("Retrieving user: {UserId}", userId);
 
-            var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+            var user = await _userRepository.GetUserWithDetailsAsync(userId, cancellationToken);
             if (user == null)
             {
                 _logger.LogWarning("User not found: {UserId}", userId);
@@ -342,7 +342,7 @@ namespace Application.Services.Implementations
 
             return _mapper.Map<UserDto>(user);
         }
-        public async Task<IEnumerable<UserDto>> GetAllInActiveUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<UserDto>> GetAllInactiveUsersAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogDebug("Retrieving all active users");
 
