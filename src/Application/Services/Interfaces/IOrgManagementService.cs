@@ -9,10 +9,12 @@ namespace Application.Services.Interfaces
         Task CreateSection(CreateSectionDto sectionDto); 
         Task ModifySection(SectionDto sectionDto); 
         Task DisableSection(int sectionId);
+        Task EnableSection(int sectionId);
         Task DeleteSection(int sectionId);
         Task CreateDepartment(CreateDepartmentDto departmentDto); 
         Task ModifyDepartment(DepartmentDto departmentDto);
         Task DisableDepartment(int departmentId);
+        Task EnableDepartment(int departmentId);
         Task DeleteDepartment(int departmentId);
         Task<IEnumerable<UserDto>> GetSectionManagersAsync();}
 }

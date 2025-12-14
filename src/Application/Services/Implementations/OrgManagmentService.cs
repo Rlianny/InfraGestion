@@ -99,12 +99,32 @@ namespace Application.Services.Implementations
             await unitOfWork.SaveChangesAsync();
         }
 
+        public async Task EnableDepartment(int departmentId)
+        {
+            var department =
+                await departmentRepository.GetByIdAsync(departmentId)
+                ?? throw new EntityNotFoundException("Department", departmentId);
+            department.Enable();
+            await departmentRepository.UpdateAsync(department);
+            await unitOfWork.SaveChangesAsync();
+        }
+
         public async Task DisableSection(int sectionId)
         {
             var section =
                 await sectionRepository.GetByIdAsync(sectionId)
                 ?? throw new EntityNotFoundException("Section", sectionId);
             section.Disable();
+            await sectionRepository.UpdateAsync(section);
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task EnableSection(int sectionId)
+        {
+            var section =
+                await sectionRepository.GetByIdAsync(sectionId)
+                ?? throw new EntityNotFoundException("Section", sectionId);
+            section.Enable();
             await sectionRepository.UpdateAsync(section);
             await unitOfWork.SaveChangesAsync();
         }
