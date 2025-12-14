@@ -4,7 +4,6 @@ using Domain.Aggregations;
 using Domain.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
-using AutoMapper.Configuration.Annotations;
 using Application.DTOs;
 
 public class DecommissioningService : IDecommissioningService
