@@ -111,9 +111,9 @@ namespace Web.API.Controllers
         [Authorize(Roles = "Director")]
         [ProducesResponseType(typeof(ApiResponse<DashboardSummaryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> GetDashboardInfo(int currentUserId)
+        public async Task<IActionResult> GetDashboardInfo()
         {
-            var dashboardInfo = await _userService.GetDashboardInfoAsync(currentUserId);
+            var dashboardInfo = await _userService.GetDashboardInfoAsync();
             return Ok(dashboardInfo);
         }
 

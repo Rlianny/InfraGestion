@@ -46,6 +46,6 @@ namespace Application.Services.Interfaces
             CancellationToken cancellationToken = default
         );
         public Task<IEnumerable<UserDto>> GetAllInactiveUsersAsync(CancellationToken cancellationToken = default);
-        Task<DirectorDashboardDto> GetDashboardInfoAsync(int currentUserId, CancellationToken cancellationToken = default);
+        Task<DirectorDashboardDto> GetDashboardInfoAsync( CancellationToken cancellationToken = default);
     }
 }

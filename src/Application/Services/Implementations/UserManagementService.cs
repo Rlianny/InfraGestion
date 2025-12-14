@@ -501,15 +501,8 @@ namespace Application.Services.Implementations
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<DirectorDashboardDto> GetDashboardInfoAsync(int currentUserId, CancellationToken cancellationToken = default)
+        public async Task<DirectorDashboardDto> GetDashboardInfoAsync(CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetByIdAsync(currentUserId, cancellationToken);
-            if (user == null || !user.IsActive)
-            {
-                _logger.LogWarning("Dashboard generation failed: User not found or inactive: {UserId}", currentUserId);
-                throw new EntityNotFoundException("Usuario", currentUserId);
-            }
-
             // Get all data required for dashboard
             var devices = await _devicesRepository.GetAllAsync(cancellationToken);
             var allUsers = await _userRepository.GetAllUsersWithDetailsAsync(cancellationToken);
@@ -578,7 +571,6 @@ namespace Application.Services.Implementations
                 }
             };
 
-            _logger.LogInformation("Dashboard information generated successfully for user: {UserId}", currentUserId);
             return dashboard;
         }
     }

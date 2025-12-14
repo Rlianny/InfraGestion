@@ -15,5 +15,9 @@ namespace Application.DTOs.Decommissioning
         public DateTime? ReviewedDate { get; set; }
         public int? ReviewedByUserId { get; set; }
         public string? ReviewedByUserName { get; set; }
+        public int? receiverUserId { get; set; }
+        public string? receiverUserName { get; set; }
+        public int? FinalDestinationId { get; set; }
+        public string? FinalDestinationName { get; set; }
     }
 }
