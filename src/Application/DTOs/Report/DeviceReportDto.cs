@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Attributes;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Report
 {
+    /// <summary>
+    /// Reporte de inventario de equipos.
+    /// Muestra información detallada de equipos: especificaciones, ubicación, estado operacional,
+    /// historial de mantenimientos y costos asociados.
+    /// Requisito de negocio: Funcionalidad 1 - Inventario base
+    /// </summary>
+    /// <summary>
+    
     public class DeviceReportDto
     {
         public DeviceReportDto(int deviceId, string name, DeviceType deviceType, OperationalState operationalState, int departmentId, string departmentName, int? sectionId, string? sectionName, DateTime acquisitionDate, int maintenanceCount, double totalMaintenanceCost, DateTime? lastMaintenanceDate)

@@ -107,6 +107,16 @@ namespace Web.API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("director/dashboardInfo")]
+        [Authorize(Roles = "Director")]
+        [ProducesResponseType(typeof(ApiResponse<DashboardSummaryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> GetDashboardInfo(int currentUserId)
+        {
+            var dashboardInfo = await _userService.GetDashboardInfoAsync(currentUserId);
+            return Ok(dashboardInfo);
+        }
+
         [HttpPut("administrator/{administratorId:int}/{id:int}")]
         [Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(ApiResponse<UserDto>), StatusCodes.Status200OK)]
@@ -219,7 +229,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                await _userService.DeleteUserAync(id); 
+                await _userService.DeleteUserAync(id);
                 return Ok();
             }
             catch (Exception ex)
