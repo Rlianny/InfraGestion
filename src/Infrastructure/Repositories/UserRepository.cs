@@ -20,6 +20,15 @@ namespace Infrastructure.Repositories
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
         }
+        public async Task<User?> GetByNameAsync(string name,
+            CancellationToken cancellationToken = default
+            )
+        {
+            return await _dbSet
+                .Include(u => u.Department)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.FullName == name, cancellationToken: cancellationToken);
+        }
 
         public async Task<User?> GetUserWithDetailsAsync(
             int userId,

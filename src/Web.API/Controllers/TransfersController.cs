@@ -140,9 +140,9 @@ namespace Web.API.Controllers
                 await transferService.UpdateTransferAsync(updateTransferDto);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
         #endregion

@@ -177,7 +177,7 @@ namespace Application.Services.Implementations
         {
             var sourceSection = await sectionRepository.GetSectionByNameAsync(updateTransferDto.Origin) ??throw new EntityNotFoundException("Section",updateTransferDto.Origin);
             var destinationSection = await sectionRepository.GetSectionByNameAsync(updateTransferDto.Destination)??throw new EntityNotFoundException("Section",updateTransferDto.Destination);
-            var receiver = await userRepository.GetByUsernameAsync(updateTransferDto.ReceiverName)??throw new EntityNotFoundException("User",updateTransferDto.ReceiverName);
+            var receiver = await userRepository.GetByNameAsync(updateTransferDto.ReceiverName)??throw new EntityNotFoundException("User",updateTransferDto.ReceiverName);
             var transfer = new Transfer(updateTransferDto.Id,updateTransferDto.TransferDate, updateTransferDto.DeviceId,sourceSection.SectionId, destinationSection.SectionId,receiver.UserId);
             await transferRepository.UpdateAsync(transfer);
             await unitOfWork.SaveChangesAsync();
