@@ -196,7 +196,7 @@ namespace Application.Services.Implementations
             }
 
             // Update department if provided
-            if (request.DepartmentName!=null)
+            if (request.DepartmentName != null)
             {
                 var department = await _departmentRepository.GetDepartmentByNameAsync(
                     request.DepartmentName,
@@ -226,6 +226,12 @@ namespace Application.Services.Implementations
                 }
             }
 
+            if (string.IsNullOrEmpty(request.Password))
+            {
+                // Update password if provided
+                var newPasswordHash = _passwordHasher.HashPassword(request.Password!);
+                user.UpdatePassword(newPasswordHash);
+            }
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("User updated successfully: {UserId}", request.UserId);
@@ -433,7 +439,7 @@ namespace Application.Services.Implementations
 
         public async Task DeleteUserAync(int userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId)??throw new EntityNotFoundException("User",userId);
+            var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityNotFoundException("User", userId);
             await _userRepository.DeleteAsync(user);
             await _unitOfWork.SaveChangesAsync();
         }

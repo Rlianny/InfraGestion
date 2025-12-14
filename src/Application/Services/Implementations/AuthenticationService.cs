@@ -42,6 +42,7 @@ namespace Application.Services.Implementations
             CancellationToken cancellationToken = default
         )
         {
+            System.Console.WriteLine(request.Username + " " + request.Password);
             _logger.LogInformation(
                 "Attempting login for identifier: {Identifier}",
                 request.Username
@@ -51,6 +52,7 @@ namespace Application.Services.Implementations
                 request.Username,
                 cancellationToken
             );
+            System.Console.WriteLine(user == null ? "User is null" : user.FullName);
 
             if (user == null)
             {
@@ -60,16 +62,19 @@ namespace Application.Services.Implementations
                 );
                 throw new AuthenticationException("Credenciales inválidas");
             }
+            System.Console.WriteLine("User is not null");
 
             if (!user.IsActive)
             {
                 _logger.LogWarning("Login failed: User account is inactive: {UserId}", user.UserId);
                 throw new AuthenticationException("La cuenta de usuario está inactiva");
             }
+            System.Console.WriteLine("User not Active");
 
             // Verify password
             if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
+                System.Console.WriteLine("Invalid Password");
                 _logger.LogWarning(
                     "Login failed: Invalid password for user: {UserId}",
                     user.UserId
