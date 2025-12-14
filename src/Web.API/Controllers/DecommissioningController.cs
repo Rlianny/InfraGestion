@@ -4,6 +4,7 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.API.Shared;
+using Application.DTOs;
 
 namespace Web.API.Controllers
 {
@@ -129,8 +130,8 @@ namespace Web.API.Controllers
             try
             {
                 await _decommissioningService.ReviewDecommissioningRequestAsync(review);
-                var message = review.IsApproved 
-                    ? "Decommissioning request approved - device has been decommissioned" 
+                var message = review.IsApproved
+                    ? "Decommissioning request approved - device has been decommissioned"
                     : "Decommissioning request rejected";
                 return Ok(message);
             }
@@ -255,6 +256,50 @@ namespace Web.API.Controllers
             {
                 var decommissionings = await _decommissioningService.GetDecommissioningsByReasonAsync(reason);
                 return Ok(decommissionings);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
+        #region PUT
+        [HttpPut("requests/{requestId}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateDecommissioningRequest([FromBody] UpdateDecommissioningRequestDto updateRequest)
+        {
+            try
+            {
+                await _decommissioningService.UpdateDecommissioningRequestAsync(updateRequest);
+                return Ok("Decommissioning request updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+        #region DELETE
+
+        /// <summary>
+        /// Elimina un dispositivo del sistema.
+        /// Solo accesible para Administrator.
+        /// </summary>
+        [HttpDelete("delete/requestId")]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteDeviceAsync(int requestid)
+        {
+            try
+            {
+                await _decommissioningService.DeleteDecommissioningRequestAsync(requestid);
+                return Ok("Decommissioning request deleted successfully");
             }
             catch (Exception ex)
             {

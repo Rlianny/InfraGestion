@@ -12,5 +12,10 @@ namespace Domain.Entities
         { 
           IsDisabled = true;
         }
+
+        public void Enable()
+        {
+          IsDisabled = false;
+        }
     }
 }

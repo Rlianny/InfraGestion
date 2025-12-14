@@ -72,6 +72,22 @@ namespace Domain.Aggregations
 
         public bool IsPending() => Status == Enums.RequestStatus.Pending;
 
+        public void Update(int decommissioningRequestId, int technicianId, int deviceId, DateTime emissionDate, DateTime? answerDate, RequestStatus status, DecommissioningReason reason, int? deviceReceiverId, bool? isApproved, int? finalDestinationDepartmentID, int? logisticId, string description)
+        {
+            this.DecommissioningRequestId=decommissioningRequestId;
+            this.TechnicianId=technicianId;
+            this.DeviceId=deviceId;
+            this.EmissionDate=emissionDate;
+            this.AnswerDate=answerDate;
+            this.Status=status;
+            this.Reason=reason;
+            this.DeviceReceiverId=deviceReceiverId;
+            this.IsApproved=isApproved;
+            this.FinalDestinationDepartmentID=finalDestinationDepartmentID;
+            this.logisticId=logisticId;
+            this.description=description;
+        }
+
         private DecommissioningRequest()
         {
         }

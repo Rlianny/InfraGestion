@@ -243,6 +243,11 @@ namespace Domain.Entities
                 && RefreshTokenExpiryTime.Value > DateTime.UtcNow;
         }
 
+        public void UpdatePassword(string newPasswordHash)
+        {
+            PasswordHash = newPasswordHash;
+        }
+
         public bool IsTechnician => RoleId == (int)RoleEnum.Technician;
         public bool IsAdministrator => RoleId == (int)RoleEnum.Administrator;
         public bool IsDirector => RoleId == (int)RoleEnum.Director;

@@ -145,6 +145,26 @@ namespace Web.API.Controllers
             }
         }
 
+        [HttpPost("sections/enable/{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> EnableSectionAsync(int id)
+        {
+            try
+            {
+                await _orgManagementService.EnableSection(id);
+                return Ok();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("departments/disable/{id}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -153,6 +173,26 @@ namespace Web.API.Controllers
             try
             {
                 await _orgManagementService.DisableDepartment(id);
+                return Ok();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("departments/enable/{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> EnableDepartmentAsync(int id)
+        {
+            try
+            {
+                await _orgManagementService.EnableDepartment(id);
                 return Ok();
             }
             catch (EntityNotFoundException ex)

@@ -99,12 +99,32 @@ namespace Application.Services.Implementations
             await unitOfWork.SaveChangesAsync();
         }
 
+        public async Task EnableDepartment(int departmentId)
+        {
+            var department =
+                await departmentRepository.GetByIdAsync(departmentId)
+                ?? throw new EntityNotFoundException("Department", departmentId);
+            department.Enable();
+            await departmentRepository.UpdateAsync(department);
+            await unitOfWork.SaveChangesAsync();
+        }
+
         public async Task DisableSection(int sectionId)
         {
             var section =
                 await sectionRepository.GetByIdAsync(sectionId)
                 ?? throw new EntityNotFoundException("Section", sectionId);
             section.Disable();
+            await sectionRepository.UpdateAsync(section);
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task EnableSection(int sectionId)
+        {
+            var section =
+                await sectionRepository.GetByIdAsync(sectionId)
+                ?? throw new EntityNotFoundException("Section", sectionId);
+            section.Enable();
             await sectionRepository.UpdateAsync(section);
             await unitOfWork.SaveChangesAsync();
         }
@@ -181,23 +201,26 @@ namespace Application.Services.Implementations
         {
             var sections = await sectionRepository.GetAllAsync();
             var sectionDtos = new List<SectionDto>();
+
             foreach (var section in sections)
             {
-                User manager = null;
-                if (section.SectionManagerId != null)
+                User? manager = null;
+                if (section.SectionManagerId.HasValue)
                 {
-                    manager = await userRepository.GetByIdAsync((int)section.SectionManagerId);
-
+                    manager = await userRepository.GetByIdAsync(section.SectionManagerId.Value);
                 }
+
                 var dto = new SectionDto
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
-                    SectionManagerId = manager == null ? null : manager.UserId,
-                    SectionManagerFullName = manager == null ? "" : manager.FullName
+                    SectionManagerId = manager?.UserId,
+                    SectionManagerFullName = manager?.FullName,
+                    IsActive = !section.IsDisabled
                 };
                 sectionDtos.Add(dto);
             }
+
             return sectionDtos;
         }
 

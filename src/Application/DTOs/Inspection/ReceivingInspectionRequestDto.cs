@@ -8,8 +8,8 @@ public class ReceivingInspectionRequestDto
     public DateTime RequestDate { get; set; }
     public int DeviceId { get; set; }
     public string DeviceName { get; set; }
-    public int UserId { get; set; }
-    public string UserFullName { get; set; }
+    public int RequesterId { get; set; }
+    public string RequesterFullName { get; set; }
     public int TechnicianId { get; set; }
     public string TechnicianFullName { get; set; }
     public InspectionRequestStatus Status { get; set; }
@@ -22,8 +22,8 @@ public class ReceivingInspectionRequestDto
         RequestDate = requestDate;
         DeviceId = deviceId;
         DeviceName = deviceName;
-        UserId = userId;
-        UserFullName = userFullName;
+        RequesterId = userId;
+        RequesterFullName = userFullName;
         TechnicianId = technicianId;
         TechnicianFullName = technicianFullName;
         Status = status;

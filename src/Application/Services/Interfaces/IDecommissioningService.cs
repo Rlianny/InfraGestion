@@ -1,5 +1,6 @@
 using Application.DTOs.Decommissioning;
 using Domain.Enums;
+using Application.DTOs;
 
 namespace Application.Services.Interfaces
 {
@@ -15,7 +16,8 @@ namespace Application.Services.Interfaces
 
         // Review request (Administrator/Director)
         Task ReviewDecommissioningRequestAsync(ReviewDecommissioningRequestDto review);
-
+        Task DeleteDecommissioningRequestAsync(int requestId);
+        Task UpdateDecommissioningRequestAsync(UpdateDecommissioningRequestDto requestDto);
         #endregion
 
         #region Decommissioning (Bajas finalizadas)
