@@ -1,113 +1,102 @@
-﻿using Domain.Interfaces;
-using QuestPDF.Fluent;
+﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Threading.Tasks;
+using Domain.Interfaces;
 
 namespace Infrastructure.Services
 {
     public class QuestPdfReportGenerator : IPdfReportGenerator
     {
-        public QuestPdfReportGenerator()
+        public async Task<byte[]> CreatePdfTable(Table tableData)
         {
+            // QuestPDF Community License configuration
             QuestPDF.Settings.License = LicenseType.Community;
-        }
 
-        public Task<byte[]> CreatePdfTable(Table tableData)
-        {
             var document = Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Size(PageSizes.A4.Landscape());
-                    page.Margin(1, Unit.Centimetre);
+                    page.Margin(40);
+                    page.Size(PageSizes.A4);
                     page.PageColor(Colors.White);
 
-                    page.DefaultTextStyle(x => x.FontSize(24).FontFamily(Fonts.Verdana));
+                    // Using a clean Sans-Serif font to match the image UI
+                    page.DefaultTextStyle(x => x.FontSize(10).FontFamily(Fonts.Verdana));
 
-                    page.Content().Column(column =>
+                    page.Content().PaddingVertical(10).Table(pdfTable =>
                     {
-                        column.Spacing(10);
-                        // Add a title to the report
-                       // column.Item().Text("Reporte: Ejemplo de Reporte").FontSize(26).SemiBold().FontColor(Colors.Black);
+                        // 1. DYNAMIC COLUMN DEFINITION
+                        // We infer the column count directly from the Header DTO
+                        var columnCount = tableData.Headers.Count;
 
-                        column.Item().Table(table =>
+                        pdfTable.ColumnsDefinition(columns =>
                         {
-                            var OddRowColor = Colors.White;
-                            var EvenRowColor = Colors.Grey.Lighten4;
-                            var HeaderColor = Colors.White;
-
-                            // Dynamic Column Definition
-                            table.ColumnsDefinition(columns =>
+                            for (int i = 0; i < columnCount; i++)
                             {
-                                for (int i = 0; i < tableData.Headers.Count; i++)
-                                {
-                                    columns.RelativeColumn();
-                                }
-                            });
-
-                            // Styled Header (Centered Text and Data Cleaning)
-                            table.Header(header =>
-                            {
-                                foreach (var headerTextRaw in tableData.Headers)
-                                {
-                                    // FIX: Remove surrounding quotes and trim whitespace/newlines
-                                    var headerTextClean = headerTextRaw.Trim().Replace("\"", "");
-
-                                    header.Cell()
-                                        .Background(HeaderColor)
-                                        .BorderBottom(2)
-                                        .BorderColor(Colors.Black)
-                                        .Text(headerTextClean)
-                                        .FontColor(Colors.Black)
-                                        .FontSize(22)
-                                        .Bold()
-                                        .AlignCenter();
-                                }
-                            });
-
-                            // Data Rows with Centered Text, Alternating Colors, and Increased Height (Data Cleaning)
-                            uint rowIndex = 0;
-                            foreach (var row in tableData.Rows)
-                            {
-                                var backgroundColor = rowIndex % 2 == 0 ? EvenRowColor : OddRowColor;
-
-                                foreach (var cellRaw in row.Cells)
-                                {
-                                    // FIX: Remove surrounding quotes and trim whitespace/newlines
-                                    var cellClean = cellRaw.Trim().Replace("\"", "");
-
-                                    var cellContainer = table.Cell()
-                                        .Background(backgroundColor)
-                                        //.PaddingVertical(10) // Increased height
-                                        .PaddingHorizontal(5)
-                                        .BorderColor(Colors.Grey.Lighten2)
-                                        .AlignCenter();
-
-                                    // Handle NULL values
-                                    if (cellClean.ToUpper() == "NULL")
-                                    {
-                                        cellContainer.Text(cellClean).Italic().FontColor(Colors.Grey.Medium);
-                                    }
-                                    else
-                                    {
-                                        cellContainer.Text(cellClean ?? "");
-                                    }
-                                }
-                                rowIndex++;
+                                columns.RelativeColumn();
                             }
                         });
-                    });
 
-                    page.Footer().AlignCenter().Text(x =>
-                    {
-                        x.Span("Página ");
-                        x.CurrentPageNumber();
+                        // 2. DYNAMIC HEADER GENERATION
+                        pdfTable.Header(header =>
+                        {
+                            foreach (var headerName in tableData.Headers)
+                            {
+                                header.Cell()
+                                    .BorderLeft(1)
+                                    .BorderRight(1)
+                                    .BorderTop(1)
+                                    .BorderBottom(1)    
+                                    .BorderColor(Colors.Grey.Lighten2)
+                                    .Element(HeaderStyle)
+                                    .Text(headerName);
+                            }
+
+                            // Horizontal divider after headers
+                            header.Cell().ColumnSpan((uint)columnCount)
+                                .BorderBottom(1)
+                                .BorderColor(Colors.Grey.Lighten2);
+                        });
+
+                        // 3. DYNAMIC ROW/CELL GENERATION
+                        foreach (var row in tableData.Rows)
+                        {
+                            foreach (var cellValue in row.Cells)
+                            {
+                                pdfTable.Cell()
+                                    .BorderLeft(1)
+                                    .BorderRight(1)
+                                    .BorderBottom(1)
+                                    .BorderColor(Colors.Grey.Lighten4)
+                                    .Element(CellStyle)
+                                    .Text(cellValue ?? string.Empty);
+                            }
+                        }
                     });
                 });
             });
 
-            return Task.FromResult(document.GeneratePdf());
+            return await Task.FromResult(document.GeneratePdf());
+        }
+
+        // --- Visual Styling (Matches the TablePdf.png design) ---
+
+        private IContainer HeaderStyle(IContainer container)
+        {
+            return container
+                .PaddingVertical(12)
+                .PaddingHorizontal(5)
+                .AlignLeft()
+                .DefaultTextStyle(x => x.SemiBold().FontColor("#2d3748").FontSize(11));
+        }
+
+        private IContainer CellStyle(IContainer container)
+        {
+            return container
+                .PaddingVertical(12)
+                .PaddingHorizontal(5)
+                .AlignLeft()
+                .DefaultTextStyle(x => x.FontColor("#4a5568"));
         }
     }
 }
