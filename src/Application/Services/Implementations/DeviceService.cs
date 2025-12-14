@@ -480,7 +480,7 @@ namespace Application.Services.Implementations
                 ReceiverDepartmentName = receiverDepartment?.Name ?? "Unknown",
                 DecommissioningDate = decommissioning.EmissionDate,
                 Reason = decommissioning.Reason,
-                FinalDestination = null,
+                FinalDestination = decommissioning.FinalDestinationDepartmentID == null ? "N/A" : (await _departmentRepo.GetByIdAsync((int)decommissioning.FinalDestinationDepartmentID)).Name,
             };
         }
 

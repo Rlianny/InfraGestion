@@ -71,7 +71,7 @@ namespace Web.API.Controllers
             );
 
             var activeUsers = await _userService.GetAllActiveUsersAsync();
-            var unActiveUsers = await _userService.GetAllInActiveUsersAsync();
+            var unActiveUsers = await _userService.GetAllInactiveUsersAsync();
 
             return Ok(activeUsers.Concat(unActiveUsers));
         }
@@ -105,6 +105,16 @@ namespace Web.API.Controllers
 
             var users = await _userService.GetUsersByRoleAsync(role);
             return Ok(users);
+        }
+
+        [HttpGet("director/dashboardInfo")]
+        [Authorize(Roles = "Director")]
+        [ProducesResponseType(typeof(ApiResponse<DashboardSummaryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> GetDashboardInfo()
+        {
+            var dashboardInfo = await _userService.GetDashboardInfoAsync();
+            return Ok(dashboardInfo);
         }
 
         [HttpPut("administrator/{administratorId:int}/{id:int}")]
@@ -219,7 +229,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                await _userService.DeleteUserAync(id); 
+                await _userService.DeleteUserAync(id);
                 return Ok();
             }
             catch (Exception ex)

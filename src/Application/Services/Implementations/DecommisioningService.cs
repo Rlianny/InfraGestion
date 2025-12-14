@@ -144,7 +144,11 @@ public class DecommissioningService : IDecommissioningService
                 ReviewedDate = request.AnswerDate,
                 Justification = request.description,
                 ReviewedByUserId = request.logisticId,
-                ReviewedByUserName = request.logisticId == null ? "Unrevised" : (await _userRepository.GetByIdAsync((int)request.logisticId)).FullName
+                ReviewedByUserName = request.logisticId == null ? "Unrevised" : (await _userRepository.GetByIdAsync((int)request.logisticId)).FullName,
+                receiverUserId = request.DeviceReceiverId,
+                receiverUserName = request.DeviceReceiverId == null ? "Unrevised" : (await _userRepository.GetByIdAsync((int)request.DeviceReceiverId)).FullName,
+                FinalDestinationId = request.FinalDestinationDepartmentID,
+                FinalDestinationName = request.FinalDestinationDepartmentID == null ? "Unrevised" : (await _departmentRepository.GetByIdAsync((int)request.FinalDestinationDepartmentID)).Name
             });
         }
 
@@ -166,7 +170,7 @@ public class DecommissioningService : IDecommissioningService
             ReceiverDepartmentName = userDptmt.Name,
             DecommissioningDate = DateTime.Now,
             Reason = decommissioningRequest.Reason,
-            FinalDestination = null
+            FinalDestination = decommissioningRequest.FinalDestinationDepartmentID == null ? "N/A" : (await _departmentRepository.GetByIdAsync((int)decommissioningRequest.FinalDestinationDepartmentID)).Name
         };
     }
     private DecommissioningStatus MapToDecommissioningStatus(RequestStatus status)
