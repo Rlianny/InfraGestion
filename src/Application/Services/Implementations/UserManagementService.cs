@@ -536,6 +536,7 @@ namespace Application.Services.Implementations
                 .ToList();
 
             var topCauses = (decommissions ?? Enumerable.Empty<Domain.Aggregations.DecommissioningRequest>())
+                .Where(d => d.IsApproved != null && d.IsApproved == true)
                 .GroupBy(d => d.Reason)
                 .Select(g => new DecommissionCauseDto
                 {
@@ -553,7 +554,7 @@ namespace Application.Services.Implementations
                 {
                     TotalAssets = devices?.Count() ?? 0,
                     TotalDepartments = departments?.Count() ?? 0,
-                    QuarterlyDecommissions = decommissions?.Count(d => d.AnswerDate >= DateTime.Now.AddMonths(-3)) ?? 0,
+                    QuarterlyDecommissions = decommissions?.Count(d => d.IsApproved != null && d.IsApproved == true && d.AnswerDate >= DateTime.Now.AddMonths(-3)) ?? 0,
                     MaintenanceCost = maintenances?.Sum(m => m.Cost) ?? 0
                 },
                 InventoryOverview = new InventoryOverviewDto
