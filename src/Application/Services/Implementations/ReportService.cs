@@ -2,6 +2,7 @@ using Application.DTOs.Report;
 using Application.Services.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
+using Domain.Extensions;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -186,8 +187,8 @@ namespace Application.Services.Implementations
                     TechnicianName = user.FullName,
                     Specialty = user.Specialty ?? string.Empty,
                     YearsOfExperience = user.YearsOfExperience ?? 0,
-                    MaintenanceInterventions = userMaintenances.Count(),
-                    DecommissioningRequests = userDecommissionings.Count(),
+                    MaintenanceInterventions = userMaintenances.Count,
+                    DecommissioningRequests = userDecommissionings.Count,
                     TotalInterventions = totalInterventions,
                     TotalMaintenanceCost = totalMaintenanceCost,
                     AverageCostPerIntervention = averageCostPerIntervention,
@@ -230,7 +231,7 @@ namespace Application.Services.Implementations
                 var maintenances = await _maintenanceRepository.GetMaintenancesByDeviceAsync(device.DeviceId);
                 var recentMaintenances = maintenances.Where(m => m.Date >= oneYearAgo).ToList();
 
-                if (recentMaintenances.Count() > 3)
+                if (recentMaintenances.Count > 3)
                 {
                     var department = await _departmentRepository.GetByIdAsync(device.DepartmentId);
                     var section = department != null
@@ -239,8 +240,8 @@ namespace Application.Services.Implementations
 
                     var yearsSinceAcquisition = (DateTime.Now - device.AcquisitionDate).TotalDays / 365;
                     var totalMaintenanceCost = maintenances.Sum(m => m.Cost);
-                    var averageMaintenanceCost = recentMaintenances.Any()
-                        ? totalMaintenanceCost / recentMaintenances.Count()
+                    var averageMaintenanceCost = recentMaintenances.Count != 0
+                        ? totalMaintenanceCost / recentMaintenances.Count
                         : 0;
                     var lastMaintenanceDate = maintenances.OrderByDescending(m => m.Date).FirstOrDefault()?.Date;
 
@@ -251,7 +252,7 @@ namespace Application.Services.Implementations
                         DepartmentName = department?.Name ?? string.Empty,
                         SectionName = section?.Name ?? string.Empty,
                         AcquisitionDate = device.AcquisitionDate,
-                        MaintenanceCountLastYear = recentMaintenances.Count(),
+                        MaintenanceCountLastYear = recentMaintenances.Count,
                         TotalMaintenanceCost = totalMaintenanceCost,
                         AverageMaintenanceCost = averageMaintenanceCost,
                         LastMaintenanceDate = lastMaintenanceDate,
@@ -305,7 +306,7 @@ namespace Application.Services.Implementations
                     DestinationSectionName = destinationSection?.Name ?? string.Empty,
                     ReceiverName = receiver?.FullName ?? string.Empty,
                     TransferStatus = transfer.Status.ToString(),
-                    DeliveryDate = null
+                    DeliveryDate = null                
                 };
 
                 reportList.Add(reportDto);
@@ -351,7 +352,7 @@ namespace Application.Services.Implementations
                 var averageRating = technicianRatings.Any() ? technicianRatings.Average(r => r.Score) : 0;
 
                 var averageLongevity = 0.0;
-                if (technicianDecommissionings.Any())
+                if (technicianDecommissionings.Count != 0)
                 {
                     var averageLongevitySum = 0.0;
                     foreach (var decom in technicianDecommissionings)
@@ -369,6 +370,9 @@ namespace Application.Services.Implementations
                 }
 
                 var correlationIndex = (averageCostPerEquipment / 1000) * (10 / Math.Max(averageLongevity, 0.1));
+                var totalBonuses = CalculateBonuses(averageRating, uniqueEquipment);
+                var totalPenalties = CalculatePenalties(averageRating, technicianDecommissionings.Count);
+                var netBalance = totalBonuses - totalPenalties;
 
                 var reportDto = new CorrelationAnalysisReportDto
                 {
@@ -379,16 +383,16 @@ namespace Application.Services.Implementations
                     YearsOfExperience = technician.YearsOfExperience ?? 0,
                     EquipmentType = "Mixed",
                     EquipmentCount = uniqueEquipment,
-                    DecommissionedEquipmentCount = technicianDecommissionings.Count(),
+                    DecommissionedEquipmentCount = technicianDecommissionings.Count,
                     IrreparableFailureCount = irreparableFailures,
                     TotalMaintenanceCost = totalMaintenanceCost,
                     AverageMaintenanceCostPerEquipment = averageCostPerEquipment,
                     AverageEquipmentLongevity = averageLongevity,
                     CorrelationIndex = correlationIndex,
                     AveragePerformanceRating = averageRating,
-                    TotalBonuses = 0,
-                    TotalPenalties = 0,
-                    NetBalance = 0,
+                    TotalBonuses = totalBonuses,
+                    TotalPenalties = totalPenalties,
+                    NetBalance = netBalance,
                     Observations = GenerateCorrelationObservations(correlationIndex, irreparableFailures, averageRating)
                 };
 
@@ -437,9 +441,9 @@ namespace Application.Services.Implementations
                     .Where(r => r.TechnicianId == technician.UserId)
                     .ToList();
 
-                var averageRating = technicianRatings.Any() ? technicianRatings.Average(r => r.Score) : 0;
-                var highestRating = technicianRatings.Any() ? technicianRatings.Max(r => r.Score) : 0;
-                var lowestRating = technicianRatings.Any() ? technicianRatings.Min(r => r.Score) : 0;
+                var averageRating = technicianRatings.Count != 0 ? technicianRatings.Average(r => r.Score) : 0;
+                var highestRating = technicianRatings.Count != 0 ? technicianRatings.Max(r => r.Score) : 0;
+                var lowestRating = technicianRatings.Count != 0 ? technicianRatings.Min(r => r.Score) : 0;
 
                 var totalMaintenanceCost = technicianMaintenances.Sum(m => m.Cost);
 
@@ -449,7 +453,7 @@ namespace Application.Services.Implementations
                 var effectivenessIndex = CalculateEffectivenessIndex(averageRating, totalInterventions, totalMaintenanceCost);
 
                 var netBalance = totalBonuses - totalPenalties;
-                var recommendation = GenerateBonusRecommendation(effectivenessIndex, averageRating, netBalance);
+                var recommendation = GenerateBonusRecommendation(effectivenessIndex, averageRating);
 
                 var reportDto = new BonusDeterminationReportDto
                 {
@@ -493,32 +497,32 @@ namespace Application.Services.Implementations
                 case "inventory":
                     {
                         var data = await GenerateInventoryReportAsync(new DeviceReportFilterDto());
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto( await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "decommissioning":
                     {
                         var data = await GenerateDischargeReportAsync(new DecommissioningReportFilterDto());
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "personnel-effectiveness":
                     {
                         var data = await GeneratePersonnelEffectivenessReportAsync(new PersonnelReportFilterDto());
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "equipment-replacement":
                     {
                         var data = await GenerateEquipmentReplacementReportAsync();
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "correlation-analysis":
                     {
                         var data = await GenerateCorrelationAnalysisReportAsync();
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "bonus-determination":
                     {
                         var data = await GenerateBonusDeterminationReportAsync(new BonusReportCriteria());
-                        return new PdfExportDto(new byte[0]);
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 default:
                     throw new ArgumentException($"Tipo de reporte inválido: {reportType}");
@@ -593,7 +597,7 @@ namespace Application.Services.Implementations
             return (averageRating * totalInterventions) / (totalMaintenanceCost / 1000);
         }
 
-        private string GenerateBonusRecommendation(double effectivenessIndex, double averageRating, double netBalance)
+        private string GenerateBonusRecommendation(double effectivenessIndex, double averageRating)
         {
             if (effectivenessIndex > 10 && averageRating >= 4)
                 return "Otorgar bonificación máxima";

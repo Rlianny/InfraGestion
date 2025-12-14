@@ -19,6 +19,17 @@ namespace Domain.Aggregations
             DestinationSectionId = destinationSectionId;
             DeviceReceiverId = deviceReceiverId;
         }
+        public Transfer(int transferId,DateTime dateTime, int deviceId, int sourceSectionId, int destinationSectionId, int deviceReceiverId)
+        {
+            ValidateTransferDate(Date);
+            Status = Enums.TransferStatus.Pending;
+            Date = dateTime;
+            DeviceId = deviceId;
+            SourceSectionId = sourceSectionId;
+            DestinationSectionId = destinationSectionId;
+            DeviceReceiverId = deviceReceiverId;
+            TransferId = transferId;
+        }
         private Transfer()
         {
             Status = Enums.TransferStatus.Pending;

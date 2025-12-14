@@ -12,5 +12,6 @@ namespace Application.Services.Interfaces
         Task UpdateEquipmentLocationAsync(string deviceName, string newDepartmentName);
         Task DeleteTransferAsync(int transferId);
         Task DesactivateTransferAsync(int transferId);
+        Task UpdateTransferAsync(UpdateTransferDto updateTransferDto);
     }
 }

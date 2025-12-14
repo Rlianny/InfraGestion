@@ -172,5 +172,15 @@ namespace Application.Services.Implementations
             await deviceRepository.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();
         }
+
+        public async Task UpdateTransferAsync(UpdateTransferDto updateTransferDto)
+        {
+            var sourceSection = await sectionRepository.GetSectionByNameAsync(updateTransferDto.Origin) ??throw new EntityNotFoundException("Section",updateTransferDto.Origin);
+            var destinationSection = await sectionRepository.GetSectionByNameAsync(updateTransferDto.Destination)??throw new EntityNotFoundException("Section",updateTransferDto.Destination);
+            var receiver = await userRepository.GetByUsernameAsync(updateTransferDto.ReceiverName)??throw new EntityNotFoundException("User",updateTransferDto.ReceiverName);
+            var transfer = new Transfer(updateTransferDto.Id,updateTransferDto.TransferDate, updateTransferDto.DeviceId,sourceSection.SectionId, destinationSection.SectionId,receiver.UserId);
+            await transferRepository.UpdateAsync(transfer);
+            await unitOfWork.SaveChangesAsync();
+        }
     }
 }

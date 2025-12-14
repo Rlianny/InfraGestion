@@ -117,6 +117,7 @@ namespace Web.API.Controllers
             }
         }
         [HttpPost("desactivate/{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> DesactivateTransferAsync(int id)
         {
             try
@@ -129,9 +130,25 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateTransferAsync([FromBody] UpdateTransferDto updateTransferDto)
+        {
+            try
+            {
+                await transferService.UpdateTransferAsync(updateTransferDto);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
         #endregion
         #region
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteTransferAsync(int id)
         {
             try
