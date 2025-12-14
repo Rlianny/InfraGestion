@@ -15,7 +15,7 @@ namespace Application.DTOs.DevicesDTOs
             string departmentName,
             IEnumerable<MaintenanceRecordDto> maintenanceHistory,
             IEnumerable<TransferDto> transferHistory,
-            DecommissioningDto? decommissioningInfo,
+            IEnumerable<DecommissioningRequestDto> decommissioningRequestsInfo,
             DateTime date,
             string sectionName,
             string? sectionManagerName
@@ -24,7 +24,7 @@ namespace Application.DTOs.DevicesDTOs
         {
             MaintenanceHistory = maintenanceHistory;
             TransferHistory = transferHistory;
-            DecommissioningInfo = decommissioningInfo;
+            DecommissioningRequestInfo = decommissioningRequestsInfo;
             AcquisitionDate = date;
             SectionName = sectionName;
             SectionManagerName = sectionManagerName;
@@ -33,7 +33,7 @@ namespace Application.DTOs.DevicesDTOs
         public DateTime AcquisitionDate { get; set; }
         public IEnumerable<MaintenanceRecordDto> MaintenanceHistory { get; set; }
         public IEnumerable<TransferDto> TransferHistory { get; set; }
-        public DecommissioningDto? DecommissioningInfo { get; set; }
+        public IEnumerable<DecommissioningRequestDto> DecommissioningRequestInfo { get; set; }
         public string SectionName { get; set; }
         public string? SectionManagerName { get; set; }
     }
