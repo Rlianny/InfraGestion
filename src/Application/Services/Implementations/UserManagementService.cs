@@ -7,6 +7,7 @@ using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 
 namespace Application.Services.Implementations
 {
@@ -14,6 +15,9 @@ namespace Application.Services.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMaintenanceRecordRepository _maintenanceRepository;
+        private readonly IDeviceRepository _devicesRepository;
+        private readonly IDecommissioningRequestRepository decommissioningRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
@@ -22,6 +26,9 @@ namespace Application.Services.Implementations
         public UserManagementService(
             IUserRepository userRepository,
             IDepartmentRepository departmentRepository,
+            IDeviceRepository devicesRepository,
+            IMaintenanceRecordRepository maintenanceRepository,
+            IDecommissioningRequestRepository decommissioningRepository,
             IUnitOfWork unitOfWork,
             IPasswordHasher passwordHasher,
             IMapper mapper,
@@ -33,6 +40,11 @@ namespace Application.Services.Implementations
             _departmentRepository =
                 departmentRepository
                 ?? throw new ArgumentNullException(nameof(departmentRepository));
+            _devicesRepository =
+                devicesRepository ?? throw new ArgumentNullException(nameof(devicesRepository));
+            _maintenanceRepository =
+                maintenanceRepository ?? throw new ArgumentNullException(nameof(maintenanceRepository));
+            this.decommissioningRepository = decommissioningRepository ?? throw new ArgumentNullException(nameof(decommissioningRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _passwordHasher =
                 passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
@@ -440,11 +452,133 @@ namespace Application.Services.Implementations
             };
         }
 
+        private double GetMonthlyAverageMaintenanceCost(IEnumerable<Domain.Aggregations.MaintenanceRecord> maintenances, int months)
+        {
+            if (maintenances == null) return 0d;
+
+            var now = DateTime.Now;
+            var firstOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+
+            var monthSums = new List<double>();
+            for (int i = 0; i < months; i++)
+            {
+                var start = firstOfCurrentMonth.AddMonths(-i);
+                var end = start.AddMonths(1);
+                var sum = maintenances.Where(m => m.Date >= start && m.Date < end).Sum(m => m.Cost);
+                monthSums.Add(sum);
+            }
+
+            if (!monthSums.Any()) return 0d;
+            return monthSums.Average();
+        }
+
+        private double CalculateTrendPercentage(IEnumerable<Domain.Aggregations.MaintenanceRecord> maintenances)
+        {
+            if (maintenances == null) return 0d;
+
+            var now = DateTime.Now;
+            var firstOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+
+            var lastStart = firstOfCurrentMonth.AddMonths(-1);
+            var prevStart = firstOfCurrentMonth.AddMonths(-2);
+
+            var lastMonthSum = maintenances.Where(m => m.Date >= lastStart && m.Date < firstOfCurrentMonth).Sum(m => m.Cost);
+            var prevMonthSum = maintenances.Where(m => m.Date >= prevStart && m.Date < lastStart).Sum(m => m.Cost);
+
+            if (prevMonthSum == 0)
+            {
+                return lastMonthSum == 0 ? 0d : 100d;
+            }
+
+            var change = (lastMonthSum - prevMonthSum) / prevMonthSum * 100d;
+            return Math.Round(change, 2);
+        }
+
         public async Task DeleteUserAync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId) ?? throw new EntityNotFoundException("User", userId);
             await _userRepository.DeleteAsync(user);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<DirectorDashboardDto> GetDashboardInfoAsync(int currentUserId, CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.GetByIdAsync(currentUserId, cancellationToken);
+            if (user == null || !user.IsActive)
+            {
+                _logger.LogWarning("Dashboard generation failed: User not found or inactive: {UserId}", currentUserId);
+                throw new EntityNotFoundException("Usuario", currentUserId);
+            }
+
+            // Get all data required for dashboard
+            var devices = await _devicesRepository.GetAllAsync(cancellationToken);
+            var allUsers = await _userRepository.GetAllUsersWithDetailsAsync(cancellationToken);
+            var departments = await _departmentRepository.GetAllAsync(cancellationToken);
+            var maintenances = await _maintenanceRepository.GetAllAsync(cancellationToken);
+            var decommissions = await decommissioningRepository.GetAllAsync(cancellationToken);
+
+            var deviceDeptMap = devices?.ToDictionary(d => d.DeviceId, d => d.DepartmentId) ?? new Dictionary<int, int>();
+            var deptMaintenanceCounts = maintenances == null
+                ? new Dictionary<int, int>()
+                : maintenances
+                    .Where(m => deviceDeptMap.ContainsKey(m.DeviceId))
+                    .GroupBy(m => deviceDeptMap[m.DeviceId])
+                    .ToDictionary(g => g.Key, g => g.Count());
+
+            var deptEffectivenessList = (departments ?? Enumerable.Empty<Domain.Entities.Department>())
+                .GroupBy(d => d.DepartmentId)
+                .Select(g => g.First())
+                .Select(dep => new DepartmentEffectivenessItemDto
+                {
+                    DepartmentName = dep.Name,
+                    MaintenanceCount = deptMaintenanceCounts.ContainsKey(dep.DepartmentId) ? deptMaintenanceCounts[dep.DepartmentId] : 0
+                })
+                .ToList();
+
+            var topCauses = (decommissions ?? Enumerable.Empty<Domain.Aggregations.DecommissioningRequest>())
+                .GroupBy(d => d.Reason)
+                .Select(g => new DecommissionCauseDto
+                {
+                    Reason = g.Key,
+                    Count = g.Count()
+                })
+                .Where(x => x.Count > 0)
+                .OrderByDescending(x => x.Count)
+                .ToList();
+
+            // Build dashboard DTO
+            var dashboard = new DirectorDashboardDto
+            {
+                Summary = new DashboardSummaryDto
+                {
+                    TotalAssets = devices?.Count() ?? 0,
+                    TotalDepartments = departments?.Count() ?? 0,
+                    QuarterlyDecommissions = decommissions?.Count(d => d.AnswerDate >= DateTime.Now.AddMonths(-3)) ?? 0,
+                    MaintenanceCost = maintenances?.Sum(m => m.Cost) ?? 0
+                },
+                InventoryOverview = new InventoryOverviewDto
+                {
+                    OperationalDevices = devices?.Count(d => d.OperationalState == OperationalState.Operational) ?? 0,
+                    DevicesInMaintenance = devices?.Count(d => d.OperationalState == OperationalState.UnderMaintenance) ?? 0,
+                },
+                CostAnalysis = new CostAnalysisDto
+                {
+                    // Calculate monthly average maintenance cost over the last 6 months
+                    MonthlyAverageCost = GetMonthlyAverageMaintenanceCost(maintenances ?? Enumerable.Empty<Domain.Aggregations.MaintenanceRecord>(), 12),
+                    TrendPercentage = CalculateTrendPercentage(maintenances ?? Enumerable.Empty<Domain.Aggregations.MaintenanceRecord>())
+                },
+                DecommissionAnalysis = new DecommissionAnalysisDto
+                {
+                    TopCauses = topCauses
+                },
+                DepartmentEffectiveness = new DepartmentEffectivenessDto
+                {
+                    Departments = deptEffectivenessList
+                }
+            };
+
+            _logger.LogInformation("Dashboard information generated successfully for user: {UserId}", currentUserId);
+            return dashboard;
         }
     }
 }
