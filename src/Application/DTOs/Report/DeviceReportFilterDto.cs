@@ -1,17 +1,42 @@
-﻿using Application.DTOs.DevicesDTOs;
-using Domain.Enums;
+﻿using Domain.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.DTOs.Report
 {
+    /// <summary>
+    /// Filtros para generar reportes de inventario de equipos.
+    /// Permite filtrar por tipo de equipo, estado operacional, departamento y rango de fechas.
+    /// </summary>
     public class DeviceReportFilterDto
     {
+        /// <summary>
+        /// Identificador del departamento para filtrado de ubicación
+        /// </summary>
+        public int? DepartmentId { get; set; }
+
+        /// <summary>
+        /// Identificador de la sección para filtrado más granular
+        /// </summary>
+        public int? SectionId { get; set; }
+
+        /// <summary>
+        /// Tipo de equipo a filtrar
+        /// </summary>
         public DeviceType? DeviceType { get; set; }
+
+        /// <summary>
+        /// Estado operacional del equipo a filtrar
+        /// </summary>
         public OperationalState? OperationalState { get; set; }
-        public string? Department { get; set; }
+
+        /// <summary>
+        /// Fecha inicial de adquisición para el rango
+        /// </summary>
+        public DateTime? FromDate { get; set; }
+
+        /// <summary>
+        /// Fecha final de adquisición para el rango
+        /// </summary>
+        public DateTime? ToDate { get; set; }
     }
 }
