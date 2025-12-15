@@ -93,13 +93,16 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterDeviceAsync([FromBody] RegisterDeviceDto request)
         {
-            var currentUserId = GetCurrentUserId();
-            var device = await _deviceService.RegisterDeviceAsync(request, currentUserId);
-            return CreatedAtAction(
-                nameof(GetDeviceDetailsAsync),
-                new { id = device.DeviceId },
-                device
-            );
+            try
+            {
+                var currentUserId = GetCurrentUserId();
+                var device = await _deviceService.RegisterDeviceAsync(request, currentUserId);
+                return Ok(device);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>

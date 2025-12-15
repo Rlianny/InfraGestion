@@ -69,7 +69,7 @@ namespace Application.Services.Implementations
         public async Task<IEnumerable<DeviceDto>> GetRevisedDevicesByAdminAsync(int adminId)
         {
             var inspections = await _inspectionRepo.GetInspectionRequestsByAdminAsync(adminId);
-            var pendingInspections = inspections.Where(i => i.IsPending()).ToList();
+            var pendingInspections = inspections.Where(i => i.IsAccepted() || i.IsRejected()).ToList();
 
             if (!pendingInspections.Any()) return Enumerable.Empty<DeviceDto>();
 
@@ -80,7 +80,7 @@ namespace Application.Services.Implementations
             foreach (var deviceId in deviceIds)
             {
                 var device = await _deviceRepo.GetByIdAsync(deviceId);
-                if (device != null) devices[deviceId] = device;
+                if (device != null && device.OperationalState == OperationalState.Revised) devices[deviceId] = device;
             }
 
             // Cargar todos los departamentos necesarios 
