@@ -63,13 +63,14 @@ namespace Web.API.Controllers
         /// <summary>
         /// Get all decommissioning requests
         /// </summary>
-        [HttpGet("requests/userId")]
+        [HttpGet("requests")]
         [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DecommissioningRequestDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllRequests(int userId)
+        public async Task<IActionResult> GetAllRequests()
         {
             try
             {
+                int userId = GetCurrentUserId();
                 var requests = await _decommissioningService.GetAllRequestsAsync(userId);
                 return Ok(requests);
             }
