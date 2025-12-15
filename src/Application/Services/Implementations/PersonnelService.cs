@@ -120,10 +120,12 @@ namespace Application.Services.Implementations
             var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
             foreach (var record in maintenanceRecords)
             {
+                var device = await devicesRepository.GetByIdAsync(record.DeviceId);
                 var dto = new MaintenanceRecordDto
                 {
                     MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
+                    DeviceName = device?.Name ?? $"Equipo {record.DeviceId}",
                     Description = record.Description,
                     MaintenanceDate = record.Date,
                     TechnicianId = technicianId,
