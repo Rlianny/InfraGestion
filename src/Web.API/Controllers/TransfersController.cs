@@ -85,14 +85,12 @@ namespace Web.API.Controllers
         [HttpPost("confirmations/{transferId}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task<IActionResult> ConfirmReception(int transferId)
+        public async Task<IActionResult> ConfirmReception(int deviceId)
         {
             try
             {
-                var username = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value
-                    ?? throw new UnauthorizedAccessException("Username not found in token");
-
-                await transferService.ConfirmReceptionAsync(transferId, username);
+                int userId = GetCurrentUserId();
+                await transferService.ConfirmReceptionAsync(deviceId, userId);
                 return Ok();
             }
             catch (Exception ex)
@@ -100,6 +98,21 @@ namespace Web.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("pending/logistician/{logisticId}")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<TransferDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPendingTransfersByLogisticianAsync(int logisticId)
+        {
+            try
+            {
+                var pendingTransfers = await transferService.GetPendingTransfersByLogisticianAsync(logisticId);
+                return Ok(pendingTransfers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         #endregion
         #region PUT
         [HttpPut("location")]
@@ -140,7 +153,7 @@ namespace Web.API.Controllers
                 await transferService.UpdateTransferAsync(updateTransferDto);
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
