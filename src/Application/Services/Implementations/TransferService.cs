@@ -34,10 +34,10 @@ namespace Application.Services.Implementations
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task ConfirmReceptionAsync(int deviceId, int userId)
+        public async Task ConfirmReceptionAsync(int transferId, int userId)
         {
-            var transfer = (await transferRepository.GetTransfersByDeviceAsync(deviceId)).Where(t => t.IsPending()).FirstOrDefault()
-                ?? throw new EntityNotFoundException("Transfer", deviceId);
+            var transfer = await transferRepository.GetByIdAsync(transferId)
+                ?? throw new EntityNotFoundException("Transfer", transferId);
             var user = await userRepository.GetByIdAsync(userId)
                 ?? throw new EntityNotFoundException("User", userId);
             if (user.UserId != transfer.DeviceReceiverId)

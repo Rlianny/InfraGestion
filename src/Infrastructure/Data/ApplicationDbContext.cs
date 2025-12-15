@@ -85,8 +85,7 @@ namespace Infrastructure.Data
             new { SectionId = -8, Name = "Seguridad Informática (Ciberseguridad)", IsDisabled = false }
          );
 
-         // Seed Departments
-         modelBuilder.Entity<Department>().HasData(
+               modelBuilder.Entity<Department>().HasData(
 
             new { DepartmentId = 1, Name = "Almacen General", SectionId = -1, IsDisabled = false },
 
@@ -123,27 +122,50 @@ namespace Infrastructure.Data
             new { DepartmentId = -24, Name = "Análisis Forense y Respuesta a Incidentes", SectionId = -8, IsDisabled = false }
          );
 
-         // Seed Users - Administrator
+         // Seed Users (administrators, director, section managers, technicians, receivers, logisticians)
          modelBuilder.Entity<User>().HasData(
+            // Administrators
             new { UserId = -1, Username = "dgonzalez", FullName = "David González", PasswordHash = passwordAdmin1, DepartmentId = -21, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
             new { UserId = -2, Username = "lmartinez", FullName = "Laura Martínez", PasswordHash = passwordAdmin2, DepartmentId = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
             new { UserId = -3, Username = "jrodriguez", FullName = "Javier Rodríguez", PasswordHash = passwordAdmin3, DepartmentId = -18, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
             new { UserId = -4, Username = "csanchez", FullName = "Carmen Sánchez", PasswordHash = passwordAdmin4, DepartmentId = -5, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
-            new { UserId = -5, Username = "rlopez", FullName = "Roberto López", PasswordHash = passwordAdmin5, DepartmentId = -3, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true }
-         );
+            new { UserId = -5, Username = "rlopez", FullName = "Roberto López", PasswordHash = passwordAdmin5, DepartmentId = -3, RoleId = (int)RoleEnum.Administrator, CreatedAt = today, IsActive = true },
 
-         // Director
-         modelBuilder.Entity<User>().HasData(
-            new { UserId = -6, Username = "emorales", FullName = "Elena Morales", PasswordHash = passwordDirector1, DepartmentId = -24, RoleId = (int)RoleEnum.Director, CreatedAt = today, IsActive = true }
-         );
+            // Director
+            new { UserId = -6, Username = "emorales", FullName = "Elena Morales", PasswordHash = passwordDirector1, DepartmentId = -24, RoleId = (int)RoleEnum.Director, CreatedAt = today, IsActive = true },
 
-         // SectionManagers
-         modelBuilder.Entity<User>().HasData(
+            // SectionManagers (original)
             new { UserId = -7, Username = "sramirez", FullName = "Sofía Ramírez", PasswordHash = passwordManager1, DepartmentId = -1, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
             new { UserId = -8, Username = "atorres", FullName = "Alejandro Torres", PasswordHash = passwordManager2, DepartmentId = -6, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
             new { UserId = -9, Username = "pherrera", FullName = "Patricia Herrera", PasswordHash = passwordManager3, DepartmentId = -7, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
             new { UserId = -10, Username = "rdiaz", FullName = "Ricardo Díaz", PasswordHash = passwordManager4, DepartmentId = -10, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
-            new { UserId = -11, Username = "icastro", FullName = "Isabel Castro", PasswordHash = passwordManager5, DepartmentId = -13, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true }
+            new { UserId = -11, Username = "icastro", FullName = "Isabel Castro", PasswordHash = passwordManager5, DepartmentId = -13, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+
+            // Additional SectionManagers so each Section has a responsble
+            new { UserId = -24, Username = "mramirez", FullName = "Marcos Ramírez", PasswordHash = passwordManager1, DepartmentId = -16, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+            new { UserId = -25, Username = "gfernandez", FullName = "Gabriela Fernández", PasswordHash = passwordManager2, DepartmentId = -19, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+            new { UserId = -26, Username = "pnavarro", FullName = "Pablo Navarro", PasswordHash = passwordManager3, DepartmentId = -22, RoleId = (int)RoleEnum.SectionManager, CreatedAt = today, IsActive = true },
+
+            // Technicians
+            new { UserId = -12, Username = "cmendez", FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentId = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+            new { UserId = -13, Username = "evargas", FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentId = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+            new { UserId = -14, Username = "jsilva", FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentId = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+            new { UserId = -15, Username = "mortega", FullName = "María Ortega", PasswordHash = "tech04", DepartmentId = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+            new { UserId = -16, Username = "alopez", FullName = "Ana López", PasswordHash = "tech05", DepartmentId = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
+
+            // EquipmentReceiver
+            new { UserId = -17, Username = "msantos", FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentId = -9, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+            new { UserId = -18, Username = "agarcia", FullName = "Ana García", PasswordHash = "rec02", DepartmentId = -2, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+            new { UserId = -19, Username = "lfernandez", FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentId = -6, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+            new { UserId = -20, Username = "mjimenez", FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentId = -24, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+            new { UserId = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentId = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
+
+            // Logisticians
+            new { UserId = -30, Username = "jlopez", FullName = "José López", PasswordHash = passwordManager4, DepartmentId = -17, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -31, Username = "mgarcia", FullName = "María García", PasswordHash = passwordManager5, DepartmentId = -18, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -32, Username = "rdominguez", FullName = "Rafael Domínguez", PasswordHash = passwordManager1, DepartmentId = -21, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -33, Username = "solivera", FullName = "Sonia Olivera", PasswordHash = passwordManager2, DepartmentId = -6, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -34, Username = "tquezada", FullName = "Tomás Quezada", PasswordHash = passwordManager3, DepartmentId = -24, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true }
          );
 
          // Technicians
@@ -164,44 +186,53 @@ namespace Infrastructure.Data
             new { UserId = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentId = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true }
          );
 
+         // Logisticians (approve decommission requests and confirm transfers)
+         modelBuilder.Entity<User>().HasData(
+            new { UserId = -30, Username = "jlopez", FullName = "José López", PasswordHash = passwordManager4, DepartmentId = -17, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -31, Username = "mgarcia", FullName = "María García", PasswordHash = passwordManager5, DepartmentId = -18, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -32, Username = "rdominguez", FullName = "Rafael Domínguez", PasswordHash = passwordManager1, DepartmentId = -21, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -33, Username = "solivera", FullName = "Sonia Olivera", PasswordHash = passwordManager2, DepartmentId = -6, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
+            new { UserId = -34, Username = "tquezada", FullName = "Tomás Quezada", PasswordHash = passwordManager3, DepartmentId = -24, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true }
+         );
+
          // Seed Devices
          modelBuilder.Entity<Device>().HasData(
-            new { DeviceId = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -8, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -16, AcquisitionDate = today, IsDisabled = false },
-            new { DeviceId = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = today, IsDisabled = false },
-            new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -1, Name = "Router de Agregación ASR 9000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.BeingTransferred, DepartmentId = -8, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -2, Name = "Servidor de Virtualización HP DL380", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Revised, DepartmentId = -16, AcquisitionDate = today, IsDisabled = false },
+                  new { DeviceId = -3, Name = "Firewall de Próxima Generación PA-5200", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Revised, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -4, Name = "Sistema UPS Eaton 20kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -24, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -5, Name = "Antena de Radioenlace AirFiber 5XHD", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.UnderRevision, DepartmentId = -12, AcquisitionDate = today, IsDisabled = false },
+                  new { DeviceId = -6, Name = "Analizador de Espectro Viavi", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Revised, DepartmentId = -14, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
 
-            // Additional devices (for richer, consistent seeded data)
-            new { DeviceId = -7, Name = "Switch Core Catalyst 9500", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -1, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
-            new { DeviceId = -8, Name = "Servidor de Base de Datos Dell R740", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Operational, DepartmentId = -4, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -9, Name = "Storage SAN NetApp AFF", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -5, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
-            new { DeviceId = -10, Name = "Sistema de Climatización CRAC", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -6, AcquisitionDate = dateInTenDays, IsDisabled = false },
-            new { DeviceId = -11, Name = "OTDR Fibra Óptica EXFO", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
-            new { DeviceId = -12, Name = "Radioenlace Cambium PTP", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -11, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -13, Name = "Firewall FortiGate 200F", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -22, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
-            new { DeviceId = -14, Name = "Servidor de Monitoreo Zabbix", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Decommissioned, DepartmentId = -23, AcquisitionDate = dateInTenDays, IsDisabled = false },
-            new { DeviceId = -15, Name = "UPS APC Smart-UPS 10kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Operational, DepartmentId = -6, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -16, Name = "Analizador de Protocolos Wireshark Probe", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -24, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
-            new { DeviceId = -17, Name = "Switch Acceso Aruba 2930F", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -21, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -18, Name = "Servidor de Aplicaciones VMHost", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Operational, DepartmentId = -4, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
-            new { DeviceId = -19, Name = "CPE GPON Huawei", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -11, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
-            new { DeviceId = -20, Name = "Medidor de Potencia Óptica", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
+                  // Additional devices (for richer, consistent seeded data)
+                  new { DeviceId = -7, Name = "Switch Core Catalyst 9500", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.UnderRevision, DepartmentId = -1, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  new { DeviceId = -8, Name = "Servidor de Base de Datos Dell R740", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.BeingTransferred, DepartmentId = -4, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -9, Name = "Storage SAN NetApp AFF", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Revised, DepartmentId = -5, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -10, Name = "Sistema de Climatización CRAC", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -6, AcquisitionDate = dateInTenDays, IsDisabled = false },
+                  new { DeviceId = -11, Name = "OTDR Fibra Óptica EXFO", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Revised, DepartmentId = -12, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
+                  new { DeviceId = -12, Name = "Radioenlace Cambium PTP", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Revised, DepartmentId = -11, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -13, Name = "Firewall FortiGate 200F", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.UnderRevision, DepartmentId = -22, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
+                  new { DeviceId = -14, Name = "Servidor de Monitoreo Zabbix", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Decommissioned, DepartmentId = -23, AcquisitionDate = dateInTenDays, IsDisabled = false },
+                  new { DeviceId = -15, Name = "UPS APC Smart-UPS 10kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.UnderRevision, DepartmentId = -6, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -16, Name = "Analizador de Protocolos Wireshark Probe", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Revised, DepartmentId = -24, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  new { DeviceId = -17, Name = "Switch Acceso Aruba 2930F", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Revised, DepartmentId = -21, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -18, Name = "Servidor de Aplicaciones VMHost", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderRevision, DepartmentId = -4, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -19, Name = "CPE GPON Huawei", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Revised, DepartmentId = -11, AcquisitionDate = dateInFiveDaysBefore, IsDisabled = false },
+                  new { DeviceId = -20, Name = "Medidor de Potencia Óptica", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Revised, DepartmentId = -12, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
 
-            // Some already decommissioned devices to match approved requests
-            new { DeviceId = -21, Name = "Servidor Legacy Xeon E5", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Decommissioned, DepartmentId = -4, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
-            new { DeviceId = -22, Name = "Router Legacy ISR 2900", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Decommissioned, DepartmentId = -3, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
-            new { DeviceId = -23, Name = "UPS Line-Interactive 3kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -6, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  // Some already decommissioned devices to match approved requests
+                  new { DeviceId = -21, Name = "Servidor Legacy Xeon E5", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Decommissioned, DepartmentId = -4, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  new { DeviceId = -22, Name = "Router Legacy ISR 2900", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Decommissioned, DepartmentId = -3, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  new { DeviceId = -23, Name = "UPS Line-Interactive 3kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Decommissioned, DepartmentId = -6, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
 
-            // Remaining devices (operational/pending candidates)
-            new { DeviceId = -24, Name = "Switch Distribución Nexus 3000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -1, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -25, Name = "Servidor Backup Veeam Proxy", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.UnderMaintenance, DepartmentId = -5, AcquisitionDate = dateInTenDays, IsDisabled = false },
-            new { DeviceId = -26, Name = "Equipo de Pruebas Fluke Networks", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.Operational, DepartmentId = -12, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
-            new { DeviceId = -27, Name = "Radio Punto-a-Punto Ubiquiti", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Operational, DepartmentId = -9, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -28, Name = "Firewall Legacy ASA 5516", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Operational, DepartmentId = -22, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
-            new { DeviceId = -29, Name = "Servidor de Logs SIEM", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Operational, DepartmentId = -23, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
-            new { DeviceId = -30, Name = "UPS Modular 30kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Operational, DepartmentId = -6, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false }
+                  // Remaining devices (operational/pending candidates)
+                  new { DeviceId = -24, Name = "Switch Distribución Nexus 3000", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.Revised, DepartmentId = -1, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -25, Name = "Servidor Backup Veeam Proxy", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Revised, DepartmentId = -5, AcquisitionDate = dateInTenDays, IsDisabled = false },
+                  new { DeviceId = -26, Name = "Equipo de Pruebas Fluke Networks", Type = DeviceType.DiagnosticAndMeasurement, OperationalState = OperationalState.UnderRevision, DepartmentId = -12, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -27, Name = "Radio Punto-a-Punto Ubiquiti", Type = DeviceType.CommunicationsAndTransmission, OperationalState = OperationalState.Revised, DepartmentId = -9, AcquisitionDate = dateInFifteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -28, Name = "Firewall Legacy ASA 5516", Type = DeviceType.ConnectivityAndNetwork, OperationalState = OperationalState.UnderRevision, DepartmentId = -22, AcquisitionDate = dateInTwentyDaysBefore, IsDisabled = false },
+                  new { DeviceId = -29, Name = "Servidor de Logs SIEM", Type = DeviceType.ComputingAndIT, OperationalState = OperationalState.Revised, DepartmentId = -23, AcquisitionDate = dateInEighteenDaysBefore, IsDisabled = false },
+                  new { DeviceId = -30, Name = "UPS Modular 30kVA", Type = DeviceType.ElectricalInfrastructureAndSupport, OperationalState = OperationalState.Revised, DepartmentId = -6, AcquisitionDate = dateInSevenDaysBefore, IsDisabled = false }
          );
 
          modelBuilder.Entity<MaintenanceRecord>().HasData(
@@ -219,6 +250,20 @@ namespace Infrastructure.Data
             new { MaintenanceRecordId = -10, TechnicianId = -16, DeviceId = -11, Date = new DateTime(2025, 3, 7, 0, 0, 0, DateTimeKind.Utc), Cost = 50.0, Type = MaintenanceType.Preventive, Description = "Recalibración y limpieza de conectores" },
             new { MaintenanceRecordId = -11, TechnicianId = -12, DeviceId = -12, Date = new DateTime(2025, 3, 21, 0, 0, 0, DateTimeKind.Utc), Cost = 140.0, Type = MaintenanceType.Predictive, Description = "Medición de potencia y análisis de degradación" },
             new { MaintenanceRecordId = -12, TechnicianId = -13, DeviceId = -13, Date = new DateTime(2025, 4, 2, 0, 0, 0, DateTimeKind.Utc), Cost = 110.0, Type = MaintenanceType.Preventive, Description = "Revisión de reglas y backup de configuración" }
+         );
+
+         // Additional maintenance records to provide richer test data
+         modelBuilder.Entity<MaintenanceRecord>().HasData(
+            new { MaintenanceRecordId = -13, TechnicianId = -12, DeviceId = -2, Date = new DateTime(2025, 5, 10, 0, 0, 0, DateTimeKind.Utc), Cost = 200.0, Type = MaintenanceType.Corrective, Description = "Reemplazo de disco y verificación RAID" },
+            new { MaintenanceRecordId = -14, TechnicianId = -13, DeviceId = -5, Date = new DateTime(2025, 6, 1, 0, 0, 0, DateTimeKind.Utc), Cost = 75.0, Type = MaintenanceType.Preventive, Description = "Ajuste de alineación de antena" },
+            new { MaintenanceRecordId = -15, TechnicianId = -14, DeviceId = -7, Date = new DateTime(2025, 6, 15, 0, 0, 0, DateTimeKind.Utc), Cost = 130.0, Type = MaintenanceType.Preventive, Description = "Limpieza y reemplazo de módulos" },
+            new { MaintenanceRecordId = -16, TechnicianId = -15, DeviceId = -9, Date = new DateTime(2025, 7, 2, 0, 0, 0, DateTimeKind.Utc), Cost = 210.0, Type = MaintenanceType.Corrective, Description = "Reparación de controladora SAN" },
+            new { MaintenanceRecordId = -17, TechnicianId = -16, DeviceId = -11, Date = new DateTime(2025, 7, 20, 0, 0, 0, DateTimeKind.Utc), Cost = 55.0, Type = MaintenanceType.Preventive, Description = "Calibración de OTDR" },
+            new { MaintenanceRecordId = -18, TechnicianId = -12, DeviceId = -16, Date = new DateTime(2025, 8, 1, 0, 0, 0, DateTimeKind.Utc), Cost = 90.0, Type = MaintenanceType.Preventive, Description = "Chequeo de sondeo de paquetes" },
+            new { MaintenanceRecordId = -19, TechnicianId = -13, DeviceId = -18, Date = new DateTime(2025, 8, 18, 0, 0, 0, DateTimeKind.Utc), Cost = 300.0, Type = MaintenanceType.Corrective, Description = "Reemplazo de fuente y test de rendimiento" },
+            new { MaintenanceRecordId = -20, TechnicianId = -14, DeviceId = -24, Date = new DateTime(2025, 9, 5, 0, 0, 0, DateTimeKind.Utc), Cost = 110.0, Type = MaintenanceType.Preventive, Description = "Actualización de firmware de switch" },
+            new { MaintenanceRecordId = -21, TechnicianId = -15, DeviceId = -25, Date = new DateTime(2025, 9, 20, 0, 0, 0, DateTimeKind.Utc), Cost = 160.0, Type = MaintenanceType.Corrective, Description = "Problemas en snapshot de backup" },
+            new { MaintenanceRecordId = -22, TechnicianId = -16, DeviceId = -27, Date = new DateTime(2025, 10, 1, 0, 0, 0, DateTimeKind.Utc), Cost = 45.0, Type = MaintenanceType.Preventive, Description = "Verificación de enlace inalámbrico" }
          );
 
          modelBuilder.Entity<DecommissioningRequest>().HasData(
@@ -655,7 +700,7 @@ namespace Infrastructure.Data
             new { ReceivingInspectionRequestId = -7, DeviceId = -7, AdministratorId = -2, TechnicianId = -13, EmissionDate = new DateTime(2025, 1, 8, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -8, DeviceId = -8, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 1, 9, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = new DateTime(2025, 1, 11, 0, 0, 0, DateTimeKind.Utc), Status = InspectionRequestStatus.Rejected, RejectReason = DecommissioningReason.IrreparableTechnicalFailure },
             new { ReceivingInspectionRequestId = -9, DeviceId = -9, AdministratorId = -4, TechnicianId = -15, EmissionDate = new DateTime(2025, 1, 10, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 12, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
-            new { ReceivingInspectionRequestId = -10, DeviceId = -10, AdministratorId = -5, TechnicianId = -16, EmissionDate = new DateTime(2025, 1, 11, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
+            new { ReceivingInspectionRequestId = -10, DeviceId = -10, AdministratorId = -5, TechnicianId = -16, EmissionDate = new DateTime(2025, 1, 11, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 13, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -11, DeviceId = -11, AdministratorId = -1, TechnicianId = -12, EmissionDate = new DateTime(2025, 1, 12, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 14, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -12, DeviceId = -12, AdministratorId = -2, TechnicianId = -13, EmissionDate = new DateTime(2025, 1, 13, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = new DateTime(2025, 1, 15, 0, 0, 0, DateTimeKind.Utc), Status = InspectionRequestStatus.Rejected, RejectReason = DecommissioningReason.SeverePhysicalDamage },
             new { ReceivingInspectionRequestId = -13, DeviceId = -13, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 1, 14, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
@@ -666,9 +711,9 @@ namespace Infrastructure.Data
             new { ReceivingInspectionRequestId = -18, DeviceId = -18, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 1, 19, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -19, DeviceId = -19, AdministratorId = -4, TechnicianId = -15, EmissionDate = new DateTime(2025, 1, 20, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 22, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -20, DeviceId = -20, AdministratorId = -5, TechnicianId = -16, EmissionDate = new DateTime(2025, 1, 21, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = new DateTime(2025, 1, 23, 0, 0, 0, DateTimeKind.Utc), Status = InspectionRequestStatus.Rejected, RejectReason = DecommissioningReason.TechnologicalObsolescence },
-            new { ReceivingInspectionRequestId = -21, DeviceId = -21, AdministratorId = -1, TechnicianId = -12, EmissionDate = new DateTime(2025, 1, 22, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
+            new { ReceivingInspectionRequestId = -21, DeviceId = -21, AdministratorId = -1, TechnicianId = -12, EmissionDate = new DateTime(2025, 1, 22, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 24, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -22, DeviceId = -22, AdministratorId = -2, TechnicianId = -13, EmissionDate = new DateTime(2025, 1, 23, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 25, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
-            new { ReceivingInspectionRequestId = -23, DeviceId = -23, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 1, 24, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
+            new { ReceivingInspectionRequestId = -23, DeviceId = -23, AdministratorId = -3, TechnicianId = -14, EmissionDate = new DateTime(2025, 1, 24, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 26, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -24, DeviceId = -24, AdministratorId = -4, TechnicianId = -15, EmissionDate = new DateTime(2025, 1, 25, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = new DateTime(2025, 1, 27, 0, 0, 0, DateTimeKind.Utc), RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Accepted, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },
             new { ReceivingInspectionRequestId = -25, DeviceId = -25, AdministratorId = -5, TechnicianId = -16, EmissionDate = new DateTime(2025, 1, 26, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = new DateTime(2025, 1, 28, 0, 0, 0, DateTimeKind.Utc), Status = InspectionRequestStatus.Rejected, RejectReason = DecommissioningReason.ExcessiveRepairCost },
             new { ReceivingInspectionRequestId = -26, DeviceId = -26, AdministratorId = -1, TechnicianId = -12, EmissionDate = new DateTime(2025, 1, 27, 0, 0, 0, DateTimeKind.Utc), AcceptedDate = (DateTime?)null, RejectionDate = (DateTime?)null, Status = InspectionRequestStatus.Pending, RejectReason = DecommissioningReason.PlannedTechnologyUpgrade },

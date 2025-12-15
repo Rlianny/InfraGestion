@@ -85,12 +85,12 @@ namespace Web.API.Controllers
         [HttpPost("confirmations/{transferId}")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task<IActionResult> ConfirmReception(int deviceId)
+        public async Task<IActionResult> ConfirmReception(int transferId)
         {
             try
             {
                 int userId = GetCurrentUserId();
-                await transferService.ConfirmReceptionAsync(deviceId, userId);
+                await transferService.ConfirmReceptionAsync(transferId, userId);
                 return Ok();
             }
             catch (Exception ex)

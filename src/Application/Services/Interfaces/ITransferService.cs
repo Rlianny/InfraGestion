@@ -5,7 +5,7 @@ namespace Application.Services.Interfaces
     public interface ITransferService
     {
         Task InitiateTransferAsync(CreateTransferRequestDto request);
-        Task ConfirmReceptionAsync(int deviceId, int userId);
+        Task ConfirmReceptionAsync(int transferId, int userId);
         Task<IEnumerable<TransferDto>> GetPendingTransfersAsync();
         Task<TransferDto> GetTransferByIdAsync(int transferId);
         Task<IEnumerable<TransferDto>> GetTransfersByDeviceNameAsync(string deviceName);
