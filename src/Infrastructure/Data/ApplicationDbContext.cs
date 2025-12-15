@@ -168,32 +168,7 @@ namespace Infrastructure.Data
             new { UserId = -34, Username = "tquezada", FullName = "Tomás Quezada", PasswordHash = passwordManager3, DepartmentId = -24, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true }
          );
 
-         // Technicians
-         modelBuilder.Entity<User>().HasData(
-            new { UserId = -12, Username = "cmendez", FullName = "Carlos Méndez", PasswordHash = "tech01", DepartmentId = -3, YearsOfExperience = 5, Specialty = "Redes y Comunicaciones", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-            new { UserId = -13, Username = "evargas", FullName = "Eduardo Vargas", PasswordHash = "tech02", DepartmentId = -6, YearsOfExperience = 3, Specialty = "Servidores y Virtualización", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-            new { UserId = -14, Username = "jsilva", FullName = "Jorge Silva", PasswordHash = "tech03", DepartmentId = -9, YearsOfExperience = 7, Specialty = "Electricidad y Energía", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-            new { UserId = -15, Username = "mortega", FullName = "María Ortega", PasswordHash = "tech04", DepartmentId = -22, YearsOfExperience = 4, Specialty = "Ciberseguridad", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true },
-            new { UserId = -16, Username = "alopez", FullName = "Ana López", PasswordHash = "tech05", DepartmentId = -11, YearsOfExperience = 6, Specialty = "Fibra Óptica", RoleId = (int)RoleEnum.Technician, CreatedAt = today, IsActive = true }
-         );
-
-         // EquipmentReceiver
-         modelBuilder.Entity<User>().HasData(
-            new { UserId = -17, Username = "msantos", FullName = "Miguel Ángel Santos", PasswordHash = "rec01", DepartmentId = -9, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-            new { UserId = -18, Username = "agarcia", FullName = "Ana García", PasswordHash = "rec02", DepartmentId = -2, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-            new { UserId = -19, Username = "lfernandez", FullName = "Luis Fernández", PasswordHash = "rec03", DepartmentId = -6, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-            new { UserId = -20, Username = "mjimenez", FullName = "Marta Jiménez", PasswordHash = "rec04", DepartmentId = -24, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true },
-            new { UserId = -21, Username = "cruiz", FullName = "Carlos Ruiz", PasswordHash = "rec05", DepartmentId = -17, RoleId = (int)RoleEnum.EquipmentReceiver, CreatedAt = today, IsActive = true }
-         );
-
-         // Logisticians (approve decommission requests and confirm transfers)
-         modelBuilder.Entity<User>().HasData(
-            new { UserId = -30, Username = "jlopez", FullName = "José López", PasswordHash = passwordManager4, DepartmentId = -17, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
-            new { UserId = -31, Username = "mgarcia", FullName = "María García", PasswordHash = passwordManager5, DepartmentId = -18, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
-            new { UserId = -32, Username = "rdominguez", FullName = "Rafael Domínguez", PasswordHash = passwordManager1, DepartmentId = -21, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
-            new { UserId = -33, Username = "solivera", FullName = "Sonia Olivera", PasswordHash = passwordManager2, DepartmentId = -6, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true },
-            new { UserId = -34, Username = "tquezada", FullName = "Tomás Quezada", PasswordHash = passwordManager3, DepartmentId = -24, RoleId = (int)RoleEnum.Logistician, CreatedAt = today, IsActive = true }
-         );
+         
 
          // Seed Devices
          modelBuilder.Entity<Device>().HasData(
@@ -280,7 +255,7 @@ namespace Infrastructure.Data
                DeviceReceiverId = -19,
                IsApproved = (bool?)true,
                FinalDestinationDepartmentID = -18,
-               logisticId = -1,
+               logisticId = -30,
                description = "Daño físico severo: equipo fuera de servicio. Se autoriza baja y traslado a almacén general."
             },
             new
@@ -310,7 +285,7 @@ namespace Infrastructure.Data
                DeviceReceiverId = (int?)null,
                IsApproved = (bool?)false,
                FinalDestinationDepartmentID = (int?)null,
-               logisticId = -2,
+               logisticId = -31,
                description = "Rechazado: se requiere reevaluación, no se justifica baja con la evidencia presentada."
             },
 
@@ -342,7 +317,7 @@ namespace Infrastructure.Data
                DeviceReceiverId = (int?)null,
                IsApproved = (bool?)false,
                FinalDestinationDepartmentID = (int?)null,
-               logisticId = -3,
+               logisticId = -32,
                description = "Rechazado: el equipo puede repararse; se deriva a mantenimiento correctivo."
             },
             new
@@ -372,7 +347,7 @@ namespace Infrastructure.Data
                DeviceReceiverId = -21,
                IsApproved = (bool?)true,
                FinalDestinationDepartmentID = -18,
-               logisticId = -4,
+               logisticId = -33,
                description = "Aprobado: daño estructural en unidad CRAC. Baja autorizada y retiro por logística."
             },
             new
@@ -402,7 +377,7 @@ namespace Infrastructure.Data
                DeviceReceiverId = (int?)null,
                IsApproved = (bool?)false,
                FinalDestinationDepartmentID = (int?)null,
-               logisticId = -5,
+               logisticId = -34,
                description = "Rechazado: aún cumple requerimientos mínimos; se mantiene en inventario operativo."
             },
             new
