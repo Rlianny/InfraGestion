@@ -218,19 +218,14 @@ namespace Application.Services.Implementations
             InspectionDecisionRequestDto request)
         {
             inspectionRequest.Reject((DecommissioningReason)request.Reason);
+            System.Console.WriteLine("Inspection 'rejected' ");
 
             var department = await _departmentRepo.GetByIdAsync(device.DepartmentId)
                 ?? throw new EntityNotFoundException("Department", device.DepartmentId);
 
+
             var section = await _sectionRepo.GetByIdAsync(department.SectionId)
                 ?? throw new EntityNotFoundException("Section", department.SectionId);
-
-            if (!section.SectionManagerId.HasValue)
-            {
-                throw new BusinessRuleViolationException(
-                    $"Section {section.SectionId} does not have an assigned manager to receive the decommissioning request"
-                );
-            }
 
             var decommissioningRequest = new DecommissioningRequest(
                 request.TechnicianId,
