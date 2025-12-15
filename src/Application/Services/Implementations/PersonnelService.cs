@@ -138,6 +138,12 @@ namespace Application.Services.Implementations
             var decommissioningRequestDtos = new List<DecommissioningRequestDto>();
             foreach (var request in decommissioningRequests)
             {
+                User? receiverUser = null;
+                if (request.DeviceReceiverId.HasValue)
+                {
+                    receiverUser = await userRepository.GetByIdAsync(request.DeviceReceiverId.Value);
+                }
+
                 var dto = new DecommissioningRequestDto
                 {
                     DecommissioningRequestId = request.DecommissioningRequestId,
@@ -150,7 +156,8 @@ namespace Application.Services.Implementations
                     RequestDate = request.EmissionDate,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
-
+                    receiverUserId = request.DeviceReceiverId,
+                    receiverUserName = receiverUser?.FullName,
 
                     Status = MapToDecommissioningStatus(request.Status),
                 };
