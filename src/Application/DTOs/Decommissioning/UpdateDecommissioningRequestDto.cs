@@ -1,19 +1,20 @@
 using Domain.Enums;
-namespace Application.DTOs
+
+namespace Application.DTOs.Decommissioning
 {
     public class UpdateDecommissioningRequestDto
     {
-        public int DecommissioningRequestId { get; private set; }
-        public int TechnicianId { get; private set; }
-        public int DeviceId { get; private set; }
-        public DateTime EmissionDate { get; private set; }
-        public DateTime? AnswerDate { get; private set; }
-        public RequestStatus Status { get; private set; }
-        public DecommissioningReason Reason { get; private set; }
-        public int? DeviceReceiverId { get; private set; }
-        public bool? IsApproved { get; private set; }
-        public int? FinalDestinationDepartmentID { get; private set; }
-        public int? logisticId { get; private set; }
-        public string description { get; private set; } = "";
+        public int DecommissioningRequestId { get; set; }
+        public int TechnicianId { get; set; }
+        public int DeviceId { get; set; }
+        public DateTime EmissionDate { get; set; }
+        public DateTime? AnswerDate { get; set; }
+        public RequestStatus Status { get; set; }
+        public DecommissioningReason Reason { get; set; }
+        public int? DeviceReceiverId { get; set; }
+        public bool? IsApproved { get; set; }
+        public int? FinalDestinationDepartmentId { get; set; }
+        public int? LogisticId { get; set; }
+        public string Description { get; set; } = "";
     }
 }

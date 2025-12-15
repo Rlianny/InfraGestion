@@ -229,6 +229,8 @@ namespace Application.Services.Implementations
                     Name = technician.FullName,
                     YearsOfExperience = technician.YearsOfExperience ?? 0,
                     Specialty = technician.Specialty ?? string.Empty,
+                    IsActive = technician.IsActive,
+                    AverageRating = await performanceRatingRepository.GetAverageScoreByTechnicianAsync(technician.UserId)
                 };
                 technicianDtos.Add(dto);
             }
@@ -258,6 +260,8 @@ namespace Application.Services.Implementations
                 Name = technician.FullName,
                 YearsOfExperience = technician.YearsOfExperience ?? 0,
                 Specialty = technician.Specialty ?? string.Empty,
+                IsActive = technician.IsActive,
+                AverageRating = await performanceRatingRepository.GetAverageScoreByTechnicianAsync(technician.UserId)
             };
         }
 
@@ -293,6 +297,8 @@ namespace Application.Services.Implementations
                 Name = technician.FullName,
                 YearsOfExperience = technician.YearsOfExperience ?? 0,
                 Specialty = technician.Specialty ?? string.Empty,
+                IsActive = technician.IsActive,
+                AverageRating = await performanceRatingRepository.GetAverageScoreByTechnicianAsync(technician.UserId)
             };
         }
 

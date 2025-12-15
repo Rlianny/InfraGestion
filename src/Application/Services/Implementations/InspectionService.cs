@@ -155,9 +155,8 @@ namespace Application.Services.Implementations
             }
             else
             {
-                await HandleRejectionAsync(inspectionRequest, device, request);
+                inspectionRequest.Reject((DecommissioningReason)request.Reason);
             }
-            System.Console.WriteLine("Approved");
 
             await _inspectionRepo.UpdateAsync(inspectionRequest);
             await _unitOfWork.SaveChangesAsync();
@@ -211,37 +210,6 @@ namespace Application.Services.Implementations
                 );
             }
         }
-
-        private async Task HandleRejectionAsync(
-            ReceivingInspectionRequest inspectionRequest,
-            Domain.Entities.Device device,
-            InspectionDecisionRequestDto request)
-        {
-            inspectionRequest.Reject((DecommissioningReason)request.Reason);
-
-            var department = await _departmentRepo.GetByIdAsync(device.DepartmentId)
-                ?? throw new EntityNotFoundException("Department", device.DepartmentId);
-
-            var section = await _sectionRepo.GetByIdAsync(department.SectionId)
-                ?? throw new EntityNotFoundException("Section", department.SectionId);
-
-            if (!section.SectionManagerId.HasValue)
-            {
-                throw new BusinessRuleViolationException(
-                    $"Section {section.SectionId} does not have an assigned manager to receive the decommissioning request"
-                );
-            }
-
-            var decommissioningRequest = new DecommissioningRequest(
-                request.TechnicianId,
-                request.DeviceId,
-                DateTime.Now,
-                (DecommissioningReason)request.Reason
-            );
-
-            await _decommissioningRepo.AddAsync(decommissioningRequest);
-        }
-
         #endregion
     }
 }

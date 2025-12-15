@@ -295,9 +295,9 @@ public class DecommissioningService : IDecommissioningService
         requestDto.Reason,
         requestDto.DeviceReceiverId,
         requestDto.IsApproved,
-        requestDto.FinalDestinationDepartmentID,
-        requestDto.logisticId,
-        requestDto.description);
+        requestDto.FinalDestinationDepartmentId,
+        requestDto.LogisticId,
+        requestDto.Description);
         await _requestRepository.UpdateAsync(decommissioningRequest);
         await _unitOfWork.SaveChangesAsync();
     }

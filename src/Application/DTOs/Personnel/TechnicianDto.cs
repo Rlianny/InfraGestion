@@ -6,5 +6,7 @@ namespace Application.DTOs.Personnel
         public string Name { get; set; } = string.Empty;
         public int YearsOfExperience { get; set; }
         public string Specialty { get; set; } = string.Empty;
+        public double AverageRating { get; set; }
+        public bool IsActive { get; set; }
     }
 }
