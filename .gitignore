@@ -109,3 +109,4 @@ dump.sql
 /src/Web.API/InfraGestionDb.sqlite
 /src/Web.API/InfraGestionDb.sqlite-shm
 /src/Web.API/InfraGestionDb.sqlite-wal
+/src/Web.API/InfraGestionDb.sqlite
