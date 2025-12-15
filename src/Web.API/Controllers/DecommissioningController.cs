@@ -64,7 +64,7 @@ namespace Web.API.Controllers
         /// Get all decommissioning requests
         /// </summary>
         [HttpGet("requests")]
-        [Authorize(Roles = "Administrator,Director")]
+        [Authorize(Roles = "Administrator,Director,Technician")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DecommissioningRequestDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllRequests()
         {

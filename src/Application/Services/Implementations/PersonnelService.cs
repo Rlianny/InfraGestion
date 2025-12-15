@@ -120,10 +120,12 @@ namespace Application.Services.Implementations
             var maintenanceRecordDtos = new List<MaintenanceRecordDto>();
             foreach (var record in maintenanceRecords)
             {
+                var device = await devicesRepository.GetByIdAsync(record.DeviceId);
                 var dto = new MaintenanceRecordDto
                 {
                     MaintenanceRecordId = record.MaintenanceRecordId,
                     DeviceId = record.DeviceId,
+                    DeviceName = device?.Name ?? $"Equipo {record.DeviceId}",
                     Description = record.Description,
                     MaintenanceDate = record.Date,
                     TechnicianId = technicianId,
@@ -136,6 +138,24 @@ namespace Application.Services.Implementations
             var decommissioningRequestDtos = new List<DecommissioningRequestDto>();
             foreach (var request in decommissioningRequests)
             {
+                User? receiverUser = null;
+                if (request.DeviceReceiverId.HasValue)
+                {
+                    receiverUser = await userRepository.GetByIdAsync(request.DeviceReceiverId.Value);
+                }
+
+                User? reviewedByUser = null;
+                if (request.logisticId.HasValue)
+                {
+                    reviewedByUser = await userRepository.GetByIdAsync(request.logisticId.Value);
+                }
+
+                Department? finalDestination = null;
+                if (request.FinalDestinationDepartmentID.HasValue)
+                {
+                    finalDestination = await departmentRepository.GetByIdAsync(request.FinalDestinationDepartmentID.Value);
+                }
+
                 var dto = new DecommissioningRequestDto
                 {
                     DecommissioningRequestId = request.DecommissioningRequestId,
@@ -148,7 +168,13 @@ namespace Application.Services.Implementations
                     RequestDate = request.EmissionDate,
                     TechnicianId = technicianId,
                     TechnicianName = technician.FullName,
-
+                    receiverUserId = request.DeviceReceiverId,
+                    receiverUserName = receiverUser?.FullName,
+                    ReviewedDate = request.AnswerDate,
+                    ReviewedByUserId = request.logisticId,
+                    ReviewedByUserName = reviewedByUser?.FullName,
+                    FinalDestinationId = request.FinalDestinationDepartmentID,
+                    FinalDestinationName = finalDestination?.Name,
 
                     Status = MapToDecommissioningStatus(request.Status),
                 };
