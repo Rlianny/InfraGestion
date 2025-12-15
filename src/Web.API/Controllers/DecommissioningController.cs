@@ -285,7 +285,7 @@ namespace Web.API.Controllers
 
         #endregion
         #region PUT
-        [HttpPut("requests/{requestId}")]
+        [HttpPut("requests")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateDecommissioningRequest([FromBody] UpdateDecommissioningRequestDto updateRequest)
