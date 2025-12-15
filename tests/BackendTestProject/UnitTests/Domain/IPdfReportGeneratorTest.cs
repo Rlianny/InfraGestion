@@ -32,6 +32,20 @@ namespace BackendTestProject.UnitTests.Domain
                 new TypicalClass(7, "e", null, null, "dp9", 0),
                 new TypicalClass(9, "f", "df5", null, "dp10", 0),
                 new TypicalClass(10, "g", null, "wow5", "dp11",MathF.Sqrt(2)),
+                new TypicalClass(1, "a", null, null, "dp5",0),
+                new TypicalClass(2, "b", "df3", null, "dp6",0),
+                new TypicalClass(3, "c", null, "wow3", "dp7", 0),
+                new TypicalClass(4, "d", "df4", "wow4", "dp8", 0),
+                new TypicalClass(7, "e", null, null, "dp9", 0),
+                new TypicalClass(9, "f", "df5", null, "dp10", 0),
+                new TypicalClass(10, "g", null, "wow5", "dp11",MathF.Sqrt(2)),
+                new TypicalClass(1, "a", null, null, "dp5",0),
+                new TypicalClass(2, "b", "df3", null, "dp6",0),
+                new TypicalClass(3, "c", null, "wow3", "dp7", 0),
+                new TypicalClass(4, "d", "df4", "wow4", "dp8", 0),
+                new TypicalClass(7, "e", null, null, "dp9", 0),
+                new TypicalClass(9, "f", "df5", null, "dp10", 0),
+                new TypicalClass(10, "g", null, "wow5", "dp11",MathF.Sqrt(2)),
             });
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"test.pdf");
             File.WriteAllBytes(path, pdf);

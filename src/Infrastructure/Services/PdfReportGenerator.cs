@@ -17,7 +17,7 @@ namespace Infrastructure.Services
                 container.Page(page =>
                 {
                     page.Margin(40);
-                    page.Size(PageSizes.A4);
+                    page.Size(PageSizes.Tabloid);
                     page.PageColor(Colors.White);
 
                     // Using a clean Sans-Serif font to match the image UI
