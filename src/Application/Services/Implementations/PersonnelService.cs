@@ -144,6 +144,18 @@ namespace Application.Services.Implementations
                     receiverUser = await userRepository.GetByIdAsync(request.DeviceReceiverId.Value);
                 }
 
+                User? reviewedByUser = null;
+                if (request.logisticId.HasValue)
+                {
+                    reviewedByUser = await userRepository.GetByIdAsync(request.logisticId.Value);
+                }
+
+                Department? finalDestination = null;
+                if (request.FinalDestinationDepartmentID.HasValue)
+                {
+                    finalDestination = await departmentRepository.GetByIdAsync(request.FinalDestinationDepartmentID.Value);
+                }
+
                 var dto = new DecommissioningRequestDto
                 {
                     DecommissioningRequestId = request.DecommissioningRequestId,
@@ -158,6 +170,11 @@ namespace Application.Services.Implementations
                     TechnicianName = technician.FullName,
                     receiverUserId = request.DeviceReceiverId,
                     receiverUserName = receiverUser?.FullName,
+                    ReviewedDate = request.AnswerDate,
+                    ReviewedByUserId = request.logisticId,
+                    ReviewedByUserName = reviewedByUser?.FullName,
+                    FinalDestinationId = request.FinalDestinationDepartmentID,
+                    FinalDestinationName = finalDestination?.Name,
 
                     Status = MapToDecommissioningStatus(request.Status),
                 };
