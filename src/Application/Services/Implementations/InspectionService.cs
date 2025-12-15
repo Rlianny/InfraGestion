@@ -139,14 +139,15 @@ namespace Application.Services.Implementations
         {
             var inspectionRequest = await _inspectionRepo.GetReceivingInspectionRequestsByDeviceAsync(request.DeviceId)
                 ?? throw new EntityNotFoundException("InspectionRequest", request.DeviceId);
-
+            System.Console.WriteLine("Inspection ready");
             ValidateTechnicianAuthorization(request.TechnicianId, inspectionRequest.TechnicianId);
-
+            System.Console.WriteLine("Technician Validation");
             var device = await _deviceRepo.GetByIdAsync(request.DeviceId)
                 ?? throw new EntityNotFoundException("Device", request.DeviceId);
-
+            System.Console.WriteLine($"Get device {device.Name}");
             device.UpdateOperationalState(OperationalState.Revised);
             await _deviceRepo.UpdateAsync(device);
+            System.Console.WriteLine("DeviceOperationalState updated");
 
             if (request.IsApproved)
             {
@@ -156,9 +157,11 @@ namespace Application.Services.Implementations
             {
                 await HandleRejectionAsync(inspectionRequest, device, request);
             }
+            System.Console.WriteLine("Approved");
 
             await _inspectionRepo.UpdateAsync(inspectionRequest);
             await _unitOfWork.SaveChangesAsync();
+            System.Console.WriteLine("Done");
         }
 
         #endregion
@@ -214,7 +217,7 @@ namespace Application.Services.Implementations
             Domain.Entities.Device device,
             InspectionDecisionRequestDto request)
         {
-            inspectionRequest.Reject(request.Reason);
+            inspectionRequest.Reject((DecommissioningReason)request.Reason);
 
             var department = await _departmentRepo.GetByIdAsync(device.DepartmentId)
                 ?? throw new EntityNotFoundException("Department", device.DepartmentId);
@@ -233,7 +236,7 @@ namespace Application.Services.Implementations
                 request.TechnicianId,
                 request.DeviceId,
                 DateTime.Now,
-                request.Reason
+                (DecommissioningReason)request.Reason
             );
 
             await _decommissioningRepo.AddAsync(decommissioningRequest);

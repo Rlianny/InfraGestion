@@ -195,21 +195,21 @@ namespace Application.Services.Implementations
             var existingDevice =
                 await _deviceRepo.GetByIdAsync(deviceId)
                 ?? throw new EntityNotFoundException("Device", deviceId);
-
+            System.Console.WriteLine("Existe el dispositivo " + request.Name);
             var department =
                 await _departmentRepo.GetDepartmentByNameAsync(request.DepartmentName)
                 ?? throw new EntityNotFoundException("Department", request.DepartmentName);
-
-            var device = new Device(
+            System.Console.WriteLine("Obteniendo departamento");
+            existingDevice.UpdateDetails(
                 request.Name,
                 request.DeviceType,
-                request.OperationalState,
                 department.DepartmentId,
-                request.Date,
-                deviceId
+                request.OperationalState,
+                request.Date
             );
-
-            await _deviceRepo.UpdateAsync(device);
+            System.Console.WriteLine("Creado Device");
+            await _deviceRepo.UpdateAsync(existingDevice);
+            System.Console.WriteLine("Updateando dispositivo");
             await _unitOfWork.SaveChangesAsync();
         }
 

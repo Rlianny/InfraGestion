@@ -1,0 +1,76 @@
+@startuml diagrama
+
+class Section {
+  int SectionId
+  string Name
+  int? SectionManagerId
+  User? SectionManager
+}
+class Department {
+  int DepartmentId
+  string Name
+  int SectionId
+  Section Section
+  ICollection<Device> Device
+  ICollection<User> Staff
+}
+class Device {
+  int DeviceId
+  string Name
+  DeviceType Type
+  OperationalState OperationalState
+  int DepartmentId
+}
+class User {
+  int UserId
+  string Username
+  string FullName
+  int RoleId
+  Role Role
+  int DepartmentId
+  Department Department
+}
+class Role {
+  int RoleId
+  string Name
+  ICollection<User> Users
+}
+class MaintenanceRecord {
+  int MaintenanceRecordId
+  int TechnicianId
+  int DeviceId
+  DateTime Date
+  double Cost
+}
+class DecommissioningRequest {
+  int DecommissioningRequestId
+  int TechnicianId
+  int DeviceId
+  DateTime EmissionDate
+  RequestStatus Status
+}
+class Transfer {
+  int TransferId
+  int DeviceId
+  int SourceSectionId
+  int DestinationSectionId
+  int DeviceReceiverId
+  TransferStatus Status
+}
+
+Section "1" -- "0..*" Department : contiene
+Department "1" -- "0..*" Device : contiene
+Department "1" -- "0..*" User : emplea
+Department "1" -- "0..*" DecommissioningRequest : recibe
+Department "1" -- "0..*" MaintenanceRecord : registra
+Department "1" -- "0..*" Transfer : origen/destino
+Device "1" -- "0..*" MaintenanceRecord : recibe
+Device "1" -- "0..*" DecommissioningRequest : puede tener
+Device "1" -- "0..*" Transfer : puede ser transferido
+User "1" -- "0..*" MaintenanceRecord : realiza
+User "1" -- "0..*" DecommissioningRequest : propone
+User "1" -- "0..*" PerformanceRating : recibe
+User "1" -- "0..*" Section : puede ser jefe
+Role "1" -- "0..*" User : asigna
+
+@enduml

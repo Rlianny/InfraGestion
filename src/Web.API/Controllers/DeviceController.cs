@@ -137,6 +137,7 @@ namespace Web.API.Controllers
             [FromBody] UpdateDeviceRequestDto request
         )
         {
+            System.Console.WriteLine("Entrando a Update");
             await _deviceService.UpdateDeviceAsync(id, request);
             return Ok("Device updated successfully");
         }

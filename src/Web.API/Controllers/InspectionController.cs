@@ -101,6 +101,7 @@ namespace Web.API.Controllers
             [FromBody] InspectionDecisionRequestDto request
         )
         {
+            System.Console.WriteLine("Going to process inspection decision...");
             await _inspectionService.ProcessInspectionDecisionAsync(request);
             var message = request.IsApproved
                 ? "Device approved successfully"

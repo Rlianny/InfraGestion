@@ -11,7 +11,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Domain.Entities
 {
-    public class Device:SoftDeleteBase
+    public class Device : SoftDeleteBase
     {
         public int DeviceId { get; private set; }
         public string Name { get; private set; }
@@ -79,6 +79,18 @@ namespace Domain.Entities
         {
             return OperationalState != OperationalState.Decommissioned &&
              OperationalState != OperationalState.BeingTransferred;
+        }
+
+        public void UpdateDetails(string name, DeviceType deviceType, int departmentId, OperationalState operationalState, DateTime date)
+        {
+            if (!string.IsNullOrEmpty(name) && Name.Length >= 3)
+            {
+                Name = name;
+            }
+            Type = deviceType;
+            DepartmentId = departmentId;
+            OperationalState = operationalState;
+            AcquisitionDate = date;
         }
 
         private Device()
