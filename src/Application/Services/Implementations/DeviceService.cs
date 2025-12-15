@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Application.DTOs.Decommissioning;
 using Application.DTOs.DevicesDTOs;
 using Application.DTOs.Maintenance;
@@ -451,37 +452,38 @@ namespace Application.Services.Implementations
                 .ToList();
         }
 
-        private async Task<DecommissioningDto?> GetDecommissioningInfoAsync(Device device)
+        private async Task<IEnumerable<DecommissioningRequestDto>> GetDecommissioningInfoAsync(Device device)
         {
-            var decommissioning = (
-                await _decommissioningRepo.GetDecommissioningRequestsByDeviceAsync(device.DeviceId)
-            )
-                .Where(d => d.IsApproved != null && d.IsApproved == true)
-                .FirstOrDefault();
-
-            if (decommissioning == null)
+            var decommissioningRequests =
+                await _decommissioningRepo.GetDecommissioningRequestsByDeviceAsync(device.DeviceId);
+            if (decommissioningRequests == null)
             {
-                return null;
+                return new List<DecommissioningRequestDto>();
             }
-
-            var receiver = await _userRepo.GetByIdAsync((int)decommissioning.DeviceReceiverId!);
-            var receiverDepartment = await _departmentRepo.GetByIdAsync(
-                (int)decommissioning.DeviceReceiverId!
-            );
-
-            return new DecommissioningDto
+            List<DecommissioningRequestDto> decommissioningInfo = [];
+            foreach (var decommissioning in decommissioningRequests)
             {
-                DeviceId = decommissioning.DeviceId,
-                DeviceName = device.Name,
-                DecommissioningRequestId = decommissioning.DecommissioningRequestId,
-                DeviceReceiverId = (int)decommissioning.DeviceReceiverId,
-                DeviceReceiverName = receiver?.FullName ?? "Unknown",
-                ReceiverDepartmentId = receiverDepartment?.DepartmentId ?? 0,
-                ReceiverDepartmentName = receiverDepartment?.Name ?? "Unknown",
-                DecommissioningDate = decommissioning.EmissionDate,
-                Reason = decommissioning.Reason,
-                FinalDestination = decommissioning.FinalDestinationDepartmentID == null ? "N/A" : (await _departmentRepo.GetByIdAsync((int)decommissioning.FinalDestinationDepartmentID)).Name,
-            };
+                var receiver = decommissioning.DeviceReceiverId != null ? await _userRepo.GetByIdAsync((int)decommissioning.DeviceReceiverId!) : null;
+
+                decommissioningInfo.Add(new DecommissioningRequestDto
+                {
+                    TechnicianId = decommissioning.TechnicianId,
+                    TechnicianName = (await _userRepo.GetByIdAsync(decommissioning.TechnicianId)).FullName,
+                    ReviewedByUserId = decommissioning.logisticId,
+                    ReviewedByUserName = decommissioning.logisticId == null ? "N/A" : (await _userRepo.GetByIdAsync((int)decommissioning.logisticId)).FullName,
+                    DeviceId = decommissioning.DeviceId,
+                    DeviceName = device.Name,
+                    DecommissioningRequestId = decommissioning.DecommissioningRequestId,
+                    receiverUserId = decommissioning.DeviceReceiverId,
+                    receiverUserName = receiver == null ? "N/A" : receiver.FullName,
+                    RequestDate = decommissioning.EmissionDate,
+                    ReviewedDate = decommissioning.AnswerDate,
+                    Reason = decommissioning.Reason,
+                    FinalDestinationId = decommissioning.FinalDestinationDepartmentID,
+                    FinalDestinationName = decommissioning.FinalDestinationDepartmentID == null ? "N/A" : (await _departmentRepo.GetByIdAsync((int)decommissioning.FinalDestinationDepartmentID)).Name,
+                });
+            }
+            return decommissioningInfo;
         }
 
         #endregion

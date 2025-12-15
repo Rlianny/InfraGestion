@@ -62,9 +62,18 @@ public class DecommissioningService : IDecommissioningService
         return await MapToDto(pendingRequests);
     }
 
-    public async Task<IEnumerable<DecommissioningRequestDto>> GetAllRequestsAsync()
+    public async Task<IEnumerable<DecommissioningRequestDto>> GetAllRequestsAsync(int userID)
     {
-        var requests = await _requestRepository.GetAllAsync();
+        var user = await _userRepository.GetByIdAsync(userID);
+        var requests = new List<DecommissioningRequest>();
+        if (user.IsTechnician)
+        {
+            requests = (await _requestRepository.GetDecommissioningRequestsByTechnicianAsync(userID)).ToList();
+        }
+        else if (user.IsAdministrator || user.IsDirector)
+        {
+            requests = (await _requestRepository.GetAllAsync()).ToList();
+        }
         return await MapToDto(requests);
     }
 

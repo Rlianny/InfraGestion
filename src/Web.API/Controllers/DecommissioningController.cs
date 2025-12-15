@@ -63,14 +63,33 @@ namespace Web.API.Controllers
         /// <summary>
         /// Get all decommissioning requests
         /// </summary>
-        [HttpGet("requests")]
+        [HttpGet("requests/userId")]
         [Authorize(Roles = "Administrator,Director")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DecommissioningRequestDto>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllRequests()
+        public async Task<IActionResult> GetAllRequests(int userId)
         {
             try
             {
-                var requests = await _decommissioningService.GetAllRequestsAsync();
+                var requests = await _decommissioningService.GetAllRequestsAsync(userId);
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        ///<summary>
+        /// Get all decommissioning requests
+        /// </summary>
+        [HttpGet("requests/technicianId")]
+        [Authorize(Roles = "Technician")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<DecommissioningRequestDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllByTechnician(int technicianId)
+        {
+            try
+            {
+                var requests = await _decommissioningService.GetAllRequestsAsync(technicianId);
                 return Ok(requests);
             }
             catch (Exception ex)
