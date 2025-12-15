@@ -5,6 +5,7 @@ using Application.Services.Interfaces;
 using Domain.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -128,6 +129,8 @@ internal class Program
         builder.Services.AddScoped<IUnitOfWork>(provider =>
                 provider.GetRequiredService<ApplicationDbContext>());
 
+        builder.Services.AddScoped<IPdfReportGenerator, QuestPdfReportGenerator>();
+
         // Repositories
         builder.Services.AddScoped<ISectionRepository, SectionRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -157,6 +160,7 @@ internal class Program
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         // Application Services
+        builder.Services.AddScoped<IReportService, ReportService>();
         builder.Services.AddScoped<IDeviceService, DeviceService>();
         builder.Services.AddScoped<IInspectionService, InspectionService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
