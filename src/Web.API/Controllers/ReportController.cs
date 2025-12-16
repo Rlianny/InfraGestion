@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.Report;
 using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.API.Shared;
 
@@ -78,13 +79,13 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("department-transfer")]
-        [ProducesResponseType(typeof(ApiResponse<DepartmentTransferReportDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GenerateDepartmentTransferReportAsync([FromQuery] string departmentId)
+        [HttpGet("transfers")]
+        [ProducesResponseType(typeof(ApiResponse<SectionTransferReportDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GenerateTransferReportAsync()
         {
             try
             {
-                var report = await reportService.GenerateDepartmentTransferReportAsync(departmentId);
+                var report = await reportService.GenerateTransferReportAsync();
                 return Ok(report);
             }
             catch (Exception ex)

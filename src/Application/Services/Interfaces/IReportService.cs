@@ -8,7 +8,7 @@ namespace Application.Services.Interfaces
         Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync(DecommissioningReportFilterDto filter);
         Task<IEnumerable<PersonnelEffectivenessReportDto>> GeneratePersonnelEffectivenessReportAsync(PersonnelReportFilterDto criteria);
         Task<IEnumerable<DeviceReplacementReportDto>> GenerateEquipmentReplacementReportAsync();
-        Task<IEnumerable<DepartmentTransferReportDto>> GenerateDepartmentTransferReportAsync(string departmentId);
+        Task<IEnumerable<SectionTransferReportDto>> GenerateTransferReportAsync();
         Task<IEnumerable<CorrelationAnalysisReportDto>> GenerateCorrelationAnalysisReportAsync();
         Task<IEnumerable<BonusDeterminationReportDto>> GenerateBonusDeterminationReportAsync(BonusReportCriteria criteria);
         Task<PdfExportDto> GeneratePdfReport(string reportType);

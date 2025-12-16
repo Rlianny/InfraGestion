@@ -1,5 +1,6 @@
 using Application.DTOs.Report;
 using Application.Services.Interfaces;
+using Domain.Aggregations;
 using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Extensions;
@@ -267,48 +268,33 @@ namespace Application.Services.Implementations
             return reportList;
         }
 
-        public async Task<IEnumerable<DepartmentTransferReportDto>> GenerateDepartmentTransferReportAsync(string departmentId)
+        public async Task<IEnumerable<SectionTransferReportDto>> GenerateTransferReportAsync()
         {
-            if (!int.TryParse(departmentId, out int deptId))
-                return new List<DepartmentTransferReportDto>();
-
-            var department = await _departmentRepository.GetByIdAsync(deptId);
-            if (department == null)
-                return new List<DepartmentTransferReportDto>();
-
+            
+   
             var transfers = await _transferRepository.GetAllAsync();
-            var departmentTransfers = transfers.Where(t =>
-                t.SourceSectionId == department.SectionId ||
-                t.DestinationSectionId == department.SectionId
-            ).ToList();
+            
 
-            var reportList = new List<DepartmentTransferReportDto>();
-
-            foreach (var transfer in departmentTransfers)
+            var reportList = new List<SectionTransferReportDto>();
+            foreach (var transfer in transfers)
             {
                 var device = await _deviceRepository.GetByIdAsync(transfer.DeviceId);
-                var sourceSection = transfer.SourceSectionId > 0
-                    ? await _sectionRepository.GetByIdAsync(transfer.SourceSectionId)
-                    : null;
-                var destinationSection = transfer.DestinationSectionId > 0
-                    ? await _sectionRepository.GetByIdAsync(transfer.DestinationSectionId)
-                    : null;
+                var sourceSection = await _sectionRepository.GetByIdAsync(transfer.SourceSectionId);
+
+                var destinationSection = await _sectionRepository.GetByIdAsync(transfer.DestinationSectionId);
+                    
                 var receiver = await _userRepository.GetByIdAsync(transfer.DeviceReceiverId);
 
-                var reportDto = new DepartmentTransferReportDto
+                var reportDto = new SectionTransferReportDto
                 {
                     TransferId = transfer.TransferId,
-                    DeviceId = transfer.DeviceId,
                     DeviceName = device?.Name ?? string.Empty,
-                    DeviceType = device?.Type.ToString() ?? string.Empty,
                     TransferDate = transfer.Date,
                     SourceSectionName = sourceSection?.Name ?? string.Empty,
                     DestinationSectionName = destinationSection?.Name ?? string.Empty,
-                    ReceiverName = receiver?.FullName ?? string.Empty,
-                    TransferStatus = transfer.Status.ToString(),
-                    DeliveryDate = null                
+                    ReceiverName = receiver?.FullName ?? string.Empty,            
                 };
-
+               
                 reportList.Add(reportDto);
             }
 
@@ -522,6 +508,11 @@ namespace Application.Services.Implementations
                 case "bonus-determination":
                     {
                         var data = await GenerateBonusDeterminationReportAsync(new BonusReportCriteria());
+                        return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
+                    }
+                case "transfers":
+                    {
+                        var data = await GenerateTransferReportAsync();
                         return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 default:
