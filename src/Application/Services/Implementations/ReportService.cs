@@ -234,31 +234,17 @@ namespace Application.Services.Implementations
 
                 if (recentMaintenances.Count > 3)
                 {
-                    var department = await _departmentRepository.GetByIdAsync(device.DepartmentId);
-                    var section = department != null
-                        ? await _sectionRepository.GetByIdAsync(department.SectionId)
-                        : null;
-
-                    var yearsSinceAcquisition = (DateTime.Now - device.AcquisitionDate).TotalDays / 365;
+          
                     var totalMaintenanceCost = maintenances.Sum(m => m.Cost);
-                    var averageMaintenanceCost = recentMaintenances.Count != 0
-                        ? totalMaintenanceCost / recentMaintenances.Count
-                        : 0;
+                    
                     var lastMaintenanceDate = maintenances.OrderByDescending(m => m.Date).FirstOrDefault()?.Date;
 
-                    var reportDto = new DeviceReplacementReportDto(device.DeviceId, device.Name)
+                    var reportDto = new DeviceReplacementReportDto()
                     {
+                        DeviceId = device.DeviceId,
                         DeviceName = device.Name,
-                        DeviceType = device.Type.ToString(),
-                        DepartmentName = department?.Name ?? string.Empty,
-                        SectionName = section?.Name ?? string.Empty,
-                        AcquisitionDate = device.AcquisitionDate,
                         MaintenanceCountLastYear = recentMaintenances.Count,
                         TotalMaintenanceCost = totalMaintenanceCost,
-                        AverageMaintenanceCost = averageMaintenanceCost,
-                        LastMaintenanceDate = lastMaintenanceDate,
-                        YearsInService = (int)yearsSinceAcquisition,
-                        OperationalState = device.OperationalState.ToString()
                     };
 
                     reportList.Add(reportDto);
