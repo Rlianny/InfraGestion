@@ -99,29 +99,22 @@ namespace Application.Services.Implementations
             return reportList;
         }
 
-        public async Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync(DecommissioningReportFilterDto filter)
+        public async Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync()
         {
-            var startDate = filter.FromDate ?? DateTime.MinValue;
-            var endDate = filter.ToDate ?? DateTime.MaxValue;
+            var decommissioningRequests = (await _decommissioningRepository.GetAllAsync())
+                .Where(
+                        d => d.Status==RequestStatus.Approved 
+                        && d.AnswerDate>=DateTime.Now.AddYears(-1)
+                );
 
-            var decommissioningRequests = await _decommissioningRepository.GetDecommissioningRequestsByDateRangeAsync(startDate, endDate);
-
-            var query = decommissioningRequests
-                .Where(d => d.IsApproved != null && d.IsApproved == true);
-
-            if (filter.Reason.HasValue)
-                query = query.Where(d => d.Reason == filter.Reason);
-
-            if (filter.Status.HasValue)
-                query = query.Where(d => d.Status == filter.Status);
 
             var reportList = new List<DecommissioningReportDto>();
 
-            foreach (var request in query)
+            foreach (var request in decommissioningRequests)
             {
                 var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
-                var department = await _departmentRepository.GetByIdAsync((int)request.FinalDestinationDepartmentID);
-                var receiver = await _userRepository.GetByIdAsync((int)request.DeviceReceiverId);
+                var department = await _departmentRepository.GetByIdAsync((int)request.FinalDestinationDepartmentID!);
+                var receiver = await _userRepository.GetByIdAsync((int)request.DeviceReceiverId!);
 
                 var reportDto = new DecommissioningReportDto
                 {
@@ -130,7 +123,6 @@ namespace Application.Services.Implementations
                     DecommissionCause = request.Reason.ToString(),
                     FinalDestination = department?.Name ?? string.Empty,
                     ReceiverName = receiver?.FullName ?? string.Empty,
-                    DecommissionDate = request.AnswerDate ?? DateTime.MinValue
                 };
 
                 reportList.Add(reportDto);
@@ -471,9 +463,9 @@ namespace Application.Services.Implementations
                         var data = await GenerateInventoryReportAsync(new DeviceReportFilterDto());
                         return new PdfExportDto( await _pdfReportGenerator.GeneratePdf(data));
                     }
-                case "decommissioning":
+                case "decommissionings":
                     {
-                        var data = await GenerateDischargeReportAsync(new DecommissioningReportFilterDto());
+                        var data = await GenerateDischargeReportAsync();
                         return new PdfExportDto(await _pdfReportGenerator.GeneratePdf(data));
                     }
                 case "personnel-effectiveness":

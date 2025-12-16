@@ -5,7 +5,7 @@ namespace Application.Services.Interfaces
     public interface IReportService
     {
         Task<IEnumerable<DeviceReportDto>> GenerateInventoryReportAsync(DeviceReportFilterDto filter);
-        Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync(DecommissioningReportFilterDto filter);
+        Task<IEnumerable<DecommissioningReportDto>> GenerateDischargeReportAsync();
         Task<IEnumerable<PersonnelEffectivenessReportDto>> GeneratePersonnelEffectivenessReportAsync(PersonnelReportFilterDto criteria);
         Task<IEnumerable<DeviceReplacementReportDto>> GenerateEquipmentReplacementReportAsync();
         Task<IEnumerable<SectionTransferReportDto>> GenerateTransferReportAsync();

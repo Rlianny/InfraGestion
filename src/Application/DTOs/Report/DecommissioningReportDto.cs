@@ -23,7 +23,5 @@ namespace Application.DTOs.Report
         [PdfReportDisplay("Nombre del Recividor")]
         public string ReceiverName { get; set; }
 
-        [PdfReportDisplay("Fecha de Baja")]
-        public DateTime DecommissionDate { get; set; }
     }
 }

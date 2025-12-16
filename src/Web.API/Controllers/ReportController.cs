@@ -36,11 +36,11 @@ namespace Web.API.Controllers
 
         [HttpGet("decommissionings")]
         [ProducesResponseType(typeof(ApiResponse<DecommissioningReportDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GenerateDecommissioningReportAsync([FromQuery] DecommissioningReportFilterDto filter)
+        public async Task<IActionResult> GenerateDecommissioningReportAsync()
         {
             try
             {
-                var report = await reportService.GenerateDischargeReportAsync(filter);
+                var report = await reportService.GenerateDischargeReportAsync();
                 return Ok(report);
             }
             catch (Exception ex)
