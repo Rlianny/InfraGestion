@@ -171,7 +171,7 @@ namespace Application.Services.Implementations
                 throw new EntityNotFoundException("Section", sourceDepartment.SectionId);
             var destinationSection = await sectionRepository.GetSectionByNameAsync(request.DestinationSectionName)
                 ?? throw new EntityNotFoundException("Section", request.DestinationSectionName);
-            var receiver = await userRepository.GetByUsernameAsync(request.DeviceReceiverUsername)
+            var receiver = await userRepository.GetByNameAsync(request.DeviceReceiverUsername)
                 ?? throw new EntityNotFoundException("User", request.DeviceReceiverUsername);
 
             await transferRepository.AddAsync(new Transfer(
