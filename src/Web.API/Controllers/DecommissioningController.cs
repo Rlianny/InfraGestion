@@ -45,7 +45,7 @@ namespace Web.API.Controllers
         /// Get all pending decommissioning requests
         /// </summary>
         [HttpGet("requests/pending")]
-        [Authorize(Roles = "Administrator,Director")]
+        [Authorize(Roles = "Administrator,Director,Logistician")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<DecommissioningRequestDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPendingRequests()
         {
@@ -142,7 +142,7 @@ namespace Web.API.Controllers
         /// Review (approve/reject) a decommissioning request
         /// </summary>
         [HttpPost("requests/review")]
-        [Authorize(Roles = "Administrator,Director")]
+        [Authorize(Roles = "Logistician")]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<string?>), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ReviewDecommissioningRequest([FromBody] ReviewDecommissioningRequestDto review)
