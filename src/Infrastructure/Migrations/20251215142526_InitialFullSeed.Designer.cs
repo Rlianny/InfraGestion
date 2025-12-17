@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251215132653_SplitSeedUpdates")]
-    partial class SplitSeedUpdates
+    [Migration("20251215142526_InitialFullSeed")]
+    partial class InitialFullSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
