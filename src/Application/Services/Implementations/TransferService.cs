@@ -174,13 +174,15 @@ namespace Application.Services.Implementations
             var receiver = await userRepository.GetByNameAsync(request.DeviceReceiverUsername)
                 ?? throw new EntityNotFoundException("User", request.DeviceReceiverUsername);
 
-            await transferRepository.AddAsync(new Transfer(
+            var transfer = new Transfer(
                 request.TransferDate,
                 device.DeviceId,
                 sourceSection.SectionId,
                 destinationSection.SectionId,
-                receiver.UserId));
+                receiver.UserId);
 
+            await transferRepository.AddAsync(transfer);
+            
             device.UpdateOperationalState(OperationalState.BeingTransferred);
             await deviceRepository.UpdateAsync(device);
             await unitOfWork.SaveChangesAsync();

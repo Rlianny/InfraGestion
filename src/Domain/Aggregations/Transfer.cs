@@ -41,7 +41,7 @@ namespace Domain.Aggregations
         public int DestinationSectionId { get; private set; }
         public int TransferId { get; private set; }
         public int DeviceReceiverId { get; private set; }
-        public Enums.TransferStatus Status { get; private set; }
+        public Enums.TransferStatus Status { get; private set; } = Enums.TransferStatus.InTransit;
         public override bool IsDisabled { get; set; }
 
         private void ValidateTransferDate(DateTime date)
@@ -49,9 +49,10 @@ namespace Domain.Aggregations
             if (date > DateTime.Now)
                 throw new ArgumentException("Transfer date cannot be more than 30 days in the future", nameof(date));
         }
-
+        
         public void ConfirmReceipt()
         {
+            
             if (Status != Enums.TransferStatus.InTransit)
                 throw new InvalidOperationException("Transfer must be in transit to confirm receipt");
 
