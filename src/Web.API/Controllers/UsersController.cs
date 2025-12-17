@@ -92,7 +92,7 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("user/{currentUserId:int}/role/{role}")]
-        [Authorize(Roles = "Administrator,Director")]
+        [Authorize(Roles = "Administrator,Director,Logistician,SectionManager")]
         [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> GetUsersByRole(int currentUserId, string role)
