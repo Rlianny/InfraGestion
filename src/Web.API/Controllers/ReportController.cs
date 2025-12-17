@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Report;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Web.API.Shared;
 
@@ -19,23 +20,10 @@ namespace Web.API.Controllers
         }
 
         #region GET
-        [HttpGet("inventory")]
-        [ProducesResponseType(typeof(ApiResponse<DeviceReportDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GenerateInventoryReportAsync([FromQuery] DeviceReportFilterDto filter)
-        {
-            try
-            {
-                var report = await reportService.GenerateInventoryReportAsync(filter);
-                return Ok(report);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
 
         [HttpGet("decommissionings")]
-        [ProducesResponseType(typeof(ApiResponse<DecommissioningReportDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<Report<DecommissioningReportDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GenerateDecommissioningReportAsync()
         {
             try
@@ -50,7 +38,7 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("personnel-effectiveness")]
-        [ProducesResponseType(typeof(ApiResponse<PersonnelEffectivenessReportDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<Report<PersonnelEffectivenessReportDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GeneratePersonnelEffectivenessReportAsync([FromQuery] PersonnelReportFilterDto criteria)
         {
             try
@@ -64,8 +52,22 @@ namespace Web.API.Controllers
             }
         }
 
+        [HttpGet("equipment-maintenances/{deviceId}")]
+        [ProducesResponseType(typeof(ApiResponse<Report<Report<DeviceMantainenceReportDto>>>),StatusCodes.Status200OK)]
+        public async Task<IActionResult> GenerateDeviceMantinenceReport(int deviceId)
+        {
+            try
+            {
+                var report =await reportService.GenerateDeviceMantainanceReportAsync(deviceId);
+                return Ok(report);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
+        }
         [HttpGet("equipment-replacement")]
-        [ProducesResponseType(typeof(ApiResponse<DeviceReplacementReportDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<Report<DeviceReplacementReportDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GenerateEquipmentReplacementReportAsync()
         {
             try
@@ -80,7 +82,7 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("transfers")]
-        [ProducesResponseType(typeof(ApiResponse<SectionTransferReportDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<Report<SectionTransferReportDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GenerateTransferReportAsync()
         {
             try
@@ -95,7 +97,7 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("correlation-analysis")]
-        [ProducesResponseType(typeof(ApiResponse<CorrelationAnalysisReportDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<Report<CorrelationAnalysisReportDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GenerateCorrelationAnalysisReportAsync()
         {
             try
@@ -110,25 +112,12 @@ namespace Web.API.Controllers
         }
 
         [HttpGet("bonus-determination")]
-        [ProducesResponseType(typeof(ApiResponse<BonusDeterminationReportDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GenerateBonusDeterminationReportAsync([FromQuery] BonusReportCriteria criteria)
+        [ProducesResponseType(typeof(ApiResponse<Report<BonusDeterminationReportDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GenerateBonusDeterminationReportAsync()
         {
             try
             {
-                var report = await reportService.GenerateBonusDeterminationReportAsync(criteria);
-                return Ok(report);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("export/{reportName}/pdf")]
-        public async Task<IActionResult> GetPdfReport(string reportName)
-        {
-            try
-            {
-                var report = await reportService.GeneratePdfReport(reportName);
+                var report = await reportService.GenerateBonusDeterminationReportAsync();
                 return Ok(report);
             }
             catch (Exception ex)
@@ -137,6 +126,7 @@ namespace Web.API.Controllers
             }
         }
         
+   
         #endregion
     }
 }
